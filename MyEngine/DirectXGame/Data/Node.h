@@ -18,7 +18,6 @@ struct Node {
 	std::string name;
 	std::vector<int32_t> children;
 	int32_t index;
-	std::optional<int32_t> parent;
 	bool isMove;
 };
 
@@ -28,7 +27,7 @@ struct RootNode {
 	std::map<std::string, uint32_t> nodeMap;
 };
 
-int32_t ReadNode(aiNode* node, const std::optional<int32_t>& parent, std::vector<Node>& nodes);
+int32_t ReadNode(aiNode* node, std::vector<Node>& nodes);
 
 RootNode CreateRootNode(aiNode* node);
 

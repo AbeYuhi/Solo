@@ -1,6 +1,6 @@
 #include "Node.h"
 
-int32_t ReadNode(aiNode* node, const std::optional<int32_t>& parent, std::vector<Node>& nodes) {
+int32_t ReadNode(aiNode* node, std::vector<Node>& nodes) {
 	Node result;
 	result.name = node->mName.C_Str();
 	aiVector3D scale, translate;
@@ -11,13 +11,13 @@ int32_t ReadNode(aiNode* node, const std::optional<int32_t>& parent, std::vector
 	result.transform.translate_ = { -translate.x, translate.y, translate.z };
 	result.localMatrix = MakeAffineMatrix(result.transform.scale_, result.transform.rotate_, result.transform.translate_);
 	result.index = int32_t(nodes.size());
-	result.parent = parent;
+	result.isMove = false;
 	nodes.push_back(result);
 
+	nodes[result.index].children.resize(node->mNumChildren);
 	for (uint32_t index = 0; index < node->mNumChildren; index++) {
 		//再帰的に読む
-		int32_t childIndex = ReadNode(node->mChildren[index], result.index, nodes);
-		nodes[result.index].children.push_back(childIndex);
+		nodes[result.index].children[index] = ReadNode(node->mChildren[index], nodes);
 	}
 
 	//自身のindexを返す
@@ -26,7 +26,7 @@ int32_t ReadNode(aiNode* node, const std::optional<int32_t>& parent, std::vector
 
 RootNode CreateRootNode(aiNode* node) {
 	RootNode rootNode;
-	rootNode.rootNode = ReadNode(node, {}, rootNode.nodes);
+	rootNode.rootNode = ReadNode(node, rootNode.nodes);
 
 	//名前とindexのマッピングを行いアクセスしやすくする
 	for (const Node& node : rootNode.nodes) {

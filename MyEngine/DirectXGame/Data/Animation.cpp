@@ -83,9 +83,14 @@ void Animation::Update() {
 void Animation::NodeUpdate(AnimationInfo& info) {
 
 	for (uint32_t channelIndex = 0; channelIndex < info.data.nodeAnimations.size(); channelIndex++) {
-		for (int index = 0; index < meshNames.size(); index++) {
-			Node& node = rootNode.nodes[rootNode.nodeMap[meshNames[index]]];
-			node = UpdateNode(node, info.data.nodeAnimations[channelIndex], info.animationTime);
+		if (info.data.nodeAnimations[channelIndex].isMeshNode) {
+			for (int index = 0; index < meshNames.size(); index++) {
+				auto it = rootNode.nodeMap.find(meshNames[index]);
+				if (it != rootNode.nodeMap.end()) {
+					Node& node = rootNode.nodes[rootNode.nodeMap[meshNames[index]]];
+					node = UpdateNode(node, info.data.nodeAnimations[channelIndex], info.animationTime);
+				}
+			}
 		}
 	}
 }
@@ -150,6 +155,7 @@ void Animation::SetAnimation(std::list<AnimationData> datas) {
 void Animation::SetModel(Model* model) {
 	initialNode = model->GetInialNode();
 	initialSkeleton = CreateSkeleton(initialNode);
+	rootNode = initialNode;
 	skeleton = initialSkeleton;
 	for (auto& mesh : model->GetMeshs()) {
 		skinClusters[mesh.name] = CreateSkinCluster(skeleton, mesh.modelData);

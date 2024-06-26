@@ -58,12 +58,13 @@ void InGameScene::Initialize() {
 	//yukariModel_ = Model::Create("yukari", "yukari.obj");
 	yukariModel_ = Model::Create("yukariGLTF", "yukariGLTF.gltf");
 	yukariModelInfo_.Initialize();
-	yukariModelInfo_.SetModel(yukariModel_.get());
-	yukariModelInfo_.materialInfo_.material_->enableLightint = false;
+	//yukariModelInfo_.SetModel(yukariModel_.get());
+	//yukariModelInfo_.materialInfo_.material_->enableLightint = false;
 
 	walkModel_ = Model::Create("human", "walk.gltf");
 	sneakWalkModel_ = Model::Create("human", "sneakWalk.gltf");
 	boxModel_ = Model::Create("AnimatedCube", "AnimatedCube.gltf");
+	sphereModel_ = Model::Create("sphere", "sphere.obj");
 
 	walkModelInfo_.Initialize();
 	walkModelInfo_.materialInfo_.material_->enableLightint = true;
@@ -71,8 +72,15 @@ void InGameScene::Initialize() {
 	walkModelInfo_.SetAnimation(walkModel_->GetAnimationData());
 
 	boxModelInfo_.Initialize();
-	boxModelInfo_.SetModel(boxModel_.get());
-	boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
+	//boxModelInfo_.SetModel(boxModel_.get());
+	//boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
+
+	jointInfos_.resize(walkModelInfo_.animation_.skeleton.joints.size());
+	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
+		jointInfos_[i].Initialize();
+		jointInfos_[i].worldTransform_.data_.scale_ *= 0.1f;
+		jointInfos_[i].SetModel(sphereModel_.get());
+	}
 
 	sprite_ = Sprite::Create();
 	spriteInfo_.Initialize(uvCheckerHandle_);
@@ -184,6 +192,11 @@ void InGameScene::Update() {
 	walkModelInfo_.Update();
 	boxModelInfo_.Update();
 	spriteInfo_.Update();
+
+	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
+		jointInfos_[i].worldTransform_.worldMatrix_ = walkModelInfo_.animation_.skeleton.joints[i].skeletonSpaceMatrix;
+		jointInfos_[i].worldTransform_.TransferMatrix();
+	}
 }
 
 void InGameScene::Draw() {
@@ -207,6 +220,10 @@ void InGameScene::Draw() {
 	//yukariModel_->Draw(yukariModelInfo_);
 	walkModel_->Draw(walkModelInfo_);
 	//boxModel_->Draw(boxModelInfo_);
+
+	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
+		sphereModel_->Draw(jointInfos_[i]);
+	}
 
 	///オブジェクトの描画終了
 

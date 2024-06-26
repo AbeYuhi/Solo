@@ -9,11 +9,6 @@ int32_t CreateJoint(const RootNode& rootNode, const Node& node, const std::optio
 	joint.index = int32_t(joints.size());
 	joint.parent = parent;
 	joints.push_back(joint);
-	
-	//for (const Node& child : node.children) {
-	//	int32_t childIndex = CreateJoint(child, joint.index, joints);
-	//	joints[joint.index].children.push_back(childIndex);
-	//}
 
 	for (uint32_t index = 0; index < node.children.size(); index++) {
 		int32_t childIndex = CreateJoint(rootNode, rootNode.nodes[node.children[index]], joint.index, joints);
