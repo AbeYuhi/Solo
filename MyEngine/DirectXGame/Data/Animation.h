@@ -16,13 +16,15 @@ struct Animation {
 	//アニメーションのローカル情報
 	std::vector<AnimationInfo> infos;
 	//Node情報
-	Node rootNode;
+	RootNode rootNode;
 	//初期モデルのNode
-	Node initialNode;
+	RootNode initialNode;
 	//Skeleton情報
 	Skeleton skeleton;
+	Skeleton initialSkeleton;
 	//SkinCluster情報
 	std::map<std::string , SkinCluster> skinClusters;
+	std::vector<std::string> meshNames;
 
 	void Initialize();
 
