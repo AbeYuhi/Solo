@@ -3,7 +3,6 @@
 #include <vector>
 #include <list>
 #include <map>
-#include "Manager/ImGuiManager.h"
 #include "Math/Math.h"
 #include "AnimationData.h"
 #include "Node.h"

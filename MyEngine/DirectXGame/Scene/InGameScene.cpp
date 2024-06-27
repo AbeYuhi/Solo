@@ -58,13 +58,12 @@ void InGameScene::Initialize() {
 	//yukariModel_ = Model::Create("yukari", "yukari.obj");
 	yukariModel_ = Model::Create("yukariGLTF", "yukariGLTF.gltf");
 	yukariModelInfo_.Initialize();
-	//yukariModelInfo_.SetModel(yukariModel_.get());
-	//yukariModelInfo_.materialInfo_.material_->enableLightint = false;
+	yukariModelInfo_.SetModel(yukariModel_.get());
+	yukariModelInfo_.materialInfo_.material_->enableLightint = false;
 
 	walkModel_ = Model::Create("human", "walk.gltf");
 	sneakWalkModel_ = Model::Create("human", "sneakWalk.gltf");
 	boxModel_ = Model::Create("AnimatedCube", "AnimatedCube.gltf");
-	sphereModel_ = Model::Create("sphere", "sphere.obj");
 
 	walkModelInfo_.Initialize();
 	walkModelInfo_.materialInfo_.material_->enableLightint = true;
@@ -72,15 +71,8 @@ void InGameScene::Initialize() {
 	walkModelInfo_.SetAnimation(walkModel_->GetAnimationData());
 
 	boxModelInfo_.Initialize();
-	//boxModelInfo_.SetModel(boxModel_.get());
-	//boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
-
-	jointInfos_.resize(walkModelInfo_.animation_.skeleton.joints.size());
-	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
-		jointInfos_[i].Initialize();
-		jointInfos_[i].worldTransform_.data_.scale_ *= 0.1f;
-		jointInfos_[i].SetModel(sphereModel_.get());
-	}
+	boxModelInfo_.SetModel(boxModel_.get());
+	boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
 
 	sprite_ = Sprite::Create();
 	spriteInfo_.Initialize(uvCheckerHandle_);
@@ -114,45 +106,13 @@ void InGameScene::Update() {
 	testParticle1_->Update();
 
 #ifdef _DEBUG
+
 	ImGui::BeginTabBar("RenderItemInfo");
-	if (ImGui::BeginTabItem("YukariModel")) {
-		ImGui::SliderFloat3("pos", &yukariModelInfo_.worldTransform_.data_.translate_.x, -10, 10);
-		ImGui::SliderFloat3("rotate", &yukariModelInfo_.worldTransform_.data_.rotate_.x, -10, 10);
-		ImGui::SliderFloat3("scale", &yukariModelInfo_.worldTransform_.data_.scale_.x, -10, 10);
-		ImGui::SliderFloat("shininess", &yukariModelInfo_.materialInfo_.material_->shininess, 0, 100);
-		ImGui::EndTabItem();
-	}
-	if (ImGui::BeginTabItem("walkHumanModel")) {
-		ImGui::SliderFloat3("pos", &walkModelInfo_.worldTransform_.data_.translate_.x, -10, 10);
-		ImGui::SliderFloat3("rotate", &walkModelInfo_.worldTransform_.data_.rotate_.x, -10, 10);
-		ImGui::SliderFloat3("scale", &walkModelInfo_.worldTransform_.data_.scale_.x, -10, 10);
-
-		for (auto it = walkModelInfo_.animation_.infos.begin(); it != walkModelInfo_.animation_.infos.end(); it++) {
-			ImGui::Checkbox(it->data.name.c_str(), &it->isAnimation);
-			std::string animationSpeed = it->data.name + ": speed";
-			ImGui::SliderFloat(animationSpeed.c_str(), &it->animationSpeed, -5.0f, 5.0f);
-			std::string animationLoop = it->data.name + ": loop";
-			ImGui::Checkbox(animationLoop.c_str(), &it->isLoop);
-		}
-
-		ImGui::EndTabItem();
-	}
-	if (ImGui::BeginTabItem("boxModel")) {
-		ImGui::SliderFloat3("pos", &boxModelInfo_.worldTransform_.data_.translate_.x, -10, 10);
-		ImGui::SliderFloat3("rotate", &boxModelInfo_.worldTransform_.data_.rotate_.x, -10, 10);
-		ImGui::SliderFloat3("scale", &boxModelInfo_.worldTransform_.data_.scale_.x, -10, 10);
-
-		for (auto it = boxModelInfo_.animation_.infos.begin(); it != boxModelInfo_.animation_.infos.end(); it++) {
-			ImGui::Checkbox(it->data.name.c_str(), &it->isAnimation);
-			std::string animationSpeed = it->data.name + ": speed";
-			ImGui::SliderFloat(animationSpeed.c_str(), &it->animationSpeed, -5.0f, 5.0f);
-			std::string animationLoop = it->data.name + ": loop";
-			ImGui::Checkbox(animationLoop.c_str(), &it->isLoop);
-		}
-
-		ImGui::EndTabItem();
-	}
+	ImGuiManager::GetInstance()->RenderItemDebug("yukariModel", yukariModelInfo_);
+	ImGuiManager::GetInstance()->RenderItemDebug("humanModel", walkModelInfo_);
+	ImGuiManager::GetInstance()->SpriteItemDebug("sprite", spriteInfo_);
 	ImGui::EndTabBar();
+
 
 	ImGui::Begin("BlendMode");
 	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
@@ -192,11 +152,6 @@ void InGameScene::Update() {
 	walkModelInfo_.Update();
 	boxModelInfo_.Update();
 	spriteInfo_.Update();
-
-	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
-		jointInfos_[i].worldTransform_.worldMatrix_ = walkModelInfo_.animation_.skeleton.joints[i].skeletonSpaceMatrix;
-		jointInfos_[i].worldTransform_.TransferMatrix();
-	}
 }
 
 void InGameScene::Draw() {
@@ -211,19 +166,15 @@ void InGameScene::Draw() {
 
 	///前面スプライトの描画開始
 
-	//sprite_->Draw(spriteInfo_);
+	sprite_->Draw(spriteInfo_);
 
 	///前面スプライトの描画終了
 
 	///オブジェクトの描画開始
 
-	//yukariModel_->Draw(yukariModelInfo_);
+	yukariModel_->Draw(yukariModelInfo_);
 	walkModel_->Draw(walkModelInfo_);
 	//boxModel_->Draw(boxModelInfo_);
-
-	for (int i = 0; i < walkModelInfo_.animation_.skeleton.joints.size(); i++) {
-		sphereModel_->Draw(jointInfos_[i]);
-	}
 
 	///オブジェクトの描画終了
 
