@@ -8,7 +8,12 @@
 enum ColliderTag {
 	PLAYER,
 	WALL,
+	kNumColliderTag,
 };
+
+struct Collision{
+
+}
 
 struct Collider {
 	AABB aabb_;
