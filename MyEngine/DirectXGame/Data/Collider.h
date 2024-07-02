@@ -11,9 +11,14 @@ enum ColliderTag {
 	kNumColliderTag,
 };
 
-struct Collision{
-
-}
+struct Collision {
+	//どこと衝突しているか
+	bool isContact_;
+	bool isUnderHit_;
+	bool isTopHit_;
+	bool isLeftHit_;
+	bool isRightHit_;
+};
 
 struct Collider {
 	AABB aabb_;
@@ -23,25 +28,19 @@ struct Collider {
 	ColliderTag tag_;
 	RenderItem renderItem_;
 
-	//衝突判定があるか
-	bool isCollision_;
-
-	//衝突判定を描画するか
-	bool isDrawCollider_;
-	
-	//衝突しているか
-	bool isContact_;
-	bool isUnderHit_;
-	bool isTopHit_;
-	bool isLeftHit_;
-	bool isRightHit_;
-
-	//Colliderを消すか
-	bool isDelete_;
+	Collision collision_[kNumColliderTag];
 
 	//押しつぶされているか
 	bool isPush_;
 
-	void Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, Vector3* velocity = nullptr, bool isCollision = true, bool isDrawCollider = true);
+	//Colliderを消すか
+	bool isDelete_;
+
+	//衝突判定を描画するか
+	bool isDrawCollider_;
+
+	bool isCollisionCheck_;
+
+	void Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };
