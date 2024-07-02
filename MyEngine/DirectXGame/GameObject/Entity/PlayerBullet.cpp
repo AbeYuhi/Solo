@@ -9,10 +9,10 @@ void PlayerBullet::Initialize() {
 	model_ = Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 
+	
 }
 
 void PlayerBullet::Update() {
-
 
 
 }

@@ -41,11 +41,14 @@ private:
 	AudioManager* audioManager_;
 	RandomManager* randomManager_;
 	PostEffectManager* postEffectManager_;
+	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
 	//ライト
 	LightObjectManager* lightObj_;
 	//ゲームカメラ
 	std::unique_ptr<InGameCamera> gameCamera_;
+	//デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_;
 	bool isDebugCamera_;
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;

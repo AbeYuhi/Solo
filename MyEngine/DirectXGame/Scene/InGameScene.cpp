@@ -60,12 +60,12 @@ void InGameScene::Update() {
 #endif // _DEBUG
 	
 	if (isDebugCamera_) {
-		debugCamera_->Update(debugMode_);
-		mainCamera_->Update(debugCamera_->GetWorldMatrix(), debugCamera_->GetProjectionMatrix());
+		debugCamera_->Update();
+		mainCamera_->Update(debugCamera_->GetWorldTransrom(), debugCamera_->GetWorldMatrix(), debugCamera_->GetProjectionMatrix());
 	}
 	else {
 		gameCamera_->Update();
-		mainCamera_->Update(gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
+		mainCamera_->Update(gameCamera_->GetWorldTransrom(), gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
 	}
 	//スプライトカメラの更新
 	spriteCamera_->Update();
@@ -84,7 +84,6 @@ void InGameScene::Update() {
 
 	ImGui::BeginTabBar("RenderItemInfo");
 	ImGui::EndTabBar();
-
 
 	ImGui::Begin("BlendMode");
 	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };

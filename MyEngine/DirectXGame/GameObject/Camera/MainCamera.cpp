@@ -9,6 +9,8 @@ void MainCamera::Initialize() {
 	//dxCommonのインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+	transform_.Initialize();
+
 	viewProjectionMatrix_ = MakeIdentity4x4();
 
 	//Resourceの生成
@@ -19,7 +21,7 @@ void MainCamera::Initialize() {
 	cameraData_->worldPosition = {0};
 }
 
-void MainCamera::Update(Matrix4x4 worldMatrix, Matrix4x4 projectionMatrix) {
+void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Matrix4x4 projectionMatrix) {
 	worldMatrix_ = worldMatrix;
 	viewMatrix_ = Inverse(worldMatrix_);
 	projectionMatrix_ = projectionMatrix;

@@ -27,6 +27,9 @@ private:
 	//シーンマネージャー
 	SceneManager* sceneManager_ = nullptr;
 
+	//フルスクリーンかどうか
+	bool isFullScreen_;
+
 	//FPSの計測
 	double deltaTime_;
 	double fps_;
