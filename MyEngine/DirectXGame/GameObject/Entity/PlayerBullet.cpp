@@ -8,7 +8,7 @@ void PlayerBullet::Initialize() {
 
 	model_ = Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
-	renderItem_.worldTransform_.data_.scale_ *= 0.02f;
+	//renderItem_.worldTransform_.data_.scale_ *= 0.02f;
 	renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 	//発射位置の計算
@@ -35,13 +35,51 @@ void PlayerBullet::Initialize() {
 	reticlePos_ = posNear + (mouseDirection * kDistanceTestObject);
 
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
-	velocity_ *= 5.0f;
+	velocity_ *= 10.0f;
+
+	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, ColliderTag::BULLET, true, &velocity_);
+	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
 void PlayerBullet::Update() {
-
-	velocity_.y -= 1.5f * (1.0f / 60.0f);
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * (1.0f / 60.0f);
+
+	if (collider_.collision_[WALL].isContact_) {
+
+		if (collider_.collision_[WALL].isUnderHit_) {
+			velocity_.y = 10;
+			velocity_.x = 0;
+			velocity_.z = 0;
+		}
+
+		if (collider_.collision_[WALL].isLeftHit_) {
+			velocity_.y = 0;
+			velocity_.x = 10;
+			velocity_.z = 0;
+		}
+
+		if (collider_.collision_[WALL].isRightHit_) {
+			velocity_.y = 0;
+			velocity_.x = -10;
+			velocity_.z = 0;
+		}
+
+		if (collider_.collision_[WALL].isFrontHit_) {
+			velocity_.y = 0;
+			velocity_.x = 0;
+			velocity_.z = 10;
+		}
+
+		if (collider_.collision_[WALL].isBackHit_) {
+			velocity_.y = 0;
+			velocity_.x = 0;
+			velocity_.z = -10;
+		}
+
+	}
+	else{
+		//velocity_.y -= 1.5f * (1.0f / 60.0f);
+	}
 
 	renderItem_.Update();
 }

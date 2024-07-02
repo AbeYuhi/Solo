@@ -18,6 +18,8 @@ struct Collision {
 	bool isTopHit_;
 	bool isLeftHit_;
 	bool isRightHit_;
+	bool isFrontHit_;
+	bool isBackHit_;
 };
 
 struct Collider {

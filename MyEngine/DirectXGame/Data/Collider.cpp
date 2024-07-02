@@ -18,6 +18,8 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 		collision_[i].isTopHit_ = false;
 		collision_[i].isLeftHit_ = false;
 		collision_[i].isRightHit_ = false;
+		collision_[i].isFrontHit_ = false;
+		collision_[i].isBackHit_ = false;
 	}
 	isDelete_ = false;
 	isPush_ = false;
