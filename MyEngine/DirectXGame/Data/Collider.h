@@ -6,7 +6,7 @@
 #include "DirectXGame/Data/RenderItem.h"
 
 enum ColliderTag {
-	PLAYER,
+	BULLET,
 	WALL,
 	kNumColliderTag,
 };

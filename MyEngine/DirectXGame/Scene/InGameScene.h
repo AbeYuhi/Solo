@@ -9,6 +9,7 @@
 #include "Manager/PostEffectManager.h"
 #include "Manager/RandomManager.h"
 #include "Manager/LightObjectManager.h"
+#include "Manager/CollisionManager.h"
 #include "Object/Sprite.h"
 #include "Object/Model.h"
 #include "GameObject/Camera/MainCamera.h"
@@ -43,6 +44,7 @@ private:
 	PostEffectManager* postEffectManager_;
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
+	CollisionManager* collisionManager_;
 	//ライト
 	LightObjectManager* lightObj_;
 	//ゲームカメラ
@@ -54,6 +56,9 @@ private:
 	std::unique_ptr<Shadow> shadow_;
 
 	std::list<PlayerBullet> bullets_;
+
+	std::shared_ptr<Model> boxModel_;
+	RenderItem renderItem_;
 
 	//ブレンドモード
 	int blendMode_;

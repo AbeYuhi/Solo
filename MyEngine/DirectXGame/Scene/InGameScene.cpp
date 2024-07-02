@@ -22,6 +22,7 @@ void InGameScene::Initialize() {
 	postEffectManager_ = PostEffectManager::GetInstance();
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
+	collisionManager_ = CollisionManager::GetInstance();
 
 	//デバックモード中ならdebugカメラを有効に
 	isDebugCamera_ = debugMode_;
@@ -44,9 +45,12 @@ void InGameScene::Initialize() {
 	shadow_ = std::make_unique<Shadow>();
 	shadow_->Initialize();
 
+	collisionManager_->Initialize();
+
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
+	boxModel_ = Model::Create("", "");
 
 }
 
@@ -73,6 +77,8 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
+	//コライダーの更新
+	collisionManager_->Update();
 
 	if (input_->IsMouseTrigger(0)) {
 		PlayerBullet bullet;
@@ -118,6 +124,10 @@ void InGameScene::Update() {
 	ImGui::End();
 
 #endif // _DEBUG
+
+	for (auto& bullet : bullets_) {
+		bullet.Update();
+	}
 }
 
 void InGameScene::Draw() {
@@ -138,7 +148,11 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
+	for (auto bullet : bullets_) {
+		bullet.Draw();
+	}
 
+	collisionManager_->Draw();
 
 	///オブジェクトの描画終了
 
