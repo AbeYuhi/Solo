@@ -9,7 +9,8 @@ void PlayerBullet::Initialize() {
 	model_ = Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 
-	
+	renderItem_.worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
+	renderItem_.worldTransform_.data_.translate_.x += (WinApp::kWindowWidth - input_->GetMousePos().x);
 }
 
 void PlayerBullet::Update() {

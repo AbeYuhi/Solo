@@ -524,7 +524,3 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRtvHandle(int index) {
 
 	return rtvHandle;
 }
-
-void DirectXCommon::SetFullScreen(bool fullscreen) {
-	swapChain_->SetFullscreenState(fullscreen, nullptr);
-}

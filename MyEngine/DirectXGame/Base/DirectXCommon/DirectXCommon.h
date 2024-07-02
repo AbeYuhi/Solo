@@ -105,8 +105,6 @@ public: //ゲッターセッター
 	/// <returns></returns>
 	CD3DX12_CPU_DESCRIPTOR_HANDLE GetRtvHandle(int index);
 
-	void SetFullScreen(bool fullscreen);
-
 private: //メンバ関数
 	DirectXCommon() = default;
 	~DirectXCommon() = default;
