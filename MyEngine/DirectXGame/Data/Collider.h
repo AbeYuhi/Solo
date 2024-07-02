@@ -25,6 +25,7 @@ struct Collider {
 	Vector3* translate_;
 	Vector3* velocity_;
 	Vector3 colliderScale_;
+	Vector3 contactPoint_;
 	ColliderTag tag_;
 	RenderItem renderItem_;
 

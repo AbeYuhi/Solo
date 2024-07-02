@@ -107,7 +107,7 @@ void WireFrameBox::Draw(RenderItem& renderItem) {
 	//パイプラインステートの設定
 	dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(PipelineState::kWireFrame));
 	//ルートシグネチャの設定
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetRootSignature());
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetRootSignature(PipelineState::kWireFrame));
 	//プリミティブ形状を設定
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 	//VBVの設定

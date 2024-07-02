@@ -55,10 +55,11 @@ private:
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 
-	std::list<PlayerBullet> bullets_;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	std::shared_ptr<Model> boxModel_;
-	RenderItem renderItem_;
+	RenderItem boxInfo_;
+	Collider boxCollider_;
 
 	//ブレンドモード
 	int blendMode_;

@@ -9,6 +9,7 @@ void PlayerBullet::Initialize() {
 	model_ = Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 	renderItem_.worldTransform_.data_.scale_ *= 0.02f;
+	renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 	//発射位置の計算
 	renderItem_.worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
@@ -30,20 +31,16 @@ void PlayerBullet::Initialize() {
 	Vector3 mouseDirection = posFar - posNear;
 	mouseDirection = Normalize(mouseDirection);
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 5;
+	const float kDistanceTestObject = 20;
 	reticlePos_ = posNear + (mouseDirection * kDistanceTestObject);
 
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
 	velocity_ *= 5.0f;
-
-	//コライダーの設定
-	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, BULLET, true, &velocity_);
-	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
 void PlayerBullet::Update() {
 
-	velocity_.y -= 2.0f * (1.0f / 60.0f);
+	velocity_.y -= 1.5f * (1.0f / 60.0f);
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * (1.0f / 60.0f);
 
 	renderItem_.Update();

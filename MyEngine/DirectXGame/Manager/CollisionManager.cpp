@@ -37,11 +37,11 @@ void CollisionManager::Update() {
 
 						}
 						else if (yDifference <= xDifference) {
-							collider0->translate_->y = collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f);
+							collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isTopHit_ = true;
 						}
 						else {
-							collider0->translate_->x = collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f);
+							collider0->contactPoint_ = { collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isLeftHit_ = true;
 						}
 					}
@@ -54,11 +54,11 @@ void CollisionManager::Update() {
 
 						}
 						else if (yDifference <= xDifference) {
-							collider0->translate_->y = collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f);
+							collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isTopHit_ = true;
 						}
 						else {
-							collider0->translate_->x = collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f);
+							collider0->contactPoint_ = { collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isRightHit_ = true;
 						}
 					}
@@ -71,11 +71,11 @@ void CollisionManager::Update() {
 
 						}
 						else if (yDifference <= xDifference) {
-							collider0->translate_->y = collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f);
+							collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isUnderHit_ = true;
 						}
 						else {
-							collider0->translate_->x = collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f);
+							collider0->contactPoint_ = { collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isLeftHit_ = true;
 						}
 					}
@@ -88,32 +88,32 @@ void CollisionManager::Update() {
 
 						}
 						else if (yDifference <= xDifference) {
-							collider0->translate_->y = collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f);
+							collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isUnderHit_ = true;
 						}
 						else {
-							collider0->translate_->x = collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f);
+							collider0->contactPoint_ = { collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 							collider0->collision_[collider1->tag_].isRightHit_ = true;
 						}
 					}
 					//上の辺が当たっているとき
 					else if (collider0->aabb_.max.y >= collider1->aabb_.min.y) {
-						collider0->translate_->y = collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f);
+						collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.min.y - (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 						collider0->collision_[collider1->tag_].isTopHit_ = true;
 					}
 					//下の辺が当たっているとき
 					else if (collider0->aabb_.min.y >= collider1->aabb_.max.y) {
-						collider0->translate_->y = collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f);
+						collider0->contactPoint_ = { collider0->translate_->x, collider1->aabb_.max.y + (collider0->colliderScale_.y / 2.0f), collider0->translate_->z };
 						collider0->collision_[collider1->tag_].isUnderHit_ = true;
 					}
 					//左の辺が当たっているとき
 					else if (collider0->aabb_.min.x >= collider1->aabb_.max.x) {
-						collider0->translate_->x = collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f);
+						collider0->contactPoint_ = { collider1->aabb_.max.x + (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 						collider0->collision_[collider1->tag_].isLeftHit_ = true;
 					}
 					//右の辺が当たっているとき				
 					else if (collider0->aabb_.max.x >= collider1->aabb_.min.x) {
-						collider0->translate_->x = collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f);
+						collider0->contactPoint_ = { collider1->aabb_.min.x - (collider0->colliderScale_.x / 2.0f), collider0->translate_->y, collider0->translate_->z };
 						collider0->collision_[collider1->tag_].isRightHit_ = true;
 					}
 				}

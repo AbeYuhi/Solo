@@ -49,9 +49,6 @@ void InGameScene::Initialize() {
 
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
-
-	boxModel_ = Model::Create("", "");
-
 }
 
 void InGameScene::Update() {
@@ -77,15 +74,12 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
-	//コライダーの更新
-	collisionManager_->Update();
 
 	if (input_->IsMouseTrigger(0)) {
-		PlayerBullet bullet;
-		bullet.Initialize();
-		bullets_.push_back(bullet);
+		std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
+		bullet->Initialize();
+		bullets_.push_back(std::move(bullet));
 	}
-
 #ifdef _DEBUG
 
 	ImGui::BeginTabBar("RenderItemInfo");
@@ -126,7 +120,7 @@ void InGameScene::Update() {
 #endif // _DEBUG
 
 	for (auto& bullet : bullets_) {
-		bullet.Update();
+		bullet->Update();
 	}
 }
 
@@ -148,11 +142,9 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
-	for (auto bullet : bullets_) {
-		bullet.Draw();
+	for (auto& bullet : bullets_) {
+		bullet->Draw();
 	}
-
-	collisionManager_->Draw();
 
 	///オブジェクトの描画終了
 
