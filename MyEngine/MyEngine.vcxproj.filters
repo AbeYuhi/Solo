@@ -219,9 +219,6 @@
     <ClCompile Include="DirectXGame\Manager\ParticleManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Particle\testParticle.cpp">
-      <Filter>ソース ファイル\GameObject\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXGame\Data\TextureData.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
@@ -297,12 +294,6 @@
     <ClCompile Include="DirectXGame\Data\SpriteItem.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
-      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.cpp">
-      <Filter>ソース ファイル\GameObject\Particle\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXGame\Object\WireFrameSpriteBox.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -350,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\Manager\SrvManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp">
+      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
+      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,9 +455,6 @@
     <ClInclude Include="DirectXGame\Manager\ParticleManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Particle\testParticle.h">
-      <Filter>ヘッダー ファイル\GameObject\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\Data\TextureData.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
@@ -563,12 +557,6 @@
     <ClInclude Include="DirectXGame\Data\SpriteItem.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h">
-      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.h">
-      <Filter>ヘッダー ファイル\GameObject\Particle\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\Object\WireFrameSpriteBox.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
@@ -625,6 +613,12 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Manager\SrvManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Entity\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h">
+      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@ public:
 	Matrix4x4 GetWorldMatrix() { return worldMatrix_; }
 	Matrix4x4 GetViewProjectionMatrix() { return viewProjectionMatrix_; }
 	Matrix4x4* GetPViewProjectionMatrix() { return &viewProjectionMatrix_; }
+	Vector3 GetWorldPos() { return { worldMatrix_.m[3][0], worldMatrix_.m[3][1] , worldMatrix_.m[3][2] }; }
 
 private:
 	MainCamera() = default;

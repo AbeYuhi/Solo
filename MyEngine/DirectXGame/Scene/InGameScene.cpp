@@ -47,35 +47,7 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	//画像読み込み
-	monsterBallHandle_ = TextureManager::Load("monsterBall.png");
-	fenceHandle_ = TextureManager::Load("fence.png");
 
-	//ゲームオブジェクト
-	testParticle1_ = std::make_unique<TestParticle>();
-	testParticle1_->Initialize();
-	
-	//yukariModel_ = Model::Create("yukari", "yukari.obj");
-	yukariModel_ = Model::Create("yukariGLTF", "yukariGLTF.gltf");
-	yukariModelInfo_.Initialize();
-	yukariModelInfo_.SetModel(yukariModel_.get());
-	yukariModelInfo_.materialInfo_.material_->enableLightint = false;
-
-	walkModel_ = Model::Create("human", "walk.gltf");
-	sneakWalkModel_ = Model::Create("human", "sneakWalk.gltf");
-	boxModel_ = Model::Create("AnimatedCube", "AnimatedCube.gltf");
-
-	walkModelInfo_.Initialize();
-	walkModelInfo_.materialInfo_.material_->enableLightint = true;
-	walkModelInfo_.SetModel(walkModel_.get());
-	walkModelInfo_.SetAnimation(walkModel_->GetAnimationData());
-
-	boxModelInfo_.Initialize();
-	boxModelInfo_.SetModel(boxModel_.get());
-	boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
-
-	sprite_ = Sprite::Create();
-	spriteInfo_.Initialize(uvCheckerHandle_);
 }
 
 void InGameScene::Update() {
@@ -88,7 +60,7 @@ void InGameScene::Update() {
 #endif // _DEBUG
 	
 	if (isDebugCamera_) {
-		debugCamera_->Update();
+		debugCamera_->Update(debugMode_);
 		mainCamera_->Update(debugCamera_->GetWorldMatrix(), debugCamera_->GetProjectionMatrix());
 	}
 	else {
@@ -102,15 +74,15 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	//パーティクルの更新
-	testParticle1_->Update();
+	if (input_->IsMouseTrigger(0)) {
+		PlayerBullet bullet;
+		bullet.Initialize();
+		bullets_.push_back(bullet);
+	}
 
 #ifdef _DEBUG
 
 	ImGui::BeginTabBar("RenderItemInfo");
-	ImGuiManager::GetInstance()->RenderItemDebug("yukariModel", yukariModelInfo_);
-	ImGuiManager::GetInstance()->RenderItemDebug("humanModel", walkModelInfo_);
-	ImGuiManager::GetInstance()->SpriteItemDebug("sprite", spriteInfo_);
 	ImGui::EndTabBar();
 
 
@@ -147,11 +119,6 @@ void InGameScene::Update() {
 	ImGui::End();
 
 #endif // _DEBUG
-
-	yukariModelInfo_.Update();
-	walkModelInfo_.Update();
-	boxModelInfo_.Update();
-	spriteInfo_.Update();
 }
 
 void InGameScene::Draw() {
@@ -166,21 +133,19 @@ void InGameScene::Draw() {
 
 	///前面スプライトの描画開始
 
-	sprite_->Draw(spriteInfo_);
+
 
 	///前面スプライトの描画終了
 
 	///オブジェクトの描画開始
 
-	yukariModel_->Draw(yukariModelInfo_);
-	walkModel_->Draw(walkModelInfo_);
-	//boxModel_->Draw(boxModelInfo_);
+
 
 	///オブジェクトの描画終了
 
 	///パーティクルの描画
 
-	//testParticle1_->Draw();
+
 
 	///パーティクルの描画終了
 }

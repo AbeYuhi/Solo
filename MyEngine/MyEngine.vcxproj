@@ -108,6 +108,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp" />
     <ClCompile Include="DirectXGame\Data\AnimationData.cpp" />
     <ClCompile Include="DirectXGame\Base\CreateResource\CreateResource.cpp" />
     <ClCompile Include="DirectXGame\Base\DirectXCommon\DirectXCommon.cpp" />
@@ -121,9 +122,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\Data\TextureData.cpp" />
     <ClCompile Include="DirectXGame\Data\Transform.cpp" />
     <ClCompile Include="DirectXGame\DebugSytem\DebugLog.cpp" />
-    <ClCompile Include="DirectXGame\LoadFile\GlobalVariables.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp" />
-    <ClCompile Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.cpp" />
+    <ClCompile Include="DirectXGame\LoadFile\GlobalVariables.cpp" />
     <ClCompile Include="DirectXGame\Manager\CollisionManager.cpp" />
     <ClCompile Include="DirectXGame\Math\Quaternion.cpp" />
     <ClCompile Include="DirectXGame\Object\WireFrameSpriteBox.cpp" />
@@ -138,7 +138,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\GameObject\Camera\InGameCamera.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Camera\MainCamera.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Camera\SpriteCamera.cpp" />
-    <ClCompile Include="DirectXGame\GameObject\Particle\testParticle.cpp" />
     <ClCompile Include="DirectXGame\Manager\LightObjectManager.cpp" />
     <ClCompile Include="DirectXGame\Base\Framework\Framework.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Camera\GameClearCamera.cpp" />
@@ -180,6 +179,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\Manager\SrvManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXGame\GameObject\Entity\PlayerBullet.h" />
     <ClInclude Include="DirectXGame\Data\AnimationData.h" />
     <ClInclude Include="DirectXGame\Data\Animation.h" />
     <ClInclude Include="DirectXGame\Data\Bone.h" />
@@ -188,7 +188,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\Data\SpriteData.h" />
     <ClInclude Include="DirectXGame\Data\StageBlock.h" />
     <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h" />
-    <ClInclude Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.h" />
     <ClInclude Include="DirectXGame\Manager\CollisionManager.h" />
     <ClInclude Include="DirectXGame\Math\AABB.h" />
     <ClInclude Include="DirectXGame\Data\AccelerationField.h" />
@@ -228,7 +227,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\Data\DirectionalLight.h" />
     <ClInclude Include="DirectXGame\Data\PointLight.h" />
     <ClInclude Include="DirectXGame\Data\SpotLight.h" />
-    <ClInclude Include="DirectXGame\GameObject\Particle\testParticle.h" />
     <ClInclude Include="DirectXGame\Manager\AudioManager.h" />
     <ClInclude Include="DirectXGame\Manager\GameManager.h" />
     <ClInclude Include="DirectXGame\Manager\GraphicsPipelineManager.h" />

@@ -8,7 +8,7 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 	isDrawCollider_ = isDrawCollider;
 	isCollisionCheck_ = isCollisionCheck;
 
-	//�f�o�b�N���ɃR���C�_�[�̏Փ˔͈͂��������邽�߂�renderItem������������
+	//デバック時にコライダーの衝突範囲を可視化するためにrenderItemを初期化する
 #ifdef _DEBUG
 	renderItem_.Initialize();
 #endif // _DEBUG
