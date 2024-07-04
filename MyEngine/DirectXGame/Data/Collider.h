@@ -25,11 +25,11 @@ struct Collision {
 	bool isBackHit_;
 
 	//8頂点
-	bool IsTopLeftFrontHit_;
+	bool isTopLeftFrontHit_;
 	bool isTopRightFrontHit_;
 	bool isUnderLeftFrontHit_;
 	bool isUnderRightFrontHit_;
-	bool IsTopLeftBackHit_;
+	bool isTopLeftBackHit_;
 	bool isTopRightBackHit_;
 	bool isUnderLeftBackHit_;
 	bool isUnderRightBackHit_;

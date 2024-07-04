@@ -32,11 +32,11 @@ void CollisionManager::Update() {
 				collider0->collision_[i].isRightHit_ = false;
 				collider0->collision_[i].isFrontHit_ = false;
 				collider0->collision_[i].isBackHit_ = false;
-				collider0->collision_[i].IsTopLeftFrontHit_ = false;
+				collider0->collision_[i].isTopLeftFrontHit_ = false;
 				collider0->collision_[i].isTopRightFrontHit_ = false;
 				collider0->collision_[i].isUnderLeftFrontHit_ = false;
 				collider0->collision_[i].isUnderRightFrontHit_ = false;
-				collider0->collision_[i].IsTopLeftBackHit_ = false;
+				collider0->collision_[i].isTopLeftBackHit_ = false;
 				collider0->collision_[i].isTopRightBackHit_ = false;
 				collider0->collision_[i].isUnderLeftBackHit_ = false;
 				collider0->collision_[i].isUnderRightBackHit_ = false;
@@ -51,7 +51,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.min.x - collider1->aabb_.max.x);
 						float yDifference = std::abs(collider0->aabb_.max.y - collider1->aabb_.min.y);
 						float zDifference = std::abs(collider0->aabb_.max.z - collider1->aabb_.min.z);
-						collider0->collision_[collider1->tag_].IsTopLeftBackHit_ = true;
+						collider0->collision_[collider1->tag_].isTopLeftBackHit_ = true;
 
 						if (Vector3{ collider0->aabb_.min.x, collider0->aabb_.max.y, collider0->aabb_.max.z } == Vector3{ collider1->aabb_.max.x, collider1->aabb_.min.y, collider1->aabb_.min.y }) {
 
@@ -97,6 +97,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.min.x - collider1->aabb_.max.x);
 						float yDifference = std::abs(collider0->aabb_.min.y - collider1->aabb_.max.y);
 						float zDifference = std::abs(collider0->aabb_.max.z - collider1->aabb_.min.z);
+						collider0->collision_[collider1->tag_].isUnderLeftBackHit_ = true;
 
 						if (Vector3{ collider0->aabb_.min.x, collider0->aabb_.min.y, collider0->translate_->z } == Vector3{ collider1->aabb_.max.x, collider1->aabb_.max.y, collider1->translate_->z }) {
 
@@ -119,6 +120,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.max.x - collider1->aabb_.min.x);
 						float yDifference = std::abs(collider0->aabb_.min.y - collider1->aabb_.max.y);
 						float zDifference = std::abs(collider0->aabb_.max.z - collider1->aabb_.min.z);
+						collider0->collision_[collider1->tag_].isUnderRightBackHit_ = true;
 
 						if (Vector3{ collider0->aabb_.max.x, collider0->aabb_.min.y, collider0->translate_->z } == Vector3{ collider1->aabb_.min.x, collider1->aabb_.max.y, collider1->translate_->z }) {
 
@@ -142,6 +144,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.min.x - collider1->aabb_.max.x);
 						float yDifference = std::abs(collider0->aabb_.max.y - collider1->aabb_.min.y);
 						float zDifference = std::abs(collider0->aabb_.min.z - collider1->aabb_.max.z);
+						collider0->collision_[collider1->tag_].isTopLeftFrontHit_ = true;
 
 						if (Vector3{ collider0->aabb_.min.x, collider0->aabb_.max.y, collider0->aabb_.max.z } == Vector3{ collider1->aabb_.max.x, collider1->aabb_.min.y, collider1->aabb_.min.y }) {
 
@@ -164,6 +167,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.max.x - collider1->aabb_.min.x);
 						float yDifference = std::abs(collider0->aabb_.max.y - collider1->aabb_.min.y);
 						float zDifference = std::abs(collider0->aabb_.min.z - collider1->aabb_.max.z);
+						collider0->collision_[collider1->tag_].isTopRightFrontHit_ = true;
 
 						if (Vector3{ collider0->aabb_.max.x, collider0->aabb_.max.y, collider0->translate_->z } == Vector3{ collider1->aabb_.min.x, collider1->aabb_.min.y, collider1->translate_->z }) {
 
@@ -186,6 +190,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.min.x - collider1->aabb_.max.x);
 						float yDifference = std::abs(collider0->aabb_.min.y - collider1->aabb_.max.y);
 						float zDifference = std::abs(collider0->aabb_.min.z - collider1->aabb_.max.z);
+						collider0->collision_[collider1->tag_].isUnderLeftFrontHit_ = true;
 
 						if (Vector3{ collider0->aabb_.min.x, collider0->aabb_.min.y, collider0->translate_->z } == Vector3{ collider1->aabb_.max.x, collider1->aabb_.max.y, collider1->translate_->z }) {
 
@@ -208,6 +213,7 @@ void CollisionManager::Update() {
 						float xDifference = std::abs(collider0->aabb_.max.x - collider1->aabb_.min.x);
 						float yDifference = std::abs(collider0->aabb_.min.y - collider1->aabb_.max.y);
 						float zDifference = std::abs(collider0->aabb_.min.z - collider1->aabb_.max.z);
+						collider0->collision_[collider1->tag_].isUnderRightFrontHit_ = true;
 
 						if (Vector3{ collider0->aabb_.max.x, collider0->aabb_.min.y, collider0->translate_->z } == Vector3{ collider1->aabb_.min.x, collider1->aabb_.max.y, collider1->translate_->z }) {
 
