@@ -15,12 +15,24 @@ enum ColliderTag {
 struct Collision {
 	//どこと衝突しているか
 	bool isContact_;
+
+	//6面
 	bool isUnderHit_;
 	bool isTopHit_;
 	bool isLeftHit_;
 	bool isRightHit_;
 	bool isFrontHit_;
 	bool isBackHit_;
+
+	//8頂点
+	bool IsTopLeftFrontHit_;
+	bool isTopRightFrontHit_;
+	bool isUnderLeftFrontHit_;
+	bool isUnderRightFrontHit_;
+	bool IsTopLeftBackHit_;
+	bool isTopRightBackHit_;
+	bool isUnderLeftBackHit_;
+	bool isUnderRightBackHit_;
 };
 
 struct Collider {

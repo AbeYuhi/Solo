@@ -20,6 +20,15 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 		collision_[i].isRightHit_ = false;
 		collision_[i].isFrontHit_ = false;
 		collision_[i].isBackHit_ = false;
+
+		collision_[i].IsTopLeftFrontHit_ = false;
+		collision_[i].isTopRightFrontHit_ = false;
+		collision_[i].isUnderLeftFrontHit_ = false;
+		collision_[i].isUnderRightFrontHit_ = false;
+		collision_[i].IsTopLeftBackHit_ = false;
+		collision_[i].isTopRightBackHit_ = false;
+		collision_[i].isUnderLeftBackHit_ = false;
+		collision_[i].isUnderRightBackHit_ = false;
 	}
 	isDelete_ = false;
 	isPush_ = false;
