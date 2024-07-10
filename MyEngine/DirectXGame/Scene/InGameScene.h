@@ -61,6 +61,8 @@ private:
 	RenderItem boxInfo_;
 	Collider boxCollider_;
 
+	Collider playerCollider_;
+
 	//ブレンドモード
 	int blendMode_;
 };

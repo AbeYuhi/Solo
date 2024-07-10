@@ -1,9 +1,10 @@
 #include "Collider.h"
 
-void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
+void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, CollisionType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
 	translate_ = translate;
 	colliderScale_ = colliderScale;
 	tag_ = tag;
+	type_ = type;
 	velocity_ = velocity;
 	isDrawCollider_ = isDrawCollider;
 	isCollisionCheck_ = isCollisionCheck;
@@ -13,22 +14,18 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 	renderItem_.Initialize();
 #endif // _DEBUG
 	for (int i = 0; i < kNumColliderTag; i++) {
-		collision_[i].isContact_ = false;
-		collision_[i].isUnderHit_ = false;
-		collision_[i].isTopHit_ = false;
-		collision_[i].isLeftHit_ = false;
-		collision_[i].isRightHit_ = false;
-		collision_[i].isFrontHit_ = false;
-		collision_[i].isBackHit_ = false;
 
-		collision_[i].isTopLeftFrontHit_ = false;
-		collision_[i].isTopRightFrontHit_ = false;
-		collision_[i].isUnderLeftFrontHit_ = false;
-		collision_[i].isUnderRightFrontHit_ = false;
-		collision_[i].isTopLeftBackHit_ = false;
-		collision_[i].isTopRightBackHit_ = false;
-		collision_[i].isUnderLeftBackHit_ = false;
-		collision_[i].isUnderRightBackHit_ = false;
+		switch (type_)
+		{
+		case BOX:
+			collision_[i] = BoxCollision();
+			break;
+		case SPHERE:
+			collision_[i] = SphereCollision();
+			break;
+		default:
+			break;
+		}
 	}
 	isDelete_ = false;
 	isPush_ = false;

@@ -1,4 +1,5 @@
 #pragma once
+#include <variant>
 #include "DirectXGame/Math/AABB.h"
 #include "DirectXGame/Math/Vector2.h"
 #include "DirectXGame/Math/Vector3.h"
@@ -6,13 +7,39 @@
 #include "DirectXGame/Data/RenderItem.h"
 
 enum ColliderTag {
+	PLAYER,
+	BUTTON,
 	BULLET,
 	WALL,
-	BUTTON,
 	kNumColliderTag,
 };
 
-struct Collision {
+enum CollisionType {
+	BOX,
+	SPHERE,
+};
+
+struct BoxCollision {
+
+	BoxCollision() {
+		isContact_ = false;
+		isUnderHit_ = false;
+		isTopHit_ = false;
+		isLeftHit_ = false;
+		isRightHit_ = false;
+		isFrontHit_ = false;
+		isBackHit_ = false;
+
+		isTopLeftFrontHit_ = false;
+		isTopRightFrontHit_ = false;
+		isUnderLeftFrontHit_ = false;
+		isUnderRightFrontHit_ = false;
+		isTopLeftBackHit_ = false;
+		isTopRightBackHit_ = false;
+		isUnderLeftBackHit_ = false;
+		isUnderRightBackHit_ = false;
+	}
+
 	//どこと衝突しているか
 	bool isContact_;
 
@@ -35,6 +62,13 @@ struct Collision {
 	bool isUnderRightBackHit_;
 };
 
+struct SphereCollision {
+	//どこと衝突しているか
+	bool isContact_;
+};
+
+using Collision = std::variant<BoxCollision, SphereCollision>;
+
 struct Collider {
 	AABB aabb_;
 	Vector3* translate_;
@@ -42,6 +76,7 @@ struct Collider {
 	Vector3 colliderScale_;
 	Vector3 contactPoint_;
 	ColliderTag tag_;
+	CollisionType type_;
 	RenderItem renderItem_;
 
 	Collision collision_[kNumColliderTag];
@@ -57,6 +92,6 @@ struct Collider {
 
 	bool isCollisionCheck_;
 
-	void Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	void Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, CollisionType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };

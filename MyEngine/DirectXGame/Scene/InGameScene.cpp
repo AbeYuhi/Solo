@@ -45,7 +45,11 @@ void InGameScene::Initialize() {
 	shadow_ = std::make_unique<Shadow>();
 	shadow_->Initialize();
 
+	//コリジョンマネージャーの初期化
 	collisionManager_->Initialize();
+
+	//カメラにコリジョン判定を追加
+	playerCollider_.Initialize(&mainCamera_->GetWorldPos(), {0.1f, 0.1f, 0.1f}, PLAYER, true);
 
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
