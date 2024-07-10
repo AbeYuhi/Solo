@@ -49,7 +49,7 @@ void InGameScene::Initialize() {
 	collisionManager_->Initialize();
 
 	//カメラにコリジョン判定を追加
-	playerCollider_.Initialize(&mainCamera_->GetWorldPos(), {0.1f, 0.1f, 0.1f}, PLAYER, true);
+	//playerCollider_.Initialize(&mainCamera_->GetWorldPos(), {0.1f, 0.1f, 0.1f}, PLAYER, BOX, true);
 
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
@@ -57,8 +57,10 @@ void InGameScene::Initialize() {
 	boxModel_ = Model::Create("cube", "cube.obj");
 	boxInfo_.Initialize();
 	boxInfo_.worldTransform_.data_.scale_ = { 10, 1, 10 };
-	boxCollider_.Initialize(&boxInfo_.worldTransform_.data_.translate_, boxInfo_.worldTransform_.data_.scale_, WALL, false);
+	boxCollider_.Initialize(&boxInfo_.worldTransform_.data_.translate_, boxInfo_.worldTransform_.data_.scale_, WALL, BOX, false);
 	collisionManager_->AddCollider(&boxCollider_);
+
+	door_.Initialize({0, 0, 5}, {2, 5, 1});
 }
 
 void InGameScene::Update() {
@@ -90,6 +92,8 @@ void InGameScene::Update() {
 		bullet->Initialize();
 		bullets_.push_back(std::move(bullet));
 	}
+
+	door_.Update();
 
 	//コライダーの更新
 	collisionManager_->Update();
@@ -160,6 +164,7 @@ void InGameScene::Draw() {
 		bullet->Draw();
 	}
 	boxModel_->Draw(boxInfo_);
+	door_.Draw();
 
 	collisionManager_->Draw();
 

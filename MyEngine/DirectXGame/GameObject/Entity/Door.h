@@ -9,7 +9,7 @@ public:
 	Door();
 	~Door();
 
-	void Initialize();
+	void Initialize(Vector3 pos, Vector3 size);
 
 	void Update();
 
@@ -21,6 +21,11 @@ private:
 	Collider leftDoorCollider_;
 	RenderItem rightDoorInfo_;
 	Collider rightDoorCollider_;
+	RenderItem buttonInfo_;
+	Collider buttonCollider_;
 
+	Vector3 pos_;
+	Vector3 size_;
+	bool isOpen_;
 };
 

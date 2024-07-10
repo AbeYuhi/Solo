@@ -13,8 +13,7 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 #ifdef _DEBUG
 	renderItem_.Initialize();
 #endif // _DEBUG
-	for (int i = 0; i < kNumColliderTag; i++) {
-
+	/*for (int i = 0; i < kNumColliderTag; i++) {
 		switch (type_)
 		{
 		case BOX:
@@ -26,7 +25,7 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 		default:
 			break;
 		}
-	}
+	}*/
 	isDelete_ = false;
 	isPush_ = false;
 }

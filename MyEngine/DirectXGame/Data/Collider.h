@@ -79,7 +79,7 @@ struct Collider {
 	CollisionType type_;
 	RenderItem renderItem_;
 
-	Collision collision_[kNumColliderTag];
+	BoxCollision collision_[kNumColliderTag];
 
 	//押しつぶされているか
 	bool isPush_;

@@ -18,6 +18,7 @@
 #include "GameObject/Camera/SpriteCamera.h"
 #include "GameObject/Shadow/Shadow.h"
 #include "GameObject/Particle/Object/PlaneParticle.h"
+#include "GameObject/Entity/Door.h"
 #include "Scene/IScene.h"
 #include "GameObject/Entity/PlayerBullet.h"
 
@@ -60,8 +61,9 @@ private:
 	std::shared_ptr<Model> boxModel_;
 	RenderItem boxInfo_;
 	Collider boxCollider_;
-
 	Collider playerCollider_;
+
+	Door door_;
 
 	//ブレンドモード
 	int blendMode_;
