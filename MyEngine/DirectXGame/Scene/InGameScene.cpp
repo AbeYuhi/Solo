@@ -45,10 +45,16 @@ void InGameScene::Initialize() {
 	shadow_ = std::make_unique<Shadow>();
 	shadow_->Initialize();
 
+	//コリジョンマネージャーの初期化
 	collisionManager_->Initialize();
+
+	//カメラにコリジョン判定を追加
+	//playerCollider_.Initialize(&mainCamera_->GetWorldPos(), {0.1f, 0.1f, 0.1f}, PLAYER, BOX, true);
 
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
+
+	door_.Initialize({ 0, 0, 5 }, { 2, 5, 1 });
 
 	levelScene_.Initialize("level.json");
 }
@@ -83,7 +89,7 @@ void InGameScene::Update() {
 		bullets_.push_back(std::move(bullet));
 	}
 
-	levelScene_.Update();
+	door_.Update();
 
 	//コライダーの更新
 	collisionManager_->Update();
@@ -152,6 +158,9 @@ void InGameScene::Draw() {
 	for (auto& bullet : bullets_) {
 		bullet->Draw();
 	}
+	boxModel_->Draw(boxInfo_);
+	door_.Draw();
+
 	levelScene_.Draw();
 	collisionManager_->Draw();
 

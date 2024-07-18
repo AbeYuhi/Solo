@@ -18,6 +18,7 @@
 #include "GameObject/Camera/SpriteCamera.h"
 #include "GameObject/Shadow/Shadow.h"
 #include "GameObject/Particle/Object/PlaneParticle.h"
+#include "GameObject/Entity/Door.h"
 #include "Scene/IScene.h"
 #include "GameObject/Entity/PlayerBullet.h"
 #include "LoadFile/LevelScene.h"
@@ -57,7 +58,7 @@ private:
 	std::unique_ptr<Shadow> shadow_;
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-
+	Door door_;
 	LevelScene levelScene_;
 
 	//ブレンドモード

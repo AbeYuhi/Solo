@@ -348,6 +348,9 @@
     <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
       <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Entity\Door.cpp">
+      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="DirectXGame\LoadFile\LevelScene.cpp">
       <Filter>ソース ファイル\LoadFile</Filter>
     </ClCompile>
@@ -622,6 +625,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h">
       <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Entity\Door.h">
+      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\LoadFile\LevelScene.h">
       <Filter>ヘッダー ファイル\LoadFile</Filter>

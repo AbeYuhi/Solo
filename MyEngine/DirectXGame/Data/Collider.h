@@ -1,4 +1,5 @@
 #pragma once
+#include <variant>
 #include "DirectXGame/Math/AABB.h"
 #include "DirectXGame/Math/Vector2.h"
 #include "DirectXGame/Math/Vector3.h"
@@ -42,6 +43,7 @@ struct Collider {
 	Vector3 colliderScale_;
 	Vector3 contactPoint_;
 	ColliderTag tag_;
+	CollisionType type_;
 	RenderItem renderItem_;
 
 	Collision collision_[kNumColliderTag];
@@ -57,6 +59,6 @@ struct Collider {
 
 	bool isCollisionCheck_;
 
-	void Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	void Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, CollisionType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };

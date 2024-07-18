@@ -36,7 +36,7 @@ void PlayerBullet::Initialize() {
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
 	velocity_ *= 10.0f;
 
-	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, {2, 2, 2}, ColliderTag::BULLET, true, &velocity_);
+	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, { 2, 2, 2 }, ColliderTag::BULLET, BOX, true, &velocity_);
 	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
