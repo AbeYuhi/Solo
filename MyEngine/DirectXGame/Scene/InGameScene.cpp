@@ -50,11 +50,7 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	boxModel_ = Model::Create("cube", "cube.obj");
-	boxInfo_.Initialize();
-	boxInfo_.worldTransform_.data_.scale_ = { 10, 1, 10 };
-	boxCollider_.Initialize(&boxInfo_.worldTransform_.data_.translate_, boxInfo_.worldTransform_.data_.scale_, WALL, false);
-	collisionManager_->AddCollider(&boxCollider_);
+	levelScene_.Initialize("level.json");
 }
 
 void InGameScene::Update() {
@@ -86,6 +82,8 @@ void InGameScene::Update() {
 		bullet->Initialize();
 		bullets_.push_back(std::move(bullet));
 	}
+
+	levelScene_.Update();
 
 	//コライダーの更新
 	collisionManager_->Update();
@@ -131,7 +129,6 @@ void InGameScene::Update() {
 	for (auto& bullet : bullets_) {
 		bullet->Update();
 	}
-	boxInfo_.Update();
 }
 
 void InGameScene::Draw() {
@@ -155,8 +152,7 @@ void InGameScene::Draw() {
 	for (auto& bullet : bullets_) {
 		bullet->Draw();
 	}
-	boxModel_->Draw(boxInfo_);
-
+	levelScene_.Draw();
 	collisionManager_->Draw();
 
 	///オブジェクトの描画終了

@@ -31,10 +31,13 @@
 #include "GameObject/Camera/MainCamera.h"
 
 struct RenderItem;
+class SkyBox;
 
 class Model
 {
 public: //静的メンバ関数
+
+	static std::shared_ptr<Model> Create(const std::string filename);
 
 	static std::shared_ptr<Model> Create(const std::string& filepath, const std::string filename);
 

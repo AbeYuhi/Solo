@@ -1,8 +1,8 @@
 #include "Collider.h"
 
-void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
+void Collider::Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
 	translate_ = translate;
-	colliderScale_ = colliderScale;
+	colliderScale_ = objectScale * colliderScale;
 	tag_ = tag;
 	velocity_ = velocity;
 	isDrawCollider_ = isDrawCollider;
@@ -21,11 +21,11 @@ void Collider::Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag
 		collision_[i].isFrontHit_ = false;
 		collision_[i].isBackHit_ = false;
 
-		collision_[i].IsTopLeftFrontHit_ = false;
+		collision_[i].isTopLeftFrontHit_ = false;
 		collision_[i].isTopRightFrontHit_ = false;
 		collision_[i].isUnderLeftFrontHit_ = false;
 		collision_[i].isUnderRightFrontHit_ = false;
-		collision_[i].IsTopLeftBackHit_ = false;
+		collision_[i].isTopLeftBackHit_ = false;
 		collision_[i].isTopRightBackHit_ = false;
 		collision_[i].isUnderLeftBackHit_ = false;
 		collision_[i].isUnderRightBackHit_ = false;

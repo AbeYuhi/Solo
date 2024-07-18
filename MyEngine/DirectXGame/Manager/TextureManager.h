@@ -19,7 +19,7 @@ public:
 
 	static uint32_t Load(const std::string& textureName);
 
-	static uint32_t Load(const std::string& textureName, const std::string& filePath);
+	static uint32_t Load(const std::string& filePath, const std::string& textureName);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureHandleGPU(uint32_t textureHandle) { return textureDatas_[textureHandles_[textureHandle]].textureSrvHandleGPU; }
 	
@@ -27,18 +27,18 @@ public:
 
 private: //メンバ関数
 
-	uint32_t LoadInternal(const std::string& textureName, const std::string& filePath);
+	uint32_t LoadInternal(const std::string& filePath, const std::string& textureName);
 
-	void TransferTexture(const std::string& textureName, const std::string& filePath);
+	void TransferTexture(const std::string& filePath);
 
 	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
 	ComPtr<ID3D12Resource> CreateTextureResource(DirectX::TexMetadata metadata);
 
 	[[nodiscard]]
-	ComPtr<ID3D12Resource> UploadTextureData(const std::string& textureName);
+	ComPtr<ID3D12Resource> UploadTextureData(const std::string& filePath);
 
-	void CreateShaderResourceView(const std::string& textureName);
+	void CreateShaderResourceView(const std::string& filePath);
 
 private:
 	TextureManager() = default;

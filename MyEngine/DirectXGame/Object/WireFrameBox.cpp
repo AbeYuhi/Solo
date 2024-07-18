@@ -99,6 +99,7 @@ void WireFrameBox::Draw(RenderItem& renderItem) {
 	return;
 #endif // NDEBUG
 
+	renderItem.Update();
 
 	//ViewPortの設定
 	dxCommon->GetCommandList()->RSSetViewports(1, psoManager->GetViewPort());

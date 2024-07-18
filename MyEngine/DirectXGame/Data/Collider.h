@@ -25,11 +25,11 @@ struct Collision {
 	bool isBackHit_;
 
 	//8頂点
-	bool IsTopLeftFrontHit_;
+	bool isTopLeftFrontHit_;
 	bool isTopRightFrontHit_;
 	bool isUnderLeftFrontHit_;
 	bool isUnderRightFrontHit_;
-	bool IsTopLeftBackHit_;
+	bool isTopLeftBackHit_;
 	bool isTopRightBackHit_;
 	bool isUnderLeftBackHit_;
 	bool isUnderRightBackHit_;
@@ -57,6 +57,6 @@ struct Collider {
 
 	bool isCollisionCheck_;
 
-	void Initialize(Vector3* translate, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	void Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };

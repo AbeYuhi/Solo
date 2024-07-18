@@ -12,7 +12,7 @@ void DebugCamera::Initialize() {
 
 	transform_.scale_ = { 1, 1, 1 };
 	transform_.rotate_ = { 0.0f, 0.0f, 0.0f };
-	transform_.translate_ = { 0.0f, 0.0f, -10.0f };
+	transform_.translate_ = { 0.0f, 10.0f, -100.0f };
 	worldMatrix_ = MakeAffineMatrix(transform_.scale_, transform_.rotate_, transform_.translate_);
 
 	//カメラが切り取る範囲

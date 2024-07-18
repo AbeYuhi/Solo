@@ -20,6 +20,7 @@
 #include "GameObject/Particle/Object/PlaneParticle.h"
 #include "Scene/IScene.h"
 #include "GameObject/Entity/PlayerBullet.h"
+#include "LoadFile/LevelScene.h"
 
 class InGameScene : public IScene {
 public:
@@ -57,9 +58,7 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
-	std::shared_ptr<Model> boxModel_;
-	RenderItem boxInfo_;
-	Collider boxCollider_;
+	LevelScene levelScene_;
 
 	//ブレンドモード
 	int blendMode_;

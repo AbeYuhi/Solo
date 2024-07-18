@@ -8,7 +8,6 @@ void PlayerBullet::Initialize() {
 
 	model_ = Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
-	//renderItem_.worldTransform_.data_.scale_ *= 0.02f;
 	renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 	//発射位置の計算
@@ -37,7 +36,7 @@ void PlayerBullet::Initialize() {
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
 	velocity_ *= 10.0f;
 
-	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, ColliderTag::BULLET, true, &velocity_);
+	collider_.Initialize(&renderItem_.worldTransform_.data_.translate_, renderItem_.worldTransform_.data_.scale_, {2, 2, 2}, ColliderTag::BULLET, true, &velocity_);
 	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 

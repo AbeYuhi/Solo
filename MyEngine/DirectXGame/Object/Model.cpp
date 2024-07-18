@@ -1,10 +1,22 @@
 #include "Model.h"
 #include "DirectXGame/Data/RenderItem.h"
+#include "Object/SkyBox.h"
 
 Model::Model() {}
 Model::~Model() {}
 
 std::map<std::string, std::shared_ptr<Model>> Model::sModels_;
+
+std::shared_ptr<Model> Model::Create(const std::string filename) {
+	std::string filepath = filename.substr(0, filename.find_last_of("."));
+	std::string filePath = filepath + "/" + filename;
+	if (sModels_.find(filePath) == sModels_.end()) {
+		sModels_[filePath] = std::make_shared<Model>();
+		sModels_[filePath]->Initialize(filepath, filename);
+	}
+
+	return sModels_[filePath];
+}
 
 std::shared_ptr<Model> Model::Create(const std::string& filepath, const std::string filename) {
 	std::string filePath = filepath + "/" + filename;
@@ -58,6 +70,8 @@ void Model::Draw(RenderItem& renderItem) {
 		return;
 	}
 
+	renderItem.Update();
+
 	//ViewPortの設定
 	dxCommon->GetCommandList()->RSSetViewports(1, psoManager->GetViewPort());
 	//Scirssorの設定
@@ -85,7 +99,7 @@ void Model::Draw(RenderItem& renderItem) {
 			//VBVの設定
 			dxCommon->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
 
-			dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(5, renderItem.animation_.skinClusters[mesh.name].paletteSrvHandle.second);
+			dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(6, renderItem.animation_.skinClusters[mesh.name].paletteSrvHandle.second);
 		}
 		else {
 			//パイプラインステートの設定
@@ -97,8 +111,9 @@ void Model::Draw(RenderItem& renderItem) {
 		}
 
 		//Lightの設定
-		LightObjectManager::GetInstance()->Draw();
+		dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureManager->GetTextureHandleGPU(renderItem.materialInfo_.environmentTextureHandle_));
 		MainCamera::GetInstance()->Draw();
+		LightObjectManager::GetInstance()->Draw();
 		//IBVの設定
 		dxCommon->GetCommandList()->IASetIndexBuffer(&mesh.indexBufferView);
 		//マテリアルCBufferの場所を設定
@@ -129,6 +144,8 @@ void Model::Draw(RenderItem& renderItem, uint32_t textureHandle) {
 		return;
 	}
 
+	renderItem.Update();
+
 	//ViewPortの設定
 	dxCommon->GetCommandList()->RSSetViewports(1, psoManager->GetViewPort());
 	//Scirssorの設定
@@ -155,7 +172,7 @@ void Model::Draw(RenderItem& renderItem, uint32_t textureHandle) {
 
 			//VBVの設定
 			dxCommon->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
-			dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(5, renderItem.animation_.skinClusters[mesh.name].paletteSrvHandle.second);
+			dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(6, renderItem.animation_.skinClusters[mesh.name].paletteSrvHandle.second);
 		}
 		else {
 			//パイプラインステートの設定
@@ -167,8 +184,9 @@ void Model::Draw(RenderItem& renderItem, uint32_t textureHandle) {
 		}
 
 		//Lightの設定
-		LightObjectManager::GetInstance()->Draw();
+		dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureManager->GetTextureHandleGPU(renderItem.materialInfo_.environmentTextureHandle_));
 		MainCamera::GetInstance()->Draw();
+		LightObjectManager::GetInstance()->Draw();
 		//IBVの設定
 		dxCommon->GetCommandList()->IASetIndexBuffer(&mesh.indexBufferView);
 		//マテリアルCBufferの場所を設定
@@ -337,7 +355,7 @@ void Model::LoadModelFile(const std::string& filepath, const std::string& filena
 
 		//もしテクスチャが見つからなかった場合は白い画像を入れる
 		if (!textureName.empty()) {
-			modelPart.textureHandle = TextureManager::Load(textureName, modelPart.modelData.material.textureFilePath);
+			modelPart.textureHandle = TextureManager::Load(filepath, textureName);
 		}
 		else {
 			modelPart.textureHandle = TextureManager::Load("whiteTexture2x2.png");
@@ -349,11 +367,6 @@ void Model::LoadModelFile(const std::string& filepath, const std::string& filena
 	}
 
 	//アニメーションの読み込み
-	//Noneの作成
-	AnimationData noneAnimation;
-	noneAnimation.name = "None";
-	animations_.push_back(noneAnimation);
-
 	//GLTFからの読み込み
 	for (uint32_t animationIndex = 0; animationIndex < scene->mNumAnimations; animationIndex++) {
 		std::string animationName = scene->mAnimations[animationIndex]->mName.C_Str();

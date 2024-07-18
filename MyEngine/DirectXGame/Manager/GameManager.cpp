@@ -10,8 +10,6 @@ void GameManager::Initialize() {
 	//汎用機能の初期化
 	Framework::Initialize();
 
-	isFullScreen_ = true;
-
 	//汎用テクスチャの読み込み
 	IScene::uvCheckerHandle_ = TextureManager::Load("uvChecker.png");
 	IScene::whiteTextureHandle_ = TextureManager::Load("whiteTexture2x2.png");
@@ -32,7 +30,6 @@ void GameManager::Initialize() {
 	sceneManager_ = SceneManager::GetInstance();
 	sceneManager_->Initialize(INGAME);
 
-	//directXCommon_->SetFullScreen(isFullScreen_);
 }
 
 void GameManager::Finalize() {
@@ -56,11 +53,11 @@ int GameManager::Run() {
 		}
 
 		//フレームの開始時刻を取得
+#ifdef _DEBUG
 		auto frameStart = std::chrono::high_resolution_clock::now();
+#endif // _DEBUG
+
 		///更新処理
-		
-		//フルスクリーン切り替え
-		
 		//入力受付
 		inputManager_->Update();
 #ifdef _DEBUG
@@ -97,6 +94,7 @@ int GameManager::Run() {
 		//描画終了
 		directXCommon_->PostDraw();
 
+#ifdef _DEBUG
 		// フレーム終了時刻を取得
 		auto frameEnd = std::chrono::high_resolution_clock::now();
 
@@ -112,6 +110,8 @@ int GameManager::Run() {
 			frameCount_ = 0;
 			totalTime_ = 0;
 		}
+#endif // _DEBUG
+
 	}
 
 	//ゲーム終了処理
