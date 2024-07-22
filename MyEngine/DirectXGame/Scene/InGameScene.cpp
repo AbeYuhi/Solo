@@ -158,7 +158,6 @@ void InGameScene::Draw() {
 	for (auto& bullet : bullets_) {
 		bullet->Draw();
 	}
-	boxModel_->Draw(boxInfo_);
 	door_.Draw();
 
 	levelScene_.Draw();

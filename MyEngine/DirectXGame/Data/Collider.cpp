@@ -1,10 +1,9 @@
 #include "Collider.h"
 
-void Collider::Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, CollisionType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
+void Collider::Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
 	translate_ = translate;
 	colliderScale_ = objectScale * colliderScale;
 	tag_ = tag;
-	type_ = type;
 	velocity_ = velocity;
 	isDrawCollider_ = isDrawCollider;
 	isCollisionCheck_ = isCollisionCheck;

@@ -24,9 +24,9 @@ void Door::Initialize(Vector3 pos, Vector3 size) {
 	pos_ = pos;
 	size_ = size;
 
-	leftDoorCollider_.Initialize(&leftDoorInfo_.worldTransform_.data_.translate_, leftDoorInfo_.worldTransform_.data_.scale_, WALL, BOX, false);
-	rightDoorCollider_.Initialize(&rightDoorInfo_.worldTransform_.data_.translate_, rightDoorInfo_.worldTransform_.data_.scale_, WALL, BOX, false);
-	buttonCollider_.Initialize(&buttonInfo_.worldTransform_.data_.translate_, buttonInfo_.worldTransform_.data_.scale_, BUTTON, BOX, true);
+	leftDoorCollider_.Initialize(&leftDoorInfo_.worldTransform_.data_.translate_, leftDoorInfo_.worldTransform_.data_.scale_, { 1.0f, 1.0f, 1.0f }, WALL, false);
+	rightDoorCollider_.Initialize(&rightDoorInfo_.worldTransform_.data_.translate_, rightDoorInfo_.worldTransform_.data_.scale_, { 1.0f, 1.0f, 1.0f }, WALL, false);
+	buttonCollider_.Initialize(&buttonInfo_.worldTransform_.data_.translate_, buttonInfo_.worldTransform_.data_.scale_, {1.0f, 1.0f, 1.0f}, BUTTON, true);
 
 	CollisionManager::GetInstance()->AddCollider(&leftDoorCollider_);
 	CollisionManager::GetInstance()->AddCollider(&rightDoorCollider_);

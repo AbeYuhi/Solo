@@ -126,7 +126,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\LoadFile\GlobalVariables.cpp" />
     <ClCompile Include="DirectXGame\LoadFile\LevelScene.cpp" />
     <ClCompile Include="DirectXGame\Manager\CollisionManager.cpp" />
+    <ClCompile Include="DirectXGame\Math\OBB.cpp" />
     <ClCompile Include="DirectXGame\Math\Quaternion.cpp" />
+    <ClCompile Include="DirectXGame\Math\Sphere.cpp" />
     <ClCompile Include="DirectXGame\Object\WireFrameSpriteBox.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Entity\Door.cpp" />
     <ClCompile Include="External\imgui\imgui.cpp" />
@@ -213,7 +215,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\DebugSytem\DebugLog.h" />
     <ClInclude Include="DirectXGame\LoadFile\GlobalVariables.h" />
     <ClInclude Include="DirectXGame\DebugSytem\ReleseCheck.h" />
+    <ClInclude Include="DirectXGame\Math\OBB.h" />
     <ClInclude Include="DirectXGame\Math\Quaternion.h" />
+    <ClInclude Include="DirectXGame\Math\Sphere.h" />
     <ClInclude Include="DirectXGame\Object\WireFrameSpriteBox.h" />
     <ClInclude Include="DirectXGame\GameObject\Entity\Door.h" />
     <ClInclude Include="External\imgui\imconfig.h" />
