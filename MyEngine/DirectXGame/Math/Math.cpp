@@ -514,10 +514,26 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
 }
 
+Matrix4x4 MakeAffineMatrix(const EulerTransformData& transformData) {
+	Matrix4x4 scaleMatrix = MakeScaleMatrix(transformData.scale_);
+	Matrix4x4 rotateXYZMatrix = MakeRotateMatrix(transformData.rotate_);
+	Matrix4x4 translateMatrix = MakeTranslateMatrix(transformData.translate_);
+
+	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
+}
+
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) {
 	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
 	Matrix4x4 rotateXYZMatrix = MakeRotateMatrix(rotate);
 	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
+
+	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
+}
+
+Matrix4x4 MakeAffineMatrix(const QuaternionTransformData& transformData) {
+	Matrix4x4 scaleMatrix = MakeScaleMatrix(transformData.scale_);
+	Matrix4x4 rotateXYZMatrix = MakeRotateMatrix(transformData.rotate_);
+	Matrix4x4 translateMatrix = MakeTranslateMatrix(transformData.translate_);
 
 	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
 }
@@ -591,4 +607,55 @@ bool IsCollision(const AABB& aabb, const Vector3& point) {
 		return true;
 	}
 	return false;
+}
+
+EulerTransformData ExtractTransform(const Matrix4x4& matrix) {
+	EulerTransformData data;
+
+	Vector3 position;
+	Vector3 rotation;
+	Vector3 scale;
+
+	// 位置の抽出
+	position.x = matrix.m[3][0];
+	position.y = matrix.m[3][1];
+	position.z = matrix.m[3][2];
+
+	// スケールの抽出
+	scale.x = std::sqrt(matrix.m[0][0] * matrix.m[0][0] + matrix.m[1][0] * matrix.m[1][0] + matrix.m[2][0] * matrix.m[2][0]);
+	scale.y = std::sqrt(matrix.m[0][1] * matrix.m[0][1] + matrix.m[1][1] * matrix.m[1][1] + matrix.m[2][1] * matrix.m[2][1]);
+	scale.z = std::sqrt(matrix.m[0][2] * matrix.m[0][2] + matrix.m[1][2] * matrix.m[1][2] + matrix.m[2][2] * matrix.m[2][2]);
+
+	// スケールを除去して回転成分を取り出す
+	Matrix4x4 rotationMatrix = matrix;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (i == 0) {
+				rotationMatrix.m[i][j] /= scale.x;
+			}
+			else if (i == 1) {
+				rotationMatrix.m[i][j] /= scale.y;
+			}
+			else {
+				rotationMatrix.m[i][j] /= scale.z;
+			}
+		}
+	}
+
+	// 回転行列からオイラー角を計算する
+	rotation.y = std::asin(-rotationMatrix.m[0][2]);
+	if (std::cos(rotation.y) > 0.0001) {
+		rotation.x = std::atan2(rotationMatrix.m[1][2], rotationMatrix.m[2][2]);
+		rotation.z = std::atan2(rotationMatrix.m[0][1], rotationMatrix.m[0][0]);
+	}
+	else {
+		rotation.x = std::atan2(-rotationMatrix.m[2][1], rotationMatrix.m[1][1]);
+		rotation.z = 0;
+	}
+
+	data.translate_ = position;
+	data.rotate_ = rotation;
+	data.scale_ = scale;
+
+	return data;
 }

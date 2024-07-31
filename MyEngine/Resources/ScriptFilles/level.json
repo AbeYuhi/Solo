@@ -2,41 +2,6 @@
     "name": "scene",
     "objects": [
         {
-            "type": "MESH",
-            "name": "Cube",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    50.0,
-                    50.0,
-                    1.0
-                ]
-            },
-            "file_name": "cube.obj",
-            "collider": {
-                "type": "Box",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
             "type": "LIGHT",
             "name": "Light",
             "transform": {
@@ -55,7 +20,8 @@
                     0.9999999403953552,
                     1.0
                 ]
-            }
+            },
+            "file_name": "cube.obj"
         },
         {
             "type": "CAMERA",
@@ -76,31 +42,34 @@
                     1.0,
                     1.0
                 ]
-            }
+            },
+            "file_name": "cube.obj"
         },
         {
             "type": "MESH",
-            "name": "立方体",
+            "name": "Cube.003",
             "transform": {
                 "translation": [
-                    -29.7086238861084,
-                    -27.095626831054688,
-                    3.727592945098877
+                    0.0,
+                    0.0,
+                    -1.0
                 ],
                 "rotation": [
-                    -3.284046101725835e-08,
-                    45.0,
-                    45.0
+                    0.0,
+                    -0.0,
+                    0.0
                 ],
                 "scaling": [
-                    2.9886326789855957,
-                    22.218551635742188,
-                    22.218551635742188
+                    20.0,
+                    100.0,
+                    1.0
                 ]
             },
             "file_name": "cube.obj",
             "collider": {
-                "type": "Box",
+                "type": "AABB",
+                "tag": "WALL",
+                "collision_check": false,
                 "center": [
                     0.0,
                     0.0,
@@ -115,27 +84,280 @@
         },
         {
             "type": "MESH",
-            "name": "立方体.001",
+            "name": "Cube.002",
             "transform": {
                 "translation": [
-                    33.937252044677734,
-                    -35.71932601928711,
-                    3.727593421936035
+                    -20.0,
+                    0.0,
+                    20.0
                 ],
                 "rotation": [
-                    30.0,
-                    30.0,
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    100.0,
+                    1.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    40.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    100.0,
+                    1.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "AABB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "translation": [
+                    20.0,
+                    0.0,
+                    20.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    100.0,
+                    1.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.004",
+            "transform": {
+                "translation": [
+                    15.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
+                    5.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "NONE",
+                "tag": "WALL",
+                "collision_check": false
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.005",
+            "transform": {
+                "translation": [
+                    0.0,
+                    100.0,
+                    20.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    1.0,
+                    20.0
+                ]
+            },
+            "file_name": "cube.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.006",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
                     30.0
                 ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
                 "scaling": [
-                    5.550055980682373,
-                    7.094964504241943,
-                    8.57174301147461
+                    20.0,
+                    1.0,
+                    10.0
                 ]
             },
             "file_name": "cube.obj",
             "collider": {
-                "type": "Box",
+                "type": "NONE",
+                "tag": "WALL",
+                "collision_check": false
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.007",
+            "transform": {
+                "translation": [
+                    -15.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
+                    5.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "NONE",
+                "tag": "WALL",
+                "collision_check": false
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.008",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    25.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "NONE",
+                "tag": "BUTTON",
+                "collision_check": true
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.009",
+            "transform": {
+                "translation": [
+                    5.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "AABB",
+                "tag": "RDOOR",
+                "collision_check": false,
                 "center": [
                     0.0,
                     0.0,
@@ -150,27 +372,29 @@
         },
         {
             "type": "MESH",
-            "name": "立方体.002",
+            "name": "Cube.010",
             "transform": {
                 "translation": [
-                    6.940147399902344,
-                    36.87318420410156,
-                    3.727593421936035
+                    -5.0,
+                    0.0,
+                    10.0
                 ],
                 "rotation": [
                     0.0,
-                    30.00000762939453,
+                    -0.0,
                     0.0
                 ],
                 "scaling": [
-                    5.550055980682373,
-                    7.094964504241943,
-                    8.57174301147461
+                    5.0,
+                    1.0,
+                    10.0
                 ]
             },
             "file_name": "cube.obj",
             "collider": {
-                "type": "Box",
+                "type": "AABB",
+                "tag": "LDOOR",
+                "collision_check": false,
                 "center": [
                     0.0,
                     0.0,

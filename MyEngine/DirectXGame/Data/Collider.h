@@ -1,57 +1,54 @@
 #pragma once
 #include <variant>
 #include "DirectXGame/Math/AABB.h"
+#include "DirectXGame/Math/OBB.h"
+#include "DirectXGame/Math/Sphere.h"
 #include "DirectXGame/Math/Vector2.h"
 #include "DirectXGame/Math/Vector3.h"
+#include "DirectXGame/Math/Matrix3x3.h"
 #include "DirectXGame/Data/Transform.h"
 #include "DirectXGame/Data/RenderItem.h"
+#include "Manager/ImGuiManager.h"
 
 enum ColliderTag {
 	BULLET,
 	WALL,
 	BUTTON,
+	LDOOR,
+	RDOOR,
 	kNumColliderTag,
 };
 
-enum CollisionType {
-	TAABB,
-	TOBB,
-	TSPHERE
-};
-
-struct Collision {
-	//どこと衝突しているか
-	bool isContact_;
-
-	//6面
-	bool isUnderHit_;
-	bool isTopHit_;
-	bool isLeftHit_;
-	bool isRightHit_;
-	bool isFrontHit_;
-	bool isBackHit_;
-
-	//8頂点
-	bool isTopLeftFrontHit_;
-	bool isTopRightFrontHit_;
-	bool isUnderLeftFrontHit_;
-	bool isUnderRightFrontHit_;
-	bool isTopLeftBackHit_;
-	bool isTopRightBackHit_;
-	bool isUnderLeftBackHit_;
-	bool isUnderRightBackHit_;
+enum ColliderType {
+	kAABB,
+	kOBB,
+	kSPHERE
 };
 
 struct Collider {
-	AABB aabb_;
-	Vector3* translate_;
+	EulerTransformData* objData_;
+	EulerTransformData colliderData_;
+	Matrix4x4 worldMatrix_;
+	Vector3 scale_;
 	Vector3* velocity_;
-	Vector3 colliderScale_;
 	Vector3 contactPoint_;
+	Vector3 normalVector_;
 	ColliderTag tag_;
-	RenderItem renderItem_;
+	ColliderType type_;
+	std::variant<AABB, OBB, Sphere> colliderShape_;
 
-	Collision collision_[kNumColliderTag];
+	//合成された位置
+	Vector3 combinedPosition;
+	// 合成された回転
+	Vector3 combinedRotation;
+	// 合成された大きさ
+	Vector3 combinedScale;
+
+#ifdef _DEBUG
+	RenderItem renderItem_;
+#endif // _DEBUG
+
+	bool isContact_[kNumColliderTag];
 
 	//押しつぶされているか
 	bool isPush_;
@@ -63,7 +60,7 @@ struct Collider {
 	bool isDrawCollider_;
 
 	bool isCollisionCheck_;
-
-	void Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	
+	void Initialize(EulerTransformData* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };

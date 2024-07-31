@@ -1,9 +1,12 @@
 #include "Collider.h"
 
-void Collider::Initialize(Vector3* translate, Vector3 objectScale, Vector3 colliderScale, ColliderTag tag, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
-	translate_ = translate;
-	colliderScale_ = objectScale * colliderScale;
+void Collider::Initialize(EulerTransformData* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
+	objData_ = objData;
+	colliderData_ = colliderData;
+	worldMatrix_ = MakeAffineMatrix(colliderData_);
+	worldMatrix_ = Multiply(worldMatrix_, MakeAffineMatrix(*objData_));
 	tag_ = tag;
+	type_ = type;
 	velocity_ = velocity;
 	isDrawCollider_ = isDrawCollider;
 	isCollisionCheck_ = isCollisionCheck;
@@ -13,36 +16,81 @@ void Collider::Initialize(Vector3* translate, Vector3 objectScale, Vector3 colli
 	renderItem_.Initialize();
 #endif // _DEBUG
 	for (int i = 0; i < kNumColliderTag; i++) {
-		collision_[i].isContact_ = false;
-		collision_[i].isUnderHit_ = false;
-		collision_[i].isTopHit_ = false;
-		collision_[i].isLeftHit_ = false;
-		collision_[i].isRightHit_ = false;
-		collision_[i].isFrontHit_ = false;
-		collision_[i].isBackHit_ = false;
-
-		collision_[i].isTopLeftFrontHit_ = false;
-		collision_[i].isTopRightFrontHit_ = false;
-		collision_[i].isUnderLeftFrontHit_ = false;
-		collision_[i].isUnderRightFrontHit_ = false;
-		collision_[i].isTopLeftBackHit_ = false;
-		collision_[i].isTopRightBackHit_ = false;
-		collision_[i].isUnderLeftBackHit_ = false;
-		collision_[i].isUnderRightBackHit_ = false;
+		isContact_[i] = false;
 	}
 	isDelete_ = false;
 	isPush_ = false;
+
+	switch (type_)
+	{
+	case kAABB:
+		colliderShape_ = AABB();
+		break;
+	case kOBB:
+		colliderShape_ = OBB();
+		break;
+	case kSPHERE:
+		colliderShape_ = Sphere();
+		break;
+	default:
+		break;
+	}
 }
 
 void Collider::Update() {
+	Matrix4x4 objMatrix = MakeAffineMatrix(*objData_);
+	Matrix4x4 colliderMatrix = MakeAffineMatrix(colliderData_);
+	Matrix4x4 combinedMatrix = Multiply(colliderMatrix, objMatrix);
 
-	aabb_.min.x = translate_->x - (colliderScale_.x / 2.0f);
-	aabb_.min.y = translate_->y - (colliderScale_.y / 2.0f);
-	aabb_.min.z = translate_->z - (colliderScale_.z / 2.0f);
+	EulerTransformData combinedData = ExtractTransform(combinedMatrix);
 
-	aabb_.max.x = translate_->x + (colliderScale_.x / 2.0f);
-	aabb_.max.y = translate_->y + (colliderScale_.y / 2.0f);
-	aabb_.max.z = translate_->z + (colliderScale_.z / 2.0f);
+	// 合成された位置
+	combinedPosition = combinedData.translate_;
+	// 合成された回転
+	combinedRotation = combinedData.rotate_;
+	// 合成されたスケール
+	combinedScale = combinedData.scale_;
 
-	ControlMinMax(aabb_);
+	std::visit([&](auto& shape) {
+		using T = std::decay_t<decltype(shape)>;
+		if constexpr (std::is_same_v<T, AABB>) {
+			shape.min.x = combinedPosition.x - (combinedScale.x / 2.0f);
+			shape.min.y = combinedPosition.y - (combinedScale.y / 2.0f);
+			shape.min.z = combinedPosition.z - (combinedScale.z / 2.0f);
+			shape.max.x = combinedPosition.x + (combinedScale.x / 2.0f);
+			shape.max.y = combinedPosition.y + (combinedScale.y / 2.0f);
+			shape.max.z = combinedPosition.z + (combinedScale.z / 2.0f);
+			ControlMinMax(shape);
+		}
+		else if constexpr (std::is_same_v<T, OBB>) {
+			shape.center = combinedPosition;
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(combinedRotation);
+			shape.orientations[0].x = rotateMatrix.m[0][0];
+			shape.orientations[0].y = rotateMatrix.m[0][1];
+			shape.orientations[0].z = rotateMatrix.m[0][2];
+
+			shape.orientations[1].x = rotateMatrix.m[1][0];
+			shape.orientations[1].y = rotateMatrix.m[1][1];
+			shape.orientations[1].z = rotateMatrix.m[1][2];
+
+			shape.orientations[2].x = rotateMatrix.m[2][0];
+			shape.orientations[2].y = rotateMatrix.m[2][1];
+			shape.orientations[2].z = rotateMatrix.m[2][2];
+			shape.size = combinedScale;
+		}
+		else if constexpr (std::is_same_v<T, Sphere>) {
+			shape.center = combinedPosition;
+			combinedScale /= 2.0f;
+			if (combinedScale.x >= combinedScale.y && combinedScale.x >= combinedScale.z) {
+				shape.radius = combinedScale.x;
+			}
+			else if (combinedScale.y >= combinedScale.z) {
+				shape.radius = combinedScale.y;
+			}
+			else {
+				shape.radius = combinedScale.z;
+			}
+		}
+	}, colliderShape_);
+
 }

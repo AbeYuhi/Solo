@@ -12,16 +12,18 @@
 #include "Manager/CollisionManager.h"
 #include "Object/Sprite.h"
 #include "Object/Model.h"
+#include "Object/SkyBox.h"
+#include "Object/WireFrameSphere.h"
 #include "GameObject/Camera/MainCamera.h"
 #include "GameObject/Camera/InGameCamera.h"
 #include "GameObject/Camera/DebugCamera.h"
 #include "GameObject/Camera/SpriteCamera.h"
 #include "GameObject/Shadow/Shadow.h"
+#include "GameObject/Particle/testParticle.h"
 #include "GameObject/Particle/Object/PlaneParticle.h"
-#include "GameObject/Entity/Door.h"
-#include "Scene/IScene.h"
-#include "GameObject/Entity/PlayerBullet.h"
+#include "GameObject/Particle/Sprite/SpriteParticle.h"
 #include "LoadFile/LevelScene.h"
+#include "Scene/IScene.h"
 
 class InGameScene : public IScene {
 public:
@@ -44,9 +46,9 @@ private:
 	AudioManager* audioManager_;
 	RandomManager* randomManager_;
 	PostEffectManager* postEffectManager_;
+	CollisionManager* collisionManager_;
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
-	CollisionManager* collisionManager_;
 	//ライト
 	LightObjectManager* lightObj_;
 	//ゲームカメラ
@@ -57,10 +59,34 @@ private:
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-	Door door_;
-	LevelScene levelScene_;
-
 	//ブレンドモード
 	int blendMode_;
+
+	//テクスチャハンドル
+	uint32_t monsterBallHandle_;
+	uint32_t fenceHandle_;
+	uint32_t skyboxHandle_;
+
+	//描画モデル
+	std::unique_ptr<TestParticle> testParticle1_;
+
+	std::shared_ptr<Model> yukariModel_;
+	RenderItem yukariModelInfo_;
+
+	std::shared_ptr<Model> walkModel_;
+	std::shared_ptr<Model> sneakWalkModel_;
+	std::shared_ptr<Model> boxModel_;
+	RenderItem walkModelInfo_;
+	RenderItem boxModelInfo_;
+
+	std::shared_ptr<SkyBox> skybox_;
+	RenderItem skyboxInfo_;
+
+	std::shared_ptr<Sprite> sprite_;
+	SpriteItem spriteInfo_;
+
+	//サウンド
+	uint32_t soundHandle_;
+
+	LevelScene levelScene_;
 };

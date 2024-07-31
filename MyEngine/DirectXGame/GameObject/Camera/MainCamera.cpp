@@ -22,6 +22,7 @@ void MainCamera::Initialize() {
 }
 
 void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Matrix4x4 projectionMatrix) {
+	transform_ = transform;
 	worldMatrix_ = worldMatrix;
 	viewMatrix_ = Inverse(worldMatrix_);
 	projectionMatrix_ = projectionMatrix;
