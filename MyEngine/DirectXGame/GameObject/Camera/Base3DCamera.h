@@ -19,6 +19,7 @@ public:
 	virtual void Update();
 
 	inline EulerTransformData GetWorldTransrom() { return transform_; }
+	inline EulerTransformData* GetPWorldTransrom() { return &transform_; }
 	inline Matrix4x4 GetWorldMatrix() { return worldMatrix_; }
 	inline Matrix4x4 GetViewMatrix() { return viewMatrix_; }
 	inline Matrix4x4 GetProjectionMatrix() { return projectionMatrix_; }

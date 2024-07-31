@@ -131,6 +131,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\Math\Quaternion.cpp" />
     <ClCompile Include="DirectXGame\Math\Sphere.cpp" />
     <ClCompile Include="DirectXGame\Object\WireFrameSpriteBox.cpp" />
+    <ClCompile Include="DirectXGame\GameObject\Entity\Door.cpp" />
     <ClCompile Include="External\imgui\imgui.cpp" />
     <ClCompile Include="External\imgui\imgui_demo.cpp" />
     <ClCompile Include="External\imgui\imgui_draw.cpp" />
@@ -184,6 +185,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\Manager\SrvManager.cpp" />
     <ClCompile Include="DirectXGame\Object\SkyBox.cpp" />
     <ClCompile Include="DirectXGame\Object\WireFrameSphere.cpp" />
+    <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Data\AnimationData.h" />
@@ -223,6 +225,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\Math\Quaternion.h" />
     <ClInclude Include="DirectXGame\Math\Sphere.h" />
     <ClInclude Include="DirectXGame\Object\WireFrameSpriteBox.h" />
+    <ClInclude Include="DirectXGame\GameObject\Entity\Door.h" />
     <ClInclude Include="External\imgui\imconfig.h" />
     <ClInclude Include="External\imgui\imgui.h" />
     <ClInclude Include="External\imgui\imgui_impl_dx12.h" />
@@ -285,6 +288,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\Data\HSVMaterial.h" />
     <ClInclude Include="DirectXGame\Data\LevelData.h" />
     <ClInclude Include="DirectXGame\Object\WireFrameSphere.h" />
+    <ClInclude Include="DirectXGame\GameObject\Entity\PlayerBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj" />

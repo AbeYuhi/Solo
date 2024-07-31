@@ -11,6 +11,7 @@
 #include "Manager/ImGuiManager.h"
 
 enum ColliderTag {
+	PLAYER,
 	BULLET,
 	WALL,
 	BUTTON,

@@ -27,4 +27,7 @@ private:
 
 	std::unique_ptr<TitleCamera> titleCamera_;
 
+	uint32_t leftMouseClickTexture_;
+	std::shared_ptr<Sprite> leftMosueClickSprite_;
+	SpriteItem leftMouseClickInfo_;
 };

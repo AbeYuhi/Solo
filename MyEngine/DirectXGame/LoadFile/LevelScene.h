@@ -50,5 +50,8 @@ private: //メンバ変数
 	};
 
 	std::vector<std::unique_ptr<LevelObject>> levelObjects_;
+
+	bool isOpen;
+	bool ismove;
 };
 

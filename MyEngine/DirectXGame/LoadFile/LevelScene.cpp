@@ -7,10 +7,29 @@ void LevelScene::Initialize(std::string fileName) {
 
 	//ステージの生成
 	LevelCreate();
-
+	isOpen = false;
+	ismove = false;
 }
 
 void LevelScene::Update() {
+
+	for (auto& levelObject : levelObjects_) {
+		if (levelObject->collider.isContact_[BULLET] && !ismove) {
+			isOpen = true;
+		}
+	}
+
+	if (isOpen) {
+		for (auto& levelObject : levelObjects_) {
+			if (levelObject->collider.tag_ == LDOOR) {
+				levelObject->renderItem.worldTransform_.data_.translate_.x -= 5;
+			}
+			if (levelObject->collider.tag_ == RDOOR) {
+				levelObject->renderItem.worldTransform_.data_.translate_.x += 5;
+			}
+		}
+		ismove = true;
+	}
 
 #ifdef _DEBUG
 	ImGui::Begin("levelObjInfo");
@@ -21,19 +40,6 @@ void LevelScene::Update() {
 	ImGui::EndTabBar();
 	ImGui::End();
 #endif // _DEBUG
-
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->haveCollider) {
-			if (levelObject->collider.isContact_[WALL]) {
-				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
-				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
-			}
-			else {
-				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-			}
-		}
-	}
 
 }
 
@@ -336,12 +342,5 @@ void LevelScene::LevelCreate() {
 		}
 
 		levelObjects_.push_back(std::move(levelObject));
-	}
-
-
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->collider.tag_ == BUTTON) {
-
-		}
 	}
 }

@@ -372,6 +372,12 @@
     <ClCompile Include="DirectXGame\Object\WireFrameSphere.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp">
+      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Entity\Door.cpp">
+      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -670,6 +676,12 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Object\WireFrameSphere.h">
       <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Entity\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Entity\Door.h">
+      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

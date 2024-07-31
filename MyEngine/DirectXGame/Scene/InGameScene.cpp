@@ -57,10 +57,20 @@ void InGameScene::Initialize() {
 	skyboxHandle_ = TextureManager::Load("rostock_laage_airport_4k.dds");
 
 	levelScene_.Initialize("level.json");
+
+	playerCollider_.Initialize(gameCamera_->GetPWorldTransrom(), {.scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::PLAYER, kAABB, true);
+	collisionManager_->AddCollider(&playerCollider_);
+	time_ = 0.0f;
 }
 
 void InGameScene::Update() {
-
+	time_ += 1.0f / 60.0f;
+	if (time_ >= 15) {
+		sceneNo_ = GAMECLEAR;
+	}
+	if (playerCollider_.isContact_[WALL] || playerCollider_.isContact_[LDOOR] || playerCollider_.isContact_[RDOOR]) {
+		sceneNo_ = GAMEOVER;
+	}
 	//カメラの更新
 #ifdef _DEBUG
 	ImGui::Begin("Debug");
@@ -82,6 +92,16 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
+
+	if (input_->IsMouseTrigger(0)) {
+		std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
+		bullet->Initialize();
+		bullets_.push_back(std::move(bullet));
+	}
+	
+	for (auto& bullet : bullets_) {
+		bullet->Update();
+	}
 
 	levelScene_.Update();
 
@@ -150,6 +170,9 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
+	for (auto& bullet : bullets_) {
+		bullet->Draw();
+	}
 	levelScene_.Draw();
 	collisionManager_->Draw();
 
