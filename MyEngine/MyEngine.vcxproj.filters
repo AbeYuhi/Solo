@@ -139,6 +139,9 @@
     <Filter Include="Shader\Object2d">
       <UniqueIdentifier>{13081d4f-5fc3-40ad-a222-723043789000}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Skybox">
+      <UniqueIdentifier>{1943997b-66c7-4e2f-888d-c101cedb432d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -219,6 +222,9 @@
     <ClCompile Include="DirectXGame\Manager\ParticleManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\testParticle.cpp">
+      <Filter>ソース ファイル\GameObject\Particle</Filter>
+    </ClCompile>
     <ClCompile Include="DirectXGame\Data\TextureData.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
@@ -294,6 +300,12 @@
     <ClCompile Include="DirectXGame\Data\SpriteItem.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
+      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.cpp">
+      <Filter>ソース ファイル\GameObject\Particle\Sprite</Filter>
+    </ClCompile>
     <ClCompile Include="DirectXGame\Object\WireFrameSpriteBox.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -302,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\LoadFile\LoadCSV.cpp">
       <Filter>ソース ファイル\LoadFile</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Map\CreateStage.cpp">
+      <Filter>ソース ファイル\GameObject\Map</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Data\Collider.cpp">
       <Filter>ソース ファイル\Data</Filter>
@@ -342,14 +357,8 @@
     <ClCompile Include="DirectXGame\Manager\SrvManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp">
-      <Filter>ソース ファイル\GameObject\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
-      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXGame\GameObject\Entity\Door.cpp">
-      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    <ClCompile Include="DirectXGame\Object\SkyBox.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\LoadFile\LevelScene.cpp">
       <Filter>ソース ファイル\LoadFile</Filter>
@@ -359,6 +368,9 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\Math\Sphere.cpp">
       <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Object\WireFrameSphere.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +479,9 @@
     <ClInclude Include="DirectXGame\Manager\ParticleManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\testParticle.h">
+      <Filter>ヘッダー ファイル\GameObject\Particle</Filter>
+    </ClInclude>
     <ClInclude Include="DirectXGame\Data\TextureData.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
@@ -542,9 +557,6 @@
     <ClInclude Include="DirectXGame\Data\AccelerationField.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Math\AABB.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\Base\Framework\Framework.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
@@ -569,6 +581,12 @@
     <ClInclude Include="DirectXGame\Data\SpriteItem.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h">
+      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\Sprite\SpriteParticle.h">
+      <Filter>ヘッダー ファイル\GameObject\Particle\Sprite</Filter>
+    </ClInclude>
     <ClInclude Include="DirectXGame\Object\WireFrameSpriteBox.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
@@ -580,6 +598,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Data\Mesh.h">
       <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Map\CreateStage.h">
+      <Filter>ヘッダー ファイル\GameObject\Map</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Data\Collider.h">
       <Filter>ヘッダー ファイル\Data</Filter>
@@ -626,23 +647,29 @@
     <ClInclude Include="DirectXGame\Manager\SrvManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Entity\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    <ClInclude Include="DirectXGame\Object\SkyBox.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.h">
-      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXGame\GameObject\Entity\Door.h">
-      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    <ClInclude Include="DirectXGame\Data\HSVMaterial.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\LoadFile\LevelScene.h">
       <Filter>ヘッダー ファイル\LoadFile</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Data\LevelData.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Math\OBB.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Math\Sphere.h">
       <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Math\AABB.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Object\WireFrameSphere.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -666,6 +693,9 @@
     </None>
     <None Include="Resources\Shaders\Object2d.hlsli">
       <Filter>Shader\Object2d</Filter>
+    </None>
+    <None Include="Resources\Shaders\Skybox.hlsli">
+      <Filter>Shader\Skybox</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +748,15 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Object2d.PS.hlsl">
       <Filter>Shader\Object2d</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Skybox.PS.hlsl">
+      <Filter>Shader\Skybox</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Skybox.VS.hlsl">
+      <Filter>Shader\Skybox</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffect\HSVFilter.PS.hlsl">
+      <Filter>Shader\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

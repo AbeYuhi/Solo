@@ -40,7 +40,12 @@ void LevelScene::Update() {
 void LevelScene::Draw() {
 
 	for (auto& levelObject : levelObjects_) {
-		levelObject->model->Draw(levelObject->renderItem);
+		if (levelObject->collider.tag_ == BUTTON) {
+			levelObject->model->Draw(levelObject->renderItem, 0);
+		}
+		else {
+			levelObject->model->Draw(levelObject->renderItem, 1);
+		}
 	}
 
 }
@@ -281,6 +286,7 @@ void LevelScene::LevelCreate() {
 		levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
 		levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 		levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
+		levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 		levelObject->model = Model::Create(objectData.fileName);
 		levelObject->objName = objectData.objName;
 

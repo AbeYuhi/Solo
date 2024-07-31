@@ -13,6 +13,9 @@ void InGameCamera::Initialize() {
 	//カメラの初期化
 	Base3DCamera::Initialize();
 
+	transform_.translate_.z = -100;
+	transform_.translate_.y = 20;
+
 	cameraName_ = "inGame";
 
 	//カメラが切り取る範囲

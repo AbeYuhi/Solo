@@ -328,9 +328,19 @@
             },
             "file_name": "cube.obj",
             "collider": {
-                "type": "NONE",
+                "type": "AABB",
                 "tag": "BUTTON",
-                "collision_check": true
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
             }
         },
         {

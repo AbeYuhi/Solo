@@ -67,26 +67,5 @@ private:
 	uint32_t fenceHandle_;
 	uint32_t skyboxHandle_;
 
-	//描画モデル
-	std::unique_ptr<TestParticle> testParticle1_;
-
-	std::shared_ptr<Model> yukariModel_;
-	RenderItem yukariModelInfo_;
-
-	std::shared_ptr<Model> walkModel_;
-	std::shared_ptr<Model> sneakWalkModel_;
-	std::shared_ptr<Model> boxModel_;
-	RenderItem walkModelInfo_;
-	RenderItem boxModelInfo_;
-
-	std::shared_ptr<SkyBox> skybox_;
-	RenderItem skyboxInfo_;
-
-	std::shared_ptr<Sprite> sprite_;
-	SpriteItem spriteInfo_;
-
-	//サウンド
-	uint32_t soundHandle_;
-
 	LevelScene levelScene_;
 };

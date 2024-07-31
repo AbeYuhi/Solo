@@ -56,40 +56,7 @@ void InGameScene::Initialize() {
 	fenceHandle_ = TextureManager::Load("fence.png");
 	skyboxHandle_ = TextureManager::Load("rostock_laage_airport_4k.dds");
 
-	//ゲームオブジェクト
-	testParticle1_ = std::make_unique<TestParticle>();
-	testParticle1_->Initialize();
-	
-	//yukariModel_ = Model::Create("yukari", "yukari.obj");
-	yukariModel_ = Model::Create("yukariGLTF", "yukariGLTF.gltf");
-	yukariModelInfo_.Initialize();
-	yukariModelInfo_.SetModel(yukariModel_.get());
-	yukariModelInfo_.materialInfo_.material_->enableLightint = false;
-	yukariModelInfo_.materialInfo_.environmentTextureHandle_ = skyboxHandle_;
-
-	walkModel_ = Model::Create("human", "walk.gltf");
-	sneakWalkModel_ = Model::Create("human", "sneakWalk.gltf");
-	boxModel_ = Model::Create("AnimatedCube", "AnimatedCube.gltf");
-
-	walkModelInfo_.Initialize();
-	walkModelInfo_.materialInfo_.material_->enableLightint = true;
-	walkModelInfo_.materialInfo_.environmentTextureHandle_ = skyboxHandle_;
-	walkModelInfo_.SetModel(walkModel_.get());
-	walkModelInfo_.SetAnimation(walkModel_->GetAnimationData());
-
-	boxModelInfo_.Initialize();
-	boxModelInfo_.materialInfo_.environmentTextureHandle_ = skyboxHandle_;
-	boxModelInfo_.SetModel(boxModel_.get());
-	boxModelInfo_.SetAnimation(boxModel_->GetAnimationData());
-
-	skybox_ = SkyBox::Create(skyboxHandle_);
-	skyboxInfo_.Initialize();
-	skyboxInfo_.worldTransform_.data_.scale_ *= 100;
-
-	sprite_ = Sprite::Create();
-	spriteInfo_.Initialize(uvCheckerHandle_);
-
-	levelScene_.Initialize("a.json");
+	levelScene_.Initialize("level.json");
 }
 
 void InGameScene::Update() {
@@ -116,9 +83,6 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	//パーティクルの更新
-	testParticle1_->Update();
-
 	levelScene_.Update();
 
 	collisionManager_->Update();
@@ -126,11 +90,6 @@ void InGameScene::Update() {
 
 	ImGui::Begin("RenderItemInfo");
 	ImGui::BeginTabBar("RenderItemInfo");
-	ImGuiManager::GetInstance()->RenderItemDebug("yukariModel", yukariModelInfo_);
-	ImGuiManager::GetInstance()->RenderItemDebug("human", walkModelInfo_);
-	ImGuiManager::GetInstance()->RenderItemDebug("boxModel", boxModelInfo_);
-	ImGuiManager::GetInstance()->RenderItemDebug("skybox", skyboxInfo_);
-	ImGuiManager::GetInstance()->SpriteItemDebug("sprite", spriteInfo_);
 	ImGui::EndTabBar();
 	ImGui::End();
 
@@ -187,16 +146,9 @@ void InGameScene::Draw() {
 
 	///前面スプライトの描画開始
 
-	sprite_->Draw(spriteInfo_);
-
 	///前面スプライトの描画終了
 
 	///オブジェクトの描画開始
-
-	/*yukariModel_->Draw(yukariModelInfo_);
-	walkModel_->Draw(walkModelInfo_);
-	boxModel_->Draw(boxModelInfo_);
-	skybox_->Draw(skyboxInfo_);*/
 
 	levelScene_.Draw();
 	collisionManager_->Draw();
