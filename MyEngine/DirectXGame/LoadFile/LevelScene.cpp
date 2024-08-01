@@ -7,29 +7,10 @@ void LevelScene::Initialize(std::string fileName) {
 
 	//ステージの生成
 	LevelCreate();
-	isOpen = false;
-	ismove = false;
+
 }
 
 void LevelScene::Update() {
-
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->collider.isContact_[BULLET] && !ismove) {
-			isOpen = true;
-		}
-	}
-
-	if (isOpen) {
-		for (auto& levelObject : levelObjects_) {
-			if (levelObject->collider.tag_ == LDOOR) {
-				levelObject->renderItem.worldTransform_.data_.translate_.x -= 5;
-			}
-			if (levelObject->collider.tag_ == RDOOR) {
-				levelObject->renderItem.worldTransform_.data_.translate_.x += 5;
-			}
-		}
-		ismove = true;
-	}
 
 #ifdef _DEBUG
 	ImGui::Begin("levelObjInfo");
@@ -41,17 +22,25 @@ void LevelScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	for (auto& levelObject : levelObjects_) {
+		if (levelObject->haveCollider) {
+			if (levelObject->collider.isContact_[WALL]) {
+				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
+				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
+			}
+			else {
+				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
+				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
+			}
+		}
+	}
+
 }
 
 void LevelScene::Draw() {
 
 	for (auto& levelObject : levelObjects_) {
-		if (levelObject->collider.tag_ == BUTTON) {
-			levelObject->model->Draw(levelObject->renderItem, 0);
-		}
-		else {
-			levelObject->model->Draw(levelObject->renderItem, 1);
-		}
+		levelObject->model->Draw(levelObject->renderItem);
 	}
 
 }
@@ -110,6 +99,13 @@ void LevelScene::LoadFile(std::string fileName) {
 
 			if (object.contains("file_name")) {
 				objectData.fileName = object["file_name"];
+			}
+
+			if (object.contains("draw_check")) {
+				objectData.drawCheck = object["draw_check"];
+			}
+			else {
+				objectData.drawCheck = true;
 			}
 
 			//トランスフォーム
@@ -212,6 +208,10 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 				objectData.fileName = object["file_name"];
 			}
 
+			if (object.contains("draw_check")) {
+				objectData.drawCheck = object["draw_check"];
+			}
+
 			//トランスフォーム
 			json& transform = object["transform"];
 			//平行移動
@@ -287,14 +287,21 @@ void LevelScene::LevelCreate() {
 
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData_->objects) {
+
 		std::unique_ptr<LevelObject> levelObject = std::make_unique<LevelObject>();
 		levelObject->renderItem.Initialize();
 		levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
 		levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 		levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-		levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 		levelObject->model = Model::Create(objectData.fileName);
 		levelObject->objName = objectData.objName;
+
+		if (objectData.drawCheck) {
+			levelObject->renderItem.materialInfo_.isInvisible_ = false;
+		}
+		else {
+			levelObject->renderItem.materialInfo_.isInvisible_ = true;
+		}
 
 		if (objectData.collider) {
 			ColliderType type = kAABB;
@@ -342,5 +349,12 @@ void LevelScene::LevelCreate() {
 		}
 
 		levelObjects_.push_back(std::move(levelObject));
+	}
+
+
+	for (auto& levelObject : levelObjects_) {
+		if (levelObject->collider.tag_ == BUTTON) {
+
+		}
 	}
 }
