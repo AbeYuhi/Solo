@@ -24,15 +24,9 @@ void InGameScene::Initialize() {
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
 
-	//デバックモード中ならdebugカメラを有効に
-	isDebugCamera_ = debugMode_;
-
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
 	gameCamera_->Initialize();
-	//デバッグカメラ
-	debugCamera_ = std::make_unique<DebugCamera>();
-	debugCamera_->Initialize();
 
 	//スプライトカメラの初期化
 	spriteCamera_->Initialize();
@@ -56,36 +50,13 @@ void InGameScene::Initialize() {
 	fenceHandle_ = TextureManager::Load("fence.png");
 	skyboxHandle_ = TextureManager::Load("rostock_laage_airport_4k.dds");
 
-	levelScene_.Initialize("level.json");
-
-	playerCollider_.Initialize(gameCamera_->GetPWorldTransrom(), {.scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::PLAYER, kAABB, true);
-	collisionManager_->AddCollider(&playerCollider_);
-	time_ = 0.0f;
+	levelScene_.Initialize("test.json");
+	gameCamera_->SetWorldTransrom(levelScene_.GetCameraTransform());
+	EulerTransformData data = levelScene_.GetCameraTransform();
 }
 
 void InGameScene::Update() {
-	time_ += 1.0f / 60.0f;
-	if (time_ >= 15) {
-		sceneNo_ = GAMECLEAR;
-	}
-	if (playerCollider_.isContact_[WALL] || playerCollider_.isContact_[LDOOR] || playerCollider_.isContact_[RDOOR]) {
-		sceneNo_ = GAMEOVER;
-	}
-	//カメラの更新
-#ifdef _DEBUG
-	ImGui::Begin("Debug");
-	ImGui::Checkbox("UseDebugCamera", &isDebugCamera_);
-	ImGui::End();
-#endif // _DEBUG
-
-	if (isDebugCamera_) {
-		debugCamera_->Update();
-		mainCamera_->Update(debugCamera_->GetWorldTransrom(), debugCamera_->GetWorldMatrix(), debugCamera_->GetProjectionMatrix());
-	}
-	else {
-		gameCamera_->Update();
-		mainCamera_->Update(gameCamera_->GetWorldTransrom(), gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
-	}
+	gameCamera_->Update();
 	//スプライトカメラの更新
 	spriteCamera_->Update();
 	//ライトの更新
@@ -93,15 +64,26 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	if (input_->IsMouseTrigger(0)) {
+	if (levelScene_.IsGameClear()) {
+		sceneNo_ = TITLE;
+	}
+
+	if (input_->IsMouseTrigger(0) && input_->IsPushKey(DIK_LSHIFT)) {
 		std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
 		bullet->Initialize();
 		bullets_.push_back(std::move(bullet));
 	}
-	
-	for (auto& bullet : bullets_) {
+
+	bullets_.remove_if([](auto& bullet) {
 		bullet->Update();
-	}
+
+		if (bullet->GetLifeTime() <= 0.0f) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	});
 
 	levelScene_.Update();
 

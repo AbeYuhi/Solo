@@ -54,9 +54,6 @@ private:
 	LightObjectManager* lightObj_;
 	//ゲームカメラ
 	std::unique_ptr<InGameCamera> gameCamera_;
-	//デバッグカメラ
-	std::unique_ptr<DebugCamera> debugCamera_;
-	bool isDebugCamera_;
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 

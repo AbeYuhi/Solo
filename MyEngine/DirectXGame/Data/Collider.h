@@ -13,6 +13,7 @@
 enum ColliderTag {
 	PLAYER,
 	BULLET,
+	GOAL,
 	WALL,
 	BUTTON,
 	LDOOR,
@@ -33,7 +34,8 @@ struct Collider {
 	Vector3 scale_;
 	Vector3* velocity_;
 	Vector3 contactPoint_;
-	Vector3 normalVector_;
+	Vector3 normal_;
+	Vector3 reflection_;
 	ColliderTag tag_;
 	ColliderType type_;
 	std::variant<AABB, OBB, Sphere> colliderShape_;

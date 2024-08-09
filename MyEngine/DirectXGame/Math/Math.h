@@ -1,9 +1,12 @@
 #pragma once
 #include <math.h>
+#include <algorithm>
 #include "Vector3.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
 #include "AABB.h"
+#include "OBB.h"
+#include "Sphere.h"
 
 struct EulerTransformData {
 	Vector3 scale_;
@@ -144,10 +147,62 @@ Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, f
 
 #pragma endregion
 
+#pragma region OBB
+
+bool IsCollision(const OBB& obb, const Sphere& sphere);
+
+bool IsCollision(const Sphere& sphere, const OBB& obb);
+
+bool OverlapOnAxis(const OBB& obb1, const OBB& obb2, const Vector3& axis);
+
+bool IsCollision(const OBB& obb1, const OBB& obb2);
+
+bool IsCollision(const OBB& obb, const AABB& aabb);
+
+bool IsCollision(const AABB& aabb, const OBB& obb);
+
+#pragma endregion
+
+#pragma region Sphere
+
+bool IsCollision(const Sphere& s1, const Sphere& s2);
+
+bool IsCollision(const Sphere& sphere, const AABB& aabb);
+
+bool IsCollision(const AABB& aabb, const Sphere& sphere);
+
+#pragma endregion
+
 void ControlMinMax(AABB& a);
 
 bool IsCollision(const AABB& a, const AABB& b);
 
 bool IsCollision(const AABB& aabb, const Vector3& point);
+
+Vector3 CalculateNormal(const AABB& a, const AABB& b);
+Vector3 CalculateNormal(const AABB& a, const OBB& b);
+Vector3 CalculateNormal(const AABB& a, const Sphere& b);
+
+Vector3 CalculateNormal(const OBB& a, const OBB& b);
+Vector3 CalculateNormal(const OBB& a, const AABB& b);
+Vector3 CalculateNormal(const OBB& a, const Sphere& b);
+
+Vector3 CalculateNormal(const Sphere& a, const Sphere& b);
+Vector3 CalculateNormal(const Sphere& a, const AABB& b);
+Vector3 CalculateNormal(const Sphere& a, const OBB& b);
+
+Vector3 GetClosestPointOnOBB(const AABB& aabb0, const AABB& aabb1);
+Vector3 GetClosestPointOnOBB(const AABB& aabb, const OBB& obb);
+Vector3 GetClosestPointOnOBB(const AABB& aabb, const Sphere& sphere);
+
+Vector3 GetClosestPointOnOBB(const OBB& obb, const AABB& aabb);
+Vector3 GetClosestPointOnOBB(const OBB& obb0, const OBB& obb1);
+Vector3 GetClosestPointOnOBB(const OBB& obb, const Sphere& sphere);
+
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const AABB& aabb);
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb);
+Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Sphere& sphere1);
+
+Vector3 CalculateReflection(Vector3 incoming, Vector3 normal);
 
 EulerTransformData ExtractTransform(const Matrix4x4& matrix);

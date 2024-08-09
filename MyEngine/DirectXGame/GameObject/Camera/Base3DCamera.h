@@ -18,6 +18,7 @@ public:
 
 	virtual void Update();
 
+	inline void SetWorldTransrom(EulerTransformData data) { transform_ = data; }
 	inline EulerTransformData GetWorldTransrom() { return transform_; }
 	inline EulerTransformData* GetPWorldTransrom() { return &transform_; }
 	inline Matrix4x4 GetWorldMatrix() { return worldMatrix_; }

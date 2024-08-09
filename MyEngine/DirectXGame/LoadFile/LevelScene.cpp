@@ -23,15 +23,16 @@ void LevelScene::Update() {
 #endif // _DEBUG
 
 	for (auto& levelObject : levelObjects_) {
+		if (levelObject->type == kCamera) {
+			if (levelObject->collider.isContact_[GOAL]) {
+				gameClear = true;
+			}
+		}
+	}
+
+	for (auto& levelObject : levelObjects_) {
 		if (levelObject->haveCollider) {
-			if (levelObject->collider.isContact_[WALL]) {
-				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
-				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
-			}
-			else {
-				levelObject->renderItem.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-				levelObject->collider.renderItem_.materialInfo_.material_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-			}
+
 		}
 	}
 
@@ -40,7 +41,9 @@ void LevelScene::Update() {
 void LevelScene::Draw() {
 
 	for (auto& levelObject : levelObjects_) {
-		levelObject->model->Draw(levelObject->renderItem);
+		if (levelObject->type == kMESH) {
+			levelObject->model->Draw(levelObject->renderItem);
+		}
 	}
 
 }
@@ -107,6 +110,8 @@ void LevelScene::LoadFile(std::string fileName) {
 			else {
 				objectData.drawCheck = true;
 			}
+
+			objectData.type = kMESH;
 
 			//トランスフォーム
 			json& transform = object["transform"];
@@ -179,8 +184,76 @@ void LevelScene::LoadFile(std::string fileName) {
 
 
 		//Camera
+		if (type.compare("CAMERA") == 0) {
+			//要素追加
+			levelData_->objects.emplace_back(LevelData::ObjectData{});
+			//今追加した要素の参照を得る
+			LevelData::ObjectData& objectData = levelData_->objects.back();
 
+			objectData.type = kCamera;
 
+			//トランスフォーム
+			json& transform = object["transform"];
+			//平行移動
+			objectData.translation.x = (float)transform["translation"][0];
+			objectData.translation.y = (float)transform["translation"][2];
+			objectData.translation.z = (float)transform["translation"][1];
+			//回転角
+			objectData.rotation.x = -(float)transform["rotation"][0] * (3.14f / 180.0f);
+			objectData.rotation.y = -(float)transform["rotation"][2] * (3.14f / 180.0f);
+			objectData.rotation.z = -(float)transform["rotation"][1] * (3.14f / 180.0f);
+			//スケーリング
+			objectData.scaling.x = (float)transform["scaling"][0];
+			objectData.scaling.y = (float)transform["scaling"][2];
+			objectData.scaling.z = (float)transform["scaling"][1];
+
+			if (object.contains("collider")) {
+				json& collider = object["collider"];
+				//コライダータイプ
+				LevelData::ObjectCollider colliderData;
+				colliderData.type = collider["type"];
+				if (colliderData.type == "AABB") {
+					//ポジション
+					colliderData.centerPos.x = collider["center"][0];
+					colliderData.centerPos.y = collider["center"][2];
+					colliderData.centerPos.z = collider["center"][1];
+					//回転
+					colliderData.rotate.x = 0.0f;
+					colliderData.rotate.y = 0.0f;
+					colliderData.rotate.z = 0.0f;
+					//サイズ
+					colliderData.size.x = collider["size"][0];
+					colliderData.size.y = collider["size"][2];
+					colliderData.size.z = collider["size"][1];
+				}
+				else if (colliderData.type == "OBB") {
+					//ポジション
+					colliderData.centerPos.x = collider["center"][0];
+					colliderData.centerPos.y = collider["center"][2];
+					colliderData.centerPos.z = collider["center"][1];
+					//回転
+					colliderData.rotate.x = -1 * collider["rotate"][0] * (3.14f / 180.0f);
+					colliderData.rotate.y = -1 * collider["rotate"][2] * (3.14f / 180.0f);
+					colliderData.rotate.z = -1 * collider["rotate"][1] * (3.14f / 180.0f);
+					//サイズ
+					colliderData.size.x = collider["size"][0];
+					colliderData.size.y = collider["size"][2];
+					colliderData.size.z = collider["size"][1];
+				}
+				else if (colliderData.type == "Sphere") {
+
+					//ポジション
+					colliderData.centerPos.x = collider["center"][0];
+					colliderData.centerPos.y = collider["center"][2];
+					colliderData.centerPos.z = collider["center"][1];
+					//サイズ
+					colliderData.radius = collider["radius"];
+				}
+				colliderData.collisionCheck = collider["collision_check"];
+				colliderData.tag = collider["tag"];
+				objectData.collider = colliderData;
+			}
+		}
 	}
 }
 
@@ -192,7 +265,6 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 		std::string type = object["type"].get<std::string>();
 
 		//種類ごとの処理
-
 		//Mesh
 		if (type.compare("MESH") == 0) {
 			//要素追加
@@ -211,6 +283,8 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 			if (object.contains("draw_check")) {
 				objectData.drawCheck = object["draw_check"];
 			}
+
+			objectData.type = kMESH;
 
 			//トランスフォーム
 			json& transform = object["transform"];
@@ -287,20 +361,33 @@ void LevelScene::LevelCreate() {
 
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData_->objects) {
-
 		std::unique_ptr<LevelObject> levelObject = std::make_unique<LevelObject>();
-		levelObject->renderItem.Initialize();
-		levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
-		levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
-		levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-		levelObject->model = Model::Create(objectData.fileName);
-		levelObject->objName = objectData.objName;
+		if (objectData.type == kMESH) {
 
-		if (objectData.drawCheck) {
-			levelObject->renderItem.materialInfo_.isInvisible_ = false;
+			levelObject->renderItem.Initialize();
+			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
+			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
+			levelObject->model = Model::Create(objectData.fileName);
+			levelObject->objName = objectData.objName;
+			levelObject->type = kMESH;
+
+			if (objectData.drawCheck) {
+				levelObject->renderItem.materialInfo_.isInvisible_ = false;
+			}
+			else {
+				levelObject->renderItem.materialInfo_.isInvisible_ = true;
+			}
+
+			if (objectData.parent) {
+				levelObject->renderItem.worldTransform_.parent_ = &levelObjects_[*objectData.parent]->renderItem.worldTransform_;
+			}
 		}
 		else {
-			levelObject->renderItem.materialInfo_.isInvisible_ = true;
+			if (objectData.type == kCamera) {
+				cameraTransform_ = { .scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation };
+				levelObject->type = kCamera;
+			}		
 		}
 
 		if (objectData.collider) {
@@ -320,6 +407,9 @@ void LevelScene::LevelCreate() {
 
 				if (objectData.collider->tag == "WALL") {
 					tag = WALL;
+				}
+				else if (objectData.collider->tag == "GOAL") {
+					tag = GOAL;
 				}
 				else if (objectData.collider->tag == "BUTTON") {
 					tag = BUTTON;
@@ -342,10 +432,6 @@ void LevelScene::LevelCreate() {
 			else {
 				levelObject->haveCollider = false;
 			}
-		}
-
-		if (objectData.parent) {
-			levelObject->renderItem.worldTransform_.parent_ = &levelObjects_[*objectData.parent]->renderItem.worldTransform_;
 		}
 
 		levelObjects_.push_back(std::move(levelObject));

@@ -28,6 +28,9 @@ public:
 
 	void Draw();
 
+	inline EulerTransformData GetCameraTransform() { return cameraTransform_; }
+	inline bool IsGameClear() { return gameClear; }
+
 private: //メンバ関数
 
 	void LoadFile(std::string fileName);
@@ -46,12 +49,14 @@ private: //メンバ変数
 		std::shared_ptr<Model> model;
 		RenderItem renderItem;
 		bool haveCollider;
+		ObjectType type;
 		Collider collider;
 	};
 
 	std::vector<std::unique_ptr<LevelObject>> levelObjects_;
 
-	bool isOpen;
-	bool ismove;
+	EulerTransformData cameraTransform_;
+
+	bool gameClear;
 };
 

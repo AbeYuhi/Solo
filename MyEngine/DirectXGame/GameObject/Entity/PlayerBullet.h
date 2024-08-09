@@ -18,6 +18,8 @@ public:
 
 	void Draw();
 
+	inline float GetLifeTime() { return lifeTime_; }
+
 private:
 	InputManager* input_;
 	std::shared_ptr<Model> model_;
@@ -27,6 +29,6 @@ private:
 	float lifeTime_;
 	Vector3 velocity_;
 	Vector3 reticlePos_;
-
+	float speed_;
 };
 

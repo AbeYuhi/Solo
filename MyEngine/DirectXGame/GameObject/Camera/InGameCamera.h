@@ -8,6 +8,8 @@
 #include "DirectXGame/GameObject/Camera/Base3DCamera.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/InputManager.h"
+#include "GameObject/Camera/MainCamera.h"
+#include "GameObject/Camera/DebugCamera.h"
 
 class InGameCamera : public Base3DCamera
 {
@@ -20,4 +22,7 @@ public:
 	void Update() override;
 
 private:
+	//デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_;
+	bool isDebugCamera_;
 };

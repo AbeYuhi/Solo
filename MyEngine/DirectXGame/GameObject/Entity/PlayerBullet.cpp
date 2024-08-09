@@ -32,15 +32,24 @@ void PlayerBullet::Initialize() {
 	reticlePos_ = posNear + (mouseDirection * kDistanceTestObject);
 
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
-	velocity_ *= 20.0f;
+	speed_ = 20.0f;
 
-	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {1, 1, 1}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
+	lifeTime_ = 5.0f;
+
+	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
 	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
 void PlayerBullet::Update() {
-	//velocity_.y -= 2.0f * (1.0f / 60.0f);
-	renderItem_.worldTransform_.data_.translate_ += velocity_ * (1.0f / 60.0f);
+	lifeTime_ -= 1.0f / 60.0f;
+	velocity_.y -= 1.0f * (1.0f / 60.0f);
+
+	if (collider_.isContact_[WALL]) {
+		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
+		velocity_ = collider_.reflection_;
+	}
+
+	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
 
 }
 

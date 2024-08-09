@@ -44,12 +44,19 @@ void Collider::Update() {
 
 	EulerTransformData combinedData = ExtractTransform(combinedMatrix);
 
+	//// 合成された位置
+	//combinedPosition = combinedData.translate_;
+	//// 合成された回転
+	//combinedRotation = combinedData.rotate_;
+	//// 合成されたスケール
+	//combinedScale = combinedData.scale_;
+
 	// 合成された位置
-	combinedPosition = combinedData.translate_;
+	combinedPosition = objData_->translate_;
 	// 合成された回転
-	combinedRotation = combinedData.rotate_;
+	combinedRotation = objData_->rotate_;
 	// 合成されたスケール
-	combinedScale = combinedData.scale_;
+	combinedScale = objData_->scale_ * colliderData_.scale_;
 
 	std::visit([&](auto& shape) {
 		using T = std::decay_t<decltype(shape)>;

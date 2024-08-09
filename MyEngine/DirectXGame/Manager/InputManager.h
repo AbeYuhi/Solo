@@ -19,6 +19,11 @@ public: //メンバ関数
 
 	void Update();
 
+	/// <summary>
+	/// キーの入力状態の取得関数
+	/// </summary>
+	/// <param name="keyNum">DIK_</param>
+	/// <returns></returns>
 	inline bool IsPushKey(BYTE keyNum) {
 		if (keys_[keyNum]) {
 			return true;

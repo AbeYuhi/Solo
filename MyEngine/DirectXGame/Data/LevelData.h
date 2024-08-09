@@ -6,6 +6,12 @@
 #include "Math/Vector3.h"
 #include "Data/Transform.h"
 
+enum ObjectType {
+	kMESH,
+	kLight,
+	kCamera,
+};
+
 struct LevelData {
 	struct ObjectCollider {
 		std::string type;
@@ -26,6 +32,7 @@ struct LevelData {
 		bool drawCheck;
 		std::optional<ObjectCollider> collider;
 		std::optional<int32_t> parent;
+		ObjectType type;
 	};
 
 	std::vector<ObjectData> objects;
