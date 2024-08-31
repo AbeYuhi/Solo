@@ -28,7 +28,7 @@ void GameManager::Initialize() {
 
 	//シーンマネージャーの初期化(初期シーンの設定)
 	sceneManager_ = SceneManager::GetInstance();
-	sceneManager_->Initialize(INGAME);
+	sceneManager_->Initialize(TITLE);
 
 }
 

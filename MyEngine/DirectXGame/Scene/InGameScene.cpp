@@ -24,10 +24,6 @@ void InGameScene::Initialize() {
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
 
-	//インゲームカメラ
-	gameCamera_ = std::make_unique<InGameCamera>();
-	gameCamera_->Initialize();
-
 	//スプライトカメラの初期化
 	spriteCamera_->Initialize();
 
@@ -50,13 +46,12 @@ void InGameScene::Initialize() {
 	fenceHandle_ = TextureManager::Load("fence.png");
 	skyboxHandle_ = TextureManager::Load("rostock_laage_airport_4k.dds");
 
+	player_.Initialize();
+
 	levelScene_.Initialize("test.json");
-	gameCamera_->SetWorldTransrom(levelScene_.GetCameraTransform());
-	EulerTransformData data = levelScene_.GetCameraTransform();
 }
 
 void InGameScene::Update() {
-	gameCamera_->Update();
 	//スプライトカメラの更新
 	spriteCamera_->Update();
 	//ライトの更新
@@ -64,28 +59,16 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	if (levelScene_.IsGameClear()) {
-		sceneNo_ = TITLE;
-	}
-
-	if (input_->IsMouseTrigger(0) && input_->IsPushKey(DIK_LSHIFT)) {
-		std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
-		bullet->Initialize();
-		bullets_.push_back(std::move(bullet));
-	}
-
-	bullets_.remove_if([](auto& bullet) {
-		bullet->Update();
-
-		if (bullet->GetLifeTime() <= 0.0f) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	});
+	player_.Update();
 
 	levelScene_.Update();
+
+	if (levelScene_.IsGameClear()) {
+		sceneNo_ = GAMECLEAR;
+	}
+	if (player_.IsGameOver()) {
+		sceneNo_ = GAMEOVER;
+	}
 
 	collisionManager_->Update();
 #ifdef _DEBUG
@@ -152,9 +135,7 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
-	for (auto& bullet : bullets_) {
-		bullet->Draw();
-	}
+	player_.Draw();
 	levelScene_.Draw();
 	collisionManager_->Draw();
 

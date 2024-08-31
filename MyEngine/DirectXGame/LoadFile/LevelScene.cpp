@@ -2,12 +2,15 @@
 
 void LevelScene::Initialize(std::string fileName) {
 
+	//インゲームカメラ
+	gameCamera_ = std::make_unique<InGameCamera>();
+	gameCamera_->Initialize();
+
 	//ステージの読み込み
 	LoadFile(fileName);
 
 	//ステージの生成
 	LevelCreate();
-
 }
 
 void LevelScene::Update() {
@@ -22,10 +25,15 @@ void LevelScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	gameCamera_->Update();
+
 	for (auto& levelObject : levelObjects_) {
 		if (levelObject->type == kCamera) {
 			if (levelObject->collider.isContact_[GOAL]) {
 				gameClear = true;
+			}
+			else {
+				gameClear = false;
 			}
 		}
 	}
@@ -199,7 +207,7 @@ void LevelScene::LoadFile(std::string fileName) {
 			objectData.translation.y = (float)transform["translation"][2];
 			objectData.translation.z = (float)transform["translation"][1];
 			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][0] * (3.14f / 180.0f);
+			objectData.rotation.x = -((float)transform["rotation"][0] - 90.0f) * (3.14f / 180.0f);
 			objectData.rotation.y = -(float)transform["rotation"][2] * (3.14f / 180.0f);
 			objectData.rotation.z = -(float)transform["rotation"][1] * (3.14f / 180.0f);
 			//スケーリング
@@ -385,7 +393,7 @@ void LevelScene::LevelCreate() {
 		}
 		else {
 			if (objectData.type == kCamera) {
-				cameraTransform_ = { .scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation };
+				gameCamera_->SetWorldTransrom({.scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation});
 				levelObject->type = kCamera;
 			}		
 		}
@@ -421,12 +429,23 @@ void LevelScene::LevelCreate() {
 					tag = RDOOR;
 				}
 
-				levelObject->collider.Initialize(
-					levelObject->renderItem.worldTransform_.GetPEulerTransformData(),
-					{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
-					tag,
-					type,
-					objectData.collider->collisionCheck);
+				if (objectData.type == kCamera) {
+					tag = CAMERA;
+					levelObject->collider.Initialize(
+						gameCamera_->GetPWorldTransrom(),
+						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
+						tag,
+						type,
+						objectData.collider->collisionCheck);
+				}
+				else {
+					levelObject->collider.Initialize(
+						levelObject->renderItem.worldTransform_.GetPEulerTransformData(),
+						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
+						tag,
+						type,
+						objectData.collider->collisionCheck);
+				}
 				CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
 			}
 			else {

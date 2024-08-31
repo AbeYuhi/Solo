@@ -22,7 +22,7 @@
 #include "GameObject/Particle/testParticle.h"
 #include "GameObject/Particle/Object/PlaneParticle.h"
 #include "GameObject/Particle/Sprite/SpriteParticle.h"
-#include "GameObject/Entity/PlayerBullet.h"
+#include "GameObject/Entity/Player.h"
 #include "LoadFile/LevelScene.h"
 #include "Scene/IScene.h"
 
@@ -52,8 +52,6 @@ private:
 	SpriteCamera* spriteCamera_;
 	//ライト
 	LightObjectManager* lightObj_;
-	//ゲームカメラ
-	std::unique_ptr<InGameCamera> gameCamera_;
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 
@@ -67,9 +65,9 @@ private:
 
 	LevelScene levelScene_;
 
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-
 	Collider playerCollider_;
+
+	Player player_;
 
 	float time_;
 };

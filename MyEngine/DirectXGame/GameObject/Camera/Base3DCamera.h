@@ -7,6 +7,7 @@
 #include "DirectXGame/Base/WinApp/WinApp.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/InputManager.h"
+#include "Manager/CollisionManager.h"
 
 class Base3DCamera
 {
@@ -19,6 +20,7 @@ public:
 	virtual void Update();
 
 	inline void SetWorldTransrom(EulerTransformData data) { transform_ = data; }
+	inline void ParentWorldTransrom(const EulerTransformData& data) { transform_ = data; }
 	inline EulerTransformData GetWorldTransrom() { return transform_; }
 	inline EulerTransformData* GetPWorldTransrom() { return &transform_; }
 	inline Matrix4x4 GetWorldMatrix() { return worldMatrix_; }

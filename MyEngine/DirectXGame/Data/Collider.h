@@ -15,9 +15,11 @@ enum ColliderTag {
 	BULLET,
 	GOAL,
 	WALL,
+	CRYSTAL,
 	BUTTON,
 	LDOOR,
 	RDOOR,
+	CAMERA,
 	kNumColliderTag,
 };
 

@@ -10,6 +10,8 @@
 #include "DirectXGame/Math/Vector3.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/CollisionManager.h"
+#include "GameObject/Camera/MainCamera.h"
+#include "GameObject/Camera/InGameCamera.h"
 #include "Object/Model.h"
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
@@ -28,8 +30,7 @@ public:
 
 	void Draw();
 
-	inline EulerTransformData GetCameraTransform() { return cameraTransform_; }
-	inline bool IsGameClear() { return gameClear; }
+	inline bool IsGameClear() const { return gameClear; }
 
 private: //メンバ関数
 
@@ -54,9 +55,8 @@ private: //メンバ変数
 	};
 
 	std::vector<std::unique_ptr<LevelObject>> levelObjects_;
-
-	EulerTransformData cameraTransform_;
-
+	//ゲームカメラ
+	std::unique_ptr<InGameCamera> gameCamera_;
 	bool gameClear;
 };
 
