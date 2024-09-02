@@ -41,13 +41,6 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	//画像読み込み
-	monsterBallHandle_ = TextureManager::Load("monsterBall.png");
-	fenceHandle_ = TextureManager::Load("fence.png");
-	skyboxHandle_ = TextureManager::Load("rostock_laage_airport_4k.dds");
-
-	player_.Initialize();
-
 	levelScene_.Initialize("test.json");
 }
 
@@ -59,14 +52,12 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	player_.Update();
-
 	levelScene_.Update();
 
 	if (levelScene_.IsGameClear()) {
 		sceneNo_ = GAMECLEAR;
 	}
-	if (player_.IsGameOver()) {
+	if (levelScene_.IsGameOver()) {
 		sceneNo_ = GAMEOVER;
 	}
 
@@ -135,7 +126,6 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
-	player_.Draw();
 	levelScene_.Draw();
 	collisionManager_->Draw();
 

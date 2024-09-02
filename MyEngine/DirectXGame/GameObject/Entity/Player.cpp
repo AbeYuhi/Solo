@@ -3,6 +3,28 @@
 void Player::Initialize() {
 	numberofSlashAttacks_ = 10;
 	gameOverTime_ = 0.0f;
+	comboDestroyCount_ = 0;
+
+	numberSpriteTextures_[0] = TextureManager::Load("numberTexture/0.png");
+	numberSpriteTextures_[1] = TextureManager::Load("numberTexture/1.png");
+	numberSpriteTextures_[2] = TextureManager::Load("numberTexture/2.png");
+	numberSpriteTextures_[3] = TextureManager::Load("numberTexture/3.png");
+	numberSpriteTextures_[4] = TextureManager::Load("numberTexture/4.png");
+	numberSpriteTextures_[5] = TextureManager::Load("numberTexture/5.png");
+	numberSpriteTextures_[6] = TextureManager::Load("numberTexture/6.png");
+	numberSpriteTextures_[7] = TextureManager::Load("numberTexture/7.png");
+	numberSpriteTextures_[8] = TextureManager::Load("numberTexture/8.png");
+	numberSpriteTextures_[9] = TextureManager::Load("numberTexture/9.png");
+	
+	numberSprites_[0] = Sprite::Create();
+	numberSprites_[1] = Sprite::Create();
+	numberSprites_[2] = Sprite::Create();
+	numberInfo_[0].Initialize(numberSpriteTextures_[0], {30, 50});
+	numberInfo_[0].worldTransform_.data_.translate_ = { 90, 50, 0 };
+	numberInfo_[1].Initialize(numberSpriteTextures_[0], {30, 50});
+	numberInfo_[1].worldTransform_.data_.translate_ = { 60, 50, 0 };
+	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
+	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
 }
 
 void Player::Update() {
@@ -38,10 +60,59 @@ void Player::Update() {
 			return false;
 		}
 		});
+
+	// もし number が 0 の場合、桁数は 1 です。
+	digitCount_ = 0;
+	int number = numberofSlashAttacks_;
+	if (number == 0) {
+		digitCount_ = 1;
+	}
+	else {
+		// 負の数の場合は正の数に変換
+		number = abs(number);
+		while (number > 0) {
+			number /= 10;
+			digitCount_++;
+		}
+	}
+
+	if (digitCount_ == 1) {
+		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+	}
+	else if (digitCount_ == 2) {
+		numberInfo_[1].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
+		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+	}
+	else if (digitCount_ == 3) {
+		numberInfo_[2].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 2)];
+		numberInfo_[1].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
+		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+	}
+
+#ifdef _DEBUG
+	ImGui::Begin("Combo");
+	ImGui::Text("ComboNum : %d", comboDestroyCount_);
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 void Player::Draw() {
 	for (auto& bullet : bullets_) {
 		bullet->Draw();
 	}
+
+	if (digitCount_ == 1) {
+		numberSprites_[0]->Draw(numberInfo_[0]);
+	}
+	else if (digitCount_ == 2) {
+		numberSprites_[1]->Draw(numberInfo_[1]);
+		numberSprites_[0]->Draw(numberInfo_[0]);
+	}
+	else if (digitCount_ == 3) {
+		numberSprites_[2]->Draw(numberInfo_[2]);
+		numberSprites_[1]->Draw(numberInfo_[1]);
+		numberSprites_[0]->Draw(numberInfo_[0]);
+	}
+
 }

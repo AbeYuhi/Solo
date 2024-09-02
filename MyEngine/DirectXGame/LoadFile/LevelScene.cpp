@@ -6,6 +6,9 @@ void LevelScene::Initialize(std::string fileName) {
 	gameCamera_ = std::make_unique<InGameCamera>();
 	gameCamera_->Initialize();
 
+	player_.Initialize();
+	invincibilityTime_ = 0.0f;
+
 	//ステージの読み込み
 	LoadFile(fileName);
 
@@ -18,7 +21,7 @@ void LevelScene::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("levelObjInfo");
 	ImGui::BeginTabBar("levelObjInfo");
-	for (auto& levelObject : levelObjects_) {
+	for (auto& levelObject : gameObject_.objDatas_) {
 		ImGuiManager::GetInstance()->RenderItemDebug(levelObject->objName + "info", levelObject->renderItem);
 	}
 	ImGui::EndTabBar();
@@ -26,34 +29,58 @@ void LevelScene::Update() {
 #endif // _DEBUG
 
 	gameCamera_->Update();
+	player_.Update();
 
-	for (auto& levelObject : levelObjects_) {
+	for (auto& levelObject : gameObject_.objDatas_) {
 		if (levelObject->type == kCamera) {
 			if (levelObject->collider.isContact_[GOAL]) {
 				gameClear = true;
 			}
+			else if (player_.IsGameOver()) {
+				gameOver = true;
+			}
 			else {
 				gameClear = false;
+				gameOver = false;
+			}
+
+			if (invincibilityTime_ <= 0.0f) {
+				if (levelObject->collider.isContact_[LDOOR] || levelObject->collider.isContact_[RDOOR]) {
+					int* combo = player_.GetComboDestroyCount();
+					int* num = player_.GetNumberofSlashAttacks();
+
+					*num -= 10;
+					*combo = 0;
+					invincibilityTime_ = 0.25f;
+				}
+			}
+			else {
+				invincibilityTime_ -= 1.0f / 60.0f;
 			}
 		}
 	}
 
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->haveCollider) {
-
-		}
+	for (auto& crystalData : gameObject_.crystalDatas_) {
+		crystalData.Update();
 	}
-
+	for (auto& doorData : gameObject_.doorDatas_) {
+		doorData.Update();
+	}
 }
 
 void LevelScene::Draw() {
 
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->type == kMESH) {
-			levelObject->model->Draw(levelObject->renderItem);
-		}
+	for (auto& levelObject : gameObject_.wallDatas_) {
+		levelObject.model->Draw(levelObject.renderItem);
+	}
+	for (auto& crystalData : gameObject_.crystalDatas_) {
+		crystalData.Draw();
+	}
+	for (auto& doorData : gameObject_.doorDatas_) {
+		doorData.Draw();
 	}
 
+	player_.Draw();
 }
 
 void LevelScene::LoadFile(std::string fileName) {
@@ -369,7 +396,7 @@ void LevelScene::LevelCreate() {
 
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData_->objects) {
-		std::unique_ptr<LevelObject> levelObject = std::make_unique<LevelObject>();
+		std::unique_ptr<ObjData> levelObject = std::make_unique<ObjData>();
 		if (objectData.type == kMESH) {
 
 			levelObject->renderItem.Initialize();
@@ -388,21 +415,18 @@ void LevelScene::LevelCreate() {
 			}
 
 			if (objectData.parent) {
-				levelObject->renderItem.worldTransform_.parent_ = &levelObjects_[*objectData.parent]->renderItem.worldTransform_;
+				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
 			}
 		}
-		else {
-			if (objectData.type == kCamera) {
-				gameCamera_->SetWorldTransrom({.scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation});
-				levelObject->type = kCamera;
-			}		
+		else if (objectData.type == kCamera) {
+			gameCamera_->SetWorldTransrom({ .scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation });
+			levelObject->type = kCamera;
 		}
 
 		if (objectData.collider) {
 			ColliderType type = kAABB;
 			ColliderTag tag = WALL;
 			if (objectData.collider->type != "NONE") {
-				levelObject->haveCollider = true;
 				if (objectData.collider->type == "AABB") {
 					type = kAABB;
 				}
@@ -418,6 +442,9 @@ void LevelScene::LevelCreate() {
 				}
 				else if (objectData.collider->tag == "GOAL") {
 					tag = GOAL;
+				}
+				else if (objectData.collider->tag == "CRYSTAL") {
+					tag = CRYSTAL;
 				}
 				else if (objectData.collider->tag == "BUTTON") {
 					tag = BUTTON;
@@ -448,18 +475,32 @@ void LevelScene::LevelCreate() {
 				}
 				CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
 			}
-			else {
-				levelObject->haveCollider = false;
+		}
+		
+		if (objectData.collider->tag == "BUTTON") {
+			Door door;
+			door.Initialize( levelObject->model, &levelObject->renderItem, &levelObject->collider );
+			gameObject_.doorDatas_.push_back(door);
+		}
+		else if (objectData.collider->tag == "LDOOR") {
+			gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+		}
+		else if (objectData.collider->tag == "RDOOR") {
+			gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+		}
+		else if (objectData.collider->tag == "CRYSTAL") {
+			Crystal crystal;
+			crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+			gameObject_.crystalDatas_.push_back(crystal);
+		}
+		else {
+			if (objectData.type == kMESH) {
+				gameObject_.wallDatas_.push_back(*levelObject);
 			}
 		}
 
-		levelObjects_.push_back(std::move(levelObject));
-	}
-
-
-	for (auto& levelObject : levelObjects_) {
-		if (levelObject->collider.tag_ == BUTTON) {
-
-		}
+		gameObject_.objDatas_.push_back(std::move(levelObject));
 	}
 }

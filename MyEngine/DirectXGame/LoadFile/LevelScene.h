@@ -12,6 +12,9 @@
 #include "DirectXGame/Manager/CollisionManager.h"
 #include "GameObject/Camera/MainCamera.h"
 #include "GameObject/Camera/InGameCamera.h"
+#include "GameObject/Entity/Door.h"
+#include "GameObject/Entity/Crystal.h"
+#include "GameObject/Entity/Player.h"
 #include "Object/Model.h"
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
@@ -31,6 +34,7 @@ public:
 	void Draw();
 
 	inline bool IsGameClear() const { return gameClear; }
+	inline bool IsGameOver() const { return gameOver; }
 
 private: //メンバ関数
 
@@ -45,18 +49,30 @@ private: //メンバ変数
 	const std::string kDirectoryPath = "Resources/ScriptFilles/";
 	std::unique_ptr<LevelData> levelData_;
 
-	struct LevelObject {
+	struct ObjData {
 		std::string objName;
 		std::shared_ptr<Model> model;
 		RenderItem renderItem;
-		bool haveCollider;
 		ObjectType type;
 		Collider collider;
 	};
 
-	std::vector<std::unique_ptr<LevelObject>> levelObjects_;
+	struct LevelObject {
+		std::vector<std::unique_ptr<ObjData>> objDatas_;
+		std::vector<ObjData> wallDatas_;
+		std::vector<Door> doorDatas_;
+		std::vector<Crystal> crystalDatas_;
+	};
+
+	LevelObject gameObject_;
+	Player player_;
+	Collider playerCollider_;
+
 	//ゲームカメラ
 	std::unique_ptr<InGameCamera> gameCamera_;
 	bool gameClear;
+	bool gameOver;
+
+	float invincibilityTime_;
 };
 

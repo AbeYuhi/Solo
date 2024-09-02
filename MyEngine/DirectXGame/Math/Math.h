@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <algorithm>
+#include <vector>
 #include "Vector3.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
@@ -206,3 +207,5 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Sphere& sphere1);
 Vector3 CalculateReflection(Vector3 incoming, Vector3 normal);
 
 EulerTransformData ExtractTransform(const Matrix4x4& matrix);
+
+int getDigits(int number, int position);

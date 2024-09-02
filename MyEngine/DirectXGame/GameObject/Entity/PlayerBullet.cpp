@@ -42,9 +42,9 @@ void PlayerBullet::Initialize() {
 
 void PlayerBullet::Update() {
 	lifeTime_ -= 1.0f / 60.0f;
-	velocity_.y -= 1.0f * (1.0f / 60.0f);
+	//velocity_.y -= 1.0f * (1.0f / 60.0f);
 
-	if (collider_.isContact_[WALL]) {
+	if (collider_.isContact_[WALL] || collider_.isContact_[BUTTON] || collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
 		velocity_ = collider_.reflection_;
 	}

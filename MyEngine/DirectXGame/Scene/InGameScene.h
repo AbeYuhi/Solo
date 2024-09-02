@@ -59,15 +59,7 @@ private:
 	int blendMode_;
 
 	//テクスチャハンドル
-	uint32_t monsterBallHandle_;
-	uint32_t fenceHandle_;
-	uint32_t skyboxHandle_;
 
 	LevelScene levelScene_;
-
-	Collider playerCollider_;
-
-	Player player_;
-
 	float time_;
 };

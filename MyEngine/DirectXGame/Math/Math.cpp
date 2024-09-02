@@ -1197,3 +1197,15 @@ EulerTransformData ExtractTransform(const Matrix4x4& matrix) {
 
 	return data;
 }
+
+int getDigits(int number, int position) {
+	// 負の数の場合は正の数に変換
+	number = abs(number);
+
+	// 0番目から数える場合の対応
+	for (int i = 0; i < position; ++i) {
+		number /= 10;
+	}
+
+	return number % 10;  // 目的の桁の数値を取得}
+}
