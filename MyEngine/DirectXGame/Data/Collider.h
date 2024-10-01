@@ -16,6 +16,7 @@ enum ColliderTag {
 	GOAL,
 	WALL,
 	CRYSTAL,
+	GLASS,
 	BUTTON,
 	LDOOR,
 	RDOOR,
