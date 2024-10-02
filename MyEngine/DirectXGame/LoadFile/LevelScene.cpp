@@ -426,36 +426,36 @@ void LevelScene::LevelCreate() {
 		if (objectData.collider) {
 			ColliderType type = kAABB;
 			ColliderTag tag = WALL;
+			if (objectData.collider->type == "AABB") {
+				type = kAABB;
+			}
+			else if (objectData.collider->type == "OBB") {
+				type = kOBB;
+			}
+			else if (objectData.collider->type == "SPHERE") {
+				type = kSPHERE;
+			}
+
+			if (objectData.collider->tag == "WALL") {
+				tag = WALL;
+			}
+			else if (objectData.collider->tag == "GOAL") {
+				tag = GOAL;
+			}
+			else if (objectData.collider->tag == "CRYSTAL") {
+				tag = CRYSTAL;
+			}
+			else if (objectData.collider->tag == "BUTTON") {
+				tag = BUTTON;
+			}
+			else if (objectData.collider->tag == "LDOOR") {
+				tag = LDOOR;
+			}
+			else if (objectData.collider->tag == "RDOOR") {
+				tag = RDOOR;
+			}
+
 			if (objectData.collider->type != "NONE") {
-				if (objectData.collider->type == "AABB") {
-					type = kAABB;
-				}
-				else if (objectData.collider->type == "OBB") {
-					type = kOBB;
-				}
-				else if (objectData.collider->type == "SPHERE") {
-					type = kSPHERE;
-				}
-
-				if (objectData.collider->tag == "WALL") {
-					tag = WALL;
-				}
-				else if (objectData.collider->tag == "GOAL") {
-					tag = GOAL;
-				}
-				else if (objectData.collider->tag == "CRYSTAL") {
-					tag = CRYSTAL;
-				}
-				else if (objectData.collider->tag == "BUTTON") {
-					tag = BUTTON;
-				}
-				else if (objectData.collider->tag == "LDOOR") {
-					tag = LDOOR;
-				}
-				else if (objectData.collider->tag == "RDOOR") {
-					tag = RDOOR;
-				}
-
 				if (objectData.type == kCamera) {
 					tag = CAMERA;
 					levelObject->collider.Initialize(
@@ -479,7 +479,7 @@ void LevelScene::LevelCreate() {
 		
 		if (objectData.collider->tag == "BUTTON") {
 			Door door;
-			door.Initialize( levelObject->model, &levelObject->renderItem, &levelObject->collider );
+			door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider );
 			gameObject_.doorDatas_.push_back(door);
 		}
 		else if (objectData.collider->tag == "LDOOR") {
@@ -494,6 +494,11 @@ void LevelScene::LevelCreate() {
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			gameObject_.crystalDatas_.push_back(crystal);
+		}
+		else if (objectData.collider->tag == "GLASS") {
+			Glass glass;
+			glass.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+			gameObject_.glassDatas_.push_back(glass);
 		}
 		else {
 			if (objectData.type == kMESH) {

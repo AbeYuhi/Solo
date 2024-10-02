@@ -15,6 +15,7 @@
 #include "GameObject/Entity/Door.h"
 #include "GameObject/Entity/Crystal.h"
 #include "GameObject/Entity/Player.h"
+#include "GameObject/Entity/Glass.h"
 #include "Object/Model.h"
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
@@ -62,6 +63,7 @@ private: //メンバ変数
 		std::vector<ObjData> wallDatas_;
 		std::vector<Door> doorDatas_;
 		std::vector<Crystal> crystalDatas_;
+		std::vector<Glass> glassDatas_;
 	};
 
 	LevelObject gameObject_;
