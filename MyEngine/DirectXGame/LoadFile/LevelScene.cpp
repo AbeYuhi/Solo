@@ -498,6 +498,7 @@ void LevelScene::LevelCreate() {
 		else if (objectData.collider->tag == "GLASS") {
 			Glass glass;
 			glass.Initialize(levelObject->model, &levelObject->renderItem);
+
 			gameObject_.glassDatas_.push_back(glass);
 		}
 		else {
