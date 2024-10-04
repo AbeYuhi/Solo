@@ -23,8 +23,7 @@ public:
 	~Glass();
 
 	void Initialize(std::shared_ptr<Model> model,
-		RenderItem* renderItem,
-		Collider* collider);
+		RenderItem* renderItem);
 
 	void Update();
 

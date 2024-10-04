@@ -455,7 +455,7 @@ void LevelScene::LevelCreate() {
 				tag = RDOOR;
 			}
 
-			if (objectData.collider->type != "NONE") {
+			if (objectData.collider->type != "NONE" && objectData.collider->type != "GLASS") {
 				if (objectData.type == kCamera) {
 					tag = CAMERA;
 					levelObject->collider.Initialize(
@@ -497,7 +497,7 @@ void LevelScene::LevelCreate() {
 		}
 		else if (objectData.collider->tag == "GLASS") {
 			Glass glass;
-			glass.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+			glass.Initialize(levelObject->model, &levelObject->renderItem);
 			gameObject_.glassDatas_.push_back(glass);
 		}
 		else {
