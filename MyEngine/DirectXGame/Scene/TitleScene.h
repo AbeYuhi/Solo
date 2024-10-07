@@ -6,6 +6,7 @@
 #include "Data/SpriteItem.h"
 #include "Object/Model.h"
 #include "Object/Sprite.h"
+#include "LoadFile/LevelScene.h"
 
 class TitleScene : public IScene
 {
@@ -27,7 +28,17 @@ private:
 
 	std::unique_ptr<TitleCamera> titleCamera_;
 
+	CollisionManager* collisionManager_;
+
 	uint32_t leftMouseClickTexture_;
 	std::shared_ptr<Sprite> leftMosueClickSprite_;
 	SpriteItem leftMouseClickInfo_;
+
+	uint32_t titleNameTexture_;
+	std::shared_ptr<Sprite> titleNameSprite_;
+	SpriteItem titleNameInfo_;
+
+	float time_;
+
+	LevelScene levelScene_;
 };

@@ -71,7 +71,7 @@ void LevelScene::Update() {
 void LevelScene::Draw() {
 
 	for (auto& levelObject : gameObject_.wallDatas_) {
-		levelObject.model->Draw(levelObject.renderItem);
+		levelObject.model->Draw(levelObject.renderItem, 1);
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Draw();
@@ -405,6 +405,7 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			levelObject->model = Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
+			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 			levelObject->type = kMESH;
 
 			if (objectData.drawCheck) {
@@ -477,29 +478,36 @@ void LevelScene::LevelCreate() {
 			}
 		}
 		
-		if (objectData.collider->tag == "BUTTON") {
-			Door door;
-			door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider );
-			gameObject_.doorDatas_.push_back(door);
-		}
-		else if (objectData.collider->tag == "LDOOR") {
-			gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-		}
-		else if (objectData.collider->tag == "RDOOR") {
-			gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-		}
-		else if (objectData.collider->tag == "CRYSTAL") {
-			Crystal crystal;
-			crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
-			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
-			gameObject_.crystalDatas_.push_back(crystal);
-		}
-		else if (objectData.collider->tag == "GLASS") {
-			Glass glass;
-			glass.Initialize(levelObject->model, &levelObject->renderItem);
+		if (objectData.collider) {
+			if (objectData.collider->tag == "BUTTON") {
+				Door door;
+				door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+				gameObject_.doorDatas_.push_back(door);
+			}
+			else if (objectData.collider->tag == "LDOOR") {
+				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+			}
+			else if (objectData.collider->tag == "RDOOR") {
+				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+			}
+			else if (objectData.collider->tag == "CRYSTAL") {
+				Crystal crystal;
+				crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+				crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+				crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+				gameObject_.crystalDatas_.push_back(crystal);
+			}
+			else if (objectData.collider->tag == "GLASS") {
+				Glass glass;
+				glass.Initialize(levelObject->model, &levelObject->renderItem);
 
-			gameObject_.glassDatas_.push_back(glass);
+				gameObject_.glassDatas_.push_back(glass);
+			}
+			else{
+				if (objectData.type == kMESH) {
+					gameObject_.wallDatas_.push_back(*levelObject);
+				}
+			}
 		}
 		else {
 			if (objectData.type == kMESH) {

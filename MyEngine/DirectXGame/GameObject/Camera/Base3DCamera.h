@@ -20,6 +20,7 @@ public:
 	virtual void Update();
 
 	inline void SetWorldTransrom(EulerTransformData data) { transform_ = data; }
+	inline void SetPos(Vector3 pos) { transform_.translate_ = pos; }
 	inline void ParentWorldTransrom(const EulerTransformData& data) { transform_ = data; }
 	inline EulerTransformData GetWorldTransrom() { return transform_; }
 	inline EulerTransformData* GetPWorldTransrom() { return &transform_; }

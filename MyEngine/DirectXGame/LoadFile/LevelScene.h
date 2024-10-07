@@ -37,6 +37,9 @@ public:
 	inline bool IsGameClear() const { return gameClear; }
 	inline bool IsGameOver() const { return gameOver; }
 
+	inline Vector3 CameraPos() const { return gameCamera_->GetWorldTransrom().translate_; }
+	inline void SetCameraPos(Vector3 pos) { gameCamera_->SetPos(pos); }
+
 private: //メンバ関数
 
 	void LoadFile(std::string fileName);
