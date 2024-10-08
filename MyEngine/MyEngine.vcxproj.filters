@@ -381,6 +381,9 @@
     <ClCompile Include="DirectXGame\GameObject\Entity\Glass.cpp">
       <Filter>ソース ファイル\GameObject\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\LoadFile\LoadLevelScene.cpp">
+      <Filter>ソース ファイル\LoadFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -694,6 +697,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Entity\Glass.h">
       <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\LoadFile\LoadLevelScene.h">
+      <Filter>ヘッダー ファイル\LoadFile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
