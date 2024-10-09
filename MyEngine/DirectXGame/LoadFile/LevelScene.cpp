@@ -2,13 +2,6 @@
 
 void LevelScene::Initialize(std::string fileName) {
 
-	//インゲームカメラ
-	gameCamera_ = std::make_unique<InGameCamera>();
-	gameCamera_->Initialize();
-
-	player_.Initialize();
-	invincibilityTime_ = 0.0f;
-
 	//ステージの読み込み
 	LoadFile(fileName);
 
@@ -27,38 +20,6 @@ void LevelScene::Update() {
 	ImGui::EndTabBar();
 	ImGui::End();
 #endif // _DEBUG
-
-	gameCamera_->Update();
-	player_.Update();
-
-	for (auto& levelObject : gameObject_.objDatas_) {
-		if (levelObject->type == kCamera) {
-			if (levelObject->collider.isContact_[GOAL]) {
-				gameClear = true;
-			}
-			else if (player_.IsGameOver()) {
-				gameOver = true;
-			}
-			else {
-				gameClear = false;
-				gameOver = false;
-			}
-
-			if (invincibilityTime_ <= 0.0f) {
-				if (levelObject->collider.isContact_[LDOOR] || levelObject->collider.isContact_[RDOOR]) {
-					int* combo = player_.GetComboDestroyCount();
-					int* num = player_.GetNumberofSlashAttacks();
-
-					*num -= 10;
-					*combo = 0;
-					invincibilityTime_ = 0.25f;
-				}
-			}
-			else {
-				invincibilityTime_ -= 1.0f / 60.0f;
-			}
-		}
-	}
 
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Update();

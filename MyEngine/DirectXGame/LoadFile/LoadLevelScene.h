@@ -10,56 +10,12 @@
 #include "DirectXGame/Math/Vector3.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/CollisionManager.h"
-#include "GameObject/Camera/MainCamera.h"
-#include "GameObject/Entity/Door.h"
-#include "GameObject/Entity/Crystal.h"
-#include "GameObject/Entity/Glass.h"
 #include "Object/Model.h"
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
 
 using json = nlohmann::json;
 
-class LoadLevelScene
-{
-public:
-	LoadLevelScene() = default;
-	~LoadLevelScene() = default;
+std::unique_ptr<LevelData>  LoadFile(std::string directoryPath, std::string fileName);
 
-	void Initialize(std::string fileName);
-
-	void Update();
-
-	void Draw();
-
-private: //メンバ関数
-
-	std::unique_ptr<LevelData> LoadFile(std::string fileName);
-
-	void ScanChildData(LevelData* levelData, json& childrens, int32_t parent);
-
-	void LevelCreate();
-
-private: //メンバ変数
-	//グローバル変数の保存先ファイルパス
-	const std::string kDirectoryPath = "Resources/ScriptFilles/";
-
-	struct ObjData {
-		std::string objName;
-		std::shared_ptr<Model> model;
-		RenderItem renderItem;
-		ObjectType type;
-		Collider collider;
-	};
-
-	struct LevelObject {
-		std::vector<std::unique_ptr<ObjData>> objDatas_;
-		std::vector<ObjData> wallDatas_;
-		std::vector<Door> doorDatas_;
-		std::vector<Crystal> crystalDatas_;
-		std::vector<Glass> glassDatas_;
-	};
-
-	LevelObject gameObject_;
-};
-
+void ScanChildData(LevelData* levelData, json& childrens, int32_t parent);

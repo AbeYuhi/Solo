@@ -34,12 +34,6 @@ public:
 
 	void Draw();
 
-	inline bool IsGameClear() const { return gameClear; }
-	inline bool IsGameOver() const { return gameOver; }
-
-	inline Vector3 CameraPos() const { return gameCamera_->GetWorldTransrom().translate_; }
-	inline void SetCameraPos(Vector3 pos) { gameCamera_->SetPos(pos); }
-
 private: //メンバ関数
 
 	void LoadFile(std::string fileName);
@@ -70,14 +64,6 @@ private: //メンバ変数
 	};
 
 	LevelObject gameObject_;
-	Player player_;
-	Collider playerCollider_;
 
-	//ゲームカメラ
-	std::unique_ptr<InGameCamera> gameCamera_;
-	bool gameClear;
-	bool gameOver;
-
-	float invincibilityTime_;
 };
 

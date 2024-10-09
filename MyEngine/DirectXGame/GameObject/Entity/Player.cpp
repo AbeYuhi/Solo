@@ -25,10 +25,31 @@ void Player::Initialize() {
 	numberInfo_[1].worldTransform_.data_.translate_ = { 60, 50, 0 };
 	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
 	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
+
+	collider_.Initialize(&playerData_, );
 }
 
 void Player::Update() {
 	InputManager* input_ = InputManager::GetInstance();
+
+
+	if (collider_.isContact_[GOAL]) {
+		isGameClear_ = true;
+	}
+
+	if (invincibilityTime_ <= 0.0f) {
+		if (levelObject->collider.isContact_[LDOOR] || levelObject->collider.isContact_[RDOOR]) {
+			int* combo = player_.GetComboDestroyCount();
+			int* num = player_.GetNumberofSlashAttacks();
+
+			*num -= 10;
+			*combo = 0;
+			invincibilityTime_ = 0.25f;
+		}
+	}
+	else {
+		invincibilityTime_ -= 1.0f / 60.0f;
+	}
 
 	if (numberofSlashAttacks_ > 0) {
 		if (input_->IsMouseTrigger(0)) {

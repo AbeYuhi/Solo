@@ -62,4 +62,10 @@ private:
 
 	LevelScene levelScene_;
 	float time_;
+
+	Player player_;
+
+	//ゲームカメラ
+	std::unique_ptr<InGameCamera> gameCamera_;
+
 };

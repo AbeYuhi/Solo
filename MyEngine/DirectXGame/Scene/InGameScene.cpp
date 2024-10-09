@@ -42,6 +42,13 @@ void InGameScene::Initialize() {
 	blendMode_ = kBlendModeNormal;
 
 	levelScene_.Initialize("test.json");
+
+	//インゲームカメラ
+	gameCamera_ = std::make_unique<InGameCamera>();
+	gameCamera_->Initialize();
+
+	player_.Initialize();
+	invincibilityTime_ = 0.0f;
 }
 
 void InGameScene::Update() {
@@ -52,12 +59,15 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	levelScene_.Update();
+	gameCamera_->Update();
+	player_.Update();
 
-	if (levelScene_.IsGameClear()) {
+	levelScene_.Update();
+	
+	if (player_.IsGameClear()) {
 		sceneNo_ = GAMECLEAR;
 	}
-	if (levelScene_.IsGameOver()) {
+	if (player_.IsGameOver()) {
 		sceneNo_ = GAMEOVER;
 	}
 
