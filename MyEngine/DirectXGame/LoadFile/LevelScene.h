@@ -61,6 +61,7 @@ private: //メンバ変数
 		std::vector<Door> doorDatas_;
 		std::vector<Crystal> crystalDatas_;
 		std::vector<Glass> glassDatas_;
+		EulerTransformData CameraData_;
 	};
 
 	LevelObject gameObject_;

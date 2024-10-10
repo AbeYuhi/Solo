@@ -40,8 +40,6 @@ void LevelScene::Draw() {
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
 	}
-
-	player_.Draw();
 }
 
 void LevelScene::LoadFile(std::string fileName) {

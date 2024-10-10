@@ -136,6 +136,8 @@ void InGameScene::Draw() {
 
 	///オブジェクトの描画開始
 
+
+	player_.Draw();
 	levelScene_.Draw();
 	collisionManager_->Draw();
 
