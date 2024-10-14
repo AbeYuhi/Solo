@@ -26,7 +26,7 @@ void Player::Initialize() {
 	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
 	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
 
-	collider_.Initialize(&playerData_, );
+	collider_.Initialize(&playerData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 }
 
 void Player::Update() {
@@ -38,12 +38,10 @@ void Player::Update() {
 	}
 
 	if (invincibilityTime_ <= 0.0f) {
-		if (levelObject->collider.isContact_[LDOOR] || levelObject->collider.isContact_[RDOOR]) {
-			int* combo = player_.GetComboDestroyCount();
-			int* num = player_.GetNumberofSlashAttacks();
+		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 
-			*num -= 10;
-			*combo = 0;
+			numberofSlashAttacks_ -= 10;
+			comboDestroyCount_ = 0;
 			invincibilityTime_ = 0.25f;
 		}
 	}

@@ -33,8 +33,10 @@ public:
 	inline float GetFarClip() { return farClip_; }
 	inline float GetFovY() { return fovY_; }
 
-protected:
+public:
 	EulerTransformData transform_;
+
+protected:
 	Matrix4x4 worldMatrix_;
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;

@@ -14,13 +14,29 @@
 #include "GameObject/Camera/InGameCamera.h"
 #include "GameObject/Entity/Door.h"
 #include "GameObject/Entity/Crystal.h"
-#include "GameObject/Entity/Player.h"
 #include "GameObject/Entity/Glass.h"
 #include "Object/Model.h"
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
 
 using json = nlohmann::json;
+
+struct ObjData {
+	std::string objName;
+	std::shared_ptr<Model> model;
+	RenderItem renderItem;
+	ObjectType type;
+	Collider collider;
+};
+
+struct LevelObject {
+	std::vector<std::unique_ptr<ObjData>> objDatas_;
+	std::vector<ObjData> wallDatas_;
+	std::vector<Door> doorDatas_;
+	std::vector<Crystal> crystalDatas_;
+	std::vector<Glass> glassDatas_;
+	ObjData cameraData_;
+};
 
 class LevelScene
 {
@@ -34,6 +50,8 @@ public:
 
 	void Draw();
 
+	inline ObjData GetCameraData() const { return gameObject_.cameraData_; }
+
 private: //メンバ関数
 
 	void LoadFile(std::string fileName);
@@ -46,23 +64,6 @@ private: //メンバ変数
 	//グローバル変数の保存先ファイルパス
 	const std::string kDirectoryPath = "Resources/ScriptFilles/";
 	std::unique_ptr<LevelData> levelData_;
-
-	struct ObjData {
-		std::string objName;
-		std::shared_ptr<Model> model;
-		RenderItem renderItem;
-		ObjectType type;
-		Collider collider;
-	};
-
-	struct LevelObject {
-		std::vector<std::unique_ptr<ObjData>> objDatas_;
-		std::vector<ObjData> wallDatas_;
-		std::vector<Door> doorDatas_;
-		std::vector<Crystal> crystalDatas_;
-		std::vector<Glass> glassDatas_;
-		EulerTransformData CameraData_;
-	};
 
 	LevelObject gameObject_;
 

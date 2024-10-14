@@ -3,6 +3,7 @@
 #include "DirectXGame/GameObject/Camera/TitleCamera.h"
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
+#include "Scene/SceneChange/SceneChange.h"
 #include "Data/SpriteItem.h"
 #include "Object/Model.h"
 #include "Object/Sprite.h"
@@ -38,7 +39,15 @@ private:
 	std::shared_ptr<Sprite> titleNameSprite_;
 	SpriteItem titleNameInfo_;
 
-	float time_;
+	uint32_t speedLinesTexture_;
+	std::shared_ptr<Sprite> speedLinesSprite_;
+	SpriteItem speedLinesInfo_;
 
+	SceneChange* sceneChange_;
+
+	float time_;
 	LevelScene levelScene_;
+
+	float changeTime_;
+	bool change_;
 };

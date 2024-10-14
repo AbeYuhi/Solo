@@ -48,7 +48,6 @@ void InGameScene::Initialize() {
 	gameCamera_->Initialize();
 
 	player_.Initialize();
-	invincibilityTime_ = 0.0f;
 }
 
 void InGameScene::Update() {
@@ -71,7 +70,7 @@ void InGameScene::Update() {
 		sceneNo_ = GAMEOVER;
 	}
 
-	collisionManager_->Update();
+	//collisionManager_->Update();
 #ifdef _DEBUG
 
 	ImGui::Begin("RenderItemInfo");

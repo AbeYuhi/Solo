@@ -3,6 +3,7 @@
 #include "DirectXGame/Scene/IScene.h"
 #include "DirectXGame/Scene/SceneFactory/SceneFactory.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
+#include "DirectXGame/Scene/SceneChange/SceneChange.h"
 
 class SceneManager
 {
@@ -32,9 +33,13 @@ private:
 	//シーンファクトリー
 	SceneFactory* sceneFactory_;
 
+	//シーンチェンジ
+	SceneChange* sceneChange_;
+
 	//ゲームシーン
 	std::unique_ptr<IScene> scene_;
 	int sceneNo_;
 	int preSceneNo_;
+	bool isChange_;
 };
 

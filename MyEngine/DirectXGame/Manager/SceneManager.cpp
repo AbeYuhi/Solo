@@ -9,6 +9,10 @@ void SceneManager::Initialize(GameScene gameScene){
 
 	//シーンファクトリー
 	sceneFactory_ = SceneFactory::GetInstance();
+	sceneChange_ = SceneChange::GetInstance();
+	sceneChange_->Inialize();
+
+	isChange_ = false;
 
 	//初期シーン
 	sceneNo_ = gameScene;
@@ -31,6 +35,11 @@ void SceneManager::Update(){
 #endif // _DEBUG
 
 	if (preSceneNo_ != sceneNo_) {
+		isChange_ = true;
+	}
+
+	if (isChange_ && sceneChange_->IsChange()) {
+		isChange_ = false;
 		//シーンの削除
 		scene_->Finalize();
 		scene_.reset();
@@ -39,6 +48,7 @@ void SceneManager::Update(){
 		//シーンの初期化
 		scene_->Initialize();
 	}
+	sceneChange_->Update();
 
 	//シーンの更新
 	scene_->Update();
@@ -47,4 +57,6 @@ void SceneManager::Update(){
 void SceneManager::Draw(){
 	//シーンの描画
 	scene_->Draw();
+
+	sceneChange_->Draw();
 }

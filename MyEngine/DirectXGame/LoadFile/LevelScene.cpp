@@ -22,7 +22,7 @@ void LevelScene::Update() {
 #endif // _DEBUG
 
 	for (auto& crystalData : gameObject_.crystalDatas_) {
-		crystalData.Update();
+		//crystalData.Update();
 	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Update();
@@ -35,7 +35,7 @@ void LevelScene::Draw() {
 		levelObject.model->Draw(levelObject.renderItem, 1);
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
-		crystalData.Draw();
+		//crystalData.Draw();
 	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
@@ -379,7 +379,11 @@ void LevelScene::LevelCreate() {
 			}
 		}
 		else if (objectData.type == kCamera) {
-			gameObject_.cameraData_ = *levelObject.get();
+			levelObject->renderItem.Initialize();
+			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
+			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
+			gameObject_.cameraData_ = *levelObject;
 			levelObject->type = kCamera;
 		}
 
@@ -416,16 +420,8 @@ void LevelScene::LevelCreate() {
 			}
 
 			if (objectData.collider->type != "NONE" && objectData.collider->type != "GLASS") {
-				if (objectData.type == kCamera) {
-					tag = CAMERA;
-					levelObject->collider.Initialize(
-						gameCamera_->GetPWorldTransrom(),
-						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
-						tag,
-						type,
-						objectData.collider->collisionCheck);
-				}
-				else {
+				
+				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
 						levelObject->renderItem.worldTransform_.GetPEulerTransformData(),
 						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
@@ -452,14 +448,11 @@ void LevelScene::LevelCreate() {
 			else if (objectData.collider->tag == "CRYSTAL") {
 				Crystal crystal;
 				crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-				crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
-				crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 				gameObject_.crystalDatas_.push_back(crystal);
 			}
 			else if (objectData.collider->tag == "GLASS") {
 				Glass glass;
 				glass.Initialize(levelObject->model, &levelObject->renderItem);
-
 				gameObject_.glassDatas_.push_back(glass);
 			}
 			else{
