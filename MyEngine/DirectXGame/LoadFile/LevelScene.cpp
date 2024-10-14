@@ -379,7 +379,7 @@ void LevelScene::LevelCreate() {
 			}
 		}
 		else if (objectData.type == kCamera) {
-			gameCamera_->SetWorldTransrom({ .scale_ = objectData.scaling, .rotate_ = objectData.rotation, .translate_ = objectData.translation });
+			gameObject_.cameraData_ = *levelObject.get();
 			levelObject->type = kCamera;
 		}
 
