@@ -1,6 +1,9 @@
 #include "LevelScene.h"
 
-void LevelScene::Initialize(std::string fileName) {
+void LevelScene::Initialize(std::string fileName, unsigned int stageNum) {
+
+	levelSceneData_.Initialize();
+	levelSceneData_.translate_ = {0.0f, 0.0f, stageNum * 100.0f};
 
 	//ステージの読み込み
 	LoadFile(fileName);
@@ -22,7 +25,7 @@ void LevelScene::Update() {
 #endif // _DEBUG
 
 	for (auto& crystalData : gameObject_.crystalDatas_) {
-		//crystalData.Update();
+		crystalData.Update();
 	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Update();
@@ -35,7 +38,7 @@ void LevelScene::Draw() {
 		levelObject.model->Draw(levelObject.renderItem, 1);
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
-		//crystalData.Draw();
+		crystalData.Draw();
 	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
@@ -164,6 +167,20 @@ void LevelScene::LoadFile(std::string fileName) {
 					//サイズ
 					colliderData.radius = collider["radius"];
 				}
+
+				if (colliderData.tag == "GLASS") {
+					
+					colliderData.glassInfo.groundingInfosUp = collider["groundingInfos_up"];
+					colliderData.glassInfo.groundingInfosDown = collider["groundingInfos_down"];
+					colliderData.glassInfo.groundingInfosRight = collider["groundingInfos_right"];
+					colliderData.glassInfo.groundingInfosLeft = collider["groundingInfos_left"];
+
+					colliderData.glassInfo.moveType = collider["glassMoveTypes"];
+
+					colliderData.glassInfo.verticalDivisions = collider["verticalDivisions"];
+					colliderData.glassInfo.horizontalDivisions = collider["horizontalDivisions"];
+				}
+
 				colliderData.collisionCheck = collider["collision_check"];
 				colliderData.tag = collider["tag"];
 				objectData.collider = colliderData;
@@ -359,7 +376,7 @@ void LevelScene::LevelCreate() {
 		if (objectData.type == kMESH) {
 
 			levelObject->renderItem.Initialize();
-			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			levelObject->model = Model::Create(objectData.fileName);
@@ -380,7 +397,7 @@ void LevelScene::LevelCreate() {
 		}
 		else if (objectData.type == kCamera) {
 			levelObject->renderItem.Initialize();
-			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			gameObject_.cameraData_ = *levelObject;
@@ -420,7 +437,7 @@ void LevelScene::LevelCreate() {
 			}
 
 			if (objectData.collider->type != "NONE" && objectData.collider->type != "GLASS") {
-				
+
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
 						levelObject->renderItem.worldTransform_.GetPEulerTransformData(),
@@ -428,8 +445,9 @@ void LevelScene::LevelCreate() {
 						tag,
 						type,
 						objectData.collider->collisionCheck);
+
+					CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
 				}
-				CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
 			}
 		}
 		

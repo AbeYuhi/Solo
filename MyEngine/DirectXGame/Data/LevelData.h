@@ -12,6 +12,17 @@ enum ObjectType {
 	kCamera,
 };
 
+struct GlassInfo {
+	bool groundingInfosUp;
+	bool groundingInfosDown;
+	bool groundingInfosLeft;
+	bool groundingInfosRight;
+
+	std::string moveType;
+	unsigned int verticalDivisions;
+	unsigned int horizontalDivisions;
+};
+
 struct LevelData {
 	struct ObjectCollider {
 		std::string type;
@@ -21,6 +32,8 @@ struct LevelData {
 		Vector3 size;
 		float radius;
 		bool collisionCheck;
+
+		GlassInfo glassInfo;
 	};
 	struct ObjectData {
 		Vector3 translation;

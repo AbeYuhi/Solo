@@ -2,6 +2,7 @@
 #include "Manager/CollisionManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
+#include "GameObject/Entity/Player.h"
 
 struct CrystalData {
 	std::shared_ptr<Model> model;
@@ -22,9 +23,11 @@ public:
 
 	inline void SetNumberofSlashAttacks(int* num) { numberofSlashAttacks_ = num; }
 	inline void SetComboDestroyCount(int* num) { comboDestroyCount_ = num; }
+	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
 
+	Player* player_;
 	CrystalData data_;
 	bool isBreak_;
 	int* numberofSlashAttacks_;

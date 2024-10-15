@@ -5,7 +5,6 @@
 
 class Glass
 {
-public:
 	enum MoveType {
 		DONTMOVE,
 		ALTERNATE_LEFT_RIGHT,
@@ -17,7 +16,6 @@ public:
 		bool rigft;
 		bool left;
 	};
-
 public:
 	Glass();
 	~Glass();

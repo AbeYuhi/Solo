@@ -44,13 +44,14 @@ public:
 	LevelScene() = default;
 	~LevelScene() = default;
 
-	void Initialize(std::string fileName);
+	void Initialize(std::string fileName, unsigned int stageNum = 0);
 
 	void Update();
 
 	void Draw();
 
 	inline ObjData GetCameraData() const { return gameObject_.cameraData_; }
+	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }
 
 private: //メンバ関数
 
@@ -65,6 +66,7 @@ private: //メンバ変数
 	const std::string kDirectoryPath = "Resources/ScriptFilles/";
 	std::unique_ptr<LevelData> levelData_;
 
+	EulerTransformData levelSceneData_;
 	LevelObject gameObject_;
 
 };

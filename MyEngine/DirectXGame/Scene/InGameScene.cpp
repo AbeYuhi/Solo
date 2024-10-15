@@ -41,18 +41,24 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	levelScene_.Initialize("test.json");
+	levelScene_.Initialize("glassTest.json");
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
 	gameCamera_->Initialize();
+	gameCamera_->transform_ = levelScene_.GetCameraData().renderItem.worldTransform_.data_;
 
 	player_.Initialize();
+	for (auto& crystal : levelScene_.GetCrystals()) {
+		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+	}
 }
 
 void InGameScene::Update() {
 	//スプライトカメラの更新
 	spriteCamera_->Update();
+	mainCamera_->Update(gameCamera_->GetWorldTransrom(), gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
 	//ライトの更新
 	lightObj_->Update();
 	//影の更新
@@ -70,7 +76,7 @@ void InGameScene::Update() {
 		sceneNo_ = GAMEOVER;
 	}
 
-	//collisionManager_->Update();
+	collisionManager_->Update();
 #ifdef _DEBUG
 
 	ImGui::Begin("RenderItemInfo");
