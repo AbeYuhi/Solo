@@ -8,7 +8,7 @@ GraphicsPipelineManager* GraphicsPipelineManager::GetInstance() {
 
 void GraphicsPipelineManager::Initialize() {
 
-	blendMode_ = BlendMode::kBlendModeNone;
+	blendMode_ = BlendMode::kBlendModeNormal;
 
 	CreateGraphicsPipelineManager();
 
