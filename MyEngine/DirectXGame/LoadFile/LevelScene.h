@@ -35,7 +35,7 @@ struct LevelObject {
 	std::vector<Door> doorDatas_;
 	std::vector<Crystal> crystalDatas_;
 	std::vector<Glass> glassDatas_;
-	ObjData cameraData_;
+	CameraData cameraData_;
 };
 
 class LevelScene

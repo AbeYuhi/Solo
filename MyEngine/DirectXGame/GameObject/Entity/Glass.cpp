@@ -4,9 +4,8 @@ Glass::Glass(){}
 Glass::~Glass(){}
 
 void Glass::Initialize(std::shared_ptr<Model> model,
-	RenderItem* renderItem) {
-
-
+	RenderItem* renderItem,
+	GlassInfo info) {
 
 }
 

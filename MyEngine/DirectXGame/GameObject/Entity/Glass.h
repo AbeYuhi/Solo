@@ -2,6 +2,7 @@
 #include "Manager/CollisionManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
+#include "Data/LevelData.h"
 
 class Glass
 {
@@ -21,7 +22,8 @@ public:
 	~Glass();
 
 	void Initialize(std::shared_ptr<Model> model,
-		RenderItem* renderItem);
+		RenderItem* renderItem,
+		GlassInfo info);
 
 	void Update();
 
@@ -32,6 +34,8 @@ private:
 
 	std::shared_ptr<Model> model_;
 	RenderItem renderItem_;
+	MoveType type_;
+	GroundingInfo groundinginfo_;
 
 
 };

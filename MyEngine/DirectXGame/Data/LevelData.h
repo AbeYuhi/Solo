@@ -50,3 +50,8 @@ struct LevelData {
 
 	std::vector<ObjectData> objects;
 };
+
+struct CameraData {
+	EulerTransformData CameraInfo;
+	float cameraSpeed;
+};

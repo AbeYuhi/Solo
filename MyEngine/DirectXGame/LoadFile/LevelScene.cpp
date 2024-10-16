@@ -356,6 +356,19 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 					//サイズ
 					colliderData.radius = collider["radius"];
 				}
+
+				if (colliderData.tag == "GLASS") {
+					colliderData.glassInfo.groundingInfosUp = collider["groundingInfos_up"];
+					colliderData.glassInfo.groundingInfosDown = collider["groundingInfos_down"];
+					colliderData.glassInfo.groundingInfosRight = collider["groundingInfos_right"];
+					colliderData.glassInfo.groundingInfosLeft = collider["groundingInfos_left"];
+
+					colliderData.glassInfo.moveType = collider["glassMoveTypes"];
+
+					colliderData.glassInfo.verticalDivisions = collider["verticalDivisions"];
+					colliderData.glassInfo.horizontalDivisions = collider["horizontalDivisions"];
+				}
+
 				colliderData.collisionCheck = collider["collision_check"];
 				colliderData.tag = collider["tag"];
 				objectData.collider = colliderData;
@@ -470,7 +483,7 @@ void LevelScene::LevelCreate() {
 			}
 			else if (objectData.collider->tag == "GLASS") {
 				Glass glass;
-				glass.Initialize(levelObject->model, &levelObject->renderItem);
+				glass.Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
 				gameObject_.glassDatas_.push_back(glass);
 			}
 			else{
