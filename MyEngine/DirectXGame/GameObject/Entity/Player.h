@@ -4,6 +4,11 @@
 #include "Object/Sprite.h"
 #include "PlayerBullet.h"
 
+/// <summary>
+/// Player.h
+/// プレイヤーに関する処理をしているファイル
+/// </summary>
+
 class Player
 {
 public:

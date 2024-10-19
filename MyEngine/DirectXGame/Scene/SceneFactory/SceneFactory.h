@@ -7,6 +7,11 @@
 #include "DirectXGame/Scene/GameOverScene.h"
 #include "DirectXGame/Scene/GameClearScene.h"
 
+/// <summary>
+/// SceneFactory.h
+/// シーンを生成するクラス
+/// </summary>
+
 class SceneFactory
 {
 public:

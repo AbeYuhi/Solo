@@ -59,16 +59,6 @@ void Player::Update() {
 		}
 	}
 
-	if (numberofSlashAttacks_ <= 0) {
-		gameOverTime_ += 1.0f / 60.0f;
-		if (gameOverTime_ >= 2.0f) {
-			isGameOver_ = true;
-		}
-	}
-	else {
-		gameOverTime_ = 0.0f;
-	}
-
 	bullets_.remove_if([](auto& bullet) {
 		bullet->Update();
 
@@ -79,6 +69,16 @@ void Player::Update() {
 			return false;
 		}
 		});
+
+	if (numberofSlashAttacks_ <= 0) {
+		gameOverTime_ += 1.0f / 60.0f;
+		if (gameOverTime_ >= 2.0f) {
+			isGameOver_ = true;
+		}
+	}
+	else {
+		gameOverTime_ = 0.0f;
+	}
 
 	// もし number が 0 の場合、桁数は 1 です。
 	digitCount_ = 0;

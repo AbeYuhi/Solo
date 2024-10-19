@@ -9,6 +9,11 @@
 #include "Object/Sprite.h"
 #include "LoadFile/LevelScene.h"
 
+/// <summary>
+/// TitleScene.h
+/// タイトルシーン
+/// </summary>
+
 class TitleScene : public IScene
 {
 public:
