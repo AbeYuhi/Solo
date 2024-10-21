@@ -37,7 +37,7 @@ void TitleScene::Initialize() {
 	speedLinesInfo_.materialInfo_.material_->color.w = 0.2f;
 
 	levelScene_.Initialize("titleTest.json");
-	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().renderItem.worldTransform_.data_);
+	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
 
 	time_ = 0.0f;
 	change_ = false;

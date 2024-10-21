@@ -41,18 +41,37 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	levelScene_.Initialize("glassTest.json");
+	levelScene_.Initialize("test.json", 1);
+	stage0Scene_.Initialize("0.json");
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
 	gameCamera_->Initialize();
-	gameCamera_->transform_ = levelScene_.GetCameraData().renderItem.worldTransform_.data_;
+	//gameCamera_->transform_ = levelScene_.GetCameraData().CameraInfo;
+	gameCamera_->transform_ = stage0Scene_.GetCameraData().CameraInfo;
 
 	player_.Initialize();
 	for (auto& crystal : levelScene_.GetCrystals()) {
 		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
 	}
+
+	ballShotExplanationTexture_ = TextureManager::Load("ballShot_Explanation.png");
+	ballShotExplanationSprite_ = Sprite::Create();
+	ballShotExplanationInfo_.Initialize(ballShotExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
+	ballShotExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
+
+	crystalExplanationTexture_ = TextureManager::Load("crystal_Explanation.png");
+	crystalExplanationSprite_ = Sprite::Create();
+	crystalExplanationInfo_.Initialize(crystalExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
+	crystalExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
+	
+	startTimer_ = 0.0f;
+	ballShotRxplanationTime_ = 9999.9999f;
+	crystalRxplanationTime_ = 9999.9999f;
+	cameraSpeed_ = { 0.0f, 0.0f, 0.0f };
+	cameraEasingTimer_ = 0.0f;
+	easingTimer_ = 0.0f;
 }
 
 void InGameScene::Update() {
@@ -63,11 +82,55 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
-
-	gameCamera_->Update();
 	player_.Update();
 
+	if (startTimer_ >= 1.0f) {
+		cameraEasingTimer_ += 1.0f / 120.0f;
+		if (cameraEasingTimer_ > 1.0f) {
+			cameraEasingTimer_ = 1.0f;
+		}
+
+		easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
+		cameraSpeed_.z = easingTimer_ * 5.0f;
+	}
+
+	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
+
+	startTimer_ += 1.0f / 60.0f;
+	if (startTimer_ >= 2.0f && startTimer_ <= 3.0f) {
+		ballShotExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
+		if (ballShotExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
+			ballShotExplanationInfo_.materialInfo_.material_->color.w = 1;
+			isBallShotRxplanation_ = true;
+			ballShotRxplanationTime_ = startTimer_;
+		}
+	}
+	if (ballShotRxplanationTime_ + 2.0f <= startTimer_) {
+		ballShotExplanationInfo_.materialInfo_.material_->color.w -= 0.05f;
+		if (ballShotExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
+			ballShotExplanationInfo_.materialInfo_.material_->color.w = 0;
+		}
+	}
+
+	if (startTimer_ >= 8.0f && startTimer_ <= 9.0f) {
+		crystalExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
+		if (crystalExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
+			crystalExplanationInfo_.materialInfo_.material_->color.w = 1;
+			isCrystalRxplanation_ = true;
+			crystalRxplanationTime_ = startTimer_;
+		}
+	}
+	if (crystalRxplanationTime_ + 2.0f <= startTimer_) {
+		crystalExplanationInfo_.materialInfo_.material_->color.w -= 0.05f;
+		if (crystalExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
+			crystalExplanationInfo_.materialInfo_.material_->color.w = 0;
+		}
+	}
+
+	gameCamera_->Update();
+
 	levelScene_.Update();
+	stage0Scene_.Update();
 	
 	if (player_.IsGameClear()) {
 		sceneNo_ = GAMECLEAR;
@@ -136,15 +199,17 @@ void InGameScene::Draw() {
 	directXCommon_->ClearDepthStencilBuffer();
 
 	///前面スプライトの描画開始
-
 	///前面スプライトの描画終了
 
 	///オブジェクトの描画開始
 
-
 	player_.Draw();
 	levelScene_.Draw();
+	stage0Scene_.Draw();
 	collisionManager_->Draw();
+
+	ballShotExplanationSprite_->Draw(ballShotExplanationInfo_);
+	crystalExplanationSprite_->Draw(crystalExplanationInfo_);
 
 	///オブジェクトの描画終了
 

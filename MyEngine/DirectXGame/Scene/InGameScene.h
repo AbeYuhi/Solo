@@ -61,6 +61,7 @@ private:
 	//テクスチャハンドル
 
 	LevelScene levelScene_;
+	LevelScene stage0Scene_;
 	float time_;
 
 	Player player_;
@@ -68,4 +69,20 @@ private:
 	//ゲームカメラ
 	std::unique_ptr<InGameCamera> gameCamera_;
 
+	uint32_t ballShotExplanationTexture_;
+	std::shared_ptr<Sprite> ballShotExplanationSprite_;
+	SpriteItem ballShotExplanationInfo_;
+
+	uint32_t crystalExplanationTexture_;
+	std::shared_ptr<Sprite> crystalExplanationSprite_;
+	SpriteItem crystalExplanationInfo_;
+
+	float startTimer_;
+	bool isBallShotRxplanation_;
+	float ballShotRxplanationTime_;
+	bool isCrystalRxplanation_;
+	float crystalRxplanationTime_;
+	Vector3 cameraSpeed_;
+	float cameraEasingTimer_;
+	float easingTimer_;
 };

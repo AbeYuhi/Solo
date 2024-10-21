@@ -43,7 +43,6 @@ void InGameCamera::Update() {
 		MainCamera::GetInstance()->Update(debugCamera_->GetWorldTransrom(), debugCamera_->GetWorldMatrix(), debugCamera_->GetProjectionMatrix());
 	}
 	else {
-		transform_.translate_.z += 5.0f * (1.0f / 60.0f);
 		MainCamera::GetInstance()->Update(transform_, worldMatrix_, projectionMatrix_);
 	}
 	

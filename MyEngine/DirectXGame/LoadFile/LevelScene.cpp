@@ -413,7 +413,7 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-			gameObject_.cameraData_ = *levelObject;
+			gameObject_.cameraData_ = { .CameraInfo = levelObject->renderItem.worldTransform_.data_, .cameraSpeed = 1.0f };
 			levelObject->type = kCamera;
 		}
 

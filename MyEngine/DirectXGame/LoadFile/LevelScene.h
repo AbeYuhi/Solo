@@ -50,7 +50,7 @@ public:
 
 	void Draw();
 
-	inline ObjData GetCameraData() const { return gameObject_.cameraData_; }
+	inline CameraData GetCameraData() const { return gameObject_.cameraData_; }
 	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }
 
 private: //メンバ関数
