@@ -6,6 +6,7 @@
 
 class Glass
 {
+public:
 	enum MoveType {
 		DONTMOVE,
 		ALTERNATE_LEFT_RIGHT,
@@ -34,9 +35,10 @@ private:
 
 	std::shared_ptr<Model> model_;
 	RenderItem renderItem_;
+	Collider mainColldier_;
+	
 	MoveType type_;
-	GroundingInfo groundinginfo_;
-
-
+	GroundingInfo groudingInfo_;
+	std::vector<std::vector<RenderItem>> renderItems_;
 };
 

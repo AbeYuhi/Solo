@@ -130,6 +130,8 @@ void LevelScene::LoadFile(std::string fileName) {
 				//コライダータイプ
 				LevelData::ObjectCollider colliderData;
 				colliderData.type = collider["type"];
+				colliderData.tag = collider["tag"];
+
 				if (colliderData.type == "AABB") {
 					//ポジション
 					colliderData.centerPos.x = collider["center"][0];
@@ -170,6 +172,7 @@ void LevelScene::LoadFile(std::string fileName) {
 
 				if (colliderData.tag == "GLASS") {
 					
+
 					colliderData.glassInfo.groundingInfosUp = collider["groundingInfos_up"];
 					colliderData.glassInfo.groundingInfosDown = collider["groundingInfos_down"];
 					colliderData.glassInfo.groundingInfosRight = collider["groundingInfos_right"];
@@ -319,6 +322,7 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 				//コライダータイプ
 				LevelData::ObjectCollider colliderData;
 				colliderData.type = collider["type"];
+				colliderData.tag = collider["tag"];
 				if (colliderData.type == "AABB") {
 					//ポジション
 					colliderData.centerPos.x = collider["center"][0];
@@ -447,6 +451,9 @@ void LevelScene::LevelCreate() {
 			}
 			else if (objectData.collider->tag == "RDOOR") {
 				tag = RDOOR;
+			}
+			else if (objectData.collider->tag == "GLASS") {
+				tag = GLASS;
 			}
 
 			if (objectData.collider->type != "NONE" && objectData.collider->type != "GLASS") {

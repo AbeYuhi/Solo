@@ -13,13 +13,13 @@ class Player
 {
 public:
 
-	void Initialize();
+	void Initialize(EulerTransformData* cameraData);
 
 	void Update();
 
 	void Draw();
 
-	inline void SetPlayerData(EulerTransformData data) { playerData_ = data; }
+	inline void SetCameraData(EulerTransformData* data) { cameraData_ = data; }
 	inline bool IsGameOver() const { return isGameOver_; }
 	inline bool IsGameClear() const { return isGameClear_; }
 	inline int* GetNumberofSlashAttacks() { return &numberofSlashAttacks_; }
@@ -38,7 +38,7 @@ private:
 	std::shared_ptr<Sprite> numberSprites_[3];
 	SpriteItem numberInfo_[3];
 
-	EulerTransformData playerData_;
+	EulerTransformData* cameraData_;
 	Collider collider_;
 
 	float invincibilityTime_;

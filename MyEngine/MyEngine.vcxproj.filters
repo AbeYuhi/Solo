@@ -707,9 +707,6 @@
     <ClInclude Include="DirectXGame\Scene\SceneChange\SceneChange.h">
       <Filter>ヘッダー ファイル\Scene\SceneChange</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Data\GlassData.h">
-      <Filter>ヘッダー ファイル\Data</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj">

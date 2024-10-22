@@ -1,9 +1,11 @@
 #include "Player.h"
 
-void Player::Initialize() {
+void Player::Initialize(EulerTransformData* cameraData) {
 	numberofSlashAttacks_ = 10;
 	gameOverTime_ = 0.0f;
 	comboDestroyCount_ = 0;
+	invincibilityTime_ = 0.0f;
+	cameraData_ = cameraData;
 
 	numberSpriteTextures_[0] = TextureManager::Load("numberTexture/0.png");
 	numberSpriteTextures_[1] = TextureManager::Load("numberTexture/1.png");
@@ -26,12 +28,12 @@ void Player::Initialize() {
 	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
 	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
 
-	collider_.Initialize(&playerData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
+	collider_.Initialize(cameraData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
+	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
 void Player::Update() {
 	InputManager* input_ = InputManager::GetInstance();
-
 
 	if (collider_.isContact_[GOAL]) {
 		isGameClear_ = true;

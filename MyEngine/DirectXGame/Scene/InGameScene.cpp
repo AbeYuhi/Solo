@@ -42,7 +42,7 @@ void InGameScene::Initialize() {
 	blendMode_ = kBlendModeNormal;
 
 	levelScene_.Initialize("test.json", 1);
-	stage0Scene_.Initialize("0.json");
+	stage0Scene_.Initialize("glassTest.json");
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
@@ -50,7 +50,7 @@ void InGameScene::Initialize() {
 	//gameCamera_->transform_ = levelScene_.GetCameraData().CameraInfo;
 	gameCamera_->transform_ = stage0Scene_.GetCameraData().CameraInfo;
 
-	player_.Initialize();
+	player_.Initialize(&gameCamera_->transform_);
 	for (auto& crystal : levelScene_.GetCrystals()) {
 		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
