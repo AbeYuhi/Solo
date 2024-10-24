@@ -3,6 +3,11 @@
 #include "Sphere.h"
 #include "Matrix4x4.h"
 
+/// <summary>
+/// OBB.h
+/// OBB構造体のデータファイル
+/// </summary>
+
 struct OBB
 {
 	Vector3 center;

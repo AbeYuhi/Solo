@@ -3,6 +3,11 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
 
+/// <summary>
+/// Quaternion.h
+/// Quaternion構造体のデータファイル
+/// </summary>
+
 struct Quaternion {
 	float x;
 	float y;

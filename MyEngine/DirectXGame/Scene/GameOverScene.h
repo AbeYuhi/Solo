@@ -5,6 +5,11 @@
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 
+/// <summary>
+/// GameOverScene.h
+/// ゲームオーバーシーン
+/// </summary>
+
 class GameOverScene : public IScene
 {
 public:

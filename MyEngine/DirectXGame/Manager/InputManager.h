@@ -7,6 +7,11 @@
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
 #include "DirectXGame/Math/Vector2.h"
 
+/// <summary>
+/// InputManager.h
+/// 入力情報を検出するためのマネージャークラス
+/// </summary>
+
 using namespace Microsoft::WRL;
 
 class InputManager {
@@ -189,8 +194,8 @@ public: //メンバ関数
 	/// <param name="rightVib">Min:0, Max:65535</param>
 	inline void SetVibration(int leftVib, int rightVib) {
 		ZeroMemory(&gamePadVibration_, sizeof(XINPUT_VIBRATION));
-		gamePadVibration_.wLeftMotorSpeed = leftVib;
-		gamePadVibration_.wRightMotorSpeed = rightVib;
+		gamePadVibration_.wLeftMotorSpeed = static_cast<WORD>(leftVib);
+		gamePadVibration_.wRightMotorSpeed = static_cast<WORD>(rightVib);
 		XInputSetState(0, &gamePadVibration_);
 	}
 	/// <summary>

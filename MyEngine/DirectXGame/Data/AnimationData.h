@@ -7,6 +7,11 @@
 #include "Math/Quaternion.h"
 #include "Math/Math.h"
 
+/// <summary>
+/// AnimationData.h
+/// アニメーションをするにあたって必要な情報を格納するための構造体があるファイル
+/// </summary>
+
 template <typename tValue>
 struct Keyframe {
 	tValue value;

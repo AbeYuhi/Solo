@@ -10,6 +10,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// PointLight.h
+/// ポイントライト構造体のファイル
+/// </summary>
+
 struct PointLightData {
 	int32_t type;
 	float padding[3];

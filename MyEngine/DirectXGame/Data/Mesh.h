@@ -6,6 +6,11 @@
 #include "DirectXGame/Data/VertexData.h"
 #include "DirectXGame/Data/Bone.h"
 
+/// <summary>
+/// Mesh.h
+/// メッシュ情報を格納するための構造体があるファイル
+/// </summary>
+
 struct Mesh {
 	//モデルデータ
 	ModelData modelData;

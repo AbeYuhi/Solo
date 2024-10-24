@@ -2,6 +2,11 @@
 #include "DirectXGame/Manager/ParticleManager.h"
 #include "DirectXGame/Object/Model.h"
 
+/// <summary>
+/// PlaneParticle.h
+/// 3Dオブジェクトのパーティクルをテストしているクラス
+/// </summary>
+
 class PlaneParticle : public ParticleManager
 {
 public:

@@ -5,6 +5,11 @@
 #include "Material.h"
 #include "MaterialData.h"
 
+/// <summary>
+/// MaterialInfo.h
+/// マテリアルをまとめているファイル
+/// </summary>
+
 struct MaterialInfo {
 	//Resource
 	ComPtr<ID3D12Resource> resource_ = nullptr;

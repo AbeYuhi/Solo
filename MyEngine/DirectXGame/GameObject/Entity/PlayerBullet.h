@@ -6,6 +6,11 @@
 #include "Data/RenderItem.h"
 #include "Data/Collider.h"
 
+/// <summary>
+/// PlayerBullet.h
+/// プレイヤーの弾を処理しているファイル
+/// </summary>
+
 class PlayerBullet
 {
 public:

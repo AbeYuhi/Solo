@@ -9,6 +9,11 @@
 #include "OBB.h"
 #include "Sphere.h"
 
+/// <summary>
+/// Math.h
+/// 数学に関する関数をまとめているファイル
+/// </summary>
+
 struct EulerTransformData {
 	Vector3 scale_;
 	Vector3 rotate_;

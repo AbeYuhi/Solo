@@ -3,6 +3,11 @@
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 
+/// <summary>
+/// GraphicsPipelineManager.h
+/// PSOを管理しているマネージャークラス
+/// </summary>
+
 enum BlendMode{
 	//ブレンドなし
 	kBlendModeNone,

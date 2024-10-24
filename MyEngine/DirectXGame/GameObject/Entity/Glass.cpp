@@ -4,7 +4,7 @@ Glass::Glass(){}
 Glass::~Glass(){}
 
 void Glass::Initialize(std::shared_ptr<Model> model,
-	RenderItem* renderItem,
+	[[maybe_unused]] RenderItem* renderItem,
 	GlassInfo info) {
 
 	groudingInfo_.up = info.groundingInfosUp;

@@ -5,6 +5,11 @@
 #include "External/DirectXTex/DirectXTex.h"
 #include "External/DirectXTex/d3dx12.h"
 
+/// <summary>
+/// TextureData.h
+/// テクスチャデータ構造体が入っているファイル
+/// </summary>
+
 struct TextureData {
 	DirectX::ScratchImage mipImage;
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU;

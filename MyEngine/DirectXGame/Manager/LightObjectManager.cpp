@@ -6,8 +6,6 @@ LightObjectManager* LightObjectManager::GetInstance() {
 }
 
 void LightObjectManager::Initialize() {
-	//dxCommonのインスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	//transformationMatrixResourceの生成
 	lightResource_ = CreateBufferResource(sizeof(LightData));
 

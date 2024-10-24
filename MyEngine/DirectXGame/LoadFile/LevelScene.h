@@ -19,6 +19,11 @@
 #include "Data/LevelData.h"
 #include "Data/Collider.h"
 
+/// <summary>
+/// LevelScene.h
+/// レベルシーンを読み込み描画するクラス
+/// </summary>
+
 using json = nlohmann::json;
 
 struct ObjData {

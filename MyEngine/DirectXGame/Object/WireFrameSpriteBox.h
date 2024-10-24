@@ -16,6 +16,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// WireFrameSpriteBox.h
+/// スプライトのフレームを表示するためのクラスファイル
+/// </summary>
+
 class WireFrameSpriteBox
 {
 public: //静的メンバ関数

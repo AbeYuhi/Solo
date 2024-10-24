@@ -6,6 +6,11 @@
 #include "DirectXGame/Math/Vector4.h"
 #include "DirectXGame/Math/Matrix4x4.h"
 
+/// <summary>
+/// VertexData.h
+/// 頂点データ構造体が入っているファイル
+/// </summary>
+
 struct VertexData final {
 	Vector4 position;
 	Vector2 texcoord;

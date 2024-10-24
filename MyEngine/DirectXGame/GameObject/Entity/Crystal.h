@@ -4,6 +4,11 @@
 #include "Data/RenderItem.h"
 #include "GameObject/Entity/Player.h"
 
+/// <summary>
+/// Crystal.h
+/// クリスタルに関するファイル
+/// </summary>
+
 struct CrystalData {
 	std::shared_ptr<Model> model;
 	RenderItem* renderItem;

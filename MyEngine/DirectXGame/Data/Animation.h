@@ -10,6 +10,11 @@
 #include "Skeleton.h"
 #include "SkinCluster.h"
 
+/// <summary>
+/// Animation.h
+/// アニメーションの情報すべてをまとめるための構造体があるファイル
+/// </summary>
+
 class Model;
 
 struct Animation {

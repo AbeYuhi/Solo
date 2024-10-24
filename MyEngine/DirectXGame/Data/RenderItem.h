@@ -5,6 +5,11 @@
 #include "Transform.h"
 #include "Mesh.h"
 
+/// <summary>
+/// Resourcehandle.h
+/// GPUとCPUのハンドルを収納する構造体のファイル
+/// </summary>
+
 class Model;
 
 struct RenderItem {

@@ -14,6 +14,11 @@
 #include <chrono>
 #include <thread>
 
+/// <summary>
+/// DirectXCommon.h
+/// DirectX12に関する機能の処理をまとめているファイル
+/// </summary>
+
 using namespace Microsoft::WRL;
 
 class SrvManager;

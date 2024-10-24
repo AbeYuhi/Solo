@@ -9,6 +9,11 @@
 #include "DirectXGame/Manager/InputManager.h"
 #include "Manager/CollisionManager.h"
 
+/// <summary>
+/// Base3DCamera.h
+/// カメラの規定クラス
+/// </summary>
+
 class Base3DCamera
 {
 public:

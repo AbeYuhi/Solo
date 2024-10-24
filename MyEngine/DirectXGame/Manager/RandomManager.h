@@ -1,6 +1,11 @@
 #pragma once
 #include <random>
 
+/// <summary>
+/// RandomManager.h
+/// ランダムを生成するためのマネージャークラス
+/// </summary>
+
 class RandomManager
 {
 public:

@@ -9,6 +9,11 @@
 #include "External/DirectXTex/DirectXTex.h"
 #include "External/DirectXTex/d3dx12.h"
 
+/// <summary>
+/// TextureManager.h
+/// テクスチャーの情報を格納されているマネージャークラス
+/// </summary>
+
 class TextureManager
 {
 public:

@@ -7,6 +7,11 @@
 #include "Data/HSVMaterial.h"
 #include "ImGuiManager.h"
 
+/// <summary>
+/// PostEffectManager.h
+/// ポストエフェクトを管理しているマネージャークラス
+/// </summary>
+
 enum PostEffect {
 	kNone,
 	kCopy,

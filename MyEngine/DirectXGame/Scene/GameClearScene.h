@@ -5,6 +5,11 @@
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 
+/// <summary>
+/// GameClear.h
+/// ゲームクリアシーン
+/// </summary>
+
 class GameClearScene : public IScene
 {
 public:

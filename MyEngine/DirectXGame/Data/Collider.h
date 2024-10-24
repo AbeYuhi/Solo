@@ -10,6 +10,11 @@
 #include "DirectXGame/Data/RenderItem.h"
 #include "Manager/ImGuiManager.h"
 
+/// <summary>
+/// Collider.h
+/// コライダーの情報をまとめているファイル
+/// </summary>
+
 enum ColliderTag {
 	PLAYER,
 	BULLET,

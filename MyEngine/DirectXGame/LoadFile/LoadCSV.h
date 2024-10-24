@@ -4,6 +4,11 @@
 #include <sstream>
 #include <assert.h>
 
+/// <summary>
+/// LoadCSV.h
+/// CSVを読み込んでいるクラス
+/// </summary>
+
 class LoadCSV
 {
 public:

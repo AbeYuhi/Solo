@@ -46,8 +46,6 @@ void PostEffectManager::PreDraw() {
 }
 
 void PostEffectManager::PostDraw() {
-	DirectXCommon* directX = DirectXCommon::GetInstance();
-
 	if (postEffect_ != PostEffect::kNone) {
 		RenderPostDraw();
 	}
@@ -475,7 +473,7 @@ void PostEffectManager::CreatePSO() {
 			graphicsPipeLineStateDesc.SampleDesc.Count = 1;
 			graphicsPipeLineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 			//実際に生成
-			LRESULT hr = directXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipeLineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_[shaderPack][blendMode]));
+			[[maybe_unused]] LRESULT hr = directXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipeLineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_[shaderPack][blendMode]));
 			assert(SUCCEEDED(hr));
 		}
 	}
@@ -505,7 +503,7 @@ ComPtr<ID3D12Resource> PostEffectManager::CreateRenderTextureResoruce(uint32_t w
 	clearValue.Color[3] = clearColor.w;
 	//実際に生成
 	ComPtr<ID3D12Resource> resource;
-	LRESULT hr = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	[[maybe_unused]] LRESULT hr = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProperties,
 		D3D12_HEAP_FLAG_NONE,
 		&resourceDesc,

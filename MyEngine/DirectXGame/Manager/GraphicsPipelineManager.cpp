@@ -671,7 +671,7 @@ void GraphicsPipelineManager::CreatePSO() {
 			graphicsPipeLineStateDesc.SampleDesc.Count = 1;	
 			graphicsPipeLineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 			//実際に生成
-			LRESULT hr = directXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipeLineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_[shaderPack][blendMode]));
+			[[maybe_unused]] LRESULT hr = directXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipeLineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_[shaderPack][blendMode]));
 			assert(SUCCEEDED(hr));
 		}
 	}

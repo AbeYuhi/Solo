@@ -4,6 +4,11 @@
 #include "Data/RenderItem.h"
 #include "Data/LevelData.h"
 
+/// <summary>
+/// Glass.h
+/// 障害物であるガラスに関するファイル
+/// </summary>
+
 class Glass
 {
 public:

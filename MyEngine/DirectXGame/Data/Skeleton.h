@@ -7,6 +7,11 @@
 #include "Data/Node.h"
 #include "Math/Matrix4x4.h"
 
+/// <summary>
+/// Skeleton.h
+/// ボーン情報を収納するための構造体が入っているファイル
+/// </summary>
+
 struct Joint {
 	QuaternionTransformData transform;
 	Matrix4x4 localMatrix;

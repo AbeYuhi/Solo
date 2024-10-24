@@ -20,9 +20,6 @@ std::shared_ptr<WireFrameSpriteBox> WireFrameSpriteBox::Create() {
 }
 
 void WireFrameSpriteBox::Initialize() {
-	//dxCommonのインスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-
 	//VertexResourceの生成
 	vertexResource_ = CreateBufferResource(sizeof(VertexData) * kVertexNumber);
 	//IndexResourceの生成

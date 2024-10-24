@@ -6,6 +6,11 @@
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
 #include "DirectXGame/Base/CreateResource/CreateResource.h"
 
+/// <summary>
+/// Transform.h
+/// シェーダーに送るためのワールド情報構造体が入っているファイル
+/// </summary>
+
 struct TransformMatrix {
 	Matrix4x4 WVP_;
 	Matrix4x4 World_;

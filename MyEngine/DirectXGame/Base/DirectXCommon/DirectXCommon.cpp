@@ -163,7 +163,7 @@ ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescriptorHeap(D3D12_DESCRIPTO
 	rtvDescriptorHeapDesc.Type = heapType;
 	rtvDescriptorHeapDesc.NumDescriptors = numDescriptors;
 	rtvDescriptorHeapDesc.Flags = shaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	LRESULT hr = device_->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&descriptorHeap));
+	[[maybe_unused]] LRESULT hr = device_->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&descriptorHeap));
 	//ディスクリプターヒープの生成ができなかった場合に落とす
 	assert(SUCCEEDED(hr));
 	return descriptorHeap;
@@ -195,7 +195,7 @@ ComPtr<ID3D12Resource> DirectXCommon::CreateDepthStencilTextureResource() {
 	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	ComPtr<ID3D12Resource> resource = nullptr;
-	HRESULT hr = dxCommon->GetDevice()->CreateCommittedResource(
+	[[maybe_unused]] HRESULT hr = dxCommon->GetDevice()->CreateCommittedResource(
 		&heapProperities,
 		D3D12_HEAP_FLAG_NONE,
 		&resourceDesc,
@@ -455,7 +455,7 @@ void DirectXCommon::CreateDepthStencilView() {
 void DirectXCommon::CreateFence() {
 	//初期値0でFenceの生成
 	fenceValue_ = 0;
-	LRESULT hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
+	[[maybe_unused]] LRESULT hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
 }
 
@@ -471,7 +471,6 @@ void DirectXCommon::InitializeDXC() {
 }
 
 void DirectXCommon::InitializeFixFPS() {
-	WinApp* winApp = WinApp::GetInstance();
 	//現在時間を記録する
 	reference_ = std::chrono::steady_clock::now();
 }

@@ -5,6 +5,11 @@
 #include "DirectXGame/Manager/SceneManager.h"
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 
+/// <summary>
+/// GameManager.h
+/// ゲームループを管理しているマネージャークラス
+/// </summary>
+
 class GameManager : public Framework
 {
 public:

@@ -3,6 +3,11 @@
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 
+/// <summary>
+/// Door.h
+/// 障害物であるドアに関するファイル
+/// </summary>
+
 struct DoorData {
 	std::shared_ptr<Model> model;
 	RenderItem* renderItem;
@@ -30,7 +35,7 @@ public:
 	void SetLeftDoor(std::shared_ptr<Model> model,
 		RenderItem* renderItem,
 		Collider* collider);
-	inline void IsHitBullet(bool isHit) { isOpen_ = true; }
+	inline void IsHitBullet(bool isHit) { isOpen_ = isHit; }
 
 	inline void SetNumberofSlashAttacks(int* num) { numberofSlashAttacks_ = num; }
 	inline void SetComboDestroyCount(int* num) { comboDestroyCount_ = num; }

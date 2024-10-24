@@ -11,6 +11,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// SpotLightData.h
+/// スポットライト構造体が入っているファイル
+/// </summary>
+
 struct SpotLightData
 {
 	int32_t lightingType;

@@ -7,6 +7,11 @@
 #include "DirectXGame/Math/AABB.h"
 #include "DirectXGame/Math/Math.h"
 
+/// <summary>
+/// CollisionManager.h
+/// 衝突判定を管理しているマネージャークラス
+/// </summary>
+
 class CollisionManager
 {
 public:

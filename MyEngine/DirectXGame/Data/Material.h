@@ -4,6 +4,11 @@
 #include "DirectXGame/Math/Matrix4x4.h"
 #include "DirectXGame/Math/Math.h"
 
+/// <summary>
+/// Material.h
+/// マテリアル情報をまとめているファイル
+/// </summary>
+
 struct Material {
 	Vector4 color;
 	int32_t enableLightint;

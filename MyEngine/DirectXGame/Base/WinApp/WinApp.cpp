@@ -27,8 +27,10 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-const wchar_t WinApp::className[] = L"MyEngine";
-void WinApp::CreateGameWindow(const wchar_t* title, UINT windowStyle, int32_t windowWidth, int32_t windowHeight) {
+const wchar_t WinApp::className[] = L"Hit";
+void WinApp::CreateGameWindow(const wchar_t* title, UINT windowStyle, 
+	[[maybe_unused]] int32_t windowWidth, 
+	[[maybe_unused]] int32_t windowHeight) {
 
 	//COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);

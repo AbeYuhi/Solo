@@ -1,8 +1,10 @@
 #pragma once
 
 /// <summary>
-/// 3次元ベクトル
+/// Vector3.h
+/// Vector3構造体のデータファイル
 /// </summary>
+
 struct Vector3 final {
 	float x;
 	float y;

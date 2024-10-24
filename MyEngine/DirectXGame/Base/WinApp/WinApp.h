@@ -2,6 +2,11 @@
 #include <Windows.h>
 #include <cstdint>
 
+/// <summary>
+/// WinApp.h
+/// ウィンドウ表示に関するファイル
+/// </summary>
+
 class WinApp
 {
 public: //静的関数

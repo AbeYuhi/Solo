@@ -16,6 +16,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// WireFrameBox.h
+/// 立方体のフレームを表示するためのクラスファイル
+/// </summary>
+
 class WireFrameBox
 {
 public: //静的メンバ関数

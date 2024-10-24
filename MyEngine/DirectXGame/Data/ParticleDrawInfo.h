@@ -2,6 +2,11 @@
 #include "DirectXGame/Data/ResourceHandles.h"
 #include "DirectXGame/Data/MaterialInfo.h"
 
+/// <summary>
+/// ParticleForGPU.h
+/// パーティクルの描画をするために必要なデータを格納しているファイル
+/// </summary>
+
 struct ParticleDrawInfo {
 	void Initialize(const ResourceHandles* srvHandle, const ParticleMaterialInfo* materialInfo, const int* kMaxParticleCount) {
 		srvHandle_ = srvHandle;

@@ -948,7 +948,7 @@ Vector3 CalculateNormal(const AABB& a, const Sphere& b) {
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
 
-Vector3 CalculateNormal(const OBB& a, const OBB& b) {
+Vector3 CalculateNormal([[maybe_unused]] const OBB& a, [[maybe_unused]] const OBB& b) {
 	Vector3 normal = { 0.0f, 0.0f, 0.0f };
 
 	return normal;
@@ -1035,35 +1035,35 @@ Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
 
-Vector3 GetClosestPointOnOBB(const AABB& aabb0, const AABB& aabb1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb0, [[maybe_unused]] const AABB& aabb1) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
-Vector3 GetClosestPointOnOBB(const AABB& aabb, const OBB& obb) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const OBB& obb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
-Vector3 GetClosestPointOnOBB(const AABB& aabb, const Sphere& sphere) {
-	Vector3 closest_point = { 0, 0, 0 };
-
-	return closest_point;
-}
-
-Vector3 GetClosestPointOnOBB(const OBB& obb, const AABB& aabb) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const Sphere& sphere) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB(const OBB& obb0, const OBB& obb1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const AABB& aabb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB(const OBB& obb, const Sphere& sphere) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb0, [[maybe_unused]] const OBB& obb1) {
+	Vector3 closest_point = { 0, 0, 0 };
+
+	return closest_point;
+}
+
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const Sphere& sphere) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
@@ -1134,7 +1134,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Sphere& sphere1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unused]] const Sphere& sphere1) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;

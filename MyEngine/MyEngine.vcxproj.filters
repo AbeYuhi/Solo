@@ -614,9 +614,6 @@
     <ClInclude Include="DirectXGame\LoadFile\LoadCSV.h">
       <Filter>ヘッダー ファイル\LoadFile</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Data\Mesh.h">
-      <Filter>ヘッダー ファイル\Base</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Map\CreateStage.h">
       <Filter>ヘッダー ファイル\GameObject\Map</Filter>
     </ClInclude>
@@ -706,6 +703,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Scene\SceneChange\SceneChange.h">
       <Filter>ヘッダー ファイル\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Data\Mesh.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

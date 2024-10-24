@@ -1,6 +1,11 @@
 #pragma once
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
 
+/// <summary>
+/// ReleaseCheck.h
+/// ゲームエンジン上のメモリを解放できているか確認しているファイル
+/// </summary>
+
 struct D3DResoruceLeakCheaker {
 	~D3DResoruceLeakCheaker() {
 		ComPtr<IDXGIDebug1> debug;

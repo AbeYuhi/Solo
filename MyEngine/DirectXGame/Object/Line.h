@@ -17,6 +17,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// Line.h
+/// ラインを表示するためのクラスファイル
+/// </summary>
+
 class LineObj
 {
 public: //静的メンバ関数

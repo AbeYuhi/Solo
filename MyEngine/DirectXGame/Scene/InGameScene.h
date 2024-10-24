@@ -26,6 +26,11 @@
 #include "LoadFile/LevelScene.h"
 #include "Scene/IScene.h"
 
+/// <summary>
+/// InGameScene.h
+/// インゲームシーン
+/// </summary>
+
 class InGameScene : public IScene {
 public:
 	InGameScene();

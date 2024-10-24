@@ -2,6 +2,11 @@
 #include "DirectXGame/Manager/ParticleManager.h"
 #include "DirectXGame/Object/Sprite.h"
 
+/// <summary>
+/// SpriteParticle.h
+/// スプライト上のパーティクルをテストしているクラス
+/// </summary>
+
 class SpriteParticle : public ParticleManager
 {
 public:

@@ -9,6 +9,11 @@
 #include "DirectXGame/Manager/InputManager.h"
 #define M_PI 3.14f
 
+/// <summary>
+/// SpriteCamera.h
+/// スプライﾄのカメラを処理しているファイル
+/// </summary>
+
 class SpriteCamera
 {
 public:

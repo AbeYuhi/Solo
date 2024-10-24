@@ -5,6 +5,11 @@
 #include "DirectXGame/Object/Model.h"
 #include "DirectXGame/Object/Sprite.h"
 
+/// <summary>
+/// testParticle.h
+/// テストパーティクルのクラス
+/// </summary>
+
 class TestParticle
 {
 public:

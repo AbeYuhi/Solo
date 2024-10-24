@@ -3,6 +3,11 @@
 #include "Transform.h"
 #include "SpriteData.h"
 
+/// <summary>
+/// SpriteItem.h
+/// スプライト描画に必要な構造体が入っているファイル
+/// </summary>
+
 struct SpriteItem {
 	WorldTransform worldTransform_;
 	MaterialInfo materialInfo_;

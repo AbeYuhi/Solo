@@ -3,6 +3,11 @@
 #include "DirectXGame/Data/RenderItem.h"
 #include "DirectXGame/Data/Collider.h"
 
+/// <summary>
+/// StageBlock.h
+/// ステージブロック構造体が入っているファイル
+/// </summary>
+
 struct StageBlock {
 	std::shared_ptr<Model> stageModel;
 	RenderItem stageModelInfo;

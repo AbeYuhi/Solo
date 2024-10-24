@@ -12,6 +12,11 @@
 #include "Data/Transform.h"
 #include "Data/AnimationData.h"
 
+/// <summary>
+/// Node.h
+/// ノード情報を格納、読み込むしているファイル
+/// </summary>
+
 struct Node {
 	QuaternionTransformData transform;
 	Matrix4x4 localMatrix;
@@ -29,6 +34,6 @@ struct RootNode {
 
 int32_t ReadNode(aiNode* node, std::vector<Node>& nodes);
 
-RootNode CreateRootNode(aiNode* node);
+RootNode CreateRootNode(aiNode* aiNode);
 
 Node UpdateNode(Node node, NodeAnimation info, float time);

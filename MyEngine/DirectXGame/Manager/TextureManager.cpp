@@ -115,7 +115,7 @@ ComPtr<ID3D12Resource> TextureManager::CreateTextureResource(DirectX::TexMetadat
 
 	//Resourceの生成
 	ComPtr<ID3D12Resource> resource = nullptr;
-	HRESULT hr = dxCommon->GetDevice()->CreateCommittedResource(
+	[[maybe_unused]] HRESULT hr = dxCommon->GetDevice()->CreateCommittedResource(
 		&heapProperties,
 		D3D12_HEAP_FLAG_NONE,
 		&resourceDesc,

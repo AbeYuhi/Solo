@@ -17,6 +17,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// WireFrameSphere.h
+/// スフィアのフレームを表示するためのクラスファイル
+/// </summary>
+
 class WireFrameSphere
 {
 public: //静的メンバ関数

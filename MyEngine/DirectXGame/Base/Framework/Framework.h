@@ -15,6 +15,11 @@
 #include "Manager/InputManager.h"
 #include "Manager/LightObjectManager.h"
 
+/// <summary>
+/// Framework.h
+/// ゲームエンジンのフレームワークがある構造体があるファイル
+/// </summary>
+
 class Framework
 {
 public:

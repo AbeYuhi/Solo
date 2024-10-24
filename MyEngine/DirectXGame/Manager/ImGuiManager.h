@@ -8,6 +8,12 @@
 #include "External/imgui/imgui_impl_dx12.h"
 #include "External/imgui/imgui_impl_win32.h"
 
+/// <summary>
+/// ImGuiManager.h
+/// ImGuiを表示するためのマネージャークラス
+/// </summary>
+
+
 #ifdef _DEBUG
 using namespace ImGui;
 

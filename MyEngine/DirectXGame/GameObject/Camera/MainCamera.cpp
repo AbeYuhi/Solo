@@ -6,9 +6,6 @@ MainCamera* MainCamera::GetInstance() {
 }
 
 void MainCamera::Initialize() {
-	//dxCommonのインスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-
 	transform_.Initialize();
 
 	viewProjectionMatrix_ = MakeIdentity4x4();
@@ -32,7 +29,6 @@ void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Mat
 
 void MainCamera::Draw() {
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-	GraphicsPipelineManager* psoManager = GraphicsPipelineManager::GetInstance();
 	//パイプラインステートの設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, cameraResorce_->GetGPUVirtualAddress());
 }

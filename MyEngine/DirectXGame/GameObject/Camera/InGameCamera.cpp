@@ -28,7 +28,6 @@ void InGameCamera::Initialize() {
 }
 
 void InGameCamera::Update() {
-	InputManager* input = InputManager::GetInstance();
 
 	//カメラの更新
 #ifdef _DEBUG

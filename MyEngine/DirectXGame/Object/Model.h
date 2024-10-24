@@ -30,6 +30,11 @@
 #include "DirectXGame/Manager/LightObjectManager.h"
 #include "GameObject/Camera/MainCamera.h"
 
+/// <summary>
+/// Model.h
+/// 3dオブジェクトを表示するためのクラスファイル
+/// </summary>
+
 struct RenderItem;
 class SkyBox;
 

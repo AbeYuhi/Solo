@@ -3,6 +3,11 @@
 #include "DirectXGame/Math/Vector2.h"
 #include "DirectXGame/Math/Vector3.h"
 
+/// <summary>
+/// SpriteData.h
+/// スプライトデータ構造体が入っているファイル
+/// </summary>
+
 struct SpriteData {
 	uint32_t textureHandle_;
 	Vector2 size_;

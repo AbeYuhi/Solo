@@ -8,6 +8,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "External/nlohmann/json.hpp"
 
+/// <summary>
+/// GlobalVariables.h
+/// jsonを読み込んだり出力したりするクラス
+/// </summary>
+
 using json = nlohmann::json;
 
 class GlobalVariables

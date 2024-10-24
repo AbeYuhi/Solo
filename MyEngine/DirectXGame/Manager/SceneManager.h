@@ -5,6 +5,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Scene/SceneChange/SceneChange.h"
 
+/// <summary>
+/// SceneManager.h
+/// Sceneを管理しているマネージャークラス
+/// </summary>
+
 class SceneManager
 {
 public:

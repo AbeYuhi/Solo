@@ -6,6 +6,11 @@
 #include "Math/Vector3.h"
 #include "Data/Transform.h"
 
+/// <summary>
+/// LevelData.h
+/// レベルシーンに必要な情報をまとめているファイル
+/// </summary>
+
 enum ObjectType {
 	kMESH,
 	kLight,

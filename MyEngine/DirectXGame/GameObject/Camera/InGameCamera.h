@@ -11,6 +11,11 @@
 #include "GameObject/Camera/MainCamera.h"
 #include "GameObject/Camera/DebugCamera.h"
 
+/// <summary>
+/// InGameCamera.h
+/// インゲームシーンのカメラを処理しているファイル
+/// </summary>
+
 class InGameCamera : public Base3DCamera
 {
 public:

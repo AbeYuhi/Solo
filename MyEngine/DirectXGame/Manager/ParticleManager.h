@@ -15,6 +15,12 @@
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 
+/// <summary>
+/// ParticleManager.h
+/// パーティクルを生成するための基底クラス
+/// </summary>
+
+
 struct ParticleInfo {
 	EulerTransformData srtData;
 	Vector3 velocity;

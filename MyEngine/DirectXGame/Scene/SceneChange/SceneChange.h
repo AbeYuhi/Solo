@@ -4,6 +4,11 @@
 #include "Data/SpriteData.h"
 #include "GameObject/Camera/SpriteCamera.h"
 
+/// <summary>
+/// SceneChange.h
+/// 画面遷移
+/// </summary>
+
 class SceneChange
 {
 public:

@@ -1,6 +1,11 @@
 #pragma once
 #include "DirectXGame/Manager/TextureManager.h"
 
+/// <summary>
+/// IScene.h
+/// シーンの親クラス
+/// </summary>
+
 enum GameScene {
 	TITLE, INGAME, MENU, GAMEOVER, GAMECLEAR, SCENENUM
 };

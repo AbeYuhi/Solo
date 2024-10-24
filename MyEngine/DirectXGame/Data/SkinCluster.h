@@ -12,6 +12,11 @@
 #include "Data/Skeleton.h"
 #include "Data/ModelData.h"
 
+/// <summary>
+/// SkinCluster.h
+/// 3Dアニメーションに必要なデータがまとめられているファイル
+/// </summary>
+
 using namespace Microsoft::WRL;
 
 const uint32_t kNumMaxInfluence = 4;

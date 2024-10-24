@@ -10,6 +10,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// DirectionalLight.h
+/// 平行光源の情報をGPUに送るための構造体があるファイル
+/// </summary>
+
 struct DirectionalLightData {
 	int32_t type;
 	float padding[3];

@@ -18,6 +18,11 @@
 #include "DirectXGame/Manager/TextureManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// Sprite.h
+/// スプライトを表示するためのクラスファイル
+/// </summary>
+
 class Sprite
 {
 public: //静的メンバ関数

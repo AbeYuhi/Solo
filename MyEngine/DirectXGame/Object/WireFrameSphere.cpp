@@ -20,8 +20,6 @@ std::shared_ptr<WireFrameSphere> WireFrameSphere::Create() {
 }
 
 void WireFrameSphere::Initialize() {
-	//dxCommonのインスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	//VertexResourceの生成
 	vertexResource_ = CreateBufferResource(sizeof(VertexData) * kVertexNumber);

@@ -5,6 +5,11 @@
 #include <fstream>
 #include <map>
 
+/// <summary>
+/// AudioManager.h
+/// 音を管理しているマネージャークラス
+/// </summary>
+
 struct ChunkHeader {
 	char id[4];
 	int32_t size;

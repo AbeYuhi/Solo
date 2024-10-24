@@ -17,6 +17,11 @@
 #include "DirectXGame/Manager/ImGuiManager.h"
 #include "DirectXGame/Manager/GraphicsPipelineManager.h"
 
+/// <summary>
+/// SkyBox.h
+/// スカイボックスを表示するためのクラスファイル
+/// </summary>
+
 class SkyBox
 {
 public: //制的メンバ関数

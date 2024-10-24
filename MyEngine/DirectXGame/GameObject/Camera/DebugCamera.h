@@ -9,6 +9,11 @@
 #include "DirectXGame/Manager/InputManager.h"
 #define M_PI 3.14f
 
+/// <summary>
+/// DebugCamera.h
+/// デバッグカメラを処理しているファイル
+/// </summary>
+
 class DebugCamera
 {
 public:

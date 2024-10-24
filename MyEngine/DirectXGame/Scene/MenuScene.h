@@ -4,6 +4,11 @@
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 
+/// <summary>
+/// Menu.h
+/// メニューシーン
+/// </summary>
+
 class MenuScene : public IScene
 {
 public:

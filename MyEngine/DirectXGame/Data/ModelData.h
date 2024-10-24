@@ -5,6 +5,11 @@
 #include "Material.h"
 #include "MaterialData.h"
 
+/// <summary>
+/// ModelData.h
+/// パーティクルの情報をGPUに送るデータを格納するためのファイル
+/// </summary>
+
 struct ModelData {
 	std::vector<VertexData> vertices;
 	std::vector<uint32_t> indices;

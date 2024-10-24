@@ -8,6 +8,11 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Math.h"
 
+/// <summary>
+/// Shadow.h
+/// 射影をするために作成したクラス
+/// </summary>
+
 class Shadow
 {
 public:

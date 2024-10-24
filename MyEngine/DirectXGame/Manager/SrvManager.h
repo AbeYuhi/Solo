@@ -10,6 +10,12 @@
 #include <cassert>
 #include <map>
 
+/// <summary>
+/// SrvManager.h
+/// SRVをまとめているマネージャークラス
+/// </summary>
+
+
 using namespace Microsoft::WRL;
 
 class DirectXCommon;

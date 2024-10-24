@@ -4,6 +4,11 @@
 #include "DirectXGame/Data/SpotLight.h"
 #include "DirectXGame/Manager/ImGuiManager.h"
 
+/// <summary>
+/// LightObjectManager.h
+/// ライトをシェーダーに送るためにまとめているファイル
+/// </summary>
+
 static const int kDirectionLightNum = 1;
 static const int kPointLightNum = 3;
 static const int kSpotLightNum = 3;

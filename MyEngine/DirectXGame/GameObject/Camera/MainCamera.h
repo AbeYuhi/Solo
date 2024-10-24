@@ -11,6 +11,11 @@
 #include "DirectXGame/Data/CameraForGPU.h"
 #include "DirectXGame/Data/Transform.h"
 
+/// <summary>
+/// MainCamera.h
+/// シェーダーに送るためにカメラを管理しているファイル
+/// </summary>
+
 class MainCamera {
 public:
 	static MainCamera* GetInstance();
