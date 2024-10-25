@@ -1,5 +1,10 @@
 #include "TitleScene.h"
 
+/// <summary>
+/// TitleScene.cpp
+/// タイトルシーン
+/// </summary>
+
 TitleScene::TitleScene() {}
 
 TitleScene::~TitleScene() {}

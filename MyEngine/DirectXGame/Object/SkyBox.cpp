@@ -1,5 +1,10 @@
 #include "SkyBox.h"
 
+/// <summary>
+/// SkyBox.cpp
+/// スカイボックスを表示するためのクラスファイル
+/// </summary>
+
 SkyBox::SkyBox(){}
 SkyBox::~SkyBox(){}
 

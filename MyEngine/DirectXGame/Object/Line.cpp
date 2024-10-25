@@ -1,5 +1,10 @@
 #include "Line.h"
 
+/// <summary>
+/// Line.cpp
+/// ラインを表示するためのクラスファイル
+/// </summary>
+
 LineObj::LineObj()
 {
 }

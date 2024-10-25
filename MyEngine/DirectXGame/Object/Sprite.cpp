@@ -1,5 +1,10 @@
 #include "Sprite.h"
 
+/// <summary>
+/// Sprite.cpp
+/// スプライトを表示するためのクラスファイル
+/// </summary>
+
 Sprite::Sprite()
 {
 }

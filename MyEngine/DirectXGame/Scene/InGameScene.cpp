@@ -1,5 +1,10 @@
 #include "InGameScene.h"
 
+/// <summary>
+/// InGameScene.cpp
+/// インゲームシーン
+/// </summary>
+
 InGameScene::InGameScene() {
 
 }

@@ -2,6 +2,11 @@
 #include "DirectXGame/Data/RenderItem.h"
 #include "Object/SkyBox.h"
 
+/// <summary>
+/// Model.cpp
+/// 3dオブジェクトを表示するためのクラスファイル
+/// </summary>
+
 Model::Model() {}
 Model::~Model() {}
 

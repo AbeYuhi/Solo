@@ -1,5 +1,10 @@
 #include "WireFrameBox.h"
 
+/// <summary>
+/// WireFrameBox.cpp
+/// 立方体のフレームを表示するためのクラスファイル
+/// </summary>
+
 WireFrameBox::WireFrameBox()
 {
 }

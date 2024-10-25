@@ -1,5 +1,10 @@
 #include "GameClearScene.h"
 
+/// <summary>
+/// GameClear.cpp
+/// ゲームクリアシーン
+/// </summary>
+
 GameClearScene::GameClearScene() {}
 GameClearScene::~GameClearScene() {}
 

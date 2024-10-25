@@ -1,5 +1,10 @@
 #include "GameOverScene.h"
 
+/// <summary>
+/// GameOverScene.cpp
+/// ゲームオーバーシーン
+/// </summary>
+
 GameOverScene::GameOverScene() {}
 
 GameOverScene::~GameOverScene() {}

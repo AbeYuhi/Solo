@@ -1,5 +1,10 @@
 #include "MenuScene.h"
 
+/// <summary>
+/// Menu.cpp
+/// メニューシーン
+/// </summary>
+
 MenuScene::MenuScene(){}
 MenuScene::~MenuScene(){}
 

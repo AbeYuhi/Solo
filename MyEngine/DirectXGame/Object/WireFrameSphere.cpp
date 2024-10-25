@@ -1,5 +1,10 @@
 #include "WireFrameSphere.h"
 
+/// <summary>
+/// WireFrameSphere.cpp
+/// スフィアのフレームを表示するためのクラスファイル
+/// </summary>
+
 WireFrameSphere::WireFrameSphere()
 {
 }

@@ -1,5 +1,10 @@
 #include "WireFrameSpriteBox.h"
 
+/// <summary>
+/// WireFrameSpriteBox.cpp
+/// スプライトのフレームを表示するためのクラスファイル
+/// </summary>
+
 WireFrameSpriteBox::WireFrameSpriteBox()
 {
 }

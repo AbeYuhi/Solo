@@ -1,5 +1,10 @@
 #include "SceneChange.h"
 
+/// <summary>
+/// SceneChange.cpp
+/// 画面遷移
+/// </summary>
+
 SceneChange* SceneChange::GetInstance() {
 	static SceneChange instance;
 	return &instance;

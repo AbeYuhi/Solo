@@ -1,5 +1,10 @@
 #include "SceneFactory.h"
 
+/// <summary>
+/// SceneFactory.cpp
+/// シーンを生成するクラス
+/// </summary>
+
 SceneFactory* SceneFactory::GetInstance() {
 	static SceneFactory instance;
 	return &instance;

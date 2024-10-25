@@ -1,5 +1,10 @@
 #include "IScene.h"
 
+/// <summary>
+/// IScene.cpp
+/// シーンの親クラス
+/// </summary>
+
 int IScene::sceneNo_;
 #ifdef _DEBUG
 bool IScene::debugMode_ = true;
