@@ -1,7 +1,7 @@
 #include "Player.h"
 
 void Player::Initialize(EulerTransformData* cameraData) {
-	numberofSlashAttacks_ = 10;
+	numberofSlashAttacks_ = 2;
 	gameOverTime_ = 0.0f;
 	comboDestroyCount_ = 0;
 	invincibilityTime_ = 0.0f;
@@ -30,6 +30,8 @@ void Player::Initialize(EulerTransformData* cameraData) {
 
 	collider_.Initialize(cameraData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	CollisionManager::GetInstance()->AddCollider(&collider_);
+
+	isShot_ = false;
 }
 
 void Player::Update() {
@@ -50,14 +52,16 @@ void Player::Update() {
 	else {
 		invincibilityTime_ -= 1.0f / 60.0f;
 	}
+	
+	if (isShot_) {
+		if (numberofSlashAttacks_ > 0) {
+			if (input_->IsMouseTrigger(0)) {
+				std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
+				bullet->Initialize();
+				bullets_.push_back(std::move(bullet));
 
-	if (numberofSlashAttacks_ > 0) {
-		if (input_->IsMouseTrigger(0)) {
-			std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
-			bullet->Initialize();
-			bullets_.push_back(std::move(bullet));
-
-			numberofSlashAttacks_--;
+				numberofSlashAttacks_--;
+			}
 		}
 	}
 
@@ -74,12 +78,13 @@ void Player::Update() {
 
 	if (numberofSlashAttacks_ <= 0) {
 		gameOverTime_ += 1.0f / 60.0f;
-		if (gameOverTime_ >= 2.0f) {
+		if (gameOverTime_ >= 0.5f) {
 			isGameOver_ = true;
 		}
 	}
 	else {
 		gameOverTime_ = 0.0f;
+		isGameOver_ = false;
 	}
 
 	// もし number が 0 の場合、桁数は 1 です。

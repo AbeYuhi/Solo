@@ -707,6 +707,15 @@
     <ClInclude Include="DirectXGame\Data\Mesh.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\Data\VignettingInfo.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Shaders\PostEffect\VignetteBlur.PS.hlsl">
+      <Filter>Shader\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Data\RadialBlurInfo.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj">
@@ -792,6 +801,9 @@
       <Filter>Shader\Skybox</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffect\HSVFilter.PS.hlsl">
+      <Filter>Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffect\RadialBlur.PS.hlsl">
       <Filter>Shader\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

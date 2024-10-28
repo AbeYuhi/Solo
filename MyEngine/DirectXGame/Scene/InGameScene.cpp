@@ -70,6 +70,15 @@ void InGameScene::Initialize() {
 	crystalExplanationSprite_ = Sprite::Create();
 	crystalExplanationInfo_.Initialize(crystalExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	crystalExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
+
+	gameOverTexture_ = TextureManager::Load("gameOver_Explanation.png");
+	gameOverSprite_ = Sprite::Create();
+	gameOverInfo_.Initialize(gameOverTexture_, { 1280, 720 }, { 0.0f, 0.0f });
+	gameOverInfo_.materialInfo_.material_->color.w = 0.0f;
+	
+	backGroundTexture_ = TextureManager::Load("backGround.png");
+	backGroundSprite_ = Sprite::Create();
+	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	
 	startTimer_ = 0.0f;
 	ballShotRxplanationTime_ = 9999.9999f;
@@ -77,9 +86,15 @@ void InGameScene::Initialize() {
 	cameraSpeed_ = { 0.0f, 0.0f, 0.0f };
 	cameraEasingTimer_ = 0.0f;
 	easingTimer_ = 0.0f;
+
+	postEffectManager_->SetPostEffect(kRadialBlur);
+
+	gameOver_ = false;
+	gameOverTimer_ = 0.0f;
 }
 
 void InGameScene::Update() {
+	preSceneNo_ = INGAME;
 	//スプライトカメラの更新
 	spriteCamera_->Update();
 	mainCamera_->Update(gameCamera_->GetWorldTransrom(), gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
@@ -89,14 +104,71 @@ void InGameScene::Update() {
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 	player_.Update();
 
-	if (startTimer_ >= 1.0f) {
-		cameraEasingTimer_ += 1.0f / 120.0f;
-		if (cameraEasingTimer_ > 1.0f) {
-			cameraEasingTimer_ = 1.0f;
+	if (gameOver_) {
+		gameOverTimer_ += 1.0f / 60.0f;
+
+		gameOverInfo_.materialInfo_.material_->color.w += 0.05f;
+		if (gameOverInfo_.materialInfo_.material_->color.w > 1.0f) {
+			gameOverInfo_.materialInfo_.material_->color.w = 1;
 		}
 
-		easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
-		cameraSpeed_.z = easingTimer_ * 5.0f;
+		if (gameOverTimer_ >= 1.0f && gameOverTimer_ < 3.0f) {
+			cameraEasingTimer_ += 1.0f / 120.0f;
+			if (cameraEasingTimer_ > 1.0f) {
+				cameraEasingTimer_ = 1.0f;
+			}
+			easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
+			cameraSpeed_.z = (1.0f - easingTimer_) * 5.0f + easingTimer_ * 0.0f;
+		}
+		else if (gameOverTimer_ >= 3.0f) {
+			if (gameOverTimer_ <= 3.1f) {
+				cameraEasingTimer_ = 0;
+			}
+			cameraEasingTimer_ += 1.0f / 60.0f;
+			if (cameraEasingTimer_ > 1.0f) {
+				cameraEasingTimer_ = 1.0f;
+			}
+			easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
+			cameraSpeed_.z = easingTimer_ * -20.0f;
+
+			postEffectManager_->SetPostEffect(kRadialBlur);
+			postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.0001f;
+			if (postEffectManager_->GetRadialBlurInfo()->blurWidth >= 0.015f) {
+				sceneNo_ = TITLE;
+				SceneChange::GetInstance()->StartSceneChange();
+			}
+		}
+		else {
+			cameraEasingTimer_ = 0.0f;
+		}
+
+	}
+	else {
+		gameOverTimer_ = 0.0f;
+		if (startTimer_ >= 1.0f && startTimer_ <= 4.0f) {
+			cameraEasingTimer_ += 1.0f / 120.0f;
+			if (cameraEasingTimer_ > 1.0f) {
+				cameraEasingTimer_ = 1.0f;
+			}
+
+			easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
+			cameraSpeed_.z = (1.0f - easingTimer_) * 30.0f + easingTimer_ * 5.0f;
+			postEffectManager_->GetRadialBlurInfo()->blurWidth = (1.0f - easingTimer_) * 0.015f + easingTimer_ * 0.0f;
+			if (postEffectManager_->GetRadialBlurInfo()->blurWidth == 0.0f) {
+				postEffectManager_->SetPostEffect(kNone);
+				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
+			}
+		}
+		else {
+			cameraSpeed_.z = 5.0f;
+		}
+	}
+
+	if (cameraSpeed_.z == 5.0f) {
+		player_.SetIsShot(true);
+	}
+	else {
+		player_.SetIsShot(false);
 	}
 
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
@@ -141,7 +213,10 @@ void InGameScene::Update() {
 		sceneNo_ = GAMECLEAR;
 	}
 	if (player_.IsGameOver()) {
-		sceneNo_ = GAMEOVER;
+		gameOver_ = true;
+	}
+	else {
+		gameOver_ = false;
 	}
 
 	collisionManager_->Update();
@@ -159,7 +234,7 @@ void InGameScene::Update() {
 	ImGui::End();
 
 	ImGui::Begin("PostEffect");
-	const char* postEffects[] = { "None", "Copy", "HSVFilter", "GrayScale", "SepiaScale", "Vignette", "Smoothing"};
+	const char* postEffects[] = { "None", "Copy", "HSVFilter", "GrayScale", "SepiaScale", "Vignette", "VignetteBlur", "Smoothing", "RadialBlur"};
 	int postEffect = postEffectManager_->GetPostEffect();
 	ImGui::Combo("postEffect", &postEffect, postEffects, IM_ARRAYSIZE(postEffects));
 	postEffectManager_->SetPostEffect(static_cast<PostEffect>(postEffect));
@@ -186,6 +261,11 @@ void InGameScene::Update() {
 		postEffectManager_->SetBlurStrength(strength);
 		ImGui::EndTabItem();
 	}
+	if (ImGui::BeginTabItem("RadialBlur")) {
+		ImGui::SliderInt("numSamples", &postEffectManager_->GetRadialBlurInfo()->numSamples, 0, 20);
+		ImGui::SliderFloat("blurWidth", &postEffectManager_->GetRadialBlurInfo()->blurWidth, 0.0f, 0.1f);
+		ImGui::EndTabItem();
+	}
 	ImGui::EndTabBar();
 
 	ImGui::End();
@@ -196,8 +276,7 @@ void InGameScene::Update() {
 void InGameScene::Draw() {
 
 	///背景スプライトの描画開始 
-
-	
+	backGroundSprite_->Draw(backGroundInfo_);
 
 	///背景スプライト描画終了
 	//深度バッファのクリア
@@ -213,8 +292,13 @@ void InGameScene::Draw() {
 	stage0Scene_.Draw();
 	collisionManager_->Draw();
 
-	ballShotExplanationSprite_->Draw(ballShotExplanationInfo_);
-	crystalExplanationSprite_->Draw(crystalExplanationInfo_);
+	if (!gameOver_) {
+		ballShotExplanationSprite_->Draw(ballShotExplanationInfo_);
+		crystalExplanationSprite_->Draw(crystalExplanationInfo_);
+	}
+	if (gameOver_) {
+		gameOverSprite_->Draw(gameOverInfo_);
+	}
 
 	///オブジェクトの描画終了
 

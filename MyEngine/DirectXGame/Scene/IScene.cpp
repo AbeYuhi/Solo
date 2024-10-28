@@ -6,6 +6,7 @@
 /// </summary>
 
 int IScene::sceneNo_;
+int IScene::preSceneNo_;
 #ifdef _DEBUG
 bool IScene::debugMode_ = true;
 #else

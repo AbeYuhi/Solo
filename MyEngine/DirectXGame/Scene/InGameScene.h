@@ -24,6 +24,7 @@
 #include "GameObject/Particle/Sprite/SpriteParticle.h"
 #include "GameObject/Entity/Player.h"
 #include "LoadFile/LevelScene.h"
+#include "Scene/SceneChange/SceneChange.h"
 #include "Scene/IScene.h"
 
 /// <summary>
@@ -82,6 +83,14 @@ private:
 	std::shared_ptr<Sprite> crystalExplanationSprite_;
 	SpriteItem crystalExplanationInfo_;
 
+	uint32_t gameOverTexture_;
+	std::shared_ptr<Sprite> gameOverSprite_;
+	SpriteItem gameOverInfo_;
+	
+	uint32_t backGroundTexture_;
+	std::shared_ptr<Sprite> backGroundSprite_;
+	SpriteItem backGroundInfo_;
+
 	float startTimer_;
 	bool isBallShotRxplanation_;
 	float ballShotRxplanationTime_;
@@ -90,4 +99,7 @@ private:
 	Vector3 cameraSpeed_;
 	float cameraEasingTimer_;
 	float easingTimer_;
+
+	bool gameOver_;
+	float gameOverTimer_;
 };

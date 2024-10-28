@@ -3,6 +3,7 @@
 #include "DirectXGame/GameObject/Camera/TitleCamera.h"
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
+#include "Manager/PostEffectManager.h"
 #include "Scene/SceneChange/SceneChange.h"
 #include "Data/SpriteItem.h"
 #include "Object/Model.h"
@@ -31,6 +32,7 @@ public:
 private:
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
+	PostEffectManager* postEffectManager_;
 
 	std::unique_ptr<TitleCamera> titleCamera_;
 
@@ -48,6 +50,14 @@ private:
 	std::shared_ptr<Sprite> speedLinesSprite_;
 	SpriteItem speedLinesInfo_;
 
+	uint32_t backGroundTexture_;
+	std::shared_ptr<Sprite> backGroundSprite_;
+	SpriteItem backGroundInfo_;
+
+	uint32_t scoreTexture_;
+	std::shared_ptr<Sprite> scoreSprite_;
+	SpriteItem scoreInfo_;
+
 	SceneChange* sceneChange_;
 
 	float time_;
@@ -55,4 +65,8 @@ private:
 
 	float changeTime_;
 	bool change_;
+
+	bool isPreviousSceneInGame_;
+	bool isResult_;
+	bool isScoreImageScale_;
 };

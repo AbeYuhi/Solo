@@ -4,6 +4,7 @@
 #include "GraphicsPipelineManager.h"
 #include "SrvManager.h"
 #include "Data/SmoothingInfo.h"
+#include "Data/RadialBlurInfo.h"
 #include "Data/HSVMaterial.h"
 #include "ImGuiManager.h"
 
@@ -19,7 +20,9 @@ enum PostEffect {
 	kGrayScale,
 	kSepiaScale,
 	kVignette,
+	kVignetteBlur,
 	kSmoothing,
+	kRadialBlur,
 	kCountOfPostEffect
 };
 
@@ -49,6 +52,7 @@ public: //ゲッターセッター
 	inline void SetBlurStrength(float blurStrength) { smoothingInfo_->blurStrength = blurStrength; }
 
 	inline HSVMaterial* GetHSVMaterial() { return hsvMaterial_; }
+	inline RadialBlurInfo* GetRadialBlurInfo() { return radialBlurInfo_; }
 
 private:
 	PostEffectManager() = default;
@@ -83,5 +87,8 @@ private: //メンバ変数
 	//Smoothing
 	ComPtr<ID3D12Resource> smoothingInfoResource_ = nullptr;
 	SmoothingInfo* smoothingInfo_;
+	//RadialBlur
+	ComPtr<ID3D12Resource> radialBlurInfoResource_ = nullptr;
+	RadialBlurInfo* radialBlurInfo_;
 };
 

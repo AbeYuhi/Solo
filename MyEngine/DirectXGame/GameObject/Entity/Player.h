@@ -24,6 +24,7 @@ public:
 	inline bool IsGameClear() const { return isGameClear_; }
 	inline int* GetNumberofSlashAttacks() { return &numberofSlashAttacks_; }
 	inline int* GetComboDestroyCount() { return &comboDestroyCount_; }
+	inline void SetIsShot(bool isShot) { isShot_ = isShot; }
 
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
@@ -42,5 +43,7 @@ private:
 	Collider collider_;
 
 	float invincibilityTime_;
+
+	bool isShot_;
 };
 

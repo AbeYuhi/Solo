@@ -25,6 +25,7 @@ public:
 	virtual void Finalize() = 0;
 
 	inline int GetSceneNo() { return sceneNo_; }
+	inline int GetPreSceneNo() { return preSceneNo_; }
 
 	//画像ハンドル
 	static uint32_t uvCheckerHandle_;
@@ -33,4 +34,5 @@ public:
 protected:
 	static bool debugMode_;
 	static int sceneNo_;
+	static int preSceneNo_;
 };

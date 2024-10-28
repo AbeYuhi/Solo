@@ -2,7 +2,7 @@
 
 void Framework::Initialize() {
 	//タイトルネーム
-	const wchar_t title[] = L"MyEngine";
+	const wchar_t title[] = L"Hit";
 
 #pragma region エンジン部分
 
