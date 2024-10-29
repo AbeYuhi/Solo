@@ -369,6 +369,55 @@
                     2.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    10.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    0.30000001192092896,
+                    4.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "GLASS",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "groundingInfos_up": false,
+                "groundingInfos_down": true,
+                "groundingInfos_right": false,
+                "groundingInfos_left": false,
+                "glassMoveTypes": "DONTMOVE",
+                "verticalDivisions": 5,
+                "horizontalDivisions": 3
+            }
         }
     ]
 }

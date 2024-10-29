@@ -30,6 +30,9 @@ void LevelScene::Update() {
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Update();
 	}
+	for (auto& glassData : gameObject_.glassDatas_) {
+		glassData.Update();
+	}
 }
 
 void LevelScene::Draw() {
@@ -42,6 +45,9 @@ void LevelScene::Draw() {
 	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
+	}
+	for (auto& glassData : gameObject_.glassDatas_) {
+		glassData.Draw();
 	}
 }
 
@@ -456,7 +462,7 @@ void LevelScene::LevelCreate() {
 				tag = GLASS;
 			}
 
-			if (objectData.collider->type != "NONE" && objectData.collider->type != "GLASS") {
+			if (objectData.collider->type != "NONE" && objectData.collider->tag != "GLASS") {
 
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(

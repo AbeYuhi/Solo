@@ -1,7 +1,7 @@
 #include "Player.h"
 
 void Player::Initialize(EulerTransformData* cameraData) {
-	numberofSlashAttacks_ = 2;
+	numberofSlashAttacks_ = 25;
 	gameOverTime_ = 0.0f;
 	comboDestroyCount_ = 0;
 	invincibilityTime_ = 0.0f;

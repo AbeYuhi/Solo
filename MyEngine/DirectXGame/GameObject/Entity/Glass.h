@@ -45,5 +45,6 @@ private:
 	MoveType type_;
 	GroundingInfo groudingInfo_;
 	std::vector<std::vector<RenderItem>> renderItems_;
+	std::vector<std::vector<Collider>> colliders_;
 };
 

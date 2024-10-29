@@ -159,8 +159,10 @@ void InGameScene::Update() {
 				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 			}
 		}
-		else {
+		else if (startTimer_ >= 4.0f) {
 			cameraSpeed_.z = 5.0f;
+			postEffectManager_->SetPostEffect(kNone);
+			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 		}
 	}
 
