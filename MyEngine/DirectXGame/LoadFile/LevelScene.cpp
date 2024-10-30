@@ -31,7 +31,7 @@ void LevelScene::Update() {
 		doorData.Update();
 	}
 	for (auto& glassData : gameObject_.glassDatas_) {
-		glassData.Update();
+		glassData->Update();
 	}
 }
 
@@ -47,7 +47,7 @@ void LevelScene::Draw() {
 		doorData.Draw();
 	}
 	for (auto& glassData : gameObject_.glassDatas_) {
-		glassData.Draw();
+		glassData->Draw();
 	}
 }
 
@@ -495,9 +495,9 @@ void LevelScene::LevelCreate() {
 				gameObject_.crystalDatas_.push_back(crystal);
 			}
 			else if (objectData.collider->tag == "GLASS") {
-				Glass glass;
-				glass.Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
-				gameObject_.glassDatas_.push_back(glass);
+				std::unique_ptr<Glass> glass = std::make_unique<Glass>();
+				glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
+				gameObject_.glassDatas_.push_back(std::move(glass));
 			}
 			else{
 				if (objectData.type == kMESH) {

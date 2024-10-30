@@ -39,7 +39,7 @@ struct LevelObject {
 	std::vector<ObjData> wallDatas_;
 	std::vector<Door> doorDatas_;
 	std::vector<Crystal> crystalDatas_;
-	std::vector<Glass> glassDatas_;
+	std::vector<std::unique_ptr<Glass>> glassDatas_;
 	CameraData cameraData_;
 };
 
