@@ -44,7 +44,8 @@ private:
 	
 	MoveType type_;
 	GroundingInfo groudingInfo_;
-	Vector2 division_;
+	unsigned int divisionX_;
+	unsigned int divisionY_;
 	std::vector<std::vector<std::unique_ptr<RenderItem>>> renderItems_;
 	std::vector<std::vector<std::unique_ptr<Collider>>> colliders_;
 };
