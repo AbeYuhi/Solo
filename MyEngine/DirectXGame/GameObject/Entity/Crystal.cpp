@@ -26,6 +26,10 @@ void Crystal::Update() {
 		}
 	}
 
+	if (isBreak_) {
+		data_.collider->isDelete_ = true;
+	}
+
 }
 
 void Crystal::Draw() {
