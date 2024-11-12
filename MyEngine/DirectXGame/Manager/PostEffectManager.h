@@ -4,6 +4,7 @@
 #include "GraphicsPipelineManager.h"
 #include "SrvManager.h"
 #include "Data/SmoothingInfo.h"
+#include "Data/VignetteBlurInfo.h"
 #include "Data/RadialBlurInfo.h"
 #include "Data/HSVMaterial.h"
 #include "ImGuiManager.h"
@@ -53,6 +54,7 @@ public: //ゲッターセッター
 
 	inline HSVMaterial* GetHSVMaterial() { return hsvMaterial_; }
 	inline RadialBlurInfo* GetRadialBlurInfo() { return radialBlurInfo_; }
+	inline VignetteBlurInfo* GetVignetteBlurInfo() { return vignetteBlurInfo_; }
 
 private:
 	PostEffectManager() = default;
@@ -90,5 +92,8 @@ private: //メンバ変数
 	//RadialBlur
 	ComPtr<ID3D12Resource> radialBlurInfoResource_ = nullptr;
 	RadialBlurInfo* radialBlurInfo_;
+	//VignetteBlur
+	ComPtr<ID3D12Resource> vignetteBlurInfoResource_ = nullptr;
+	VignetteBlurInfo* vignetteBlurInfo_;
 };
 

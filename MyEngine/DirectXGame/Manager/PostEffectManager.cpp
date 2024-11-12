@@ -37,6 +37,13 @@ void PostEffectManager::Initialize() {
 	radialBlurInfoResource_->Map(0, nullptr, reinterpret_cast<void**>(&radialBlurInfo_));
 	radialBlurInfo_->numSamples = 20;
 	radialBlurInfo_->blurWidth = 0.005f;
+
+	//vignetteBlur
+	vignetteBlurInfoResource_ = CreateBufferResource(sizeof(VignetteBlurInfo));
+	vignetteBlurInfoResource_->Map(0, nullptr, reinterpret_cast<void**>(&vignetteBlurInfo_));
+	vignetteBlurInfo_->intensity = 1.0f;
+	vignetteBlurInfo_->blurAmount = 0.5f;
+	
 }
 
 void PostEffectManager::PreDraw() {
@@ -171,6 +178,9 @@ void PostEffectManager::RenderPostDraw() {
 	case kVignette:
 
 		break;
+	case kVignetteBlur:
+		directX->GetCommandList()->SetGraphicsRootConstantBufferView(1, vignetteBlurInfoResource_->GetGPUVirtualAddress());
+		break;
 	case kSmoothing:
 		directX->GetCommandList()->SetGraphicsRootConstantBufferView(1, smoothingInfoResource_->GetGPUVirtualAddress());
 		break;
@@ -214,6 +224,7 @@ void PostEffectManager::CreateRootSignature() {
 	for (int shaderPack = 0; shaderPack < PostEffect::kCountOfPostEffect; shaderPack++) {
 		switch (shaderPack)
 		{
+		case PostEffect::kVignetteBlur:
 		case PostEffect::kHSVFilter:
 		case PostEffect::kSmoothing:
 		case PostEffect::kRadialBlur:

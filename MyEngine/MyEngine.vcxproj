@@ -192,6 +192,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Data\RadialBlurInfo.h" />
+    <ClInclude Include="DirectXGame\Data\VignetteBlurInfo.h" />
     <ClInclude Include="DirectXGame\GameObject\Entity\Crystal.h" />
     <ClInclude Include="DirectXGame\Data\AnimationData.h" />
     <ClInclude Include="DirectXGame\Data\Animation.h" />

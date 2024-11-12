@@ -46,7 +46,7 @@ void Player::Update() {
 
 			numberofSlashAttacks_ -= 10;
 			comboDestroyCount_ = 0;
-			invincibilityTime_ = 0.25f;
+			invincibilityTime_ = 1.25f;
 		}
 	}
 	else {

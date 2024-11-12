@@ -154,16 +154,12 @@ void InGameScene::Update() {
 			easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
 			cameraSpeed_.z = (1.0f - easingTimer_) * 30.0f + easingTimer_ * 5.0f;
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = (1.0f - easingTimer_) * 0.015f + easingTimer_ * 0.0f;
-			if (postEffectManager_->GetRadialBlurInfo()->blurWidth == 0.0f) {
+			if (cameraEasingTimer_ >= 1.0f) {
+				cameraSpeed_.z = 5.0f;
 				postEffectManager_->SetPostEffect(kNone);
 				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 			}
-		}
-		else if (startTimer_ >= 4.0f) {
-			cameraSpeed_.z = 5.0f;
-			postEffectManager_->SetPostEffect(kNone);
-			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
-		}
+		}	
 	}
 
 	if (cameraSpeed_.z == 5.0f) {
@@ -266,6 +262,11 @@ void InGameScene::Update() {
 	if (ImGui::BeginTabItem("RadialBlur")) {
 		ImGui::SliderInt("numSamples", &postEffectManager_->GetRadialBlurInfo()->numSamples, 0, 20);
 		ImGui::SliderFloat("blurWidth", &postEffectManager_->GetRadialBlurInfo()->blurWidth, 0.0f, 0.1f);
+		ImGui::EndTabItem();
+	}
+	if (ImGui::BeginTabItem("VignetteBlur")) {
+		ImGui::SliderFloat("intensity", &postEffectManager_->GetVignetteBlurInfo()->intensity, 0.0f, 10.0f);
+		ImGui::SliderFloat("blurAmount", &postEffectManager_->GetVignetteBlurInfo()->blurAmount, 0.0f, 5.0f);
 		ImGui::EndTabItem();
 	}
 	ImGui::EndTabBar();
