@@ -23,6 +23,12 @@ public:
 		bool rigft;
 		bool left;
 	};
+
+	struct GlassPiece {
+		std::unique_ptr<Collider> collider;
+		bool isBreak;
+	};
+
 public:
 	Glass();
 	~Glass();
@@ -48,5 +54,7 @@ private:
 	unsigned int divisionY_;
 	std::vector<std::vector<std::unique_ptr<RenderItem>>> renderItems_;
 	std::vector<std::vector<std::unique_ptr<Collider>>> colliders_;
+
+	bool isBreak;
 };
 
