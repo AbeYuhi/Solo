@@ -26,7 +26,7 @@ public:
 
 	struct GlassPiece {
 		std::unique_ptr<Collider> collider;
-		bool isBreak;
+		bool isConnected;
 	};
 
 public:
@@ -53,7 +53,7 @@ private:
 	unsigned int divisionX_;
 	unsigned int divisionY_;
 	std::vector<std::vector<std::unique_ptr<RenderItem>>> renderItems_;
-	std::vector<std::vector<std::unique_ptr<Collider>>> colliders_;
+	std::vector<std::vector<GlassPiece>> colliders_;
 
 	bool isBreak;
 };

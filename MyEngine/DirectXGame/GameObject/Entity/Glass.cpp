@@ -50,7 +50,7 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		renderItems_.push_back(std::vector<std::unique_ptr<RenderItem>>()); // 新しい行を追加
-		colliders_.push_back(std::vector<std::unique_ptr<Collider>>()); // 新しい行を追加
+		colliders_.push_back(std::vector<GlassPiece>()); // 新しい行を追加
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			std::unique_ptr<RenderItem> item = std::make_unique<RenderItem>();
 			item->Initialize();
@@ -63,8 +63,10 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 			item->worldTransform_.data_.translate_.y = baseY - (sizeY / 2) + (y + 0.5f) * segmentHeight;
 			item->worldTransform_.data_.translate_.z = baseZ;
 
-			std::unique_ptr<Collider> colliderItem = std::make_unique<Collider>();
-			colliderItem->Initialize(item->worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
+			GlassPiece colliderItem;
+			colliderItem.isConnected = false;
+			colliderItem.collider = std::make_unique<Collider>();
+			colliderItem.collider->Initialize(item->worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
 
 			colliders_[y].push_back(std::move(colliderItem));
 			renderItems_[y].push_back(std::move(item));
@@ -80,7 +82,7 @@ void Glass::Update() {
 
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				CollisionManager::GetInstance()->AddCollider(colliders_[y][x].get());
+				CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
 			}
 		}
 	}
@@ -88,15 +90,18 @@ void Glass::Update() {
 	if (isBreak) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (colliders_[y][x]->isContact_[BULLET]) {
-					colliders_[y][x]->isDelete_ = true;
+				if (colliders_[y][x].collider->isContact_[BULLET]) {
+					colliders_[y][x].collider->isDelete_ = true;
 				}
+				colliders_[y][x].isConnected = false;
 			}
 		}
 
 		if (groudingInfo_.up) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-
+				if (!colliders_[0][x].collider->isDelete_) {
+					colliders_[0][x].isConnected = true;
+				}
 			}
 		}
 		if (groudingInfo_.down) {
@@ -119,7 +124,7 @@ void Glass::Update() {
 	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z + 1.0f) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				colliders_[y][x]->isDelete_ = true;
+				colliders_[y][x].collider->isDelete_ = true;
 			}
 		}
 	}
