@@ -44,10 +44,10 @@ PixelShaderOutput main(VertexShaderOutput input)
         //blurredColor += gTexture.Sample(gSampler, input.texcoord - offset);
         //blurredColor /= 3; // 平均化してぼかし効果を出す
         
-        float2 offset1 = blurAmount * float2(1.0 / resolution.x, 0.0);
-        float2 offset2 = blurAmount * float2(0.0, 1.0 / resolution.y);
-        float2 offset3 = blurAmount * float2(1.0 / resolution.x, 1.0 / resolution.y);
-        float2 offset4 = blurAmount * float2(-1.0 / resolution.x, -1.0 / resolution.y);
+        float2 offset1 = gVignetteBlurInfo.blurAmount * float2(1.0 / width, 0.0);
+        float2 offset2 = gVignetteBlurInfo.blurAmount * float2(0.0, 1.0 / height);
+        float2 offset3 = gVignetteBlurInfo.blurAmount * float2(1.0 / width, 1.0 / height);
+        float2 offset4 = gVignetteBlurInfo.blurAmount * float2(-1.0 / width, -1.0 / height);
 
         // オフセットした位置からのサンプリング
         blurredColor += gTexture.Sample(gSampler, input.texcoord + offset1);

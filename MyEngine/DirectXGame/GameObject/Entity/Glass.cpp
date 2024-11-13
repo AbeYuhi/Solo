@@ -32,7 +32,7 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 	divisionY_ = info.horizontalDivisions;
 
 	mainColldier_.Initialize(renderItem_.worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
-	//CollisionManager::GetInstance()->AddCollider(&mainColldier_);
+	CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
 	float sizeX = renderItem_.worldTransform_.data_.scale_.x * 2.0f;
@@ -65,6 +65,7 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 
 			GlassPiece colliderItem;
 			colliderItem.isConnected = false;
+			colliderItem.isBreaked = false;
 			colliderItem.collider = std::make_unique<Collider>();
 			colliderItem.collider->Initialize(item->worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
 
@@ -91,7 +92,7 @@ void Glass::Update() {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				if (colliders_[y][x].collider->isContact_[BULLET]) {
-					colliders_[y][x].collider->isDelete_ = true;
+					colliders_[y][x].isBreaked = true;
 				}
 				colliders_[y][x].isConnected = false;
 			}
@@ -99,51 +100,204 @@ void Glass::Update() {
 
 		if (groudingInfo_.up) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (!colliders_[0][x].collider->isDelete_) {
-					colliders_[0][x].isConnected = true;
+				if (!colliders_[divisionY_ - 1][x].isBreaked) {
+					colliders_[divisionY_ - 1][x].isConnected = true;
 				}
 			}
 		}
 		if (groudingInfo_.down) {
-
+			for (unsigned int x = 0; x < divisionX_; x++) {
+				if (!colliders_[0][x].isBreaked) {
+					colliders_[0][x].isConnected = true;
+				}
+			}
 		}
 		if (groudingInfo_.left) {
-
+			for (unsigned int y = 0; y < divisionY_; y++) {
+				if (!colliders_[y][0].isBreaked) {
+					colliders_[y][0].isConnected = true;
+				}
+			}
 		}
 		if (groudingInfo_.rigft) {
+			for (unsigned int y = 0; y < divisionY_; y++) {
+				if (!colliders_[y][divisionX_ - 1].isBreaked) {
+					colliders_[y][divisionX_ - 1].isConnected = true;
+				}
+			}
+		}
 
+		bool isChange = false;
+		while (true) {
+			isChange = false;
+			for (unsigned int y = 0; y < divisionY_; y++) {
+				for (unsigned int x = 0; x < divisionX_; x++) {
+					if (!colliders_[y][x].isBreaked && colliders_[y][x].isConnected) {
+						
+						if (y == 0 && x == 0) {	//左下の場合
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (y == 0 && x == divisionX_ - 1) {	//右下の場合
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (y == divisionY_ - 1 && x == 0) {	//左上の場合
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (y == divisionY_ - 1 && x == divisionX_ - 1) {	//右上の場合
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (y == 0) {	//下のラインの場合
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (y == divisionY_ - 1) {	//上のラインの場合
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (x == 0) {	//左のラインの場合
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else if (x == divisionX_ - 1) {	//右のラインの場合
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+						}
+						else {	//それ以外
+							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
+								colliders_[y - 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
+								colliders_[y + 1][x].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
+								colliders_[y][x - 1].isConnected = true;
+								isChange = true;
+							}
+							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
+								colliders_[y][x + 1].isConnected = true;
+								isChange = true;
+							}
+						}
+					}
+				}
+			}
+
+			if (!isChange) {
+				break;
+			}
 		}
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				
-
+				if (!colliders_[y][x].isConnected) {
+					colliders_[y][x].isBreaked = true;
+				}
 			}
 		}
+
 	}
 
 	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z + 1.0f) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
+				mainColldier_.isDelete_ = true;
 				colliders_[y][x].collider->isDelete_ = true;
 			}
 		}
 	}
 
+	///テスト
+	for (unsigned int y = 0; y < divisionY_; y++) {
+		for (unsigned int x = 0; x < divisionX_; x++) {
+			if (colliders_[y][x].isBreaked) {
+				colliders_[y][x].collider->isDelete_ = true;
+			}
+		}
+	}
 }
 
 void Glass::Draw() {
 
-	/*if (isBreak) {
+	if (isBreak) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-
-				model_->Draw(*renderItems_[y][x], 1);
-
+				if (!colliders_[y][x].isBreaked) {
+					model_->Draw(*renderItems_[y][x], 1);
+				}
 			}
 		}
 	}
 	else {
 		model_->Draw(renderItem_, 1);
-	}*/
+	}
 
 }

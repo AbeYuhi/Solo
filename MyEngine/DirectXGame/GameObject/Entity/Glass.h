@@ -26,6 +26,7 @@ public:
 
 	struct GlassPiece {
 		std::unique_ptr<Collider> collider;
+		bool isBreaked;
 		bool isConnected;
 	};
 
