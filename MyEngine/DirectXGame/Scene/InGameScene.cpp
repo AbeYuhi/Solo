@@ -91,13 +91,15 @@ void InGameScene::Initialize() {
 
 	gameOver_ = false;
 	gameOverTimer_ = 0.0f;
+
+	playerSpeed_ = { 0.0f,0.0f, 10.0f };
 }
 
 void InGameScene::Update() {
 	preSceneNo_ = INGAME;
 	//スプライトカメラの更新
 	spriteCamera_->Update();
-	mainCamera_->Update(gameCamera_->GetWorldTransrom(), gameCamera_->GetWorldMatrix(), gameCamera_->GetProjectionMatrix());
+	gameCamera_->Update();
 	//ライトの更新
 	lightObj_->Update();
 	//影の更新
@@ -152,21 +154,15 @@ void InGameScene::Update() {
 			}
 
 			easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
-			cameraSpeed_.z = (1.0f - easingTimer_) * 30.0f + easingTimer_ * 5.0f;
+			cameraSpeed_.z = (1.0f - easingTimer_) * 30.0f + easingTimer_ * playerSpeed_.z;
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = (1.0f - easingTimer_) * 0.015f + easingTimer_ * 0.0f;
 			if (cameraEasingTimer_ >= 1.0f) {
-				cameraSpeed_.z = 5.0f;
+				cameraSpeed_.z = playerSpeed_.z;
+				player_.SetIsShot(true);
 				postEffectManager_->SetPostEffect(kNone);
 				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 			}
 		}	
-	}
-
-	if (cameraSpeed_.z == 5.0f) {
-		player_.SetIsShot(true);
-	}
-	else {
-		player_.SetIsShot(false);
 	}
 
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
@@ -201,8 +197,6 @@ void InGameScene::Update() {
 			crystalExplanationInfo_.materialInfo_.material_->color.w = 0;
 		}
 	}
-
-	gameCamera_->Update();
 
 	levelScene_.Update();
 	stage0Scene_.Update();

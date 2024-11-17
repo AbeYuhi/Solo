@@ -61,5 +61,21 @@ private:
 	bool isBreak;
 	float time_;
 	EulerTransformData keepData_;
+	Vector3 moveLimit_;
+	bool isTurnAround_;
+
+	//分割片ガラスのサイズ
+	float sizeX_;
+	float sizeY_;
+	float sizeZ_;
+
+	//分割片のサイズを計算
+	float segmentWidth_;
+	float segmentHeight_;
+
+	//基準点（ガラス全体の中心点）
+	float baseX_;
+	float baseY_;
+	float baseZ_;
 };
 

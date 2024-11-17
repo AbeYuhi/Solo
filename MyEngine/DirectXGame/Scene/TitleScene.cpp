@@ -68,7 +68,7 @@ void TitleScene::Initialize() {
 
 	time_ = 0.0f;
 	change_ = false;
-	postEffectManager_->SetPostEffect(kVignetteBlur);
+	postEffectManager_->SetPostEffect(kNone);
 }
 
 void TitleScene::Update() {

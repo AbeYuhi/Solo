@@ -26,7 +26,10 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 
 	renderItem_.Initialize();
 	renderItem_.worldTransform_.data_ = renderItem->worldTransform_.data_;
-	renderItem_.materialInfo_.material_->color.w = 0.1f;
+	renderItem_.materialInfo_.material_->color.w = 0.5f;
+	renderItem_.materialInfo_.material_->color.x = 0.5f;
+	renderItem_.materialInfo_.material_->color.y = 0.5f;
+	renderItem_.materialInfo_.material_->color.z = 0.5f;
 	renderItem_.materialInfo_.material_->enableLightint = 1;
 
 	divisionX_ = info.verticalDivisions;
@@ -34,63 +37,58 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 
 	time_ = 0.0f;
 	keepData_ = renderItem->worldTransform_.data_;
+	moveLimit_ = {5.0f, 0.0f, 0.0f};
+	isTurnAround_ = false;
 
 	mainColldier_.Initialize(renderItem_.worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
 	CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
-	float sizeX = keepData_.scale_.x * 2.0f;
-	float sizeY = keepData_.scale_.y * 2.0f;
-	float sizeZ = keepData_.scale_.z * 2.0f;
+	sizeX_ = keepData_.scale_.x * 2.0f;
+	sizeY_ = keepData_.scale_.y * 2.0f;
+	sizeZ_ = keepData_.scale_.z * 2.0f;
 
 	// 分割片のサイズを計算
-	float segmentWidth = sizeX / divisionX_;
-	float segmentHeight = sizeY / divisionY_;
+	segmentWidth_ = sizeX_ / divisionX_;
+	segmentHeight_ = sizeY_ / divisionY_;
 
 	// 基準点（ガラス全体の中心点）
-	float baseX = keepData_.translate_.x;
-	float baseY = keepData_.translate_.y;
-	float baseZ = keepData_.translate_.z;
-	switch (type_)
-	{
-	case Glass::DONTMOVE:
-		break;
-	case Glass::ALTERNATE_LEFT_RIGHT:
-		break;
-	case Glass::UPRIGHT:
-		float halfSizeY = renderItem_.worldTransform_.data_.scale_.y;
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-		newPos *= halfSizeY;
-		renderItem_.worldTransform_.data_.translate_.x = baseX + newPos.x;
-		renderItem_.worldTransform_.data_.translate_.y = 2 + newPos.y;
-		renderItem_.worldTransform_.data_.translate_.z = baseZ + newPos.z;
+	baseX_ = keepData_.translate_.x;
+	baseY_ = keepData_.translate_.y;
+	baseZ_ = keepData_.translate_.z;
+	
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
+	newPos *= renderItem_.worldTransform_.data_.scale_.y;
+	renderItem_.worldTransform_.data_.translate_.x = baseX_ + newPos.x;
+	renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
+	renderItem_.worldTransform_.data_.translate_.z = baseZ_ + newPos.z;
 
-		// 基準点（ガラス全体の中心点）
-		baseX = keepData_.translate_.x;
-		baseY = keepData_.translate_.y;
-		baseZ = keepData_.translate_.z;
-		break;
-	default:
-		break;
-	}
+	// 基準点（ガラス全体の中心点）
+	baseX_ = renderItem_.worldTransform_.data_.translate_.x;
+	baseY_ = renderItem_.worldTransform_.data_.translate_.y;
+	baseZ_ = renderItem_.worldTransform_.data_.translate_.z;
 
+	//小さい破片ごとの初期化
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		renderItems_.push_back(std::vector<std::unique_ptr<RenderItem>>()); // 新しい行を追加
 		colliders_.push_back(std::vector<GlassPiece>()); // 新しい行を追加
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			std::unique_ptr<RenderItem> item = std::make_unique<RenderItem>();
 			item->Initialize();
-			item->worldTransform_.data_.scale_.x = segmentWidth / 2.0f;
-			item->worldTransform_.data_.scale_.y = segmentHeight / 2.0f;
-			item->worldTransform_.data_.scale_.z = sizeZ / 2.0f;
+			item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
+			item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
+			item->worldTransform_.data_.scale_.z = sizeZ_ / 2.0f;
 			item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
-			item->materialInfo_.material_->color.w = 0.1f;
+			item->materialInfo_.material_->color.w = 0.5f;
+			item->materialInfo_.material_->color.x = 0.5f;
+			item->materialInfo_.material_->color.y = 0.5f;
+			item->materialInfo_.material_->color.z = 0.5f;
 			item->materialInfo_.material_->enableLightint = 1;
 
 			// ローカル位置を計算
-			float localX = -sizeX / 2 + (x + 0.5f) * segmentWidth;
-			float localY = -sizeY / 2 + (y + 0.5f) * segmentHeight;
+			float localX = -sizeX_ / 2 + (x + 0.5f) * segmentWidth_;
+			float localY = -sizeY_ / 2 + (y + 0.5f) * segmentHeight_;
 			float localZ = 0.0f; // Z方向は固定
 
 			Vector3 localPosition = { localX, localY, localZ };
@@ -99,9 +97,9 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 			Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);	
 			Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-			item->worldTransform_.data_.translate_.x = baseX + rotatedPosition.x;
-			item->worldTransform_.data_.translate_.y = baseY + rotatedPosition.y;
-			item->worldTransform_.data_.translate_.z = baseZ + rotatedPosition.z;
+			item->worldTransform_.data_.translate_.x = baseX_ + rotatedPosition.x;
+			item->worldTransform_.data_.translate_.y = baseY_ + rotatedPosition.y;
+			item->worldTransform_.data_.translate_.z = baseZ_ + rotatedPosition.z;
 
 			GlassPiece colliderItem;
 			colliderItem.isConnected = false;
@@ -134,6 +132,19 @@ void Glass::Update() {
 	case Glass::DONTMOVE:
 		break;
 	case Glass::ALTERNATE_LEFT_RIGHT:
+		time_ += 1.0f / 60.0f;
+		if (!isTurnAround_) {
+			renderItem_.worldTransform_.data_.translate_.x += 4.0f / 60.0f;
+			if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
+				isTurnAround_ = true;
+			}
+		}
+		else {
+			renderItem_.worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
+			if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
+				isTurnAround_ = false;
+			}
+		}
 		break;
 	case Glass::UPRIGHT:
 		if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z - 50.0f) {
@@ -142,55 +153,40 @@ void Glass::Update() {
 				time_ = 1.0f;
 			}
 			renderItem_.worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
-
-			// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
-			float sizeX = renderItem_.worldTransform_.data_.scale_.x * 2.0f;
-			float sizeY = renderItem_.worldTransform_.data_.scale_.y * 2.0f;
-			float sizeZ = renderItem_.worldTransform_.data_.scale_.z * 2.0f;
-
-			// 分割片のサイズを計算
-			float segmentWidth = sizeX / divisionX_;
-			float segmentHeight = sizeY / divisionY_;
-
-			// 基準点（ガラス全体の中心点）
-			float baseX = keepData_.translate_.x;
-			float baseY = keepData_.translate_.y;
-			float baseZ = keepData_.translate_.z;
-
-			float halfSizeY = renderItem_.worldTransform_.data_.scale_.y;
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-			Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-			newPos *= halfSizeY;
-			renderItem_.worldTransform_.data_.translate_.x = baseX + newPos.x;
-			renderItem_.worldTransform_.data_.translate_.y = 2 + newPos.y;
-			renderItem_.worldTransform_.data_.translate_.z = baseZ + newPos.z;
-
-			for (unsigned int y = 0; y < divisionY_; y++) {
-				for (unsigned int x = 0; x < divisionX_; x++) {
-					if (!colliders_[y][x].isBreaked) {
-						renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
-
-						// ローカル位置を計算
-						float localX = -sizeX / 2 + (x + 0.5f) * segmentWidth;
-						float localY = -sizeY / 2 + (y + 0.5f) * segmentHeight;
-						float localZ = 0.0f; // Z方向は固定
-
-						Vector3 localPosition = { localX, localY, localZ };
-
-						// 回転を適用
-						Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-						Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
-
-						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
-						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
-						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
-					}
-				}
-			}
 		}
+
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
+		newPos *= renderItem_.worldTransform_.data_.scale_.y;
+		renderItem_.worldTransform_.data_.translate_.x = baseX_ + newPos.x;
+		renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
+		renderItem_.worldTransform_.data_.translate_.z = baseZ_ + newPos.z;
 		break;
 	default:
 		break;
+	}
+
+	for (unsigned int y = 0; y < divisionY_; y++) {
+		for (unsigned int x = 0; x < divisionX_; x++) {
+			if (!colliders_[y][x].isBreaked) {
+				renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+
+				// ローカル位置を計算
+				float localX = -sizeX_ / 2 + (x + 0.5f) * segmentWidth_;
+				float localY = -sizeY_ / 2 + (y + 0.5f) * segmentHeight_;
+				float localZ = 0.0f; // Z方向は固定
+
+				Vector3 localPosition = { localX, localY, localZ };
+
+				// 回転を適用
+				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+
+				renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
+				renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
+				renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+			}
+		}
 	}
 
 	if (isBreak) {
@@ -376,6 +372,7 @@ void Glass::Update() {
 				if (colliders_[y][x].breakTime == 0.0f) {
 					colliders_[y][x].collider->isDelete_ = true;
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_[BULLET] * 3.0f) * -1.0f;
+					colliders_[y][x].velocity.z *= 1.5f;
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;
 				colliders_[y][x].velocity.y -= 2.8f * (1.0f / 60.0f);

@@ -4,7 +4,8 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	numberofSlashAttacks_ = 25;
 	gameOverTime_ = 0.0f;
 	comboDestroyCount_ = 0;
-	invincibilityTime_ = 0.0f;
+	doorInvincibilityTime_ = 0.0f;
+	glassInvincibilityTime_ = 0.0f;
 	cameraData_ = cameraData;
 
 	numberSpriteTextures_[0] = TextureManager::Load("numberTexture/0.png");
@@ -41,16 +42,65 @@ void Player::Update() {
 		isGameClear_ = true;
 	}
 
-	if (invincibilityTime_ <= 0.0f) {
+	if (doorInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 
 			numberofSlashAttacks_ -= 10;
 			comboDestroyCount_ = 0;
-			invincibilityTime_ = 1.25f;
+			doorInvincibilityTime_ = 1.25f;
+
+			isHitEffect_ = true;
+			time_ = 0.0f;
 		}
 	}
 	else {
-		invincibilityTime_ -= 1.0f / 60.0f;
+		doorInvincibilityTime_ -= 1.0f / 60.0f;
+	}
+
+	if (glassInvincibilityTime_ <= 0.0f) {
+		if (collider_.isContact_[GLASS]) {
+			numberofSlashAttacks_ -= 10;
+			comboDestroyCount_ = 0;
+			glassInvincibilityTime_ = 0.5f;
+
+			isHitEffect_ = true;
+			time_ = 0.0f;
+		}
+	}
+	else {
+		glassInvincibilityTime_ -= 1.0f / 60.0f;
+	}
+
+	if (isHitEffect_) {
+		time_ += 1.0f / 60.0f;
+		PostEffectManager::GetInstance()->SetPostEffect(kVignetteBlur);
+		if (RandomManager::GetInstance()->GetRandomNumber(0, 1) == 1) {
+			MainCamera::GetInstance()->transform_.rotate_.z += 0.01f;
+		}
+		else {
+			MainCamera::GetInstance()->transform_.rotate_.z -= 0.01f;
+		}
+		MainCamera::GetInstance()->Update();
+		
+		if (time_ <= 0.5f) {
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity += 0.005f;
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount += 0.001f;
+		}
+		else {
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity -= 0.005f;
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount -= 0.001f;
+		}
+
+		if (time_ >= 1.0f) {
+			isHitEffect_ = false;
+			PostEffectManager::GetInstance()->SetPostEffect(kNone);
+			MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity = 0.5f;
+			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount = 0.5f;
+		}
+	}
+	else {
+		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
 	}
 	
 	if (isShot_) {

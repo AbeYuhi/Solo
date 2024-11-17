@@ -18,9 +18,15 @@ void MainCamera::Initialize() {
 	cameraData_->worldPosition = {0};
 }
 
+void MainCamera::Update() {
+	worldMatrix_ = MakeAffineMatrix(transform_);
+	viewMatrix_ = Inverse(worldMatrix_);
+	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+}
+
 void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Matrix4x4 projectionMatrix) {
 	transform_ = transform;
-	worldMatrix_ = worldMatrix;
+	worldMatrix_ = MakeAffineMatrix(transform);
 	viewMatrix_ = Inverse(worldMatrix_);
 	projectionMatrix_ = projectionMatrix;
 	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);

@@ -2,6 +2,8 @@
 #include <memory>
 #include <list>
 #include "Object/Sprite.h"
+#include "Manager/PostEffectManager.h"
+#include "Manager/RandomManager.h"
 #include "PlayerBullet.h"
 
 /// <summary>
@@ -42,8 +44,12 @@ private:
 	EulerTransformData* cameraData_;
 	Collider collider_;
 
-	float invincibilityTime_;
+	float doorInvincibilityTime_;
+	float glassInvincibilityTime_;
 
 	bool isShot_;
+
+	bool isHitEffect_;
+	float time_;
 };
 

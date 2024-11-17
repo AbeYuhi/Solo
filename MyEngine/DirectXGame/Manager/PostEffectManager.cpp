@@ -41,7 +41,7 @@ void PostEffectManager::Initialize() {
 	//vignetteBlur
 	vignetteBlurInfoResource_ = CreateBufferResource(sizeof(VignetteBlurInfo));
 	vignetteBlurInfoResource_->Map(0, nullptr, reinterpret_cast<void**>(&vignetteBlurInfo_));
-	vignetteBlurInfo_->intensity = 1.0f;
+	vignetteBlurInfo_->intensity = 0.5f;
 	vignetteBlurInfo_->blurAmount = 0.5f;
 	
 }

@@ -102,4 +102,6 @@ private:
 
 	bool gameOver_;
 	float gameOverTimer_;
+
+	Vector3 playerSpeed_;
 };
