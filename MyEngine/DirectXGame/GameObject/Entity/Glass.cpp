@@ -137,7 +137,7 @@ void Glass::Update() {
 		break;
 	case Glass::UPRIGHT:
 		if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z - 50.0f) {
-			time_ += 1.0f / 90.0f;
+			time_ += 1.0f / 60.0f;
 			if (time_ >= 1.0f) {
 				time_ = 1.0f;
 			}
