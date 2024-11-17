@@ -42,7 +42,7 @@ struct Collider {
 	Vector3 scale_;
 	Vector3* velocity_;
 	Vector3 contactPoint_;
-	Vector3 normal_;
+	Vector3 normal_[kNumColliderTag];
 	Vector3 reflection_;
 	ColliderTag tag_;
 	ColliderType type_;

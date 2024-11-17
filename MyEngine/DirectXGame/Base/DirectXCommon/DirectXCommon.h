@@ -28,6 +28,9 @@ public: //静的関数
 	static DirectXCommon* GetInstance();
 
 public: //メンバ関数
+	// コピーコンストラクタとコピー代入演算子を禁止
+	DirectXCommon(const DirectXCommon&) = delete;
+	DirectXCommon& operator=(const DirectXCommon&) = delete;
 
 	void Initialize();
 

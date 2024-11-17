@@ -58,6 +58,8 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 
 Vector3 Perpendicular(const Vector3& v);
 
+Vector3 GetPivotBottomPosition(const Vector3& basePosition, float height);
+
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);

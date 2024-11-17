@@ -116,6 +116,10 @@ Vector3 Perpendicular(const Vector3& v) {
 	return{ 0.0f, -v.z, v.y };
 }
 
+Vector3 GetPivotBottomPosition(const Vector3& basePosition, float height) {
+	return { basePosition.x, basePosition.y - height / 2.0f, basePosition.z };
+}
+
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 v3 = {};
 

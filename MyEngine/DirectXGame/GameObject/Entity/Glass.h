@@ -28,6 +28,8 @@ public:
 		std::unique_ptr<Collider> collider;
 		bool isBreaked;
 		bool isConnected;
+		float breakTime;
+		Vector3 velocity;
 	};
 
 public:
@@ -57,5 +59,7 @@ private:
 	std::vector<std::vector<GlassPiece>> colliders_;
 
 	bool isBreak;
+	float time_;
+	EulerTransformData keepData_;
 };
 

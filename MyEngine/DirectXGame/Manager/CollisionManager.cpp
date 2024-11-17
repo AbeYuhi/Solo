@@ -27,7 +27,7 @@ void CollisionManager::Update() {
 		if (collider0->isCollisionCheck_) {
 			for (int i = 0; i < kNumColliderTag; i++) {
 				collider0->isContact_[i] = false;
-				collider0->normal_ = { 0, 0, 0 };
+				collider0->normal_[i] = {0, 0, 0};
 			}
 			for (auto& collider1 : colliders_) {
 
@@ -36,7 +36,7 @@ void CollisionManager::Update() {
 						std::visit([&](auto& shape1) {
 							if (IsCollision(shape0, shape1)) {
 								collider0->isContact_[collider1->tag_] = true;
-								collider0->normal_ = CalculateNormal(shape0, shape1);
+								collider0->normal_[collider1->tag_] = CalculateNormal(shape0, shape1);
 								//接触点の計算
 								collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
 							}
