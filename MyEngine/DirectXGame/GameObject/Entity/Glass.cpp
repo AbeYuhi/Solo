@@ -385,6 +385,16 @@ void Glass::Update() {
 		}
 	}
 
+	for (unsigned int y = 0; y < divisionY_; y++) {
+		for (unsigned int x = 0; x < divisionX_; x++) {
+			if (colliders_[y][x].isBreaked) {
+				if (colliders_[y][x].collider->isContact_[WALL]) {
+					renderItems_[y][x]->worldTransform_.data_.translate_ -= colliders_[y][x].velocity * (1.0f / 60.0f);
+				}
+			}
+		}
+	}
+
 	//ガラスがカメラの裏側に行ったらコライダーから消すように
 	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z + 1.0f) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
