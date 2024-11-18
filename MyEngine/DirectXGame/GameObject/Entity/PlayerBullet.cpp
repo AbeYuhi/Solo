@@ -1,6 +1,6 @@
 #include "PlayerBullet.h"
 
-void PlayerBullet::Initialize() {
+void PlayerBullet::Initialize(Vector2 mousePos) {
 	input_ = InputManager::GetInstance();
 
 	model_ = Model::Create("sphere", "sphere.obj");
@@ -10,7 +10,6 @@ void PlayerBullet::Initialize() {
 
 	//発射位置の計算
 	renderItem_.worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
-	Vector2 mousePos = input_->GetMousePos();
 	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 	Matrix4x4 matVPV = MainCamera::GetInstance()->GetViewProjectionMatrix() * viewportMatrix;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
@@ -32,7 +31,7 @@ void PlayerBullet::Initialize() {
 	reticlePos_ = posNear + (mouseDirection * kDistanceTestObject);
 
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
-	speed_ = 20.0f;
+	speed_ = 40.0f;
 
 	lifeTime_ = 5.0f;
 

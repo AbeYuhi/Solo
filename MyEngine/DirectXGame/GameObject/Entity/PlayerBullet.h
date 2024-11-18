@@ -17,7 +17,7 @@ public:
 	PlayerBullet() = default;
 	~PlayerBullet() = default;
 
-	void Initialize();
+	void Initialize(Vector2 mousePos);
 
 	void Update();
 

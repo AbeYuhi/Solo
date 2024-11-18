@@ -46,15 +46,12 @@ private:
 	std::shared_ptr<Sprite> titleNameSprite_;
 	SpriteItem titleNameInfo_;
 
-	uint32_t speedLinesTexture_;
-	std::shared_ptr<Sprite> speedLinesSprite_;
-	SpriteItem speedLinesInfo_;
-
 	uint32_t backGroundTexture_;
 	std::shared_ptr<Sprite> backGroundSprite_;
 	SpriteItem backGroundInfo_;
 
 	uint32_t scoreTexture_;
+	uint32_t clearTexture_;
 	std::shared_ptr<Sprite> scoreSprite_;
 	SpriteItem scoreInfo_;
 
@@ -69,4 +66,6 @@ private:
 	bool isPreviousSceneInGame_;
 	bool isResult_;
 	bool isScoreImageScale_;
+
+	bool isGameClear_;
 };

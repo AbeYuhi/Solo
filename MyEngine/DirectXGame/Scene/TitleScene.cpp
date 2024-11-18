@@ -32,17 +32,13 @@ void TitleScene::Initialize() {
 	leftMouseClickTexture_ = TextureManager::Load("leftClick.png");
 	titleNameTexture_ = TextureManager::Load("titleName.png");
 	scoreTexture_ = TextureManager::Load("score.png");
-	//speedLinesTexture_ = TextureManager::Load("speedLines.png");
+	clearTexture_ = TextureManager::Load("gameClear.png");
 
 	leftMosueClickSprite_ = Sprite::Create();
 	leftMouseClickInfo_.Initialize(leftMouseClickTexture_, {1280, 720}, {0.0f, 0.0f});
 	titleNameSprite_ = Sprite::Create();
 	titleNameInfo_.Initialize(titleNameTexture_, { 360, 120 }, { 0.5f, 0.5f });
 	titleNameInfo_.worldTransform_.data_.translate_ = { 640, 150, 0 };
-
-	speedLinesSprite_ = Sprite::Create();
-	speedLinesInfo_.Initialize(speedLinesTexture_, { 1280, 720 }, { 0.0f, 0.0f });
-	speedLinesInfo_.materialInfo_.material_->color.w = 0.2f;
 
 	scoreSprite_ = Sprite::Create();
 	scoreInfo_.Initialize(scoreTexture_, { 600, 600 }, { 0.5f, 0.5f });
@@ -60,6 +56,13 @@ void TitleScene::Initialize() {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
+		scoreInfo_.spriteData_.textureHandle_ = scoreTexture_;
+	}
+	else if (preSceneNo_ == GAMECLEAR) {
+		isPreviousSceneInGame_ = true;
+		isResult_ = true;
+		isScoreImageScale_ = true;
+		scoreInfo_.spriteData_.textureHandle_ = clearTexture_;
 	}
 	else {
 		isPreviousSceneInGame_ = false;
@@ -149,12 +152,7 @@ void TitleScene::Draw() {
 	//深度バッファのクリア
 	DirectXCommon::GetInstance()->ClearDepthStencilBuffer();
 
-	titleNameSprite_->Draw(titleNameInfo_);
-
-	if (change_) {
-		//speedLinesSprite_->Draw(speedLinesInfo_);
-	}
-	else {
+	if(!change_) {
 		if (!isResult_) {
 			if (time_ <= 0.5f) {
 				leftMosueClickSprite_->Draw(leftMouseClickInfo_);
@@ -164,6 +162,9 @@ void TitleScene::Draw() {
 	
 	if (scoreInfo_.worldTransform_.data_.scale_.x > 0) {
 		scoreSprite_->Draw(scoreInfo_);
+	}
+	else {
+		titleNameSprite_->Draw(titleNameInfo_);
 	}
 
 	levelScene_.Draw();

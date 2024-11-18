@@ -107,7 +107,8 @@ void Player::Update() {
 		if (numberofSlashAttacks_ > 0) {
 			if (input_->IsMouseTrigger(0)) {
 				std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
-				bullet->Initialize();
+				Vector2 mousePos = input_->GetMousePos();
+				bullet->Initialize(mousePos);
 				bullets_.push_back(std::move(bullet));
 
 				numberofSlashAttacks_--;

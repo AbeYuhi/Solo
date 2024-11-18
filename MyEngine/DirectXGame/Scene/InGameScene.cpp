@@ -91,6 +91,8 @@ void InGameScene::Initialize() {
 
 	gameOver_ = false;
 	gameOverTimer_ = 0.0f;
+	gameClear_ = false;
+	gameClearTimer_ = 0.0f;
 
 	playerSpeed_ = { 0.0f,0.0f, 10.0f };
 }
@@ -143,7 +145,40 @@ void InGameScene::Update() {
 		else {
 			cameraEasingTimer_ = 0.0f;
 		}
+	}
+	else if (gameClear_) {
+		if (gameClearTimer_ == 0.0f) {
+			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
+		}
+		gameClearTimer_ += 1.0f / 60.0f;
+		cameraEasingTimer_ += 1.0f / 120.0f;
+		if (cameraEasingTimer_ > 1.0f) {
+			cameraEasingTimer_ = 1.0f;
+		}
 
+		float c5 = (2.0f * 3.14f) / 4.5f;
+		if (cameraEasingTimer_ == 0.0f) {
+			easingTimer_ = 0.0f;
+		}
+		else if (cameraEasingTimer_ == 1.0f) {
+			easingTimer_ = 1.0f;
+		}
+		else if (cameraEasingTimer_ < 0.5f) {
+			easingTimer_ = -(std::pow(2.0f, 20.0f * cameraEasingTimer_ - 10.0f) * std::sin((20.0f * cameraEasingTimer_ - 11.125f) * c5)) / 2.0f;
+		}
+		else {
+			easingTimer_ = (std::pow(2.0f, -20.0f * cameraEasingTimer_ + 10.0f) * std::sin((20.0f * cameraEasingTimer_ - 11.125f) * c5)) / 2.0f + 1.0f;
+		}
+
+		//easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
+		cameraSpeed_.z = (1.0f - easingTimer_) * 5.0f + easingTimer_ * 30.0f;
+		postEffectManager_->SetPostEffect(kRadialBlur);
+		postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.0005f;
+		if (postEffectManager_->GetRadialBlurInfo()->blurWidth >= 0.05f) {
+			preSceneNo_ = GAMECLEAR;
+			sceneNo_ = TITLE;
+			SceneChange::GetInstance()->StartSceneChange();
+		}
 	}
 	else {
 		gameOverTimer_ = 0.0f;
@@ -202,7 +237,7 @@ void InGameScene::Update() {
 	stage0Scene_.Update();
 	
 	if (player_.IsGameClear()) {
-		sceneNo_ = GAMECLEAR;
+		gameClear_ = true;
 	}
 	if (player_.IsGameOver()) {
 		gameOver_ = true;

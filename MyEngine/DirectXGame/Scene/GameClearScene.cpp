@@ -32,10 +32,8 @@ void GameClearScene::Initialize() {
 
 void GameClearScene::Update() {
 	spriteCamera_->Update();
-
-	if (InputManager::GetInstance()->IsMouseTrigger(0)) {
-		sceneNo_ = TITLE;
-	}
+	preSceneNo_ = GAMECLEAR;
+	sceneNo_ = TITLE;
 }
 
 void GameClearScene::Draw() {

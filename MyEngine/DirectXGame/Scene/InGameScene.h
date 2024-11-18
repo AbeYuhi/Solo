@@ -103,5 +103,8 @@ private:
 	bool gameOver_;
 	float gameOverTimer_;
 
+	bool gameClear_;
+	float gameClearTimer_;
+
 	Vector3 playerSpeed_;
 };
