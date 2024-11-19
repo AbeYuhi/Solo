@@ -29,10 +29,6 @@ void Door::Update() {
 			rightDoor_.renderItem->worldTransform_.data_.translate_.x += 3.0f / 60.0f;
 		}
 	}
-
-	button_.renderItem->Update();
-	leftDoor_.renderItem->Update();
-	rightDoor_.renderItem->Update();
 }
 
 void Door::Draw() {

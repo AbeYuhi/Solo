@@ -183,6 +183,8 @@ bool IsCollision(const AABB& aabb, const Sphere& sphere);
 
 void ControlMinMax(AABB& a);
 
+float Clamp(float value, float min, float max);
+
 bool IsCollision(const AABB& a, const AABB& b);
 
 bool IsCollision(const AABB& aabb, const Vector3& point);

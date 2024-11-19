@@ -44,30 +44,30 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 	CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
-	sizeX_ = keepData_.scale_.x * 2.0f;
-	sizeY_ = keepData_.scale_.y * 2.0f;
-	sizeZ_ = keepData_.scale_.z * 2.0f;
+	size_.x = keepData_.scale_.x * 2.0f;
+	size_.y = keepData_.scale_.y * 2.0f;
+	size_.z = keepData_.scale_.z * 2.0f;
 
 	// 分割片のサイズを計算
-	segmentWidth_ = sizeX_ / divisionX_;
-	segmentHeight_ = sizeY_ / divisionY_;
+	segmentWidth_ = size_.x / divisionX_;
+	segmentHeight_ = size_.y / divisionY_;
 
 	// 基準点（ガラス全体の中心点）
-	baseX_ = keepData_.translate_.x;
-	baseY_ = keepData_.translate_.y;
-	baseZ_ = keepData_.translate_.z;
+	base_.x = keepData_.translate_.x;
+	base_.y = keepData_.translate_.y;
+	base_.z = keepData_.translate_.z;
 	
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
 	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
 	newPos *= renderItem_.worldTransform_.data_.scale_.y;
-	renderItem_.worldTransform_.data_.translate_.x = baseX_ + newPos.x;
+	renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
 	renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-	renderItem_.worldTransform_.data_.translate_.z = baseZ_ + newPos.z;
+	renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
 
 	// 基準点（ガラス全体の中心点）
-	baseX_ = renderItem_.worldTransform_.data_.translate_.x;
-	baseY_ = renderItem_.worldTransform_.data_.translate_.y;
-	baseZ_ = renderItem_.worldTransform_.data_.translate_.z;
+	base_.x = renderItem_.worldTransform_.data_.translate_.x;
+	base_.y = renderItem_.worldTransform_.data_.translate_.y;
+	base_.z = renderItem_.worldTransform_.data_.translate_.z;
 
 	//小さい破片ごとの初期化
 	for (unsigned int y = 0; y < divisionY_; y++) {
@@ -78,7 +78,7 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 			item->Initialize();
 			item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
 			item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
-			item->worldTransform_.data_.scale_.z = sizeZ_ / 2.0f;
+			item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
 			item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
 			item->materialInfo_.material_->color.w = 0.5f;
 			item->materialInfo_.material_->color.x = 0.5f;
@@ -87,8 +87,8 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 			item->materialInfo_.material_->enableLightint = 1;
 
 			// ローカル位置を計算
-			float localX = -sizeX_ / 2 + (x + 0.5f) * segmentWidth_;
-			float localY = -sizeY_ / 2 + (y + 0.5f) * segmentHeight_;
+			float localX = -size_.x / 2 + (x + 0.5f) * segmentWidth_;
+			float localY = -size_.y / 2 + (y + 0.5f) * segmentHeight_;
 			float localZ = 0.0f; // Z方向は固定
 
 			Vector3 localPosition = { localX, localY, localZ };
@@ -97,9 +97,9 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 			Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);	
 			Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-			item->worldTransform_.data_.translate_.x = baseX_ + rotatedPosition.x;
-			item->worldTransform_.data_.translate_.y = baseY_ + rotatedPosition.y;
-			item->worldTransform_.data_.translate_.z = baseZ_ + rotatedPosition.z;
+			item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
+			item->worldTransform_.data_.translate_.y = base_.y + rotatedPosition.y;
+			item->worldTransform_.data_.translate_.z = base_.z + rotatedPosition.z;
 
 			GlassPiece colliderItem;
 			colliderItem.isConnected = false;
@@ -158,9 +158,9 @@ void Glass::Update() {
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
 		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
 		newPos *= renderItem_.worldTransform_.data_.scale_.y;
-		renderItem_.worldTransform_.data_.translate_.x = baseX_ + newPos.x;
+		renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
 		renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-		renderItem_.worldTransform_.data_.translate_.z = baseZ_ + newPos.z;
+		renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
 		break;
 	default:
 		break;
@@ -172,8 +172,8 @@ void Glass::Update() {
 				renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
 
 				// ローカル位置を計算
-				float localX = -sizeX_ / 2 + (x + 0.5f) * segmentWidth_;
-				float localY = -sizeY_ / 2 + (y + 0.5f) * segmentHeight_;
+				float localX = -size_.x / 2 + (x + 0.5f) * segmentWidth_;
+				float localY = -size_.y / 2 + (y + 0.5f) * segmentHeight_;
 				float localZ = 0.0f; // Z方向は固定
 
 				Vector3 localPosition = { localX, localY, localZ };

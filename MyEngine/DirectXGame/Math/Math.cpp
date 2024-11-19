@@ -793,18 +793,27 @@ void ControlMinMax(AABB& a) {
 	a.max.z = (std::max)(a.min.z, a.max.z);
 }
 
+float Clamp(float value, float min, float max) {
+	return std::max(min, std::min(value, max));
+}
+
 Vector3 ClosestPointOnOBB(const OBB& obb, const Vector3& point) {
+	// OBB の中心からのベクトル
 	Vector3 d = point - obb.center;
 	Vector3 closest = obb.center;
 
-	// Project point onto each axis of the OBB and clamp to the OBB's size
-	float distances[3] = {
-		Dot(d, obb.orientations[0]),
-		Dot(d, obb.orientations[1]),
-		Dot(d, obb.orientations[2])
-	};
-
+	// 各軸について計算
 	for (int i = 0; i < 3; ++i) {
+		// 現在の軸
+		Vector3 axis = obb.orientations[i];
+
+		// 軸の正規化を確認（必要に応じて）
+		axis = Normalize(axis);
+
+		// 点を現在の軸に投影
+		float distance = Dot(d, axis);
+
+		// OBB サイズの半分を計算
 		float halfSize = 0.0f;
 		if (i == 0) {
 			halfSize = obb.size.x / 2.0f;
@@ -816,14 +825,11 @@ Vector3 ClosestPointOnOBB(const OBB& obb, const Vector3& point) {
 			halfSize = obb.size.z / 2.0f;
 		}
 
-		if (distances[i] > halfSize) {
-			distances[i] = halfSize; 
-		}
-		else if (distances[i] < -halfSize){
-			distances[i] = -halfSize;
-		}
+		// 距離を OBB の範囲内にクランプ
+		distance = Clamp(distance, -halfSize, halfSize);
 
-		closest = closest + obb.orientations[i] * distances[i];
+		// クローズポイントを更新
+		closest += axis * distance;
 	}
 
 	return closest;
@@ -1032,9 +1038,40 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 
 Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	if (IsCollision(b, a)) {
+		// スフィア中心から OBB の最近傍点を計算
 		Vector3 closestPoint = ClosestPointOnOBB(b, a.center);
-		Vector3 normal = a.center - closestPoint;
-		return Normalize(normal);
+
+		// 接触ベクトルを計算
+		Vector3 contactVector = closestPoint - a.center;
+
+		// 法線ベクトルの計算
+		Vector3 normal = { 0.0f, 0.0f, 0.0f };
+		float maxProjection = -FLT_MAX;
+
+		// OBB の各軸を計算（回転行列から取得）
+		Vector3 axes[3] = {
+			Vector3(b.orientations[0].x, b.orientations[0].y, b.orientations[0].z),
+			Vector3(b.orientations[1].x, b.orientations[1].y, b.orientations[1].z),
+			Vector3(b.orientations[2].x, b.orientations[2].y, b.orientations[2].z)
+		};
+
+		for (int i = 0; i < 3; ++i) {
+			// OBB 軸を正規化
+			Vector3 axis = Normalize(b.orientations[i]);
+
+			// 接触ベクトルを軸に投影
+			float projection = Dot(contactVector, axis);
+
+			// 最大投影を持つ軸を法線に選ぶ
+			if (fabs(projection) > maxProjection) {
+				maxProjection = fabs(projection);
+				normal = projection > 0 ? axis : -1 * axis;
+			}
+		}
+
+		Vector3 a = normal;
+
+		return normal;
 	}
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }

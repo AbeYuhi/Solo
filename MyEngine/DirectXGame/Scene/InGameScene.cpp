@@ -106,7 +106,6 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
-	player_.Update();
 
 	if (gameOver_) {
 		gameOverTimer_ += 1.0f / 60.0f;
@@ -198,6 +197,7 @@ void InGameScene::Update() {
 				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 			}
 		}	
+		player_.Update();
 	}
 
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);

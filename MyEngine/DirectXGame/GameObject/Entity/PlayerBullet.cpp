@@ -45,24 +45,26 @@ void PlayerBullet::Update() {
 
 	if (collider_.isContact_[WALL]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_[WALL]);
+		collider_.objData_->translate_ = collider_.contactPoint_;
 		velocity_ = collider_.reflection_;
 	}
 	if (collider_.isContact_[BUTTON]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_[BUTTON]);
+		collider_.objData_->translate_ = collider_.contactPoint_;
 		velocity_ = collider_.reflection_;
 	}
 	if (collider_.isContact_[LDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_[LDOOR]);
+		collider_.objData_->translate_ = collider_.contactPoint_;
 		velocity_ = collider_.reflection_;
 	}
 	if (collider_.isContact_[RDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_[RDOOR]);
+		collider_.objData_->translate_ = collider_.contactPoint_;
 		velocity_ = collider_.reflection_;
 	}
 
-
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
-
 }
 
 void PlayerBullet::Draw() {

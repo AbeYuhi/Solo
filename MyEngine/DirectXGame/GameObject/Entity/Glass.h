@@ -64,18 +64,15 @@ private:
 	Vector3 moveLimit_;
 	bool isTurnAround_;
 
-	//分割片ガラスのサイズ
-	float sizeX_;
-	float sizeY_;
-	float sizeZ_;
-
 	//分割片のサイズを計算
 	float segmentWidth_;
 	float segmentHeight_;
 
 	//基準点（ガラス全体の中心点）
-	float baseX_;
-	float baseY_;
-	float baseZ_;
+	Vector3 base_;
+	//分割片ガラスのサイズ
+	Vector3 size_;
+
+	//
 };
 
