@@ -44,6 +44,14 @@ public:
 
 	void Draw();
 
+private:
+
+	void DontMoveGlass();
+
+	void MoveGlassUpRight();
+
+	void MoveGlassAlternateLeftRight();
+
 
 private:
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include "Vector3.h"
 #include "Matrix4x4.h"
+#include "Matrix3x3.h"
 #include "Quaternion.h"
 #include "AABB.h"
 #include "OBB.h"
@@ -132,6 +133,10 @@ Matrix4x4 MakeRotateZMatrix(float radian);
 Matrix4x4 MakeRotateXYZMatrix(const Matrix4x4& matrixX, const Matrix4x4& matrixY, const Matrix4x4& matrixZ);
 
 Matrix4x4 MakeRotateMatrix(const Vector3& rotate);
+
+Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix3x3& rotationMatrix);
+
+Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix4x4& matrix);
 
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
 

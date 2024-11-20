@@ -127,45 +127,23 @@ void Glass::Update() {
 	}
 
 	//動くタイプ別の挙動
+	//本体のガラスを動かす処理
 	switch (type_)
 	{
 	case Glass::DONTMOVE:
+		DontMoveGlass();
 		break;
 	case Glass::ALTERNATE_LEFT_RIGHT:
-		time_ += 1.0f / 60.0f;
-		if (!isTurnAround_) {
-			renderItem_.worldTransform_.data_.translate_.x += 4.0f / 60.0f;
-			if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
-				isTurnAround_ = true;
-			}
-		}
-		else {
-			renderItem_.worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
-			if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
-				isTurnAround_ = false;
-			}
-		}
+		MoveGlassAlternateLeftRight();
 		break;
 	case Glass::UPRIGHT:
-		if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z - 50.0f) {
-			time_ += 1.0f / 60.0f;
-			if (time_ >= 1.0f) {
-				time_ = 1.0f;
-			}
-			renderItem_.worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
-		}
-
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-		newPos *= renderItem_.worldTransform_.data_.scale_.y;
-		renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
-		renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-		renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
+		MoveGlassUpRight();
 		break;
 	default:
 		break;
 	}
 
+	//本体のガラスの移動に基づいて細分化されているガラスも同期させる処理
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (!colliders_[y][x].isBreaked) {
@@ -189,6 +167,7 @@ void Glass::Update() {
 		}
 	}
 
+	//本体のガラスが割れたときに接地面とくっついていないガラスを破壊する処理
 	if (isBreak) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
@@ -366,6 +345,7 @@ void Glass::Update() {
 		}
 	}
 
+	//細分化されたガラスが破壊された後の演出面
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (colliders_[y][x].isBreaked) {
@@ -385,6 +365,7 @@ void Glass::Update() {
 		}
 	}
 
+	//壊れたガラスが壁と当たったら止める処理(仮)
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (colliders_[y][x].isBreaked) {
@@ -418,5 +399,41 @@ void Glass::Draw() {
 	else {
 		model_->Draw(renderItem_, 1);
 	}
+}
 
+void Glass::DontMoveGlass() {
+
+}
+
+void Glass::MoveGlassUpRight() {
+	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z - 50.0f) {
+		time_ += 1.0f / 60.0f;
+		if (time_ >= 1.0f) {
+			time_ = 1.0f;
+		}
+		renderItem_.worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
+	}
+
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
+	newPos *= renderItem_.worldTransform_.data_.scale_.y;
+	renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
+	renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
+	renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
+}
+
+void Glass::MoveGlassAlternateLeftRight() {
+	time_ += 1.0f / 60.0f;
+	if (!isTurnAround_) {
+		renderItem_.worldTransform_.data_.translate_.x += 4.0f / 60.0f;
+		if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
+			isTurnAround_ = true;
+		}
+	}
+	else {
+		renderItem_.worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
+		if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
+			isTurnAround_ = false;
+		}
+	}
 }

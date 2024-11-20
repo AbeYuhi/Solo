@@ -475,6 +475,50 @@ Matrix4x4 MakeRotateMatrix(const Vector3& rotate) {
 	return MakeRotateXYZMatrix(rotateXMatrix, rotateZMatrix, rotateYMatrix);
 }
 
+Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix3x3& rotationMatrix) {
+	Vector3 eulerAngles;
+
+	// 要素を読み取る
+	float r00 = rotationMatrix.m[0][0];
+	float r01 = rotationMatrix.m[0][1];
+	float r02 = rotationMatrix.m[0][2];
+	float r21 = rotationMatrix.m[2][1];
+	float r22 = rotationMatrix.m[2][2];
+
+	// Z回転（roll）
+	eulerAngles.z = atan2(-r01, r00);
+
+	// Y回転（yaw）
+	eulerAngles.y = asin(r02);
+
+	// X回転（pitch）
+	eulerAngles.x = atan2(r21, r22);
+
+	return eulerAngles;
+}
+
+Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix4x4& matrix) {
+	Vector3 eulerAngles;
+
+	// 3x3回転成分を読み取る
+	float m00 = matrix.m[0][0];
+	float m01 = matrix.m[0][1];
+	float m02 = matrix.m[0][2];
+	float m21 = matrix.m[2][1];
+	float m22 = matrix.m[2][2];
+
+	// Z回転（roll）
+	eulerAngles.z = atan2(-m01, m00);
+
+	// Y回転（yaw）
+	eulerAngles.y = asin(m02);
+
+	// X回転（pitch）
+	eulerAngles.x = atan2(m21, m22);
+
+	return eulerAngles;
+}
+
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	Matrix4x4 matrix = MakeIdentity4x4();
 	matrix.m[3][0] = translate.x;
@@ -1038,40 +1082,7 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 
 Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	if (IsCollision(b, a)) {
-		// スフィア中心から OBB の最近傍点を計算
-		Vector3 closestPoint = ClosestPointOnOBB(b, a.center);
-
-		// 接触ベクトルを計算
-		Vector3 contactVector = closestPoint - a.center;
-
-		// 法線ベクトルの計算
-		Vector3 normal = { 0.0f, 0.0f, 0.0f };
-		float maxProjection = -FLT_MAX;
-
-		// OBB の各軸を計算（回転行列から取得）
-		Vector3 axes[3] = {
-			Vector3(b.orientations[0].x, b.orientations[0].y, b.orientations[0].z),
-			Vector3(b.orientations[1].x, b.orientations[1].y, b.orientations[1].z),
-			Vector3(b.orientations[2].x, b.orientations[2].y, b.orientations[2].z)
-		};
-
-		for (int i = 0; i < 3; ++i) {
-			// OBB 軸を正規化
-			Vector3 axis = Normalize(b.orientations[i]);
-
-			// 接触ベクトルを軸に投影
-			float projection = Dot(contactVector, axis);
-
-			// 最大投影を持つ軸を法線に選ぶ
-			if (fabs(projection) > maxProjection) {
-				maxProjection = fabs(projection);
-				normal = projection > 0 ? axis : -1 * axis;
-			}
-		}
-
-		Vector3 a = normal;
-
-		return normal;
+		
 	}
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
@@ -1152,27 +1163,42 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const AABB& aabb) {
 }
 
 Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
-	Vector3 closest_point = obb.center;
-	Vector3 d = sphere.center - obb.center;
+	Vector3 closest_point = { 0, 0, 0 };
 
-	for (int i = 0; i < 3; ++i) {
-		float distance = Dot(d, obb.orientations[i]);
-		if (i == 0) {
-			if (distance > obb.size.x / 2.0f) distance = obb.size.x / 2.0f;
-			if (distance < -obb.size.x / 2.0f) distance = -obb.size.x / 2.0f;
+	Matrix4x4 worldMatrix = MakeIdentity4x4();
+	worldMatrix.m[0][0] = obb.orientations[0].x;
+	worldMatrix.m[0][1] = obb.orientations[0].y;
+	worldMatrix.m[0][2] = obb.orientations[0].z;
+
+	worldMatrix.m[1][0] = obb.orientations[1].x;
+	worldMatrix.m[1][1] = obb.orientations[1].y;
+	worldMatrix.m[1][2] = obb.orientations[1].z;
+
+	worldMatrix.m[2][0] = obb.orientations[2].x;
+	worldMatrix.m[2][1] = obb.orientations[2].y;
+	worldMatrix.m[2][2] = obb.orientations[2].z;
+
+	worldMatrix.m[3][0] = obb.center.x;
+	worldMatrix.m[3][1] = obb.center.y;
+	worldMatrix.m[3][2] = obb.center.z;
+
+	Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+	Vector3 centerInOBBLocalSpace = Transform(sphere.center, worldMatrixInverse);
+	AABB aabbLocal{ .min = {-obb.size.x / 2.0f, -obb.size.y / 2.0f, -obb.size.z / 2.0f}, .max{obb.size.x / 2.0f, obb.size.y / 2.0f, obb.size.z / 2.0f} };
+	Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = sphere.radius };
+	if (IsCollision(sphereOBBLocal, aabbLocal)) {
+		Vector3 length;
+		if (sphereOBBLocal.center.x < 0.0f) {
+
 		}
-		if (i == 1) {
-			if (distance > obb.size.y / 2.0f) distance = obb.size.y;
-			if (distance < -obb.size.y / 2.0f) distance = -obb.size.y;
-		}
-		if (i == 2) {
-			if (distance > obb.size.z) distance = obb.size.z;
-			if (distance < -obb.size.z) distance = -obb.size.z;
-		}
-		closest_point = closest_point + obb.orientations[i] * distance;
+
+		return closest_point;
+	}
+	else {
+		return Vector3(0.0f, 0.0f, 0.0f);
 	}
 
-	return closest_point;
+	
 }
 
 Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unused]] const Sphere& sphere1) {
