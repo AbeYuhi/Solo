@@ -7,7 +7,7 @@
 /// スプライト上のパーティクルをテストしているクラス
 /// </summary>
 
-class SpriteParticle : public ParticleManager
+class SpriteParticle : public MyEngine::ParticleManager
 {
 public:
 
@@ -27,6 +27,6 @@ private: //メンバ関数
 	ParticleInfo MakeNewParticle() override;
 
 private:
-	std::shared_ptr<Sprite> particleSprite_;
+	std::shared_ptr<MyEngine::Sprite> particleSprite_;
 	SpriteData spriteData_;
 };

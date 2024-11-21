@@ -32,8 +32,8 @@ private:
 	SpriteCamera* spriteCamera_;
 
 	uint32_t whiteTexture_;
-	std::shared_ptr<Sprite> whiteSprite_;
-	SpriteItem whiteInfo_;
+	std::shared_ptr<MyEngine::Sprite> whiteSprite_;
+	MyEngine::SpriteItem whiteInfo_;
 
 	bool isStart_;
 	bool isReverse_;

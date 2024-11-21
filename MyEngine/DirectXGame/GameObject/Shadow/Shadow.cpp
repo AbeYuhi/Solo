@@ -3,7 +3,7 @@
 void Shadow::Initialize() {
 
 	//Resourceの生成
-	shadowResorce_ = CreateBufferResource(sizeof(Matrix4x4));
+	shadowResorce_ = MyEngine::CreateBufferResource(sizeof(Matrix4x4));
 
 	//Resourceにデータを書き込む
 	shadowResorce_->Map(0, nullptr, reinterpret_cast<void**>(&shadowData_));

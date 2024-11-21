@@ -11,8 +11,8 @@ void GameManager::Initialize() {
 	Framework::Initialize();
 
 	//汎用テクスチャの読み込み
-	IScene::uvCheckerHandle_ = TextureManager::Load("uvChecker.png");
-	IScene::whiteTextureHandle_ = TextureManager::Load("whiteTexture2x2.png");
+	IScene::uvCheckerHandle_ = MyEngine::TextureManager::Load("uvChecker.png");
+	IScene::whiteTextureHandle_ = MyEngine::TextureManager::Load("whiteTexture2x2.png");
 
 	//メインカメラの初期化
 	mainCamera_ = MainCamera::GetInstance();
@@ -27,7 +27,7 @@ void GameManager::Initialize() {
 	totalTime_ = 0.0;
 
 	//シーンマネージャーの初期化(初期シーンの設定)
-	sceneManager_ = SceneManager::GetInstance();
+	sceneManager_ = MyEngine::SceneManager::GetInstance();
 	sceneManager_->Initialize(TITLE);
 
 }

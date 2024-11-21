@@ -7,7 +7,7 @@ void TestParticle::Initialize() {
 
 	particle1_ = std::make_unique<PlaneParticle>(100);
 	particle1_->Initialize();
-	uint32_t textureHandle = TextureManager::GetInstance()->Load("monsterBall.png");
+	uint32_t textureHandle = MyEngine::TextureManager::GetInstance()->Load("monsterBall.png");
 	particle1_->SetTextureHandle(textureHandle);
 }
 

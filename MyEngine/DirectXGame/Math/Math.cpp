@@ -1187,7 +1187,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
 	AABB aabbLocal{ .min = {-obb.size.x / 2.0f, -obb.size.y / 2.0f, -obb.size.z / 2.0f}, .max{obb.size.x / 2.0f, obb.size.y / 2.0f, obb.size.z / 2.0f} };
 	Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = sphere.radius };
 	if (IsCollision(sphereOBBLocal, aabbLocal)) {
-		Vector3 length;
+		//Vector3 length;
 		if (sphereOBBLocal.center.x < 0.0f) {
 
 		}

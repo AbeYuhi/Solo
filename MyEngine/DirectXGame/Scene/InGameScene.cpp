@@ -19,13 +19,13 @@ void InGameScene::Initialize() {
 	sceneNo_ = INGAME;
 
 	//基本機能
-	winApp_ = WinApp::GetInstance();
-	directXCommon_ = DirectXCommon::GetInstance();
-	input_ = InputManager::GetInstance();
-	audioManager_ = AudioManager::GetInstance();
-	randomManager_ = RandomManager::GetInstance();
-	postEffectManager_ = PostEffectManager::GetInstance();
-	collisionManager_ = CollisionManager::GetInstance();
+	winApp_ = MyEngine::WinApp::GetInstance();
+	directXCommon_ = MyEngine::DirectXCommon::GetInstance();
+	input_ = MyEngine::InputManager::GetInstance();
+	audioManager_ = MyEngine::AudioManager::GetInstance();
+	randomManager_ = MyEngine::RandomManager::GetInstance();
+	postEffectManager_ = MyEngine::PostEffectManager::GetInstance();
+	collisionManager_ = MyEngine::CollisionManager::GetInstance();
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
 
@@ -33,7 +33,7 @@ void InGameScene::Initialize() {
 	spriteCamera_->Initialize();
 
 	//平行光源
-	lightObj_ = LightObjectManager::GetInstance();
+	lightObj_ = MyEngine::LightObjectManager::GetInstance();
 	lightObj_->InitData();
 
 	//影
@@ -61,23 +61,23 @@ void InGameScene::Initialize() {
 		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
 	}
 
-	ballShotExplanationTexture_ = TextureManager::Load("ballShot_Explanation.png");
-	ballShotExplanationSprite_ = Sprite::Create();
+	ballShotExplanationTexture_ = MyEngine::TextureManager::Load("ballShot_Explanation.png");
+	ballShotExplanationSprite_ = MyEngine::Sprite::Create();
 	ballShotExplanationInfo_.Initialize(ballShotExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	ballShotExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
 
-	crystalExplanationTexture_ = TextureManager::Load("crystal_Explanation.png");
-	crystalExplanationSprite_ = Sprite::Create();
+	crystalExplanationTexture_ = MyEngine::TextureManager::Load("crystal_Explanation.png");
+	crystalExplanationSprite_ = MyEngine::Sprite::Create();
 	crystalExplanationInfo_.Initialize(crystalExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	crystalExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
 
-	gameOverTexture_ = TextureManager::Load("gameOver_Explanation.png");
-	gameOverSprite_ = Sprite::Create();
+	gameOverTexture_ = MyEngine::TextureManager::Load("gameOver_Explanation.png");
+	gameOverSprite_ = MyEngine::Sprite::Create();
 	gameOverInfo_.Initialize(gameOverTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	gameOverInfo_.materialInfo_.material_->color.w = 0.0f;
 	
-	backGroundTexture_ = TextureManager::Load("backGround.png");
-	backGroundSprite_ = Sprite::Create();
+	backGroundTexture_ = MyEngine::TextureManager::Load("backGround.png");
+	backGroundSprite_ = MyEngine::Sprite::Create();
 	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 	
 	startTimer_ = 0.0f;

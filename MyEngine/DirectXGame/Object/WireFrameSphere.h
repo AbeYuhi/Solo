@@ -22,38 +22,40 @@
 /// スフィアのフレームを表示するためのクラスファイル
 /// </summary>
 
-class WireFrameSphere
-{
-public: //静的メンバ関数
-	static std::shared_ptr<WireFrameSphere> Create();
+namespace MyEngine {
 
-private: //静的メンバ変数
-	const static UINT kVertexNumber = 768;
-	const static UINT kIndexNumber = 1024;
-	const static UINT kLatitudeCount = 16;
-	const static UINT kLongitudeCount = 16;
-	static std::shared_ptr<WireFrameSphere> sWireFrameSphere_;
+	class WireFrameSphere
+	{
+	public: //静的メンバ関数
+		static std::shared_ptr<WireFrameSphere> Create();
 
-public: //メンバ関数
-	WireFrameSphere();
-	~WireFrameSphere();
+	private: //静的メンバ変数
+		const static UINT kVertexNumber = 768;
+		const static UINT kIndexNumber = 1024;
+		const static UINT kLatitudeCount = 16;
+		const static UINT kLongitudeCount = 16;
+		static std::shared_ptr<WireFrameSphere> sWireFrameSphere_;
 
-	void Initialize();
+	public: //メンバ関数
+		WireFrameSphere();
+		~WireFrameSphere();
 
-	void Draw(RenderItem& renderItem);
+		void Initialize();
 
-private: //メンバ変数
-	//オブジェクト情報のResource
-	ComPtr<ID3D12Resource> vertexResource_ = nullptr;
-	ComPtr<ID3D12Resource> indexResource_ = nullptr;
+		void Draw(RenderItem& renderItem);
 
-	//VertexBufferView
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+	private: //メンバ変数
+		//オブジェクト情報のResource
+		ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+		ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
-	//オブジェクトのローカル情報
-	VertexData* vertexData_;
-	uint32_t* indexData_;
-};
+		//VertexBufferView
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+		D3D12_INDEX_BUFFER_VIEW indexBufferView_;
 
+		//オブジェクトのローカル情報
+		VertexData* vertexData_;
+		uint32_t* indexData_;
+	};
 
+}

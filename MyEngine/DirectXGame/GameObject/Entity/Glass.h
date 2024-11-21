@@ -36,8 +36,8 @@ public:
 	Glass();
 	~Glass();
 
-	void Initialize(std::shared_ptr<Model> model,
-		RenderItem* renderItem,
+	void Initialize(std::shared_ptr<MyEngine::Model> model,
+		MyEngine::RenderItem* renderItem,
 		GlassInfo info);
 
 	void Update();
@@ -55,15 +55,15 @@ private:
 
 private:
 
-	std::shared_ptr<Model> model_;
-	RenderItem renderItem_;
+	std::shared_ptr<MyEngine::Model> model_;
+	MyEngine::RenderItem renderItem_;
 	Collider mainColldier_;
 	
 	MoveType type_;
 	GroundingInfo groudingInfo_;
 	unsigned int divisionX_;
 	unsigned int divisionY_;
-	std::vector<std::vector<std::unique_ptr<RenderItem>>> renderItems_;
+	std::vector<std::vector<std::unique_ptr<MyEngine::RenderItem>>> renderItems_;
 	std::vector<std::vector<GlassPiece>> colliders_;
 
 	bool isBreak;

@@ -3,8 +3,8 @@
 Glass::Glass(){}
 Glass::~Glass(){}
 
-void Glass::Initialize(std::shared_ptr<Model> model,
-	RenderItem* renderItem,
+void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
+	MyEngine::RenderItem* renderItem,
 	GlassInfo info) {
 
 	model_ = model;
@@ -41,7 +41,7 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 	isTurnAround_ = false;
 
 	mainColldier_.Initialize(renderItem_.worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
-	CollisionManager::GetInstance()->AddCollider(&mainColldier_);
+	MyEngine::CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
 	size_.x = keepData_.scale_.x * 2.0f;
@@ -71,10 +71,10 @@ void Glass::Initialize(std::shared_ptr<Model> model,
 
 	//小さい破片ごとの初期化
 	for (unsigned int y = 0; y < divisionY_; y++) {
-		renderItems_.push_back(std::vector<std::unique_ptr<RenderItem>>()); // 新しい行を追加
+		renderItems_.push_back(std::vector<std::unique_ptr<MyEngine::RenderItem>>()); // 新しい行を追加
 		colliders_.push_back(std::vector<GlassPiece>()); // 新しい行を追加
 		for (unsigned int x = 0; x < divisionX_; x++) {
-			std::unique_ptr<RenderItem> item = std::make_unique<RenderItem>();
+			std::unique_ptr<MyEngine::RenderItem> item = std::make_unique<MyEngine::RenderItem>();
 			item->Initialize();
 			item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
 			item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
@@ -121,7 +121,7 @@ void Glass::Update() {
 		mainColldier_.isDelete_ = true;
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
+				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
 			}
 		}
 	}

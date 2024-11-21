@@ -10,7 +10,7 @@
 /// ゲームループを管理しているマネージャークラス
 /// </summary>
 
-class GameManager : public Framework
+class GameManager : public MyEngine::Framework
 {
 public:
 
@@ -30,7 +30,7 @@ private:
 	MainCamera* mainCamera_ = nullptr;
 
 	//シーンマネージャー
-	SceneManager* sceneManager_ = nullptr;
+	MyEngine::SceneManager* sceneManager_ = nullptr;
 
 	//FPSの計測
 	double deltaTime_;

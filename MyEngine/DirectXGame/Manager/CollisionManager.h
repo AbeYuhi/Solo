@@ -12,33 +12,36 @@
 /// 衝突判定を管理しているマネージャークラス
 /// </summary>
 
-class CollisionManager
-{
-public:
+namespace MyEngine {
 
-	static CollisionManager* GetInstance();
+	class CollisionManager
+	{
+	public:
 
-	void Initialize();
+		static CollisionManager* GetInstance();
 
-	void Update();
+		void Initialize();
 
-	void Draw();
+		void Update();
 
-	void SyncColliderList();
+		void Draw();
 
-	void Reset();
+		void SyncColliderList();
 
-public:
+		void Reset();
 
-	inline void ClearColliders() { colliders_.clear(); }
-	inline void AddCollider(Collider* collider) { colliders_.push_back(collider); }
+	public:
 
-private:
-	CollisionManager() = default;
-	~CollisionManager() = default;
+		inline void ClearColliders() { colliders_.clear(); }
+		inline void AddCollider(Collider* collider) { colliders_.push_back(collider); }
 
-	std::list<Collider*> colliders_;
-	std::shared_ptr<WireFrameBox> wireFrameBox_;
-	std::shared_ptr<WireFrameSphere> wireFrameSphere_;
-};
+	private:
+		CollisionManager() = default;
+		~CollisionManager() = default;
 
+		std::list<Collider*> colliders_;
+		std::shared_ptr<WireFrameBox> wireFrameBox_;
+		std::shared_ptr<WireFrameSphere> wireFrameSphere_;
+	};
+
+}

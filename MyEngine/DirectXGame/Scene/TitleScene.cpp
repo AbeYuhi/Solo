@@ -21,7 +21,7 @@ void TitleScene::Initialize() {
 	spriteCamera_ = SpriteCamera::GetInstance();
 	spriteCamera_->Initialize();
 
-	postEffectManager_ = PostEffectManager::GetInstance();
+	postEffectManager_ = MyEngine::PostEffectManager::GetInstance();
 
 	sceneChange_ = SceneChange::GetInstance();
 
@@ -29,24 +29,24 @@ void TitleScene::Initialize() {
 	titleCamera_ = std::make_unique<TitleCamera>();
 	titleCamera_->Initialize();
 
-	leftMouseClickTexture_ = TextureManager::Load("leftClick.png");
-	titleNameTexture_ = TextureManager::Load("titleName.png");
-	scoreTexture_ = TextureManager::Load("score.png");
-	clearTexture_ = TextureManager::Load("gameClear.png");
+	leftMouseClickTexture_ = MyEngine::TextureManager::Load("leftClick.png");
+	titleNameTexture_ = MyEngine::TextureManager::Load("titleName.png");
+	scoreTexture_ = MyEngine::TextureManager::Load("score.png");
+	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
-	leftMosueClickSprite_ = Sprite::Create();
+	leftMosueClickSprite_ = MyEngine::Sprite::Create();
 	leftMouseClickInfo_.Initialize(leftMouseClickTexture_, {1280, 720}, {0.0f, 0.0f});
-	titleNameSprite_ = Sprite::Create();
+	titleNameSprite_ = MyEngine::Sprite::Create();
 	titleNameInfo_.Initialize(titleNameTexture_, { 360, 120 }, { 0.5f, 0.5f });
 	titleNameInfo_.worldTransform_.data_.translate_ = { 640, 150, 0 };
 
-	scoreSprite_ = Sprite::Create();
+	scoreSprite_ = MyEngine::Sprite::Create();
 	scoreInfo_.Initialize(scoreTexture_, { 600, 600 }, { 0.5f, 0.5f });
 	scoreInfo_.worldTransform_.data_.translate_ = {640, 360, 0};
 	scoreInfo_.worldTransform_.data_.scale_ = { 0.0f, 0.0f, 1.0f };
 
-	backGroundTexture_ = TextureManager::Load("backGround.png");
-	backGroundSprite_ = Sprite::Create();
+	backGroundTexture_ = MyEngine::TextureManager::Load("backGround.png");
+	backGroundSprite_ = MyEngine::Sprite::Create();
 	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 
 	levelScene_.Initialize("titleTest.json");
@@ -90,13 +90,13 @@ void TitleScene::Update() {
 	}
 
 	if (isResult_) {
-		if (InputManager::GetInstance()->IsMouseTrigger(0)) {
+		if (MyEngine::InputManager::GetInstance()->IsMouseTrigger(0)) {
 			isResult_ = false;
 			isScoreImageScale_ = true;
 		}
 	}
 	else {
-		if (InputManager::GetInstance()->IsMouseTrigger(0) && !change_) {
+		if (MyEngine::InputManager::GetInstance()->IsMouseTrigger(0) && !change_) {
 			change_ = true;
 			postEffectManager_->SetPostEffect(kRadialBlur);
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
@@ -150,7 +150,7 @@ void TitleScene::Draw() {
 
 	///背景スプライト描画終了
 	//深度バッファのクリア
-	DirectXCommon::GetInstance()->ClearDepthStencilBuffer();
+	MyEngine::DirectXCommon::GetInstance()->ClearDepthStencilBuffer();
 
 	if(!change_) {
 		if (!isResult_) {

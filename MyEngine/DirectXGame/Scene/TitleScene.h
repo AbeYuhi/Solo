@@ -32,28 +32,28 @@ public:
 private:
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
-	PostEffectManager* postEffectManager_;
+	MyEngine::PostEffectManager* postEffectManager_;
 
 	std::unique_ptr<TitleCamera> titleCamera_;
 
-	CollisionManager* collisionManager_;
+	MyEngine::CollisionManager* collisionManager_;
 
 	uint32_t leftMouseClickTexture_;
-	std::shared_ptr<Sprite> leftMosueClickSprite_;
-	SpriteItem leftMouseClickInfo_;
+	std::shared_ptr<MyEngine::Sprite> leftMosueClickSprite_;
+	MyEngine::SpriteItem leftMouseClickInfo_;
 
 	uint32_t titleNameTexture_;
-	std::shared_ptr<Sprite> titleNameSprite_;
-	SpriteItem titleNameInfo_;
+	std::shared_ptr<MyEngine::Sprite> titleNameSprite_;
+	MyEngine::SpriteItem titleNameInfo_;
 
 	uint32_t backGroundTexture_;
-	std::shared_ptr<Sprite> backGroundSprite_;
-	SpriteItem backGroundInfo_;
+	std::shared_ptr<MyEngine::Sprite> backGroundSprite_;
+	MyEngine::SpriteItem backGroundInfo_;
 
 	uint32_t scoreTexture_;
 	uint32_t clearTexture_;
-	std::shared_ptr<Sprite> scoreSprite_;
-	SpriteItem scoreInfo_;
+	std::shared_ptr<MyEngine::Sprite> scoreSprite_;
+	MyEngine::SpriteItem scoreInfo_;
 
 	SceneChange* sceneChange_;
 

@@ -35,56 +35,60 @@
 /// 3dオブジェクトを表示するためのクラスファイル
 /// </summary>
 
-struct RenderItem;
-class SkyBox;
+namespace MyEngine {
 
-class Model
-{
-public: //静的メンバ関数
+	struct RenderItem;
+	class SkyBox;
 
-	static std::shared_ptr<Model> Create(const std::string filename);
+	class Model
+	{
+	public: //静的メンバ関数
 
-	static std::shared_ptr<Model> Create(const std::string& filepath, const std::string filename);
+		static std::shared_ptr<Model> Create(const std::string filename);
 
-private: //静的メンバ変数
+		static std::shared_ptr<Model> Create(const std::string& filepath, const std::string filename);
 
-	static std::map<std::string, std::shared_ptr<Model>> sModels_;
+	private: //静的メンバ変数
 
-public: //メンバ関数
-	Model();
-	~Model();
+		static std::map<std::string, std::shared_ptr<Model>> sModels_;
 
-	void Initialize(const std::string& filepath, const std::string filename);
+	public: //メンバ関数
+		Model();
+		~Model();
 
-	void Draw(RenderItem& renderItem);
-	void Draw(RenderItem& renderItem, uint32_t textureHandle);
+		void Initialize(const std::string& filepath, const std::string filename);
 
-	void Draw(ParticleDrawInfo drawInfo);
-	void Draw(ParticleDrawInfo drawInfo, uint32_t textureHandle);
+		void Draw(RenderItem& renderItem);
+		void Draw(RenderItem& renderItem, uint32_t textureHandle);
 
-public: //ゲッター
+		void Draw(ParticleDrawInfo drawInfo);
+		void Draw(ParticleDrawInfo drawInfo, uint32_t textureHandle);
 
-	inline const std::list<AnimationData> GetAnimationData() { return animations_; }
+	public: //ゲッター
 
-	inline const RootNode GetInialNode() { return rootNode_; }
+		inline const std::list<AnimationData> GetAnimationData() { return animations_; }
 
-	inline const Skeleton GetSkeleton() { return skeleton_; }
+		inline const RootNode GetInialNode() { return rootNode_; }
 
-	inline const std::list<Mesh> GetMeshs() { return meshs_; }
+		inline const Skeleton GetSkeleton() { return skeleton_; }
 
-private: //メンバ関数
+		inline const std::list<Mesh> GetMeshs() { return meshs_; }
 
-	void LoadModelFile(const std::string& filepath, const std::string& filename);
+	private: //メンバ関数
 
-private: //メンバ変数
+		void LoadModelFile(const std::string& filepath, const std::string& filename);
 
-	std::string filePath_;
-	std::list<Mesh> meshs_;
-	std::list<AnimationData> animations_;
-	RootNode rootNode_;
-	Skeleton skeleton_;
+	private: //メンバ変数
 
-	bool isGltf_;
-	bool isBone_;
-	bool haveSkininng_;
-};
+		std::string filePath_;
+		std::list<Mesh> meshs_;
+		std::list<AnimationData> animations_;
+		RootNode rootNode_;
+		Skeleton skeleton_;
+
+		bool isGltf_;
+		bool isBone_;
+		bool haveSkininng_;
+	};
+
+}

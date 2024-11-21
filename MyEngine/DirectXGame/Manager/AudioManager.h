@@ -10,68 +10,72 @@
 /// 音を管理しているマネージャークラス
 /// </summary>
 
-struct ChunkHeader {
-	char id[4];
-	int32_t size;
-};
+namespace MyEngine {
 
-struct RiffHeader {
-	ChunkHeader chunk;
-	char type[4];
-};
+	struct ChunkHeader {
+		char id[4];
+		int32_t size;
+	};
 
-struct FormatChunk {
-	ChunkHeader chunk;
-	WAVEFORMATEX fmt;
-};
+	struct RiffHeader {
+		ChunkHeader chunk;
+		char type[4];
+	};
 
-struct SoundData {
-	//波形フォーマット
-	WAVEFORMATEX wfex;
-	//バッファの先頭アドレス
-	BYTE* pBuffer;
-	//バッファのサイズ
-	unsigned int bufferSize;
-	//再生時のボイス
-	IXAudio2SourceVoice* pSourceVoice;
-	//バッファ
-	XAUDIO2_BUFFER buf;
-};
+	struct FormatChunk {
+		ChunkHeader chunk;
+		WAVEFORMATEX fmt;
+	};
 
-class AudioManager
-{
-public:
-	static AudioManager* GetInstance();
+	struct SoundData {
+		//波形フォーマット
+		WAVEFORMATEX wfex;
+		//バッファの先頭アドレス
+		BYTE* pBuffer;
+		//バッファのサイズ
+		unsigned int bufferSize;
+		//再生時のボイス
+		IXAudio2SourceVoice* pSourceVoice;
+		//バッファ
+		XAUDIO2_BUFFER buf;
+	};
 
-	void Initialize();
+	class AudioManager
+	{
+	public:
+		static AudioManager* GetInstance();
 
-	void Finalize();
+		void Initialize();
 
-	uint32_t SoundLoadWave(const std::string filename);
+		void Finalize();
 
-	void SoundPlayWave(const uint32_t index, const float soundVolume = 1.0f, bool isLoop = false);
+		uint32_t SoundLoadWave(const std::string filename);
 
-	void StopLoopWave(const uint32_t index);
+		void SoundPlayWave(const uint32_t index, const float soundVolume = 1.0f, bool isLoop = false);
 
-	bool IsSoundPlaying(const uint32_t index);
+		void StopLoopWave(const uint32_t index);
 
-	void SoundUnload(const uint32_t index);
+		bool IsSoundPlaying(const uint32_t index);
 
-	//ゲッターセッター
-	inline void SetVolume(const uint32_t index, const float soundVolume) {
-		if (soundDatas_[index].pSourceVoice) {
-			soundDatas_[index].pSourceVoice->SetVolume(soundVolume);
+		void SoundUnload(const uint32_t index);
+
+		//ゲッターセッター
+		inline void SetVolume(const uint32_t index, const float soundVolume) {
+			if (soundDatas_[index].pSourceVoice) {
+				soundDatas_[index].pSourceVoice->SetVolume(soundVolume);
+			}
 		}
-	}
 
-private: //メンバ関数
+	private: //メンバ関数
 
-private:
-	AudioManager() = default;
-	~AudioManager() = default;
+	private:
+		AudioManager() = default;
+		~AudioManager() = default;
 
-	ComPtr<IXAudio2> xAudio2_;
-	IXAudio2MasteringVoice* masterVoice_;
-	std::map<uint32_t, SoundData> soundDatas_;
-	int textureNum;
-};
+		ComPtr<IXAudio2> xAudio2_;
+		IXAudio2MasteringVoice* masterVoice_;
+		std::map<uint32_t, SoundData> soundDatas_;
+		int textureNum;
+	};
+
+}

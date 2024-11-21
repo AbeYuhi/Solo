@@ -20,31 +20,34 @@
 /// ゲームエンジンのフレームワークがある構造体があるファイル
 /// </summary>
 
-class Framework
-{
-public:
-	Framework() = default;
-	virtual ~Framework() = default;
+namespace MyEngine {
 
-	virtual void Initialize();
+	class Framework
+	{
+	public:
+		Framework() = default;
+		virtual ~Framework() = default;
 
-	virtual void Finalize();
+		virtual void Initialize();
 
-protected:
-	//汎用機能
-	WinApp* winApp_ = nullptr;
-	DirectXCommon* directXCommon_ = nullptr;
-	InputManager* inputManager_ = nullptr;
-	TextureManager* textureManager_ = nullptr;
-	AudioManager* audioManager_ = nullptr;
-#ifdef _DEBUG
-	ImGuiManager* imGuiManager_ = nullptr;
-#endif //_DEBUG
-	RandomManager* randomManager_ = nullptr;
-	CollisionManager* collisionManager_ = nullptr;
-	GraphicsPipelineManager* graphicsPipelineManager_ = nullptr;
-	PostEffectManager* postEffectManager_ = nullptr;
-	GlobalVariables* globalVariables_ = nullptr;
-	LightObjectManager* lightObjectManager_ = nullptr;
-};
+		virtual void Finalize();
 
+	protected:
+		//汎用機能
+		WinApp* winApp_ = nullptr;
+		DirectXCommon* directXCommon_ = nullptr;
+		InputManager* inputManager_ = nullptr;
+		TextureManager* textureManager_ = nullptr;
+		AudioManager* audioManager_ = nullptr;
+		#ifdef _DEBUG
+		ImGuiManager* imGuiManager_ = nullptr;
+		#endif //_DEBUG
+		RandomManager* randomManager_ = nullptr;
+		CollisionManager* collisionManager_ = nullptr;
+		GraphicsPipelineManager* graphicsPipelineManager_ = nullptr;
+		PostEffectManager* postEffectManager_ = nullptr;
+		GlobalVariables* globalVariables_ = nullptr;
+		LightObjectManager* lightObjectManager_ = nullptr;
+	};
+
+}

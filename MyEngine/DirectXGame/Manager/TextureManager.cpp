@@ -1,5 +1,7 @@
 #include "TextureManager.h"
 
+namespace MyEngine {
+
 TextureManager* TextureManager::GetInstance() {
 	static TextureManager instance;
 	return &instance;
@@ -174,4 +176,6 @@ void TextureManager::CreateShaderResourceView(const std::string& filePath) {
 	textureDatas_[filePath].textureSrvHandleGPU = SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex);
 	//SRVの生成
 	dxCommon->GetDevice()->CreateShaderResourceView(textureDatas_[filePath].textureResource.Get(), &srvDesc, textureDatas_[filePath].textureSrvHandleCPU);
+}
+
 }

@@ -3,8 +3,8 @@
 Door::Door() {}
 Door::~Door() {}
 
-void Door::Initialize(std::shared_ptr<Model> model,
-	RenderItem* renderItem,
+void Door::Initialize(std::shared_ptr<MyEngine::Model> model,
+	MyEngine::RenderItem* renderItem,
 	Collider* collider) {
 
 	button_.model = model;
@@ -40,13 +40,13 @@ void Door::Draw() {
 
 }
 
-void Door::SetRightDoor(std::shared_ptr<Model> model, RenderItem* renderItem, Collider* collider) {
+void Door::SetRightDoor(std::shared_ptr<MyEngine::Model> model, MyEngine::RenderItem* renderItem, Collider* collider) {
 	rightDoor_.model = model;
 	rightDoor_.renderItem = renderItem;
 	rightDoor_.collider = collider;
 }
 
-void Door::SetLeftDoor(std::shared_ptr<Model> model, RenderItem* renderItem, Collider* collider) {
+void Door::SetLeftDoor(std::shared_ptr<MyEngine::Model> model, MyEngine::RenderItem* renderItem, Collider* collider) {
 	leftDoor_.model = model;
 	leftDoor_.renderItem = renderItem;
 	leftDoor_.collider = collider;

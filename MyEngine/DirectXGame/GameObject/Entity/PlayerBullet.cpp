@@ -1,16 +1,16 @@
 #include "PlayerBullet.h"
 
 void PlayerBullet::Initialize(Vector2 mousePos) {
-	input_ = InputManager::GetInstance();
+	input_ = MyEngine::InputManager::GetInstance();
 
-	model_ = Model::Create("sphere", "sphere.obj");
+	model_ = MyEngine::Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 	//renderItem_.worldTransform_.data_.scale_ *= 0.02f;
 	renderItem_.materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 	//発射位置の計算
 	renderItem_.worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, MyEngine::WinApp::kWindowWidth, MyEngine::WinApp::kWindowHeight, 0, 1);
 	Matrix4x4 matVPV = MainCamera::GetInstance()->GetViewProjectionMatrix() * viewportMatrix;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
@@ -36,7 +36,7 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 	lifeTime_ = 5.0f;
 
 	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
-	CollisionManager::GetInstance()->AddCollider(&collider_);
+	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
 void PlayerBullet::Update() {

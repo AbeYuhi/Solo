@@ -9,8 +9,8 @@
 /// </summary>
 
 struct StageBlock {
-	std::shared_ptr<Model> stageModel;
-	RenderItem stageModelInfo;
+	std::shared_ptr<MyEngine::Model> stageModel;
+	MyEngine::RenderItem stageModelInfo;
 	Vector3 velocity_;
 	std::unique_ptr<Collider> collider;
 	int32_t blockInfo;

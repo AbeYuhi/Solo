@@ -402,7 +402,7 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-			levelObject->model = Model::Create(objectData.fileName);
+			levelObject->model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
 			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 			levelObject->type = kMESH;
@@ -472,7 +472,7 @@ void LevelScene::LevelCreate() {
 						type,
 						objectData.collider->collisionCheck);
 
-					CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
+					MyEngine::CollisionManager::GetInstance()->AddCollider(&levelObject->collider);
 				}
 			}
 		}

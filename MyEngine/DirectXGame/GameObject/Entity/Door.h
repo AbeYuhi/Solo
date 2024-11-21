@@ -9,8 +9,8 @@
 /// </summary>
 
 struct DoorData {
-	std::shared_ptr<Model> model;
-	RenderItem* renderItem;
+	std::shared_ptr<MyEngine::Model> model;
+	MyEngine::RenderItem* renderItem;
 	Collider* collider;
 };
 
@@ -21,19 +21,19 @@ public:
 	~Door();
 
 	void Initialize(
-		std::shared_ptr<Model> model,
-		RenderItem* renderItem,
+		std::shared_ptr<MyEngine::Model> model,
+		MyEngine::RenderItem* renderItem,
 		Collider* collider);
 
 	void Update();
 
 	void Draw();
 
-	void SetRightDoor(std::shared_ptr<Model> model,
-		RenderItem* renderItem,
+	void SetRightDoor(std::shared_ptr<MyEngine::Model> model,
+		MyEngine::RenderItem* renderItem,
 		Collider* collider);
-	void SetLeftDoor(std::shared_ptr<Model> model,
-		RenderItem* renderItem,
+	void SetLeftDoor(std::shared_ptr<MyEngine::Model> model,
+		MyEngine::RenderItem* renderItem,
 		Collider* collider);
 	inline void IsHitBullet(bool isHit) { isOpen_ = isHit; }
 

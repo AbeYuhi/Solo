@@ -15,39 +15,41 @@
 /// SRVをまとめているマネージャークラス
 /// </summary>
 
-
 using namespace Microsoft::WRL;
 
-class DirectXCommon;
 
-class SrvManager
-{
-public:
-	static SrvManager* GetInstance();
+namespace MyEngine {
 
-public:
+	class DirectXCommon;
+	class SrvManager
+	{
+	public:
+		static SrvManager* GetInstance();
 
-	void Initialize();
+	public:
 
-	uint32_t Allocate();
+		void Initialize();
 
-	inline ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return descriptorHeap_.Get(); }
+		uint32_t Allocate();
 
-	void UnLoadResource(int index);
+		inline ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return descriptorHeap_.Get(); }
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(int index);
+		void UnLoadResource(int index);
 
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(int index);
+		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(int index);
 
-private:
-	SrvManager() = default;
-	~SrvManager() = default;
-	
-private:
-	DirectXCommon* dxCommon_;
-	static const uint32_t kMaxCount_;
-	uint32_t descriptorSize_;
-	ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
-	std::map<uint32_t, bool> isUseIndex_;
-};
+		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(int index);
 
+	private:
+		SrvManager() = default;
+		~SrvManager() = default;
+
+	private:
+		DirectXCommon* dxCommon_;
+		static const uint32_t kMaxCount_;
+		uint32_t descriptorSize_;
+		ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
+		std::map<uint32_t, bool> isUseIndex_;
+	};
+
+}

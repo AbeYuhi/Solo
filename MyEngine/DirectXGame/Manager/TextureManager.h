@@ -14,41 +14,45 @@
 /// テクスチャーの情報を格納されているマネージャークラス
 /// </summary>
 
-class TextureManager
-{
-public:
-	//インスタンスの取得
-	static TextureManager* GetInstance();
-	static const UINT kMaxTextureNum_ = 1000;
-	static UINT sTextureNum_;
+namespace MyEngine {
 
-	static uint32_t Load(const std::string& textureName);
+	class TextureManager
+	{
+	public:
+		//インスタンスの取得
+		static TextureManager* GetInstance();
+		static const UINT kMaxTextureNum_ = 1000;
+		static UINT sTextureNum_;
 
-	static uint32_t Load(const std::string& filePath, const std::string& textureName);
+		static uint32_t Load(const std::string& textureName);
 
-	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureHandleGPU(uint32_t textureHandle) { return textureDatas_[textureHandles_[textureHandle]].textureSrvHandleGPU; }
-	
-	D3D12_RESOURCE_DESC GetTextureDesc(uint32_t textureHandle) { return textureDatas_[textureHandles_[textureHandle]].textureResource->GetDesc(); }
+		static uint32_t Load(const std::string& filePath, const std::string& textureName);
 
-private: //メンバ関数
+		D3D12_GPU_DESCRIPTOR_HANDLE GetTextureHandleGPU(uint32_t textureHandle) { return textureDatas_[textureHandles_[textureHandle]].textureSrvHandleGPU; }
 
-	uint32_t LoadInternal(const std::string& filePath, const std::string& textureName);
+		D3D12_RESOURCE_DESC GetTextureDesc(uint32_t textureHandle) { return textureDatas_[textureHandles_[textureHandle]].textureResource->GetDesc(); }
 
-	void TransferTexture(const std::string& filePath);
+	private: //メンバ関数
 
-	DirectX::ScratchImage LoadTexture(const std::string& filePath);
+		uint32_t LoadInternal(const std::string& filePath, const std::string& textureName);
 
-	ComPtr<ID3D12Resource> CreateTextureResource(DirectX::TexMetadata metadata);
+		void TransferTexture(const std::string& filePath);
 
-	[[nodiscard]]
-	ComPtr<ID3D12Resource> UploadTextureData(const std::string& filePath);
+		DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
-	void CreateShaderResourceView(const std::string& filePath);
+		ComPtr<ID3D12Resource> CreateTextureResource(DirectX::TexMetadata metadata);
 
-private:
-	TextureManager() = default;
-	~TextureManager();
+		[[nodiscard]]
+		ComPtr<ID3D12Resource> UploadTextureData(const std::string& filePath);
 
-	std::map<std::string, TextureData> textureDatas_;
-	std::map<uint32_t, std::string> textureHandles_;
-};
+		void CreateShaderResourceView(const std::string& filePath);
+
+	private:
+		TextureManager() = default;
+		~TextureManager();
+
+		std::map<std::string, TextureData> textureDatas_;
+		std::map<uint32_t, std::string> textureHandles_;
+	};
+
+}

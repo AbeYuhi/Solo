@@ -21,7 +21,7 @@ void SpriteCamera::Initialize() {
 }
 
 void SpriteCamera::Update() {
-	WinApp* winApp = WinApp::GetInstance();
+	MyEngine::WinApp* winApp = MyEngine::WinApp::GetInstance();
 	
 #ifdef _DEBUG
 	ImGui::Begin("SpriteCameraManager");

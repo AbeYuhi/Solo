@@ -1,18 +1,18 @@
 #include "SkinCluster.h"
 
 SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modeldata) {
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+	MyEngine::DirectXCommon* dxCommon = MyEngine::DirectXCommon::GetInstance();
 	SkinCluster skinCluster;
 
-	uint32_t srvIndex = SrvManager::GetInstance()->Allocate();
+	uint32_t srvIndex = MyEngine::SrvManager::GetInstance()->Allocate();
 
 	//palette用のResource確保
-	skinCluster.paletteResource = CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
+	skinCluster.paletteResource = MyEngine::CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
 	WellForGPU* mappedPalette = nullptr;
 	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
 	skinCluster.mappedPalette = { mappedPalette, skeleton.joints.size() };
-	skinCluster.paletteSrvHandle.first = SrvManager::GetInstance()->GetCPUDescriptorHandle(srvIndex);
-	skinCluster.paletteSrvHandle.second = SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex);
+	skinCluster.paletteSrvHandle.first = MyEngine::SrvManager::GetInstance()->GetCPUDescriptorHandle(srvIndex);
+	skinCluster.paletteSrvHandle.second = MyEngine::SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex);
 	skinCluster.srvIndex = srvIndex;
 
 	//palette用のsrvを作成
@@ -27,7 +27,7 @@ SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modelda
 	dxCommon->GetDevice()->CreateShaderResourceView(skinCluster.paletteResource.Get(), &paletteSrvDesc,	skinCluster.paletteSrvHandle.first);
 
 	//influence用のResource確保
-	skinCluster.influenceResource = CreateBufferResource(sizeof(VertexInfluence) * modeldata.vertices.size());
+	skinCluster.influenceResource = MyEngine::CreateBufferResource(sizeof(VertexInfluence) * modeldata.vertices.size());
 	VertexInfluence* mappedInfluence = nullptr;
 	skinCluster.influenceResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedInfluence));
 	std::memset(mappedInfluence, 0, sizeof(VertexInfluence) * modeldata.vertices.size());
@@ -68,6 +68,6 @@ SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modelda
 }
 
 void ClearSkinCluster(SkinCluster& skinCluster) {
-	SrvManager::GetInstance()->UnLoadResource(skinCluster.srvIndex);
+	MyEngine::SrvManager::GetInstance()->UnLoadResource(skinCluster.srvIndex);
 	skinCluster.paletteResource.Reset();
 }

@@ -8,20 +8,20 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	glassInvincibilityTime_ = 0.0f;
 	cameraData_ = cameraData;
 
-	numberSpriteTextures_[0] = TextureManager::Load("numberTexture/0.png");
-	numberSpriteTextures_[1] = TextureManager::Load("numberTexture/1.png");
-	numberSpriteTextures_[2] = TextureManager::Load("numberTexture/2.png");
-	numberSpriteTextures_[3] = TextureManager::Load("numberTexture/3.png");
-	numberSpriteTextures_[4] = TextureManager::Load("numberTexture/4.png");
-	numberSpriteTextures_[5] = TextureManager::Load("numberTexture/5.png");
-	numberSpriteTextures_[6] = TextureManager::Load("numberTexture/6.png");
-	numberSpriteTextures_[7] = TextureManager::Load("numberTexture/7.png");
-	numberSpriteTextures_[8] = TextureManager::Load("numberTexture/8.png");
-	numberSpriteTextures_[9] = TextureManager::Load("numberTexture/9.png");
+	numberSpriteTextures_[0] = MyEngine::TextureManager::Load("numberTexture/0.png");
+	numberSpriteTextures_[1] = MyEngine::TextureManager::Load("numberTexture/1.png");
+	numberSpriteTextures_[2] = MyEngine::TextureManager::Load("numberTexture/2.png");
+	numberSpriteTextures_[3] = MyEngine::TextureManager::Load("numberTexture/3.png");
+	numberSpriteTextures_[4] = MyEngine::TextureManager::Load("numberTexture/4.png");
+	numberSpriteTextures_[5] = MyEngine::TextureManager::Load("numberTexture/5.png");
+	numberSpriteTextures_[6] = MyEngine::TextureManager::Load("numberTexture/6.png");
+	numberSpriteTextures_[7] = MyEngine::TextureManager::Load("numberTexture/7.png");
+	numberSpriteTextures_[8] = MyEngine::TextureManager::Load("numberTexture/8.png");
+	numberSpriteTextures_[9] = MyEngine::TextureManager::Load("numberTexture/9.png");
 	
-	numberSprites_[0] = Sprite::Create();
-	numberSprites_[1] = Sprite::Create();
-	numberSprites_[2] = Sprite::Create();
+	numberSprites_[0] = MyEngine::Sprite::Create();
+	numberSprites_[1] = MyEngine::Sprite::Create();
+	numberSprites_[2] = MyEngine::Sprite::Create();
 	numberInfo_[0].Initialize(numberSpriteTextures_[0], {30, 50});
 	numberInfo_[0].worldTransform_.data_.translate_ = { 90, 50, 0 };
 	numberInfo_[1].Initialize(numberSpriteTextures_[0], {30, 50});
@@ -30,13 +30,13 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
 
 	collider_.Initialize(cameraData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
-	CollisionManager::GetInstance()->AddCollider(&collider_);
+	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
 	isShot_ = false;
 }
 
 void Player::Update() {
-	InputManager* input_ = InputManager::GetInstance();
+	MyEngine::InputManager* input_ = MyEngine::InputManager::GetInstance();
 
 	if (collider_.isContact_[GOAL]) {
 		isGameClear_ = true;
@@ -73,8 +73,8 @@ void Player::Update() {
 
 	if (isHitEffect_) {
 		time_ += 1.0f / 60.0f;
-		PostEffectManager::GetInstance()->SetPostEffect(kVignetteBlur);
-		if (RandomManager::GetInstance()->GetRandomNumber(0, 1) == 1) {
+		MyEngine::PostEffectManager::GetInstance()->SetPostEffect(kVignetteBlur);
+		if (MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 1) == 1) {
 			MainCamera::GetInstance()->transform_.rotate_.z += 0.01f;
 		}
 		else {
@@ -83,20 +83,20 @@ void Player::Update() {
 		MainCamera::GetInstance()->Update();
 		
 		if (time_ <= 0.5f) {
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity += 0.005f;
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount += 0.001f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity += 0.005f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount += 0.001f;
 		}
 		else {
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity -= 0.005f;
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount -= 0.001f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity -= 0.005f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount -= 0.001f;
 		}
 
 		if (time_ >= 1.0f) {
 			isHitEffect_ = false;
-			PostEffectManager::GetInstance()->SetPostEffect(kNone);
+			MyEngine::PostEffectManager::GetInstance()->SetPostEffect(kNone);
 			MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity = 0.5f;
-			PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount = 0.5f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->intensity = 0.5f;
+			MyEngine::PostEffectManager::GetInstance()->GetVignetteBlurInfo()->blurAmount = 0.5f;
 		}
 	}
 	else {
