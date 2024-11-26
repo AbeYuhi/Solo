@@ -67,7 +67,6 @@ namespace MyEngine {
 	}
 
 	void CollisionManager::Draw() {
-
 #ifdef _DEBUG
 		for (auto& collider : colliders_) {
 
@@ -84,7 +83,6 @@ namespace MyEngine {
 			}
 		}
 #endif // _DEBUG
-
 	}
 
 	void CollisionManager::SyncColliderList() {
