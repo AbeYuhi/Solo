@@ -49,18 +49,19 @@ public:
 	LevelScene() = default;
 	~LevelScene() = default;
 
-	void Initialize(std::string fileName, unsigned int stageNum = 0);
+	void Initialize(const std::string& fileName, unsigned int stageNum = 0);
 
 	void Update();
 
 	void Draw();
+	void ParticleDraw();
 
 	inline CameraData GetCameraData() const { return gameObject_.cameraData_; }
 	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }
 
 private: //メンバ関数
 
-	void LoadFile(std::string fileName);
+	void LoadFile(const std::string& fileName);
 
 	void ScanChildData(LevelData* levelData, json& childrens, int32_t parent);
 

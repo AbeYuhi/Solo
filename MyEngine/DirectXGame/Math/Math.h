@@ -79,7 +79,7 @@ bool operator==(const Matrix4x4& num1, const Matrix4x4& num2);
 /// <param name="matrix1">行列1</param>
 /// <param name="matrix2">行列2</param>
 /// <returns></returns>
-Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2);
+Matrix4x4 Add(const Matrix4x4& matrix1, const Matrix4x4& matrix2);
 
 /// <summary>
 /// 4x4行列の減算
@@ -87,7 +87,7 @@ Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2);
 /// <param name="matrix1">行列1</param>
 /// <param name="matrix2">行列2</param>
 /// <returns></returns>
-Matrix4x4 Subtract(Matrix4x4 matrix1, Matrix4x4 matrix2);
+Matrix4x4 Subtract(const Matrix4x4& matrix1, const Matrix4x4& matrix2);
 
 /// <summary>
 /// 4x4行列の積
@@ -95,28 +95,28 @@ Matrix4x4 Subtract(Matrix4x4 matrix1, Matrix4x4 matrix2);
 /// <param name="matrix1">行列1</param>
 /// <param name="matrix2">行列2</param>
 /// <returns></returns>
-Matrix4x4 Multiply(const Matrix4x4 matrix1, const Matrix4x4 matrix2);
+Matrix4x4 Multiply(const Matrix4x4& matrix1, const Matrix4x4& matrix2);
 
 /// <summary>
 /// 4x4行列の行列式
 /// </summary>
 /// <param name="matrix">行列式を求めたい行列</param>
 /// <returns></returns>
-float Det(Matrix4x4 matrix);
+float Det(const Matrix4x4& matrix);
 
 /// <summary>
 /// 4x4行列の逆行列
 /// </summary>
 /// <param name="matrix">逆行列にしたい行列</param>
 /// <returns></returns>
-Matrix4x4 Inverse(Matrix4x4 matrix);
+Matrix4x4 Inverse(const Matrix4x4& matrix);
 
 /// <summary>
 /// 4x4行列の転置行列
 /// </summary>
 /// <param name="matrix">転置させたい行列</param>
 /// <returns></returns>
-Matrix4x4 Transpose(Matrix4x4 matrix);
+Matrix4x4 Transpose(const Matrix4x4& matrix);
 
 /// <summary>
 /// 4x4単位行列の作成
@@ -206,6 +206,8 @@ Vector3 CalculateNormal(const Sphere& a, const Sphere& b);
 Vector3 CalculateNormal(const Sphere& a, const AABB& b);
 Vector3 CalculateNormal(const Sphere& a, const OBB& b);
 
+Vector3 ClosestPointOnOBB(const OBB& obb, const Vector3& point);
+
 Vector3 GetClosestPointOnOBB(const AABB& aabb0, const AABB& aabb1);
 Vector3 GetClosestPointOnOBB(const AABB& aabb, const OBB& obb);
 Vector3 GetClosestPointOnOBB(const AABB& aabb, const Sphere& sphere);
@@ -218,7 +220,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const AABB& aabb);
 Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb);
 Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Sphere& sphere1);
 
-Vector3 CalculateReflection(Vector3 incoming, Vector3 normal);
+Vector3 CalculateReflection(const Vector3& incoming, const Vector3& normal);
 
 EulerTransformData ExtractTransform(const Matrix4x4& matrix);
 

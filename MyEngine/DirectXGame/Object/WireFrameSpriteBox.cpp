@@ -56,7 +56,7 @@ namespace MyEngine {
 		indexData_[6] = 2;	indexData_[7] = 0;
 	}
 
-	void WireFrameSpriteBox::TransferVertices(SpriteData spriteData) {
+	void WireFrameSpriteBox::TransferVertices(SpriteData& spriteData) {
 
 		float left = (0.0f - spriteData.anchorPoint_.x) * spriteData.size_.x;
 		float right = (1.0f - spriteData.anchorPoint_.x) * spriteData.size_.x;
@@ -98,9 +98,6 @@ namespace MyEngine {
 		if (spriteItem.materialInfo_.isInvisible_) {
 			return;
 		}
-#ifdef NDEBUG
-		return;
-#endif // NDEBUG
 
 		TransferVertices(spriteItem.spriteData_);
 

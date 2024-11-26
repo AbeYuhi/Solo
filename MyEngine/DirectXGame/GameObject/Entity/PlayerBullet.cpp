@@ -37,11 +37,21 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 
 	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
+
+	particle_ = std::make_unique<GlassPieceParticle>(200);
+	particle_->Initialize();
 }
 
 void PlayerBullet::Update() {
 	lifeTime_ -= 1.0f / 60.0f;
 	//velocity_.y -= 1.0f * (1.0f / 60.0f);
+
+	//パーティクル
+	Emitter emitter;
+	emitter.count = 10;
+	emitter.frequency = 9999.0f;
+	emitter.frequencyTime = 0.0f;
+	emitter.transform = renderItem_.worldTransform_.data_;
 
 	if (collider_.isContact_[WALL]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_[WALL]);
@@ -63,12 +73,22 @@ void PlayerBullet::Update() {
 		collider_.objData_->translate_ = collider_.contactPoint_;
 		velocity_ = collider_.reflection_;
 	}
+	if (collider_.isContact_[GLASS]) {
+		emitter.frequency = 0.0f;
+	}
 
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
+
+	particle_->SetEmitter(emitter);
+	particle_->Update();
 }
 
 void PlayerBullet::Draw() {
 
 	model_->Draw(renderItem_);
 
+}
+
+void PlayerBullet::ParticleDraw() {
+	particle_->Draw();
 }

@@ -56,7 +56,7 @@ struct Collider {
 	Vector3 combinedScale;
 
 #ifdef _DEBUG
-	RenderItem renderItem_;
+	MyEngine::RenderItem renderItem_;
 #endif // _DEBUG
 
 	bool isContact_[kNumColliderTag];

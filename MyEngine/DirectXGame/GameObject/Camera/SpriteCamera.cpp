@@ -30,7 +30,7 @@ void SpriteCamera::Update() {
 	ImGui::End();
 
 	if (isMove_) {
-		InputManager* input = InputManager::GetInstance();
+		MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
 
 		Vector3 cameraVelocity = { 0.0f, 0.0f, 0.0f };
 		if (input->IsPushKey(DIK_A)) {

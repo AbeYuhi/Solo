@@ -120,7 +120,7 @@ namespace MyEngine {
 		dxCommon->GetCommandList()->DrawIndexedInstanced(kIndexNumber, 1, 0, 0, 0);
 	}
 
-	void Sprite::Draw(ParticleDrawInfo drawInfo, SpriteData spriteData) {
+	void Sprite::Draw(const ParticleDrawInfo& drawInfo, SpriteData spriteData) {
 		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 		TextureManager* textureManager = TextureManager::GetInstance();
 		GraphicsPipelineManager* psoManager = GraphicsPipelineManager::GetInstance();

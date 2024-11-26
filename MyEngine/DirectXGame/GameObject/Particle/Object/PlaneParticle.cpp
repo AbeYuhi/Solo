@@ -46,7 +46,7 @@ void PlaneParticle::Update() {
 	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
 	ImGui::Combo("blendMode", &blendMode, modes, IM_ARRAYSIZE(modes));
 	blendMode_ = static_cast<BlendMode>(blendMode);
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
 	ImGui::End();
 #endif //_DEBUG
 

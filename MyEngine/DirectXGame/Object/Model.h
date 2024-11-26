@@ -44,9 +44,9 @@ namespace MyEngine {
 	{
 	public: //静的メンバ関数
 
-		static std::shared_ptr<Model> Create(const std::string filename);
+		static std::shared_ptr<Model> Create(const std::string& filename);
 
-		static std::shared_ptr<Model> Create(const std::string& filepath, const std::string filename);
+		static std::shared_ptr<Model> Create(const std::string& filepath, const std::string& filename);
 
 	private: //静的メンバ変数
 
@@ -56,13 +56,13 @@ namespace MyEngine {
 		Model();
 		~Model();
 
-		void Initialize(const std::string& filepath, const std::string filename);
+		void Initialize(const std::string& filepath, const std::string& filename);
 
 		void Draw(RenderItem& renderItem);
 		void Draw(RenderItem& renderItem, uint32_t textureHandle);
 
-		void Draw(ParticleDrawInfo drawInfo);
-		void Draw(ParticleDrawInfo drawInfo, uint32_t textureHandle);
+		void Draw(const ParticleDrawInfo& drawInfo);
+		void Draw(const ParticleDrawInfo& drawInfo, uint32_t textureHandle);
 
 	public: //ゲッター
 

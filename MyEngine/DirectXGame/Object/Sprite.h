@@ -48,7 +48,7 @@ namespace MyEngine {
 
 		void Draw(SpriteItem& spriteItem);
 
-		void Draw(ParticleDrawInfo drawInfo, SpriteData spriteData);
+		void Draw(const ParticleDrawInfo& drawInfo, SpriteData spriteData);
 
 	public: //ゲッターセッター
 

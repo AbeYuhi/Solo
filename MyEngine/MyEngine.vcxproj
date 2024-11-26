@@ -151,6 +151,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\LoadFile\LoadCSV.cpp" />
     <ClCompile Include="DirectXGame\Object\Line.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Entity\Glass.cpp" />
+    <ClCompile Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DirectXGame\Manager\AudioManager.cpp" />
     <ClCompile Include="DirectXGame\Manager\GameManager.cpp" />
@@ -298,6 +299,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="DirectXGame\GameObject\Entity\Player.h" />
     <ClInclude Include="DirectXGame\GameObject\Entity\Glass.h" />
     <ClInclude Include="DirectXGame\Scene\SceneChange\SceneChange.h" />
+    <ClInclude Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.h" />
     <ClInclude Include="Resources\Shaders\PostEffect\VignetteBlur.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

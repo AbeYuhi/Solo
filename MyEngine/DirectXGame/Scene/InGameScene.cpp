@@ -257,7 +257,7 @@ void InGameScene::Update() {
 	ImGui::Begin("BlendMode");
 	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
 	ImGui::Combo("blendMode", &blendMode_, modes, IM_ARRAYSIZE(modes));
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(static_cast<BlendMode>(blendMode_));
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(static_cast<BlendMode>(blendMode_));
 	ImGui::End();
 
 	ImGui::Begin("PostEffect");
@@ -337,6 +337,8 @@ void InGameScene::Draw() {
 	///パーティクルの描画
 
 	//testParticle1_->Draw();
+	levelScene_.ParticleDraw();
+	player_.ParticleDraw();
 
 	///パーティクルの描画終了
 }

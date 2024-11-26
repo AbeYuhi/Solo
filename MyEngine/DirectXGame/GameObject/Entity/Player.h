@@ -20,6 +20,7 @@ public:
 	void Update();
 
 	void Draw();
+	void ParticleDraw();
 
 	inline void SetCameraData(EulerTransformData* data) { cameraData_ = data; }
 	inline bool IsGameOver() const { return isGameOver_; }

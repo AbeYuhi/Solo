@@ -401,6 +401,10 @@ void Glass::Draw() {
 	}
 }
 
+void Glass::ParticleDraw() {
+
+}
+
 void Glass::DontMoveGlass() {
 
 }

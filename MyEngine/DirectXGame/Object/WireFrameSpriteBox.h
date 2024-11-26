@@ -41,7 +41,7 @@ namespace MyEngine {
 
 		void Draw(SpriteItem& spriteItem);
 
-		void TransferVertices(SpriteData spriteData);
+		void TransferVertices(SpriteData& spriteData);
 
 	public: //ゲッターセッター
 

@@ -5,6 +5,7 @@
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 #include "Data/Collider.h"
+#include "GameObject/Particle/Object/GlassPieceParticle/GlassPieceParticle.h"
 
 /// <summary>
 /// PlayerBullet.h
@@ -23,6 +24,8 @@ public:
 
 	void Draw();
 
+	void ParticleDraw();
+
 	inline float GetLifeTime() { return lifeTime_; }
 
 private:
@@ -35,5 +38,7 @@ private:
 	Vector3 velocity_;
 	Vector3 reticlePos_;
 	float speed_;
+
+	std::unique_ptr<GlassPieceParticle> particle_;
 };
 

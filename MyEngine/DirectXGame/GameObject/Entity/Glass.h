@@ -44,6 +44,8 @@ public:
 
 	void Draw();
 
+	void ParticleDraw();
+
 private:
 
 	void DontMoveGlass();

@@ -1,6 +1,6 @@
 #include "LevelScene.h"
 
-void LevelScene::Initialize(std::string fileName, unsigned int stageNum) {
+void LevelScene::Initialize(const std::string& fileName, unsigned int stageNum) {
 
 	levelSceneData_.Initialize();
 	levelSceneData_.translate_ = {0.0f, 0.0f, stageNum * 100.0f};
@@ -18,7 +18,7 @@ void LevelScene::Update() {
 	ImGui::Begin("levelObjInfo");
 	ImGui::BeginTabBar("levelObjInfo");
 	for (auto& levelObject : gameObject_.objDatas_) {
-		ImGuiManager::GetInstance()->RenderItemDebug(levelObject->objName + "info", levelObject->renderItem);
+		MyEngine::ImGuiManager::GetInstance()->RenderItemDebug(levelObject->objName + "info", levelObject->renderItem);
 	}
 	ImGui::EndTabBar();
 	ImGui::End();
@@ -51,7 +51,13 @@ void LevelScene::Draw() {
 	}
 }
 
-void LevelScene::LoadFile(std::string fileName) {
+void LevelScene::ParticleDraw() {
+	for (auto& glassData : gameObject_.glassDatas_) {
+		glassData->ParticleDraw();
+	}
+}
+
+void LevelScene::LoadFile(const std::string& fileName) {
 	const std::string fullPath = kDirectoryPath + fileName;
 
 	//ファイルストリーム

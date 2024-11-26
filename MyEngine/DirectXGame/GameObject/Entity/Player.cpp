@@ -193,3 +193,11 @@ void Player::Draw() {
 	}
 
 }
+
+void Player::ParticleDraw() {
+
+	for (auto& bullet : bullets_) {
+		bullet->ParticleDraw();
+	}
+
+}

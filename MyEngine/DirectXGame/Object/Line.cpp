@@ -45,7 +45,7 @@ namespace MyEngine {
 		renderItem_.Initialize();
 	}
 
-	void LineObj::Draw(Vector3 posA, Vector3 posB) {
+	void LineObj::Draw(const Vector3& posA, const Vector3& posB) {
 		TextureManager* textureManager = TextureManager::GetInstance();
 		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 		GraphicsPipelineManager* psoManager = GraphicsPipelineManager::GetInstance();

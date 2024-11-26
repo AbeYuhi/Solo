@@ -184,7 +184,7 @@ bool operator==(const Matrix4x4& num1, const Matrix4x4& num2) {
 	return orTF;
 }
 
-Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2) {
+Matrix4x4 Add(const Matrix4x4& matrix1, const Matrix4x4& matrix2) {
 	Matrix4x4 matrix = {};
 	for (int row = 0; row < 4; row++) {
 		for (int colmun = 0; colmun < 4; colmun++) {
@@ -194,7 +194,7 @@ Matrix4x4 Add(Matrix4x4 matrix1, Matrix4x4 matrix2) {
 	return matrix;
 }
 
-Matrix4x4 Subtract(Matrix4x4 matrix1, Matrix4x4 matrix2) {
+Matrix4x4 Subtract(const Matrix4x4& matrix1, const Matrix4x4& matrix2) {
 	Matrix4x4 matrix = {};
 	for (int row = 0; row < 4; row++) {
 		for (int colmun = 0; colmun < 4; colmun++) {
@@ -204,7 +204,7 @@ Matrix4x4 Subtract(Matrix4x4 matrix1, Matrix4x4 matrix2) {
 	return matrix;
 }
 
-Matrix4x4 Multiply(const Matrix4x4 matrix1, const Matrix4x4 matrix2) {
+Matrix4x4 Multiply(const Matrix4x4& matrix1, const Matrix4x4& matrix2) {
 	Matrix4x4 matrix = {};
 
 	matrix.m[0][0] = matrix1.m[0][0] * matrix2.m[0][0] + matrix1.m[0][1] * matrix2.m[1][0] + matrix1.m[0][2] * matrix2.m[2][0] + matrix1.m[0][3] * matrix2.m[3][0];
@@ -230,7 +230,7 @@ Matrix4x4 Multiply(const Matrix4x4 matrix1, const Matrix4x4 matrix2) {
 	return matrix;
 }
 
-float Det(Matrix4x4 matrix) {
+float Det(const Matrix4x4& matrix) {
 	float det = 0.0f;
 
 	det = matrix.m[0][0] * matrix.m[1][1] * matrix.m[2][2] * matrix.m[3][3]
@@ -268,7 +268,7 @@ float Det(Matrix4x4 matrix) {
 	return det;
 }
 
-Matrix4x4 Inverse(Matrix4x4 matrix) {
+Matrix4x4 Inverse(const Matrix4x4& matrix) {
 	Matrix4x4 matrix1 = {};
 	float det = Det(matrix);
 
@@ -375,7 +375,7 @@ Matrix4x4 Inverse(Matrix4x4 matrix) {
 	return matrix1;
 }
 
-Matrix4x4 Transpose(Matrix4x4 matrix) {
+Matrix4x4 Transpose(const Matrix4x4& matrix) {
 	Matrix4x4 matrix1 = {};
 
 	matrix1.m[0][0] = matrix.m[0][0];
@@ -476,7 +476,7 @@ Matrix4x4 MakeRotateMatrix(const Vector3& rotate) {
 }
 
 Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix3x3& rotationMatrix) {
-	Vector3 eulerAngles;
+	Vector3 eulerAngles = { 0.0f, 0.0f, 0.0f };
 
 	// 要素を読み取る
 	float r00 = rotationMatrix.m[0][0];
@@ -498,7 +498,7 @@ Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix3x3& rotationMatrix) {
 }
 
 Vector3 ExtractEulerAnglesFromMatrixXZY(const Matrix4x4& matrix) {
-	Vector3 eulerAngles;
+	Vector3 eulerAngles = { 0.0f, 0.0f, 0.0f };
 
 	// 3x3回転成分を読み取る
 	float m00 = matrix.m[0][0];
@@ -1083,6 +1083,8 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	if (IsCollision(b, a)) {
 		
+
+
 	}
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
@@ -1207,10 +1209,10 @@ Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unu
 	return closest_point;
 }
 
-Vector3 CalculateReflection(Vector3 incoming, Vector3 normal) {
-	normal = Normalize(normal);
-	float dot_product = Dot(incoming, normal);
-	Vector3 reflection = incoming - normal * (2.0f * dot_product);
+Vector3 CalculateReflection(const Vector3& incoming, const Vector3& normal) {
+	Vector3 n = Normalize(normal);
+	float dot_product = Dot(incoming, n);
+	Vector3 reflection = incoming - n * (2.0f * dot_product);
 	return reflection;
 }
 

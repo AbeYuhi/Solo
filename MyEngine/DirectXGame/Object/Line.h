@@ -38,11 +38,11 @@ namespace MyEngine {
 
 		void Initialize();
 
-		void Draw(Vector3 posA, Vector3 posB);
+		void Draw(const Vector3& posA, const Vector3& posB);
 
 	public: //ゲッターセッター
 
-		void SetVertexPos(Vector4 pos, int index) { vertexData_[index].position = pos; }
+		void SetVertexPos(const Vector4& pos, int index) { vertexData_[index].position = pos; }
 
 	private: //メンバ変数
 		//オブジェクト情報のResource

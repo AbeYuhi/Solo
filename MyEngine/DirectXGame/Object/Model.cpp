@@ -14,7 +14,7 @@ namespace MyEngine {
 
 	std::map<std::string, std::shared_ptr<Model>> Model::sModels_;
 
-	std::shared_ptr<Model> Model::Create(const std::string filename) {
+	std::shared_ptr<Model> Model::Create(const std::string& filename) {
 		std::string filepath = filename.substr(0, filename.find_last_of("."));
 		std::string filePath = filepath + "/" + filename;
 		if (sModels_.find(filePath) == sModels_.end()) {
@@ -25,7 +25,7 @@ namespace MyEngine {
 		return sModels_[filePath];
 	}
 
-	std::shared_ptr<Model> Model::Create(const std::string& filepath, const std::string filename) {
+	std::shared_ptr<Model> Model::Create(const std::string& filepath, const std::string& filename) {
 		std::string filePath = filepath + "/" + filename;
 		if (sModels_.find(filePath) == sModels_.end()) {
 			sModels_[filePath] = std::make_shared<Model>();
@@ -35,7 +35,7 @@ namespace MyEngine {
 		return sModels_[filePath];
 	}
 
-	void Model::Initialize(const std::string& filepath, const std::string filename) {
+	void Model::Initialize(const std::string& filepath, const std::string& filename) {
 
 		//モデル読み込み
 		LoadModelFile(filepath, filename);
@@ -211,7 +211,7 @@ namespace MyEngine {
 		}
 	}
 
-	void Model::Draw(ParticleDrawInfo drawInfo) {
+	void Model::Draw(const ParticleDrawInfo& drawInfo) {
 		//シングルトーンの取得
 		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 		TextureManager* textureManager = TextureManager::GetInstance();
@@ -246,7 +246,7 @@ namespace MyEngine {
 		}
 	}
 
-	void Model::Draw(ParticleDrawInfo drawInfo, uint32_t textureHandle) {
+	void Model::Draw(const ParticleDrawInfo& drawInfo, uint32_t textureHandle) {
 		//シングルトーンの取得
 		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 		TextureManager* textureManager = TextureManager::GetInstance();

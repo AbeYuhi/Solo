@@ -390,6 +390,9 @@
     <ClCompile Include="DirectXGame\Scene\SceneChange\SceneChange.cpp">
       <Filter>ソース ファイル\Scene\SceneChange</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -718,6 +721,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Data\VignetteBlurInfo.h">
       <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
