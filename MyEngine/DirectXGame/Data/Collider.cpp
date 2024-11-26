@@ -17,7 +17,8 @@ void Collider::Initialize(EulerTransformData* objData, EulerTransformData collid
 #endif // _DEBUG
 	for (int i = 0; i < kNumColliderTag; i++) {
 		isContact_[i] = false;
-		normal_[i] = Vector3{ 0.0f, 0.0f, 0.0f };
+		normal_ = Vector3{ 0.0f, 0.0f, 0.0f };
+		contactPoint_ = Vector3{ 0.0f, 0.0f, 0.0f };
 	}
 	isDelete_ = false;
 	isPush_ = false;

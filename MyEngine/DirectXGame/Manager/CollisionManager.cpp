@@ -27,7 +27,7 @@ void CollisionManager::Update() {
 		if (collider0->isCollisionCheck_) {
 			for (int i = 0; i < kNumColliderTag; i++) {
 				collider0->isContact_[i] = false;
-				collider0->normal_[i] = {0, 0, 0};
+				collider0->normal_ = {0, 0, 0};
 			}
 			for (auto& collider1 : colliders_) {
 
@@ -36,9 +36,24 @@ void CollisionManager::Update() {
 						std::visit([&](auto& shape1) {
 							if (IsCollision(shape0, shape1)) {
 								collider0->isContact_[collider1->tag_] = true;
-								collider0->normal_[collider1->tag_] = CalculateNormal(shape0, shape1);
-								//接触点の計算
-								collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
+								Vector3 tmpNormal = Vector3{ 0.0f, 0.0f, 0.0f };
+								Vector3 tmpContactPoint = Vector3{ 0.0f, 0.0f, 0.0f };
+								if (collider0->normal_ != Vector3{0.0f, 0.0f, 0.0f}) {
+									tmpNormal = collider0->normal_;
+									tmpContactPoint = collider0->contactPoint_;
+									collider0->normal_ = CalculateNormal(shape0, shape1);
+									//接触点の計算
+									if (Length(GetClosestPointOnOBB(shape0, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
+										collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
+									}
+									else {
+										collider0->normal_ = tmpNormal;
+									}
+								}
+								else {
+									collider0->normal_ = CalculateNormal(shape0, shape1);
+									collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
+								}
 							}
 							}, collider1->colliderShape_);
 						}, collider0->colliderShape_);

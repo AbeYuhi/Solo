@@ -1082,7 +1082,66 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 
 Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	if (IsCollision(b, a)) {
+		Vector3 closest_point = { 0, 0, 0 };
+
+		Matrix4x4 worldMatrix = MakeIdentity4x4();
+		worldMatrix.m[0][0] = b.orientations[0].x;
+		worldMatrix.m[0][1] = b.orientations[0].y;
+		worldMatrix.m[0][2] = b.orientations[0].z;
+							  
+		worldMatrix.m[1][0] = b.orientations[1].x;
+		worldMatrix.m[1][1] = b.orientations[1].y;
+		worldMatrix.m[1][2] = b.orientations[1].z;
+							  
+		worldMatrix.m[2][0] = b.orientations[2].x;
+		worldMatrix.m[2][1] = b.orientations[2].y;
+		worldMatrix.m[2][2] = b.orientations[2].z;
+							  
+		worldMatrix.m[3][0] = b.center.x;
+		worldMatrix.m[3][1] = b.center.y;
+		worldMatrix.m[3][2] = b.center.z;
+
+		Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+		Vector3 centerInOBBLocalSpace = Transform(a.center, worldMatrixInverse);
+		AABB aabbLocal{ .min = {-b.size.x / 2.0f, -b.size.y / 2.0f, -b.size.z / 2.0f}, .max{b.size.x / 2.0f, b.size.y / 2.0f, b.size.z / 2.0f} };
+		Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = a.radius };
 		
+		float length = FLT_MAX;
+		Vector3 normal = { 0.0f, 0.0f, 0.0f };
+
+		Vector3 diffMin = sphereOBBLocal.center - aabbLocal.min;
+		Vector3 diffMax = sphereOBBLocal.center - aabbLocal.max;
+
+		if (fabs(diffMin.x) < length) {
+			length = fabs(diffMin.x);
+			normal = { -1.0f, 0.0f, 0.0f };
+		}
+		if (fabs(diffMin.y) < length) {
+			length = fabs(diffMin.y);
+			normal = { 0.0f, -1.0f, 0.0f };
+		}
+		if (fabs(diffMin.z) < length) {
+			length = fabs(diffMin.z);
+			normal = { 0.0f, 0.0f, -1.0f };
+		}
+
+		if (fabs(diffMax.x) < length) {
+			length = fabs(diffMax.x);
+			normal = { 1.0f, 0.0f, 0.0f };
+		}
+		if (fabs(diffMax.y) < length) {
+			length = fabs(diffMax.y);
+			normal = { 0.0f, 1.0f, 0.0f };
+		}
+		if (fabs(diffMax.z) < length) {
+			length = fabs(diffMax.z);
+			normal = { 0.0f, 0.0f, 1.0f };
+		}
+
+		normal = TransformNormal(normal, worldMatrix);
+		normal = Normalize(normal);
+
+		return normal;
 	}
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
@@ -1187,17 +1246,21 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
 	AABB aabbLocal{ .min = {-obb.size.x / 2.0f, -obb.size.y / 2.0f, -obb.size.z / 2.0f}, .max{obb.size.x / 2.0f, obb.size.y / 2.0f, obb.size.z / 2.0f} };
 	Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = sphere.radius };
 	if (IsCollision(sphereOBBLocal, aabbLocal)) {
-		Vector3 length;
-		if (sphereOBBLocal.center.x < 0.0f) {
-
+		Vector3 normal = CalculateNormal(sphere, obb);
+		Sphere tmpSphere = sphere;
+		tmpSphere.center += normal;
+		while (true) {
+			tmpSphere.center -= normal * 0.05f;
+			if (IsCollision(tmpSphere, obb)) {
+				closest_point = tmpSphere.center;
+				break;
+			}
 		}
-
 		return closest_point;
 	}
 	else {
 		return Vector3(0.0f, 0.0f, 0.0f);
 	}
-
 	
 }
 
