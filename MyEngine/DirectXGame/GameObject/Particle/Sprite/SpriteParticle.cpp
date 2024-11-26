@@ -6,11 +6,11 @@ void SpriteParticle::Initialize() {
 	//基本機能の初期化
 	ParticleManager::Initialize();
 
-	particleSprite_ = Sprite::Create();
+	particleSprite_ = MyEngine::Sprite::Create();
 
 	//使用するテクスチャの読み込み
 	//textureHandle_ = TextureManager::Load("uvChecker.png");
-	textureHandle_ = TextureManager::Load("circle.png");
+	textureHandle_ = MyEngine::TextureManager::Load("circle.png");
 	spriteData_.Initialize(textureHandle_);
 
 	//エミッター情報
@@ -69,11 +69,11 @@ void SpriteParticle::EmitterDraw() {
 
 void SpriteParticle::Draw() {
 
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
 
 	particleSprite_->Draw(drawInfo_, spriteData_);
 
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
 }
 
 ParticleInfo SpriteParticle::MakeNewParticle() {

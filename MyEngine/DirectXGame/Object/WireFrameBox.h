@@ -21,39 +21,42 @@
 /// 立方体のフレームを表示するためのクラスファイル
 /// </summary>
 
-class WireFrameBox
-{
-public: //静的メンバ関数
-	static std::shared_ptr<WireFrameBox> Create();
+namespace MyEngine {
 
-private: //静的メンバ変数
-	const static UINT kVertexNumber = 8;
-	const static UINT kIndexNumber = 24;
-	static std::shared_ptr<WireFrameBox> sWireFrameBox_;
+	class WireFrameBox
+	{
+	public: //静的メンバ関数
+		static std::shared_ptr<WireFrameBox> Create();
 
-public: //メンバ関数
-	WireFrameBox();
-	~WireFrameBox();
+	private: //静的メンバ変数
+		const static UINT kVertexNumber = 8;
+		const static UINT kIndexNumber = 24;
+		static std::shared_ptr<WireFrameBox> sWireFrameBox_;
 
-	void Initialize();
+	public: //メンバ関数
+		WireFrameBox();
+		~WireFrameBox();
 
-	void Draw(RenderItem& renderItem);
+		void Initialize();
 
-public: //ゲッターセッター
+		void Draw(RenderItem& renderItem);
 
-	void SetVertexPos(Vector4 pos, int index) { vertexData_[index].position = pos; }
+	public: //ゲッターセッター
 
-private: //メンバ変数
-	//オブジェクト情報のResource
-	ComPtr<ID3D12Resource> vertexResource_ = nullptr;
-	ComPtr<ID3D12Resource> indexResource_ = nullptr;
+		void SetVertexPos(Vector4 pos, int index) { vertexData_[index].position = pos; }
 
-	//VertexBufferView
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+	private: //メンバ変数
+		//オブジェクト情報のResource
+		ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+		ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
-	//オブジェクトのローカル情報
-	VertexData* vertexData_;
-	uint32_t* indexData_;
-};
+		//VertexBufferView
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+		D3D12_INDEX_BUFFER_VIEW indexBufferView_;
 
+		//オブジェクトのローカル情報
+		VertexData* vertexData_;
+		uint32_t* indexData_;
+	};
+
+}

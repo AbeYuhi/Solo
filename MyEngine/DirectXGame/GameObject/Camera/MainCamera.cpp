@@ -11,7 +11,7 @@ void MainCamera::Initialize() {
 	viewProjectionMatrix_ = MakeIdentity4x4();
 
 	//Resourceの生成
-	cameraResorce_ = CreateBufferResource(sizeof(CameraForGPU));
+	cameraResorce_ = MyEngine::CreateBufferResource(sizeof(CameraForGPU));
 
 	//Resourceにデータを書き込む
 	cameraResorce_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
@@ -34,7 +34,7 @@ void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Mat
 }
 
 void MainCamera::Draw() {
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+	MyEngine::DirectXCommon* dxCommon = MyEngine::DirectXCommon::GetInstance();
 	//パイプラインステートの設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, cameraResorce_->GetGPUVirtualAddress());
 }

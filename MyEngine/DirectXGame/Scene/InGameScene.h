@@ -47,17 +47,17 @@ public:
 
 private:
 	//基本機能
-	WinApp* winApp_;
-	DirectXCommon* directXCommon_;
-	InputManager* input_;
-	AudioManager* audioManager_;
-	RandomManager* randomManager_;
-	PostEffectManager* postEffectManager_;
-	CollisionManager* collisionManager_;
+	MyEngine::WinApp* winApp_;
+	MyEngine::DirectXCommon* directXCommon_;
+	MyEngine::InputManager* input_;
+	MyEngine::AudioManager* audioManager_;
+	MyEngine::RandomManager* randomManager_;
+	MyEngine::PostEffectManager* postEffectManager_;
+	MyEngine::CollisionManager* collisionManager_;
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
 	//ライト
-	LightObjectManager* lightObj_;
+	MyEngine::LightObjectManager* lightObj_;
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 
@@ -76,20 +76,20 @@ private:
 	std::unique_ptr<InGameCamera> gameCamera_;
 
 	uint32_t ballShotExplanationTexture_;
-	std::shared_ptr<Sprite> ballShotExplanationSprite_;
-	SpriteItem ballShotExplanationInfo_;
+	std::shared_ptr<MyEngine::Sprite> ballShotExplanationSprite_;
+	MyEngine::SpriteItem ballShotExplanationInfo_;
 
 	uint32_t crystalExplanationTexture_;
-	std::shared_ptr<Sprite> crystalExplanationSprite_;
-	SpriteItem crystalExplanationInfo_;
+	std::shared_ptr<MyEngine::Sprite> crystalExplanationSprite_;
+	MyEngine::SpriteItem crystalExplanationInfo_;
 
 	uint32_t gameOverTexture_;
-	std::shared_ptr<Sprite> gameOverSprite_;
-	SpriteItem gameOverInfo_;
+	std::shared_ptr<MyEngine::Sprite> gameOverSprite_;
+	MyEngine::SpriteItem gameOverInfo_;
 	
 	uint32_t backGroundTexture_;
-	std::shared_ptr<Sprite> backGroundSprite_;
-	SpriteItem backGroundInfo_;
+	std::shared_ptr<MyEngine::Sprite> backGroundSprite_;
+	MyEngine::SpriteItem backGroundInfo_;
 
 	float startTimer_;
 	bool isBallShotRxplanation_;

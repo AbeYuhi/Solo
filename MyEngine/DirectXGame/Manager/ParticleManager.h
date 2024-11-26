@@ -20,6 +20,7 @@
 /// パーティクルを生成するための基底クラス
 /// </summary>
 
+using namespace std;
 
 struct ParticleInfo {
 	EulerTransformData srtData;
@@ -36,76 +37,80 @@ struct Emitter {
 	float frequencyTime;
 };
 
-class ParticleManager
-{
-public: //メンバ関数
-	ParticleManager(int maxParticleCount);
-	~ParticleManager();
+namespace MyEngine {
 
-	virtual void Initialize();
+	class ParticleManager
+	{
+	public: //メンバ関数
+		ParticleManager(int maxParticleCount);
+		~ParticleManager();
 
-	virtual void Update();
+		virtual void Initialize();
 
-	virtual void EmitterDraw();
+		virtual void Update();
 
-	virtual void Draw();
+		virtual void EmitterDraw();
 
-	virtual ParticleInfo MakeNewParticle() = 0;
+		virtual void Draw();
 
-	void PopParticle();
+		virtual ParticleInfo MakeNewParticle() = 0;
 
-	void UnloadParticle();
+		void PopParticle();
 
-private: //メンバ関数
+		void UnloadParticle();
 
-	void CreateSRV();
-	std::list<ParticleInfo> Emission();
+	private: //メンバ関数
 
-public: //ゲッターセッター
+		void CreateSRV();
+		std::list<ParticleInfo> Emission();
 
-	inline bool GetIsPopParticle() { return isPopParticle_; }
-	inline void SetIsPopParticle(bool isPopParticle) { isPopParticle_ = isPopParticle; }
-	inline void SetTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
-	inline void SetEmitterPos(Vector3 pos) { emitter_.transform.translate_ = pos; }
+	public: //ゲッターセッター
 
-protected: //メンバ変数
-	//乱数マネージャー
-	RandomManager* randomManager_;
-	//1つのパーティクルの最大粒子数
-	const int kMaxParticleCount_;
-	//現在のパーティクルの粒子数
-	int particleCount_;
-	//ブレンドモード
-	BlendMode blendMode_;
-	BlendMode preBlendMode_;
-	//テクスチャハンドル
-	uint32_t textureHandle_;
+		inline bool GetIsPopParticle() { return isPopParticle_; }
+		inline void SetIsPopParticle(bool isPopParticle) { isPopParticle_ = isPopParticle; }
+		inline void SetTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
+		inline void SetEmitterPos(Vector3 pos) { emitter_.transform.translate_ = pos; }
 
-	//リソース
-	ComPtr<ID3D12Resource> resource_;
-	int srvIndex_;
-	//Resourceハンドル
-	ResourceHandles srvHandle_;
-	//エミッターの情報
-	Emitter emitter_;
-	std::shared_ptr<WireFrameBox> emitterObj_;
-	std::shared_ptr<WireFrameSpriteBox> emitterSprite_;
-	RenderItem emitterObjInfo_;
-	SpriteItem emitterSpriteInfo_;
-	//データ
-	ParticleForGPU* particleData_;
-	ParticleMaterialInfo materialInfo_;
-	std::list<ParticleInfo> particles_;
+	protected: //メンバ変数
+		//乱数マネージャー
+		RandomManager* randomManager_;
+		//1つのパーティクルの最大粒子数
+		const int kMaxParticleCount_;
+		//現在のパーティクルの粒子数
+		int particleCount_;
+		//ブレンドモード
+		BlendMode blendMode_;
+		BlendMode preBlendMode_;
+		//テクスチャハンドル
+		uint32_t textureHandle_;
 
-	//スプライトのパーティクルかどうか
-	bool isSpriteParticle_;
-	//パーティクルを発生させるか
-	bool isPopParticle_;
-	//ビルボードするかどうか
-	bool isBillboard_;
-	
-	//描画の際に必要なパーティクルデータ
-	ParticleDrawInfo drawInfo_;
-	//時間
-	const float kDeltaTime_ = 1.0f / 60.0f;
-};
+		//リソース
+		ComPtr<ID3D12Resource> resource_;
+		int srvIndex_;
+		//Resourceハンドル
+		ResourceHandles srvHandle_;
+		//エミッターの情報
+		Emitter emitter_;
+		std::shared_ptr<WireFrameBox> emitterObj_;
+		std::shared_ptr<WireFrameSpriteBox> emitterSprite_;
+		RenderItem emitterObjInfo_;
+		SpriteItem emitterSpriteInfo_;
+		//データ
+		ParticleForGPU* particleData_;
+		ParticleMaterialInfo materialInfo_;
+		std::list<ParticleInfo> particles_;
+
+		//スプライトのパーティクルかどうか
+		bool isSpriteParticle_;
+		//パーティクルを発生させるか
+		bool isPopParticle_;
+		//ビルボードするかどうか
+		bool isBillboard_;
+
+		//描画の際に必要なパーティクルデータ
+		ParticleDrawInfo drawInfo_;
+		//時間
+		const float kDeltaTime_ = 1.0f / 60.0f;
+	};
+
+}

@@ -27,73 +27,76 @@ enum PostEffect {
 	kCountOfPostEffect
 };
 
-class PostEffectManager
-{
-public: //静的関数
-	static PostEffectManager* GetInstance();
+namespace MyEngine {
 
-public: //メンバ関数
+	class PostEffectManager
+	{
+	public: //静的関数
+		static PostEffectManager* GetInstance();
 
-	void Initialize();
+	public: //メンバ関数
 
-	void PreDraw();
+		void Initialize();
 
-	void PostDraw();
+		void PreDraw();
 
-public: //ゲッターセッター
+		void PostDraw();
 
-	inline PostEffect GetPostEffect() { return postEffect_; }
-	inline void SetPostEffect(PostEffect postEffect) { postEffect_ = postEffect; }
+	public: //ゲッターセッター
 
-	inline int32_t GetKernelSize() { return smoothingInfo_->kernelSize; }
-	inline void SetKernelSize(int32_t kernelSize) { smoothingInfo_->kernelSize = kernelSize; }
-	inline int32_t GetSmoothingType() { return smoothingInfo_->type; }
-	inline void SetSmoothingType(int32_t type) { smoothingInfo_->type = type; }
-	inline float GetBlurStrength() { return smoothingInfo_->blurStrength; }
-	inline void SetBlurStrength(float blurStrength) { smoothingInfo_->blurStrength = blurStrength; }
+		inline PostEffect GetPostEffect() { return postEffect_; }
+		inline void SetPostEffect(PostEffect postEffect) { postEffect_ = postEffect; }
 
-	inline HSVMaterial* GetHSVMaterial() { return hsvMaterial_; }
-	inline RadialBlurInfo* GetRadialBlurInfo() { return radialBlurInfo_; }
-	inline VignetteBlurInfo* GetVignetteBlurInfo() { return vignetteBlurInfo_; }
+		inline int32_t GetKernelSize() { return smoothingInfo_->kernelSize; }
+		inline void SetKernelSize(int32_t kernelSize) { smoothingInfo_->kernelSize = kernelSize; }
+		inline int32_t GetSmoothingType() { return smoothingInfo_->type; }
+		inline void SetSmoothingType(int32_t type) { smoothingInfo_->type = type; }
+		inline float GetBlurStrength() { return smoothingInfo_->blurStrength; }
+		inline void SetBlurStrength(float blurStrength) { smoothingInfo_->blurStrength = blurStrength; }
 
-private:
-	PostEffectManager() = default;
-	~PostEffectManager() = default;
+		inline HSVMaterial* GetHSVMaterial() { return hsvMaterial_; }
+		inline RadialBlurInfo* GetRadialBlurInfo() { return radialBlurInfo_; }
+		inline VignetteBlurInfo* GetVignetteBlurInfo() { return vignetteBlurInfo_; }
 
-	void CreateRenderTexture();
+	private:
+		PostEffectManager() = default;
+		~PostEffectManager() = default;
 
-	void CreateRootSignature();
+		void CreateRenderTexture();
 
-	void CreatePSO();
+		void CreateRootSignature();
 
-	void NormalPreDraw();
+		void CreatePSO();
 
-	void RenderPreDraw();
+		void NormalPreDraw();
 
-	void RenderPostDraw();
+		void RenderPreDraw();
 
-	ComPtr<ID3D12Resource>CreateRenderTextureResoruce(uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
+		void RenderPostDraw();
 
-private: //メンバ変数
-	ComPtr<ID3D12Resource> renderTextureResource_ = nullptr;
-	ComPtr<ID3D12RootSignature> rootSignature_[PostEffect::kCountOfPostEffect];
-	ComPtr<ID3D12PipelineState> graphicsPipelineState_[PostEffect::kCountOfPostEffect][BlendMode::kCountOfBlendMode];
-	PostEffect postEffect_;
-	const int kRTVIndex = 2;
-	uint32_t srvIndex_;
+		ComPtr<ID3D12Resource>CreateRenderTextureResoruce(uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
 
-	//各ポストエフェクトにおける必要なResourceなど
-	//HSVFilter 
-	ComPtr<ID3D12Resource> hsvMaterialResource_ = nullptr;
-	HSVMaterial* hsvMaterial_;
-	//Smoothing
-	ComPtr<ID3D12Resource> smoothingInfoResource_ = nullptr;
-	SmoothingInfo* smoothingInfo_;
-	//RadialBlur
-	ComPtr<ID3D12Resource> radialBlurInfoResource_ = nullptr;
-	RadialBlurInfo* radialBlurInfo_;
-	//VignetteBlur
-	ComPtr<ID3D12Resource> vignetteBlurInfoResource_ = nullptr;
-	VignetteBlurInfo* vignetteBlurInfo_;
-};
+	private: //メンバ変数
+		ComPtr<ID3D12Resource> renderTextureResource_ = nullptr;
+		ComPtr<ID3D12RootSignature> rootSignature_[PostEffect::kCountOfPostEffect];
+		ComPtr<ID3D12PipelineState> graphicsPipelineState_[PostEffect::kCountOfPostEffect][BlendMode::kCountOfBlendMode];
+		PostEffect postEffect_;
+		const int kRTVIndex = 2;
+		uint32_t srvIndex_;
 
+		//各ポストエフェクトにおける必要なResourceなど
+		//HSVFilter 
+		ComPtr<ID3D12Resource> hsvMaterialResource_ = nullptr;
+		HSVMaterial* hsvMaterial_;
+		//Smoothing
+		ComPtr<ID3D12Resource> smoothingInfoResource_ = nullptr;
+		SmoothingInfo* smoothingInfo_;
+		//RadialBlur
+		ComPtr<ID3D12Resource> radialBlurInfoResource_ = nullptr;
+		RadialBlurInfo* radialBlurInfo_;
+		//VignetteBlur
+		ComPtr<ID3D12Resource> vignetteBlurInfoResource_ = nullptr;
+		VignetteBlurInfo* vignetteBlurInfo_;
+	};
+
+}

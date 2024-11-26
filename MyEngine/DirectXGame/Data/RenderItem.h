@@ -10,26 +10,30 @@
 /// GPUとCPUのハンドルを収納する構造体のファイル
 /// </summary>
 
-class Model;
+namespace MyEngine {
 
-struct RenderItem {
-	WorldTransform worldTransform_;
-	std::vector<WorldTransform> meshWorldTransforms_;
-	MaterialInfo materialInfo_;
-	Animation animation_;
+	class Model;
 
-	~RenderItem();
+	struct RenderItem {
+		WorldTransform worldTransform_;
+		std::vector<WorldTransform> meshWorldTransforms_;
+		MaterialInfo materialInfo_;
+		Animation animation_;
 
-	/// <summary>
-	/// レンダリング情報の初期化
-	/// </summary>
-	void Initialize();
+		~RenderItem();
 
-	void Update();
+		/// <summary>
+		/// レンダリング情報の初期化
+		/// </summary>
+		void Initialize();
 
-	void UpdateGltf(Mesh mesh, int index);
+		void Update();
 
-	void SetModel(Model* model);
+		void UpdateGltf(Mesh mesh, int index);
 
-	void SetAnimation(std::list<AnimationData> datas);
-};
+		void SetModel(Model* model);
+
+		void SetAnimation(std::list<AnimationData> datas);
+	};
+
+}

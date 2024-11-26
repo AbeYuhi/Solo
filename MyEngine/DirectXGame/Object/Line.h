@@ -22,36 +22,39 @@
 /// ラインを表示するためのクラスファイル
 /// </summary>
 
-class LineObj
-{
-public: //静的メンバ関数
-	static std::shared_ptr<LineObj> Create();
+namespace MyEngine {
 
-private: //静的メンバ変数
-	const static UINT kVertexNumber = 2;
+	class LineObj
+	{
+	public: //静的メンバ関数
+		static std::shared_ptr<LineObj> Create();
 
-public: //メンバ関数
-	LineObj();
-	~LineObj();
+	private: //静的メンバ変数
+		const static UINT kVertexNumber = 2;
 
-	void Initialize();
+	public: //メンバ関数
+		LineObj();
+		~LineObj();
 
-	void Draw(Vector3 posA, Vector3 posB);
+		void Initialize();
 
-public: //ゲッターセッター
+		void Draw(Vector3 posA, Vector3 posB);
 
-	void SetVertexPos(Vector4 pos, int index) { vertexData_[index].position = pos; }
+	public: //ゲッターセッター
 
-private: //メンバ変数
-	//オブジェクト情報のResource
-	ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+		void SetVertexPos(Vector4 pos, int index) { vertexData_[index].position = pos; }
 
-	//VertexBufferView
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+	private: //メンバ変数
+		//オブジェクト情報のResource
+		ComPtr<ID3D12Resource> vertexResource_ = nullptr;
 
-	//オブジェクトのローカル情報
-	VertexData* vertexData_;
+		//VertexBufferView
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
-	RenderItem renderItem_;
-};
+		//オブジェクトのローカル情報
+		VertexData* vertexData_;
 
+		RenderItem renderItem_;
+	};
+
+}

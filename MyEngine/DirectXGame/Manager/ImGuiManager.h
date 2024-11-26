@@ -13,31 +13,31 @@
 /// ImGuiを表示するためのマネージャークラス
 /// </summary>
 
-
 #ifdef _DEBUG
 using namespace ImGui;
+namespace MyEngine {
+	class ImGuiManager
+	{
+	public:
+		static ImGuiManager* GetInstance();
 
-class ImGuiManager
-{
-public:
-	static ImGuiManager* GetInstance();
+		void Initialize();
 
-	void Initialize();
+		void Begin();
 
-	void Begin();
+		void End();
 
-	void End();
+		void Draw();
 
-	void Draw();
+		void ReleseProcess();
 
-	void ReleseProcess();
+		void RenderItemDebug(std::string name, RenderItem& renderItem);
 
-	void RenderItemDebug(std::string name, RenderItem& renderItem);
+		void SpriteItemDebug(std::string name, SpriteItem& spriteItem);
 
-	void SpriteItemDebug(std::string name, SpriteItem& spriteItem);
-
-private:
-	ImGuiManager() = default;
-	~ImGuiManager() = default;
-};
+	private:
+		ImGuiManager() = default;
+		~ImGuiManager() = default;
+	};
+}
 #endif // _DEBUG

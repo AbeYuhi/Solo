@@ -38,8 +38,8 @@ private:
 	int comboDestroyCount_;
 
 	uint32_t numberSpriteTextures_[10];
-	std::shared_ptr<Sprite> numberSprites_[3];
-	SpriteItem numberInfo_[3];
+	std::shared_ptr<MyEngine::Sprite> numberSprites_[3];
+	MyEngine::SpriteItem numberInfo_[3];
 
 	EulerTransformData* cameraData_;
 	Collider collider_;

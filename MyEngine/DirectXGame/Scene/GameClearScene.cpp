@@ -19,14 +19,14 @@ void GameClearScene::Initialize() {
 	spriteCamera_ = SpriteCamera::GetInstance();
 	spriteCamera_->Initialize();
 
-	leftMouseClickTexture_ = TextureManager::Load("leftClick.png");
+	leftMouseClickTexture_ = MyEngine::TextureManager::Load("leftClick.png");
 
-	leftMosueClickSprite_ = Sprite::Create();
+	leftMosueClickSprite_ = MyEngine::Sprite::Create();
 	leftMouseClickInfo_.Initialize(leftMouseClickTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 
-	gameOverTexture_ = TextureManager::Load("gameClear.png");
+	gameOverTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
-	gameOverSprite_ = Sprite::Create();
+	gameOverSprite_ = MyEngine::Sprite::Create();
 	gameOverInfo_.Initialize(gameOverTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 }
 

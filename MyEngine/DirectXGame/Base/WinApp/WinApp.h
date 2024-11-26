@@ -7,36 +7,40 @@
 /// ウィンドウ表示に関するファイル
 /// </summary>
 
-class WinApp
-{
-public: //静的関数
-	//インスタンスの取得
-	static WinApp* GetInstance();
+namespace MyEngine {
 
-	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+	class WinApp
+	{
+	public: //静的関数
+		//インスタンスの取得
+		static WinApp* GetInstance();
 
-public: //静的メンバ変数
-	static const wchar_t className[];
-	static const int32_t kWindowWidth = 1280;
-	static const int32_t kWindowHeight = 720;
+		static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
-public: //メンバ関数
+	public: //静的メンバ変数
+		static const wchar_t className[];
+		static const int32_t kWindowWidth = 1280;
+		static const int32_t kWindowHeight = 720;
 
-	void CreateGameWindow(const wchar_t* title = L"MyEngine", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t windowWidth = kWindowWidth, int32_t windowHeight = kWindowHeight);
+	public: //メンバ関数
 
-	void DiscardingWindow();
+		void CreateGameWindow(const wchar_t* title = L"MyEngine", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t windowWidth = kWindowWidth, int32_t windowHeight = kWindowHeight);
 
-	bool ProcessMessage();
+		void DiscardingWindow();
 
-	inline HWND GetHWND() { return hwnd_; }
-	inline WNDCLASS GetWNDCLASS() { return wc_; }
+		bool ProcessMessage();
 
-private: //メンバ関数
-	WinApp() = default;
-	~WinApp() = default;
+		inline HWND GetHWND() { return hwnd_; }
+		inline WNDCLASS GetWNDCLASS() { return wc_; }
 
-private: //メンバ変数
-	HWND hwnd_;
-	UINT windowStyle_;
-	WNDCLASS wc_;
-};
+	private: //メンバ関数
+		WinApp() = default;
+		~WinApp() = default;
+
+	private: //メンバ変数
+		HWND hwnd_;
+		UINT windowStyle_;
+		WNDCLASS wc_;
+	};
+
+}

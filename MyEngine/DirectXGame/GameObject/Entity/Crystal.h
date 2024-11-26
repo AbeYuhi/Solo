@@ -10,16 +10,16 @@
 /// </summary>
 
 struct CrystalData {
-	std::shared_ptr<Model> model;
-	RenderItem* renderItem;
+	std::shared_ptr<MyEngine::Model> model;
+	MyEngine::RenderItem* renderItem;
 	Collider* collider;
 };
 
 class Crystal
 {
 public:
-	void Initialize(std::shared_ptr<Model> model,
-		RenderItem* renderItem,
+	void Initialize(std::shared_ptr<MyEngine::Model> model,
+		MyEngine::RenderItem* renderItem,
 		Collider* collider);
 
 	void Update();

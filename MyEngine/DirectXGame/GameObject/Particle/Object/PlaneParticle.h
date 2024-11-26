@@ -7,7 +7,7 @@
 /// 3Dオブジェクトのパーティクルをテストしているクラス
 /// </summary>
 
-class PlaneParticle : public ParticleManager
+class PlaneParticle : public MyEngine::ParticleManager
 {
 public:
 
@@ -27,7 +27,7 @@ private: //メンバ関数
 	ParticleInfo MakeNewParticle() override;
 
 private:
-	std::shared_ptr<Model> particleModel_;
+	std::shared_ptr<MyEngine::Model> particleModel_;
 
 	//風フィールド
 	AccelerationField accelerationField_;

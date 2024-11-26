@@ -1,49 +1,53 @@
 #include "MaterialInfo.h"
 
-void MaterialInfo::Initialize() {
-	CreateResource();
-	RunMap();
+namespace MyEngine {
 
-	material_->Initialize();
-	uvTransform_.Initialize();
-	isInvisible_ = false;
+	void MaterialInfo::Initialize() {
+		CreateResource();
+		RunMap();
 
-	environmentTextureHandle_ = 0;
+		material_->Initialize();
+		uvTransform_.Initialize();
+		isInvisible_ = false;
 
-	UpdateMatrix();
-}
+		environmentTextureHandle_ = 0;
 
-void MaterialInfo::CreateResource() {
-	resource_ = CreateBufferResource(sizeof(Material));
-}
+		UpdateMatrix();
+	}
 
-void MaterialInfo::RunMap() {
-	resource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
-}
+	void MaterialInfo::CreateResource() {
+		resource_ = MyEngine::CreateBufferResource(sizeof(Material));
+	}
 
-void MaterialInfo::UpdateMatrix() {
-	material_->uvTransform = MakeAffineMatrix(uvTransform_.scale_, uvTransform_.rotate_, uvTransform_.translate_);
-}
+	void MaterialInfo::RunMap() {
+		resource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
+	}
 
-void ParticleMaterialInfo::Initialize() {
-	CreateResource();
-	RunMap();
+	void MaterialInfo::UpdateMatrix() {
+		material_->uvTransform = MakeAffineMatrix(uvTransform_.scale_, uvTransform_.rotate_, uvTransform_.translate_);
+	}
 
-	material_->Initialize();
-	uvTransform_.Initialize();
-	isInvisible_ = false;
+	void ParticleMaterialInfo::Initialize() {
+		CreateResource();
+		RunMap();
 
-	UpdateMatrix();
-}
+		material_->Initialize();
+		uvTransform_.Initialize();
+		isInvisible_ = false;
 
-void ParticleMaterialInfo::CreateResource() {
-	resource_ = CreateBufferResource(sizeof(ParticleMaterial));
-}
+		UpdateMatrix();
+	}
 
-void ParticleMaterialInfo::RunMap() {
-	resource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
-}
+	void ParticleMaterialInfo::CreateResource() {
+		resource_ = MyEngine::CreateBufferResource(sizeof(ParticleMaterial));
+	}
 
-void ParticleMaterialInfo::UpdateMatrix() {
-	material_->uvTransform = MakeAffineMatrix(uvTransform_.scale_, uvTransform_.rotate_, uvTransform_.translate_);
+	void ParticleMaterialInfo::RunMap() {
+		resource_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
+	}
+
+	void ParticleMaterialInfo::UpdateMatrix() {
+		material_->uvTransform = MakeAffineMatrix(uvTransform_.scale_, uvTransform_.rotate_, uvTransform_.translate_);
+	}
+
 }

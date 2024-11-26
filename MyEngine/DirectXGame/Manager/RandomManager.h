@@ -6,24 +6,27 @@
 /// ランダムを生成するためのマネージャークラス
 /// </summary>
 
-class RandomManager
-{
-public:
-	static RandomManager* GetInstance();
+namespace MyEngine {
 
-	void Initialize();
+	class RandomManager
+	{
+	public:
+		static RandomManager* GetInstance();
 
-public: //ゲッターセッター
+		void Initialize();
 
-	int GetRandomNumber(int min,int max);
+	public: //ゲッターセッター
 
-	float GetRandomNumber(float min, float max);
+		int GetRandomNumber(int min, int max);
 
-private:
-	RandomManager() = default;
-	~RandomManager() = default;
+		float GetRandomNumber(float min, float max);
 
-private: //メンバ変数
-	std::mt19937 randomEngine_;
-};
+	private:
+		RandomManager() = default;
+		~RandomManager() = default;
 
+	private: //メンバ変数
+		std::mt19937 randomEngine_;
+	};
+
+}

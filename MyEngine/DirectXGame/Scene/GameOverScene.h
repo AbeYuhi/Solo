@@ -29,10 +29,10 @@ private:
 	SpriteCamera* spriteCamera_;
 
 	uint32_t leftMouseClickTexture_;
-	std::shared_ptr<Sprite> leftMosueClickSprite_;
-	SpriteItem leftMouseClickInfo_;
+	std::shared_ptr<MyEngine::Sprite> leftMosueClickSprite_;
+	MyEngine::SpriteItem leftMouseClickInfo_;
 
 	uint32_t gameOverTexture_;
-	std::shared_ptr<Sprite> gameOverSprite_;
-	SpriteItem gameOverInfo_;
+	std::shared_ptr<MyEngine::Sprite> gameOverSprite_;
+	MyEngine::SpriteItem gameOverInfo_;
 };

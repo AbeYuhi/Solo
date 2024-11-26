@@ -23,43 +23,47 @@
 /// スプライトを表示するためのクラスファイル
 /// </summary>
 
-class Sprite
-{
-public: //静的メンバ関数
+namespace MyEngine {
 
-	/// <summary>
-	/// スプライトの生成
-	/// </summary>
-	static std::shared_ptr<Sprite> Create();
+	class Sprite
+	{
+	public: //静的メンバ関数
 
-private: //静的メンバ変数
-	const static UINT kVertexNumber = 4;
-	const static UINT kIndexNumber = 6;
+		/// <summary>
+		/// スプライトの生成
+		/// </summary>
+		static std::shared_ptr<Sprite> Create();
 
-public: //メンバ関数
-	Sprite();
-	~Sprite();
+	private: //静的メンバ変数
+		const static UINT kVertexNumber = 4;
+		const static UINT kIndexNumber = 6;
 
-	void Initialize();
+	public: //メンバ関数
+		Sprite();
+		~Sprite();
 
-	void TransferVertices(SpriteData spriteData);
+		void Initialize();
 
-	void Draw(SpriteItem& spriteItem);
+		void TransferVertices(SpriteData spriteData);
 
-	void Draw(ParticleDrawInfo drawInfo, SpriteData spriteData);
+		void Draw(SpriteItem& spriteItem);
 
-public: //ゲッターセッター
+		void Draw(ParticleDrawInfo drawInfo, SpriteData spriteData);
 
-private: //メンバ変数
-	//オブジェクト情報のResource
-	ComPtr<ID3D12Resource> vertexResource_ = nullptr;
-	ComPtr<ID3D12Resource> indexResource_ = nullptr;
+	public: //ゲッターセッター
 
-	//VertexBufferView
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+	private: //メンバ変数
+		//オブジェクト情報のResource
+		ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+		ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
-	//オブジェクトのローカル情報
-	VertexData* vertexData_;
-	uint32_t* indexData_;
-};
+		//VertexBufferView
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+		D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+
+		//オブジェクトのローカル情報
+		VertexData* vertexData_;
+		uint32_t* indexData_;
+	};
+
+}

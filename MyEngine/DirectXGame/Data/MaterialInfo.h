@@ -10,68 +10,72 @@
 /// マテリアルをまとめているファイル
 /// </summary>
 
-struct MaterialInfo {
-	//Resource
-	ComPtr<ID3D12Resource> resource_ = nullptr;
-	//UVtransform
-	EulerTransformData uvTransform_;
-	//マテリアル情報
-	Material* material_;
-	//非表示かどうか
-	bool isInvisible_;
-	//環境マッピングのテクスチャハンドル
-	uint32_t environmentTextureHandle_;
+namespace MyEngine {
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void Initialize();
+	struct MaterialInfo {
+		//Resource
+		ComPtr<ID3D12Resource> resource_ = nullptr;
+		//UVtransform
+		EulerTransformData uvTransform_;
+		//マテリアル情報
+		Material* material_;
+		//非表示かどうか
+		bool isInvisible_;
+		//環境マッピングのテクスチャハンドル
+		uint32_t environmentTextureHandle_;
 
-	/// <summary>
-	/// アフィン変換
-	/// </summary>
-	void UpdateMatrix();
+		/// <summary>
+		/// 初期化
+		/// </summary>
+		void Initialize();
 
-private:
-	/// <summary>
-	/// リソースの生成
-	/// </summary>
-	void CreateResource();
+		/// <summary>
+		/// アフィン変換
+		/// </summary>
+		void UpdateMatrix();
 
-	/// <summary>
-	/// MAPの実行
-	/// </summary>
-	void RunMap();
-};
+	private:
+		/// <summary>
+		/// リソースの生成
+		/// </summary>
+		void CreateResource();
 
-struct ParticleMaterialInfo {
-	//Resource
-	ComPtr<ID3D12Resource> resource_ = nullptr;
-	//UVtransform
-	EulerTransformData uvTransform_;
-	//マテリアル情報
-	ParticleMaterial* material_;
-	//非表示かどうか
-	bool isInvisible_;
+		/// <summary>
+		/// MAPの実行
+		/// </summary>
+		void RunMap();
+	};
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void Initialize();
+	struct ParticleMaterialInfo {
+		//Resource
+		ComPtr<ID3D12Resource> resource_ = nullptr;
+		//UVtransform
+		EulerTransformData uvTransform_;
+		//マテリアル情報
+		ParticleMaterial* material_;
+		//非表示かどうか
+		bool isInvisible_;
 
-	/// <summary>
-	/// アフィン変換
-	/// </summary>
-	void UpdateMatrix();
+		/// <summary>
+		/// 初期化
+		/// </summary>
+		void Initialize();
 
-private:
-	/// <summary>
-	/// リソースの生成
-	/// </summary>
-	void CreateResource();
+		/// <summary>
+		/// アフィン変換
+		/// </summary>
+		void UpdateMatrix();
 
-	/// <summary>
-	/// MAPの実行
-	/// </summary>
-	void RunMap();
-};
+	private:
+		/// <summary>
+		/// リソースの生成
+		/// </summary>
+		void CreateResource();
+
+		/// <summary>
+		/// MAPの実行
+		/// </summary>
+		void RunMap();
+	};
+
+}

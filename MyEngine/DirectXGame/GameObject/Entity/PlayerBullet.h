@@ -26,9 +26,9 @@ public:
 	inline float GetLifeTime() { return lifeTime_; }
 
 private:
-	InputManager* input_;
-	std::shared_ptr<Model> model_;
-	RenderItem renderItem_;
+	MyEngine::InputManager* input_;
+	std::shared_ptr<MyEngine::Model> model_;
+	MyEngine::RenderItem renderItem_;
 	Collider collider_;
 
 	float lifeTime_;

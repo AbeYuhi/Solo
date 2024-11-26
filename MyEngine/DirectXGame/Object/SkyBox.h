@@ -22,41 +22,44 @@
 /// スカイボックスを表示するためのクラスファイル
 /// </summary>
 
-class SkyBox
-{
-public: //制的メンバ関数
+namespace MyEngine {
 
-	static std::shared_ptr<SkyBox> Create(uint32_t textureHandle);
+	class SkyBox
+	{
+	public: //制的メンバ関数
 
-private: //静的メンバ変数
-	const static UINT kVertexNumber = 24;
-	const static UINT kIndexNumber = 36;
+		static std::shared_ptr<SkyBox> Create(uint32_t textureHandle);
 
-public: //メンバ関数
-	SkyBox();
-	~SkyBox();
+	private: //静的メンバ変数
+		const static UINT kVertexNumber = 24;
+		const static UINT kIndexNumber = 36;
 
-	void Initialize(uint32_t textureHandle);
+	public: //メンバ関数
+		SkyBox();
+		~SkyBox();
 
-	void Draw(RenderItem& renderItem);
+		void Initialize(uint32_t textureHandle);
 
-	inline void SetSkyBoxTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
-	inline uint32_t GetSkyBoxTextureHandle() { return textureHandle_; }
+		void Draw(RenderItem& renderItem);
 
-private: //メンバ変数
-	//オブジェクト情報のResource
-	ComPtr<ID3D12Resource> vertexResource_ = nullptr;
-	ComPtr<ID3D12Resource> indexResource_ = nullptr;
+		inline void SetSkyBoxTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
+		inline uint32_t GetSkyBoxTextureHandle() { return textureHandle_; }
 
-	//テクスチャハンドル
-	uint32_t textureHandle_;
+	private: //メンバ変数
+		//オブジェクト情報のResource
+		ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+		ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
-	//VertexBufferView
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+		//テクスチャハンドル
+		uint32_t textureHandle_;
 
-	//オブジェクトのローカル情報
-	VertexData* vertexData_;
-	uint32_t* indexData_;
-};
+		//VertexBufferView
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+		D3D12_INDEX_BUFFER_VIEW indexBufferView_;
 
+		//オブジェクトのローカル情報
+		VertexData* vertexData_;
+		uint32_t* indexData_;
+	};
+
+}

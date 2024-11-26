@@ -15,8 +15,8 @@ void SceneChange::Inialize(){
 	spriteCamera_ = SpriteCamera::GetInstance();
 	spriteCamera_->Initialize();
 
-	whiteTexture_ = TextureManager::Load("whiteTexture2x2.png");
-	whiteSprite_ = Sprite::Create();
+	whiteTexture_ = MyEngine::TextureManager::Load("whiteTexture2x2.png");
+	whiteSprite_ = MyEngine::Sprite::Create();
 	whiteInfo_.Initialize(whiteTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 
 	isStart_ = false;

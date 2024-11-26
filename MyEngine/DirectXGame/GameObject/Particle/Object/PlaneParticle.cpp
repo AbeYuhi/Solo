@@ -7,10 +7,10 @@ void PlaneParticle::Initialize() {
 	ParticleManager::Initialize();
 
 	//パーティクルの初期化
-	particleModel_ = Model::Create("plane", "plane.obj");
+	particleModel_ = MyEngine::Model::Create("plane", "plane.obj");
 
 	//使用するテクスチャの読み込み
-	textureHandle_ = TextureManager::Load("circle.png");
+	textureHandle_ = MyEngine::TextureManager::Load("circle.png");
 
 	//エミッター情報
 	emitter_.transform.scale_ = {2, 2, 2};
@@ -84,11 +84,11 @@ void PlaneParticle::EmitterDraw() {
 
 void PlaneParticle::Draw() {
 
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
 
 	particleModel_->Draw(drawInfo_, textureHandle_);
 
-	GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
+	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
 }
 
 ParticleInfo PlaneParticle::MakeNewParticle() {

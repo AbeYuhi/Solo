@@ -10,41 +10,44 @@
 /// Sceneを管理しているマネージャークラス
 /// </summary>
 
-class SceneManager
-{
-public:
-	static SceneManager* GetInstance();
+namespace MyEngine {
 
-	/// <summary>
-	/// シーンマネージャーの初期化
-	/// </summary>
-	/// <param name="gameScene">初期シーン</param>
-	void Initialize(GameScene gameScene = GameScene::TITLE);
+	class SceneManager
+	{
+	public:
+		static SceneManager* GetInstance();
 
-	/// <summary>
-	/// シーンの更新
-	/// </summary>
-	void Update();
+		/// <summary>
+		/// シーンマネージャーの初期化
+		/// </summary>
+		/// <param name="gameScene">初期シーン</param>
+		void Initialize(GameScene gameScene = GameScene::TITLE);
 
-	/// <summary>
-	/// シーンの描画
-	/// </summary>
-	void Draw();
+		/// <summary>
+		/// シーンの更新
+		/// </summary>
+		void Update();
 
-private:
-	SceneManager() = default;
-	~SceneManager() = default;
+		/// <summary>
+		/// シーンの描画
+		/// </summary>
+		void Draw();
 
-	//シーンファクトリー
-	SceneFactory* sceneFactory_;
+	private:
+		SceneManager() = default;
+		~SceneManager() = default;
 
-	//シーンチェンジ
-	SceneChange* sceneChange_;
+		//シーンファクトリー
+		SceneFactory* sceneFactory_;
 
-	//ゲームシーン
-	std::unique_ptr<IScene> scene_;
-	int sceneNo_;
-	int preSceneNo_;
-	bool isChange_;
-};
+		//シーンチェンジ
+		SceneChange* sceneChange_;
 
+		//ゲームシーン
+		std::unique_ptr<IScene> scene_;
+		int sceneNo_;
+		int preSceneNo_;
+		bool isChange_;
+	};
+
+}

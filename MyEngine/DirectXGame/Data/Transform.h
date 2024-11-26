@@ -17,59 +17,63 @@ struct TransformMatrix {
 	Matrix4x4 WorldInverseTranspose_;
 };
 
-struct WorldTransform {
-	//リソース
-	ComPtr<ID3D12Resource> resource_ = nullptr;
-	//ローカル情報
-	EulerTransformData data_;
-	//ワールドMatrix
-	Matrix4x4 worldMatrix_;
-	//ワールド座標のポジション
-	Vector3 worldPos_;
-	//Matrix転送済みデータ
-	TransformMatrix* matrix_;
-	//親のワールドポインタ
-	const WorldTransform* parent_ = nullptr;
-	//ビュープロジェクションのポインタ
-	const Matrix4x4* viewProjectionMatrix_ = nullptr;
+namespace MyEngine {
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void Initialize(bool isSprite);
+	struct WorldTransform {
+		//リソース
+		ComPtr<ID3D12Resource> resource_ = nullptr;
+		//ローカル情報
+		EulerTransformData data_;
+		//ワールドMatrix
+		Matrix4x4 worldMatrix_;
+		//ワールド座標のポジション
+		Vector3 worldPos_;
+		//Matrix転送済みデータ
+		TransformMatrix* matrix_;
+		//親のワールドポインタ
+		const WorldTransform* parent_ = nullptr;
+		//ビュープロジェクションのポインタ
+		const Matrix4x4* viewProjectionMatrix_ = nullptr;
 
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void UpdateWorld();
+		/// <summary>
+		/// 初期化
+		/// </summary>
+		void Initialize(bool isSprite);
 
-	/// <summary>
-	/// 転送
-	/// </summary>
-	void TransferMatrix();
+		/// <summary>
+		/// 更新
+		/// </summary>
+		void UpdateWorld();
 
-	/// <summary>
-	/// Nodeを含めた更新
-	/// </summary>
-	void NodeUpdate(Matrix4x4 localMatrix);
+		/// <summary>
+		/// 転送
+		/// </summary>
+		void TransferMatrix();
 
-	/// <summary>
-	/// ワールドポジションの取得
-	/// </summary>
-	Vector3 GetWorldPos();
+		/// <summary>
+		/// Nodeを含めた更新
+		/// </summary>
+		void NodeUpdate(Matrix4x4 localMatrix);
 
-	Vector3* GetPWorldPos();
+		/// <summary>
+		/// ワールドポジションの取得
+		/// </summary>
+		Vector3 GetWorldPos();
 
-	EulerTransformData* GetPEulerTransformData();
+		Vector3* GetPWorldPos();
 
-private:
-	/// <summary>
-	/// リソースの生成
-	/// </summary>
-	void CreateResource();
-	
-	/// <summary>
-	/// MAPの実行
-	/// </summary>
-	void RunMap();
-};
+		EulerTransformData* GetPEulerTransformData();
+
+	private:
+		/// <summary>
+		/// リソースの生成
+		/// </summary>
+		void CreateResource();
+
+		/// <summary>
+		/// MAPの実行
+		/// </summary>
+		void RunMap();
+	};
+
+}

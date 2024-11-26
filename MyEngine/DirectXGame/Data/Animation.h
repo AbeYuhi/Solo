@@ -15,41 +15,45 @@
 /// アニメーションの情報すべてをまとめるための構造体があるファイル
 /// </summary>
 
-class Model;
+namespace MyEngine {
 
-struct Animation {
-	//アニメーションのローカル情報
-	std::vector<AnimationInfo> infos;
-	//Node情報
-	RootNode rootNode;
-	//初期モデルのNode
-	RootNode initialNode;
-	//Skeleton情報
-	Skeleton skeleton;
-	Skeleton initialSkeleton;
-	//SkinCluster情報
-	std::map<std::string , SkinCluster> skinClusters;
-	std::vector<std::string> meshNames;
-	std::chrono::steady_clock::time_point preTime;
+	class Model;
 
-	void Initialize();
+	struct Animation {
+		//アニメーションのローカル情報
+		std::vector<AnimationInfo> infos;
+		//Node情報
+		RootNode rootNode;
+		//初期モデルのNode
+		RootNode initialNode;
+		//Skeleton情報
+		Skeleton skeleton;
+		Skeleton initialSkeleton;
+		//SkinCluster情報
+		std::map<std::string, SkinCluster> skinClusters;
+		std::vector<std::string> meshNames;
+		std::chrono::steady_clock::time_point preTime;
 
-	void Update();
+		void Initialize();
 
-	void NodeUpdate(AnimationInfo& info);
+		void Update();
 
-	void SkeletonUpdate();
+		void NodeUpdate(AnimationInfo& info);
 
-	void ApplyAnimation(AnimationInfo& info);
+		void SkeletonUpdate();
 
-	void SkinClusterUpdate();
+		void ApplyAnimation(AnimationInfo& info);
 
-	void SetAnimation(std::list<AnimationData> datas);
+		void SkinClusterUpdate();
 
-	void SkeletonDraw();
+		void SetAnimation(std::list<AnimationData> datas);
 
-	void SetModel(Model* model);
+		void SkeletonDraw();
 
-	void SetAnimationSpeed(std::string animationName, float speed);
+		void SetModel(Model* model);
 
-};
+		void SetAnimationSpeed(std::string animationName, float speed);
+
+	};
+
+}

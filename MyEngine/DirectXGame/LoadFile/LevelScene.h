@@ -28,8 +28,8 @@ using json = nlohmann::json;
 
 struct ObjData {
 	std::string objName;
-	std::shared_ptr<Model> model;
-	RenderItem renderItem;
+	std::shared_ptr<MyEngine::Model> model;
+	MyEngine::RenderItem renderItem;
 	ObjectType type;
 	Collider collider;
 };
