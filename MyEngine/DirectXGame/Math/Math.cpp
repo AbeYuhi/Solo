@@ -808,6 +808,18 @@ bool IsCollision(const Sphere& sphere, const AABB& aabb) {
 	return false;
 }
 
+bool IsCollision(const Vector3& point, const AABB& aabb) {
+
+	if ((point.x >= aabb.min.x && point.x <= aabb.max.x) &&
+		(point.y >= aabb.min.y && point.y <= aabb.max.y) &&
+		(point.z >= aabb.min.z && point.z <= aabb.max.z)) {
+
+		return true;
+	}
+
+	return false;
+}
+
 bool IsCollision(const AABB& aabb, const Sphere& sphere) {
 	Vector3 closestPoint = {
 		std::clamp(sphere.center.x, aabb.min.x, aabb.max.x),
@@ -1146,82 +1158,63 @@ Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	return Vector3(0, 0, 0); // No collision, return zero vector
 }
 
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb0, [[maybe_unused]] const AABB& aabb1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb0, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const AABB& aabb1) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const OBB& obb) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const OBB& obb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const Sphere& sphere) {
-	Vector3 closest_point = { 0, 0, 0 };
-
-	return closest_point;
-}
-
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const AABB& aabb) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const Sphere& sphere) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb0, [[maybe_unused]] const OBB& obb1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const AABB& aabb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const Sphere& sphere) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb0, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const OBB& obb1) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;
 }
 
-Vector3 GetClosestPointOnOBB(const Sphere& sphere, const AABB& aabb) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const OBB& obb, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const Sphere& sphere) {
+	Vector3 closest_point = { 0, 0, 0 };
+
+	return closest_point;
+}
+
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, const AABB& aabb) {
+	Vector3 closest_point = { 0, 0, 0 };
 	Vector3 aabbCenter = { (aabb.min.x + aabb.max.x) / 2.0f, (aabb.min.y + aabb.max.y) / 2.0f, (aabb.min.z + aabb.max.z) / 2.0f };
 
-	OBB obb;
-	obb.center = aabbCenter;
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(Vector3{ 0, 0, 0 });
-	obb.orientations[0].x = rotateMatrix.m[0][0];
-	obb.orientations[0].y = rotateMatrix.m[0][1];
-	obb.orientations[0].z = rotateMatrix.m[0][2];
-	obb.orientations[1].x = rotateMatrix.m[1][0];
-	obb.orientations[1].y = rotateMatrix.m[1][1];
-	obb.orientations[1].z = rotateMatrix.m[1][2];
-	obb.orientations[2].x = rotateMatrix.m[2][0];
-	obb.orientations[2].y = rotateMatrix.m[2][1];
-	obb.orientations[2].z = rotateMatrix.m[2][2];
-
-	obb.size = { aabb.max.x - aabb.min.x, aabb.max.y - aabb.min.y , aabb.max.z - aabb.min.z };
-
-	Vector3 closest_point = obb.center;
-	Vector3 d = sphere.center - obb.center;
-
-	for (int i = 0; i < 3; ++i) {
-		float distance = Dot(d, obb.orientations[i]);
-		if (i == 0) {
-			if (distance > obb.size.x / 2.0f) distance = obb.size.x / 2.0f;
-			if (distance < -obb.size.x / 2.0f) distance = -obb.size.x / 2.0f;
+	if (IsCollision(sphere, aabb)) {
+		Vector3 normal = CalculateNormal(sphere, aabb);
+		Sphere tmpSphere = sphere;
+		tmpSphere.center -= velocity;
+		while (true) {
+			tmpSphere.center += velocity / 50.0f;
+			if (IsCollision(tmpSphere.center, aabb)) {
+				closest_point = tmpSphere.center;
+				break;
+			}
 		}
-		if (i == 1) {
-			if (distance > obb.size.y / 2.0f) distance = obb.size.y;
-			if (distance < -obb.size.y / 2.0f) distance = -obb.size.y;
-		}
-		if (i == 2) {
-			if (distance > obb.size.z) distance = obb.size.z;
-			if (distance < -obb.size.z) distance = -obb.size.z;
-		}
-		closest_point = closest_point + obb.orientations[i] * distance;
+		return closest_point;
 	}
-
-	return closest_point;
+	else {
+		return Vector3(0.0f, 0.0f, 0.0f);
+	}
 }
 
-Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, const OBB& obb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	Matrix4x4 worldMatrix = MakeIdentity4x4();
@@ -1247,11 +1240,11 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
 	Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = sphere.radius };
 	if (IsCollision(sphereOBBLocal, aabbLocal)) {
 		Vector3 normal = CalculateNormal(sphere, obb);
-		Sphere tmpSphere = sphere;
-		tmpSphere.center += normal;
+		Sphere tmpSphere = sphereOBBLocal;
+		tmpSphere.center -= velocity / 50.0f;
 		while (true) {
-			tmpSphere.center -= normal * 0.05f;
-			if (IsCollision(tmpSphere, obb)) {
+			tmpSphere.center += velocity;
+			if (IsCollision(tmpSphere.center, aabbLocal)) {
 				closest_point = tmpSphere.center;
 				break;
 			}
@@ -1264,7 +1257,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb) {
 	
 }
 
-Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unused]] const Sphere& sphere1) {
+Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const Sphere& sphere1) {
 	Vector3 closest_point = { 0, 0, 0 };
 
 	return closest_point;

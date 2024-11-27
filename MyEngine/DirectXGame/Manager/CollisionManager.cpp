@@ -45,8 +45,8 @@ namespace MyEngine {
 									tmpContactPoint = collider0->contactPoint_;
 									collider0->normal_ = CalculateNormal(shape0, shape1);
 									//接触点の計算
-									if (Length(GetClosestPointOnOBB(shape0, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
-										collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
+									if (Length(GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
+										collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
 									}
 									else {
 										collider0->normal_ = tmpNormal;
@@ -54,7 +54,7 @@ namespace MyEngine {
 								}
 								else {
 									collider0->normal_ = CalculateNormal(shape0, shape1);
-									collider0->contactPoint_ = GetClosestPointOnOBB(shape0, shape1);
+									collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
 								}
 							}
 							}, collider1->colliderShape_);

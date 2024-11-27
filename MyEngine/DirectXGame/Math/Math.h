@@ -158,6 +158,8 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 
 Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 
+bool IsCollision(const Vector3& point, const AABB& aabb);
+
 #pragma endregion
 
 #pragma region OBB
@@ -208,17 +210,17 @@ Vector3 CalculateNormal(const Sphere& a, const OBB& b);
 
 Vector3 ClosestPointOnOBB(const OBB& obb, const Vector3& point);
 
-Vector3 GetClosestPointOnOBB(const AABB& aabb0, const AABB& aabb1);
-Vector3 GetClosestPointOnOBB(const AABB& aabb, const OBB& obb);
-Vector3 GetClosestPointOnOBB(const AABB& aabb, const Sphere& sphere);
+Vector3 GetClosestPointOnOBB(const AABB& aabb0, const Vector3& velocity, const AABB& aabb1);
+Vector3 GetClosestPointOnOBB(const AABB& aabb, const Vector3& velocity, const OBB& obb);
+Vector3 GetClosestPointOnOBB(const AABB& aabb, const Vector3& velocity, const Sphere& sphere);
 
-Vector3 GetClosestPointOnOBB(const OBB& obb, const AABB& aabb);
-Vector3 GetClosestPointOnOBB(const OBB& obb0, const OBB& obb1);
-Vector3 GetClosestPointOnOBB(const OBB& obb, const Sphere& sphere);
+Vector3 GetClosestPointOnOBB(const OBB& obb, const Vector3& velocity, const AABB& aabb);
+Vector3 GetClosestPointOnOBB(const OBB& obb0, const Vector3& velocity, const OBB& obb1);
+Vector3 GetClosestPointOnOBB(const OBB& obb, const Vector3& velocity, const Sphere& sphere);
 
-Vector3 GetClosestPointOnOBB(const Sphere& sphere, const AABB& aabb);
-Vector3 GetClosestPointOnOBB(const Sphere& sphere, const OBB& obb);
-Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Sphere& sphere1);
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, const AABB& aabb);
+Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, const OBB& obb);
+Vector3 GetClosestPointOnOBB(const Sphere& sphere0, const Vector3& velocity, const Sphere& sphere1);
 
 Vector3 CalculateReflection(const Vector3& incoming, const Vector3& normal);
 
