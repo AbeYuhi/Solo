@@ -8,6 +8,7 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 	model_ = MyEngine::Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 	renderItem_.worldTransform_.data_.scale_ *= 0.5f;
+	renderItem_.materialInfo_.material_->enableLightint = true;
 	renderItem_.materialInfo_.material_->isEnvironment = true;
 	renderItem_.materialInfo_.environmentTextureHandle_ = environmentTextureHandle;
 
@@ -99,7 +100,6 @@ void PlayerBullet::Update() {
 	}
 
 	//重力の加算
-	// 重力の加算
 	if (!isGround_) {
 		const float gravity = 9.8f * (1.0f / 60.0f);
 		velocity_.y -= gravity * (1.0f / 60.0f);

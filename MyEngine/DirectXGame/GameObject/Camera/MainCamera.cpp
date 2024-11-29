@@ -36,5 +36,5 @@ void MainCamera::Update(EulerTransformData transform, Matrix4x4 worldMatrix, Mat
 void MainCamera::Draw() {
 	MyEngine::DirectXCommon* dxCommon = MyEngine::DirectXCommon::GetInstance();
 	//パイプラインステートの設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, cameraResorce_->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResorce_->GetGPUVirtualAddress());
 }
