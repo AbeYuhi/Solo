@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "Math/Math.h"
 #include "Manager/InputManager.h"
 #include "Manager/CollisionManager.h"
 #include "Object/Model.h"

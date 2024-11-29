@@ -87,8 +87,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			item->materialInfo_.material_->enableLightint = 1;
 
 			// ローカル位置を計算
-			float localX = -size_.x / 2 + (x + 0.5f) * segmentWidth_;
-			float localY = -size_.y / 2 + (y + 0.5f) * segmentHeight_;
+			float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+			float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 			float localZ = 0.0f; // Z方向は固定
 
 			Vector3 localPosition = { localX, localY, localZ };
@@ -150,8 +150,8 @@ void Glass::Update() {
 				renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
 
 				// ローカル位置を計算
-				float localX = -size_.x / 2 + (x + 0.5f) * segmentWidth_;
-				float localY = -size_.y / 2 + (y + 0.5f) * segmentHeight_;
+				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 				float localZ = 0.0f; // Z方向は固定
 
 				Vector3 localPosition = { localX, localY, localZ };
@@ -345,6 +345,7 @@ void Glass::Update() {
 		}
 	}
 
+	const float gravity_ = 2.8f;
 	//細分化されたガラスが破壊された後の演出面
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
@@ -355,7 +356,7 @@ void Glass::Update() {
 					colliders_[y][x].velocity.z *= 1.5f;
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;
-				colliders_[y][x].velocity.y -= 2.8f * (1.0f / 60.0f);
+				colliders_[y][x].velocity.y -= gravity_ * (1.0f / 60.0f);
 				renderItems_[y][x]->worldTransform_.data_.translate_ += colliders_[y][x].velocity * (1.0f / 60.0f);
 
 				if (colliders_[y][x].breakTime >= 10.0f) {

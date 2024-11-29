@@ -1085,8 +1085,7 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 	obb.size = { b.max.x - b.min.x, b.max.y - b.min.y , b.max.z - b.min.z };
 
 	if (IsCollision(b, a)) {
-		Vector3 closestPoint = ClosestPointOnOBB(obb, a.center);
-		Vector3 normal = a.center - closestPoint;
+		Vector3 normal = CalculateNormal(a, obb);
 		return Normalize(normal);
 	}
 	return Vector3(0, 0, 0); // No collision, return zero vector
@@ -1094,68 +1093,89 @@ Vector3 CalculateNormal(const Sphere& a, const AABB& b) {
 
 Vector3 CalculateNormal(const Sphere& a, const OBB& b) {
 	if (IsCollision(b, a)) {
-		Vector3 closest_point = { 0, 0, 0 };
-
+		// ワールド行列とその逆行列を計算
 		Matrix4x4 worldMatrix = MakeIdentity4x4();
 		worldMatrix.m[0][0] = b.orientations[0].x;
 		worldMatrix.m[0][1] = b.orientations[0].y;
 		worldMatrix.m[0][2] = b.orientations[0].z;
-							  
+
 		worldMatrix.m[1][0] = b.orientations[1].x;
 		worldMatrix.m[1][1] = b.orientations[1].y;
 		worldMatrix.m[1][2] = b.orientations[1].z;
-							  
+
 		worldMatrix.m[2][0] = b.orientations[2].x;
 		worldMatrix.m[2][1] = b.orientations[2].y;
 		worldMatrix.m[2][2] = b.orientations[2].z;
-							  
+
 		worldMatrix.m[3][0] = b.center.x;
 		worldMatrix.m[3][1] = b.center.y;
 		worldMatrix.m[3][2] = b.center.z;
 
+		Matrix4x4 rotateMatrix = MakeIdentity4x4();
+		rotateMatrix.m[0][0] = b.orientations[0].x;
+		rotateMatrix.m[0][1] = b.orientations[0].y;
+		rotateMatrix.m[0][2] = b.orientations[0].z;
+
+		rotateMatrix.m[1][0] = b.orientations[1].x;
+		rotateMatrix.m[1][1] = b.orientations[1].y;
+		rotateMatrix.m[1][2] = b.orientations[1].z;
+
+		rotateMatrix.m[2][0] = b.orientations[2].x;
+		rotateMatrix.m[2][1] = b.orientations[2].y;
+		rotateMatrix.m[2][2] = b.orientations[2].z;
+
 		Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
+
+		// 球の中心をOBBのローカル空間に変換
 		Vector3 centerInOBBLocalSpace = Transform(a.center, worldMatrixInverse);
-		AABB aabbLocal{ .min = {-b.size.x / 2.0f, -b.size.y / 2.0f, -b.size.z / 2.0f}, .max{b.size.x / 2.0f, b.size.y / 2.0f, b.size.z / 2.0f} };
-		Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = a.radius };
-		
-		float length = FLT_MAX;
+
+		// ローカル空間のAABBを構築
+		AABB aabbLocal{
+			.min = {-b.size.x / 2.0f, -b.size.y / 2.0f, -b.size.z / 2.0f},
+			.max = { b.size.x / 2.0f,  b.size.y / 2.0f,  b.size.z / 2.0f}
+		};
+
+		// AABBの最近傍点を計算
+		Vector3 closestPointLocal = {
+			std::max(aabbLocal.min.x, std::min(centerInOBBLocalSpace.x, aabbLocal.max.x)),
+			std::max(aabbLocal.min.y, std::min(centerInOBBLocalSpace.y, aabbLocal.max.y)),
+			std::max(aabbLocal.min.z, std::min(centerInOBBLocalSpace.z, aabbLocal.max.z))
+		};
+
+		// 球の中心がOBBの外側か内側かを確認
+		bool isInside = (centerInOBBLocalSpace.x >= aabbLocal.min.x && centerInOBBLocalSpace.x <= aabbLocal.max.x &&
+			centerInOBBLocalSpace.y >= aabbLocal.min.y && centerInOBBLocalSpace.y <= aabbLocal.max.y &&
+			centerInOBBLocalSpace.z >= aabbLocal.min.z && centerInOBBLocalSpace.z <= aabbLocal.max.z);
+
+		// ワールド空間に変換
+		Vector3 closestPointWorld = Transform(closestPointLocal, worldMatrix);
+
+		// 法線を計算
 		Vector3 normal = { 0.0f, 0.0f, 0.0f };
-
-		Vector3 diffMin = sphereOBBLocal.center - aabbLocal.min;
-		Vector3 diffMax = sphereOBBLocal.center - aabbLocal.max;
-
-		if (fabs(diffMin.x) < length) {
-			length = fabs(diffMin.x);
-			normal = { -1.0f, 0.0f, 0.0f };
+		if (isInside) {
+			// 球がOBB内部の場合、法線を逆向きに
+			normal = Normalize(closestPointLocal - centerInOBBLocalSpace);
 		}
-		if (fabs(diffMin.y) < length) {
-			length = fabs(diffMin.y);
-			normal = { 0.0f, -1.0f, 0.0f };
-		}
-		if (fabs(diffMin.z) < length) {
-			length = fabs(diffMin.z);
-			normal = { 0.0f, 0.0f, -1.0f };
+		else {
+			// 球がOBB外部の場合
+			normal = Normalize(centerInOBBLocalSpace - closestPointLocal);
 		}
 
-		if (fabs(diffMax.x) < length) {
-			length = fabs(diffMax.x);
-			normal = { 1.0f, 0.0f, 0.0f };
+		if (fabs(normal.x) > fabs(normal.y) && fabs(normal.x) > fabs(normal.z)) {
+			normal = { normal.x > 0.0f ? 1.0f : -1.0f, 0.0f, 0.0f };
 		}
-		if (fabs(diffMax.y) < length) {
-			length = fabs(diffMax.y);
-			normal = { 0.0f, 1.0f, 0.0f };
+		else if (fabs(normal.y) > fabs(normal.x) && fabs(normal.y) > fabs(normal.z)) {
+			normal = { 0.0f, normal.y > 0.0f ? 1.0f : -1.0f, 0.0f };
 		}
-		if (fabs(diffMax.z) < length) {
-			length = fabs(diffMax.z);
-			normal = { 0.0f, 0.0f, 1.0f };
+		else {
+			normal = { 0.0f, 0.0f, normal.z > 0.0f ? 1.0f : -1.0f };
 		}
 
-		normal = TransformNormal(normal, worldMatrix);
-		normal = Normalize(normal);
+		normal = Transform(normal, rotateMatrix);
 
-		return normal;
+		return normal; // 法線のみ返す場合
 	}
-	return Vector3(0, 0, 0); // No collision, return zero vector
+	return Vector3(0, 0, 0); // 衝突なし
 }
 
 Vector3 GetClosestPointOnOBB([[maybe_unused]] const AABB& aabb0, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const AABB& aabb1) {
@@ -1197,64 +1217,55 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, cons
 	Vector3 aabbCenter = { (aabb.min.x + aabb.max.x) / 2.0f, (aabb.min.y + aabb.max.y) / 2.0f, (aabb.min.z + aabb.max.z) / 2.0f };
 
 	if (IsCollision(sphere, aabb)) {
-		Vector3 normal = CalculateNormal(sphere, aabb);
-		Sphere tmpSphere = sphere;
-		tmpSphere.center -= velocity;
-		while (true) {
-			tmpSphere.center += velocity / 50.0f;
-			if (IsCollision(tmpSphere.center, aabb)) {
-				closest_point = tmpSphere.center;
-				break;
+
+		// スフィアの中心と AABB の最近傍点を計算
+		Vector3 nearestPointInAABB = {
+			std::max(aabb.min.x, std::min(sphere.center.x, aabb.max.x)),
+			std::max(aabb.min.y, std::min(sphere.center.y, aabb.max.y)),
+			std::max(aabb.min.z, std::min(sphere.center.z, aabb.max.z))
+		};
+
+		// 最近傍点とスフィアの中心の距離を計算
+		Vector3 displacement = sphere.center - nearestPointInAABB;
+		float distanceSquared = Dot(displacement, displacement);
+
+		// 衝突している場合
+		if (distanceSquared <= sphere.radius * sphere.radius) {
+			// 接触点をスフィアの表面上に計算
+			float distance = sqrt(distanceSquared);
+			Vector3 contactPointLocal = nearestPointInAABB;
+			if (distance > 0.0f) { // スフィアの中心が AABB 内部にない場合
+				contactPointLocal += (displacement / distance) * sphere.radius;
 			}
+
+			return closest_point;
 		}
-		return closest_point;
 	}
-	else {
-		return Vector3(0.0f, 0.0f, 0.0f);
-	}
+
+	// 衝突していない場合
+	return Vector3(0.0f, 0.0f, 0.0f);
 }
 
 Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, const OBB& obb) {
 	Vector3 closest_point = { 0, 0, 0 };
 
-	Matrix4x4 worldMatrix = MakeIdentity4x4();
-	worldMatrix.m[0][0] = obb.orientations[0].x;
-	worldMatrix.m[0][1] = obb.orientations[0].y;
-	worldMatrix.m[0][2] = obb.orientations[0].z;
-
-	worldMatrix.m[1][0] = obb.orientations[1].x;
-	worldMatrix.m[1][1] = obb.orientations[1].y;
-	worldMatrix.m[1][2] = obb.orientations[1].z;
-
-	worldMatrix.m[2][0] = obb.orientations[2].x;
-	worldMatrix.m[2][1] = obb.orientations[2].y;
-	worldMatrix.m[2][2] = obb.orientations[2].z;
-
-	worldMatrix.m[3][0] = obb.center.x;
-	worldMatrix.m[3][1] = obb.center.y;
-	worldMatrix.m[3][2] = obb.center.z;
-
-	Matrix4x4 worldMatrixInverse = Inverse(worldMatrix);
-	Vector3 centerInOBBLocalSpace = Transform(sphere.center, worldMatrixInverse);
-	AABB aabbLocal{ .min = {-obb.size.x / 2.0f, -obb.size.y / 2.0f, -obb.size.z / 2.0f}, .max{obb.size.x / 2.0f, obb.size.y / 2.0f, obb.size.z / 2.0f} };
-	Sphere sphereOBBLocal{ .center = centerInOBBLocalSpace, .radius = sphere.radius };
-	if (IsCollision(sphereOBBLocal, aabbLocal)) {
-		Vector3 normal = CalculateNormal(sphere, obb);
-		Sphere tmpSphere = sphereOBBLocal;
-		tmpSphere.center -= velocity / 50.0f;
+	if (IsCollision(sphere, obb)) {
+		Sphere tmpSphere = sphere;
+		tmpSphere.center -= velocity;
 		while (true) {
-			tmpSphere.center += velocity;
-			if (IsCollision(tmpSphere.center, aabbLocal)) {
+			tmpSphere.center += velocity * 0.005f;
+			if (IsCollision(tmpSphere, obb)) {
+				Vector3 normal = { 0.0f,0.0f,0.0f };
+				normal = CalculateNormal(tmpSphere, obb);
+				tmpSphere.center -= normal;
 				closest_point = tmpSphere.center;
 				break;
 			}
 		}
 		return closest_point;
 	}
-	else {
-		return Vector3(0.0f, 0.0f, 0.0f);
-	}
-	
+
+	return Vector3{ 0.0f ,0.0f ,0.0f };
 }
 
 Vector3 GetClosestPointOnOBB([[maybe_unused]] const Sphere& sphere0, [[maybe_unused]] const Vector3& velocity, [[maybe_unused]] const Sphere& sphere1) {
