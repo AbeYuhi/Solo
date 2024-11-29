@@ -65,13 +65,13 @@ namespace MyEngine {
 					std::sin(lat),
 					std::cos(lat) * std::sin(lon + kLonEvery) };
 
-				vertexData_[index * 3].position = { a.x, a.y, a.z, 1.0f };
+				vertexData_[index * 3].position = { a.x / 2.0f, a.y / 2.0f, a.z / 2.0f, 1.0f };
 				vertexData_[index * 3].texcoord = { 0.0f, 1.0f };
 				vertexData_[index * 3].normal = { 0.0f, 0.0f, 1.0f };
-				vertexData_[index * 3 + 1].position = { b.x, b.y, b.z, 1.0f };
+				vertexData_[index * 3 + 1].position = { b.x / 2.0f, b.y / 2.0f, b.z / 2.0f, 1.0f };
 				vertexData_[index * 3 + 1].texcoord = { 0.0f, 1.0f };
 				vertexData_[index * 3 + 1].normal = { 0.0f, 0.0f, 1.0f };
-				vertexData_[index * 3 + 2].position = { c.x, c.y, c.z, 1.0f };
+				vertexData_[index * 3 + 2].position = { c.x / 2.0f, c.y / 2.0f, c.z / 2.0f, 1.0f };
 				vertexData_[index * 3 + 2].texcoord = { 0.0f, 1.0f };
 				vertexData_[index * 3 + 2].normal = { 0.0f, 0.0f, 1.0f };
 				index++;

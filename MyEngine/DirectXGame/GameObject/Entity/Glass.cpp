@@ -353,6 +353,7 @@ void Glass::Update() {
 				if (colliders_[y][x].breakTime == 0.0f) {
 					colliders_[y][x].collider->isDelete_ = true;
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
+					colliders_[y][x].velocity.z += 2.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;

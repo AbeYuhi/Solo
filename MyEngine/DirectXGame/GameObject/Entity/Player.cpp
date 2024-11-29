@@ -71,6 +71,7 @@ void Player::Update() {
 		glassInvincibilityTime_ -= 1.0f / 60.0f;
 	}
 
+	//壁やガラスに衝突したときの演出
 	if (isHitEffect_) {
 		time_ += 1.0f / 60.0f;
 		MyEngine::PostEffectManager::GetInstance()->SetPostEffect(kVignetteBlur);
@@ -103,19 +104,105 @@ void Player::Update() {
 		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
 	}
 	
+	//弾の発射処理
 	if (isShot_) {
 		if (numberofSlashAttacks_ > 0) {
 			if (input_->IsMouseTrigger(0)) {
-				std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
 				Vector2 mousePos = input_->GetMousePos();
-				bullet->Initialize(mousePos);
-				bullets_.push_back(std::move(bullet));
+
+				comboDestroyCount_ = 45;
+				int bulletNum = (comboDestroyCount_ / 10) + 1;
+				if (bulletNum >= 5) {
+					bulletNum = 5;
+				}
+				for (int index = 0; index < bulletNum; index++) {
+					Vector2 bulletPos = { 0.0f, 0.0f };
+					const int test = 50;
+					if (bulletNum == 1) {
+						bulletPos = mousePos;
+					}
+					else if (bulletNum == 2) {
+						if (index == 0) {
+							bulletPos = mousePos;
+							bulletPos.x -= test;
+						}
+						else if (index == 1) {
+							bulletPos = mousePos;
+							bulletPos.x += test;
+						}
+					}
+					else if (bulletNum == 3) {
+						if (index == 0) {
+							bulletPos = mousePos;
+							bulletPos.y -= test;
+						}
+						else if (index == 1) {
+							bulletPos = mousePos;
+							bulletPos.x -= test;
+							bulletPos.y += test;
+						}
+						else if (index == 2) {
+							bulletPos = mousePos;
+							bulletPos.x += test;
+							bulletPos.y += test;
+						}
+					}
+					else if (bulletNum == 4) {
+						if (index == 0) {
+							bulletPos = mousePos;
+							bulletPos.y -= test;
+						}
+						else if (index == 1) {
+							bulletPos = mousePos;
+							bulletPos.y += test;
+						}
+						else if (index == 2) {
+							bulletPos = mousePos;
+							bulletPos.x -= test;
+						}
+						else if (index == 3) {
+							bulletPos = mousePos;
+							bulletPos.x += test;
+						}
+					}
+					else if (bulletNum == 5) {
+
+						if (index == 0) {
+							bulletPos = mousePos;
+						}
+						else if (index == 1) {
+							bulletPos = mousePos;
+							bulletPos.x -= test;
+							bulletPos.y -= test;
+						}
+						else if (index == 2) {
+							bulletPos = mousePos;
+							bulletPos.x -= test;
+							bulletPos.y += test;
+						}
+						else if (index == 3) {
+							bulletPos = mousePos;
+							bulletPos.x += test;
+							bulletPos.y -= test;
+						}
+						else if (index == 4) {
+							bulletPos = mousePos;
+							bulletPos.x += test;
+							bulletPos.y += test;
+						}
+					}
+
+					std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
+					bullet->Initialize(bulletPos);
+					bullets_.push_back(std::move(bullet));
+				}
 
 				numberofSlashAttacks_--;
 			}
 		}
 	}
 
+	//自身の弾の更新処理
 	bullets_.remove_if([](auto& bullet) {
 		bullet->Update();
 
@@ -127,9 +214,11 @@ void Player::Update() {
 		}
 		});
 
+	//ゲームオーバーの処理
 	if (numberofSlashAttacks_ <= 0) {
 		gameOverTime_ += 1.0f / 60.0f;
-		if (gameOverTime_ >= 0.5f) {
+		const float kGameOverTimeLimit = 0.5f;
+		if (gameOverTime_ >= kGameOverTimeLimit) {
 			isGameOver_ = true;
 		}
 	}
@@ -138,7 +227,7 @@ void Player::Update() {
 		isGameOver_ = false;
 	}
 
-	// もし number が 0 の場合、桁数は 1 です。
+	//プレイヤーの残弾を表示するための処理
 	digitCount_ = 0;
 	int number = numberofSlashAttacks_;
 	if (number == 0) {

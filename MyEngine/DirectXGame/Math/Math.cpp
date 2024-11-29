@@ -1216,32 +1216,26 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, cons
 	Vector3 closest_point = { 0, 0, 0 };
 	Vector3 aabbCenter = { (aabb.min.x + aabb.max.x) / 2.0f, (aabb.min.y + aabb.max.y) / 2.0f, (aabb.min.z + aabb.max.z) / 2.0f };
 
+	OBB obb;
+	obb.center = aabbCenter;
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(Vector3{ 0, 0, 0 });
+	obb.orientations[0].x = rotateMatrix.m[0][0];
+	obb.orientations[0].y = rotateMatrix.m[0][1];
+	obb.orientations[0].z = rotateMatrix.m[0][2];
+
+	obb.orientations[1].x = rotateMatrix.m[1][0];
+	obb.orientations[1].y = rotateMatrix.m[1][1];
+	obb.orientations[1].z = rotateMatrix.m[1][2];
+
+	obb.orientations[2].x = rotateMatrix.m[2][0];
+	obb.orientations[2].y = rotateMatrix.m[2][1];
+	obb.orientations[2].z = rotateMatrix.m[2][2];
+
+	obb.size = { aabb.max.x - aabb.min.x, aabb.max.y - aabb.min.y , aabb.max.z - aabb.min.z };
+
 	if (IsCollision(sphere, aabb)) {
-
-		// スフィアの中心と AABB の最近傍点を計算
-		Vector3 nearestPointInAABB = {
-			std::max(aabb.min.x, std::min(sphere.center.x, aabb.max.x)),
-			std::max(aabb.min.y, std::min(sphere.center.y, aabb.max.y)),
-			std::max(aabb.min.z, std::min(sphere.center.z, aabb.max.z))
-		};
-
-		// 最近傍点とスフィアの中心の距離を計算
-		Vector3 displacement = sphere.center - nearestPointInAABB;
-		float distanceSquared = Dot(displacement, displacement);
-
-		// 衝突している場合
-		if (distanceSquared <= sphere.radius * sphere.radius) {
-			// 接触点をスフィアの表面上に計算
-			float distance = sqrt(distanceSquared);
-			Vector3 contactPointLocal = nearestPointInAABB;
-			if (distance > 0.0f) { // スフィアの中心が AABB 内部にない場合
-				contactPointLocal += (displacement / distance) * sphere.radius;
-			}
-
-			return closest_point;
-		}
+		return GetClosestPointOnOBB(sphere, velocity, obb);
 	}
-
 	// 衝突していない場合
 	return Vector3(0.0f, 0.0f, 0.0f);
 }
@@ -1257,7 +1251,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, cons
 			if (IsCollision(tmpSphere, obb)) {
 				Vector3 normal = { 0.0f,0.0f,0.0f };
 				normal = CalculateNormal(tmpSphere, obb);
-				tmpSphere.center -= normal;
+				tmpSphere.center -= normal * sphere.radius;
 				closest_point = tmpSphere.center;
 				break;
 			}

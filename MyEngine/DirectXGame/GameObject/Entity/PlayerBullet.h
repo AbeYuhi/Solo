@@ -3,6 +3,7 @@
 #include "Math/Math.h"
 #include "Manager/InputManager.h"
 #include "Manager/CollisionManager.h"
+#include "Manager/TextureManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 #include "Data/Collider.h"
@@ -39,6 +40,8 @@ private:
 	Vector3 velocity_;
 	Vector3 reticlePos_;
 	float speed_;
+
+	bool isGround_;
 
 	std::unique_ptr<GlassPieceParticle> particle_;
 };
