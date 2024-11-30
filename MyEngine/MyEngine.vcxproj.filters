@@ -391,7 +391,7 @@
       <Filter>ソース ファイル\Scene\SceneChange</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -723,7 +723,7 @@
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
