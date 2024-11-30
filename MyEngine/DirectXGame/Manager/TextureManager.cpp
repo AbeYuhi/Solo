@@ -169,6 +169,24 @@ void TextureManager::CreateShaderResourceView(const std::string& filePath) {
 		srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
 	}
 
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
+		//ミップマップレベルを指定してイメージを取得
+		const DirectX::Image* img = textureDatas_[filePath].mipImage.GetImage(i, 0, 0);
+		//テクスチャバッファにデータ転送
+		LRESULT hr = textureDatas_[filePath].textureResource->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch);
+		if (FAILED(hr))
+		{
+			// エラー処理を追加
+			// 例: エラーコードを出力、例外をスロー、など
+			assert(false); // デバッグビルドでのみアサート
+		}
+	}
+
 	uint32_t srvIndex = SrvManager::GetInstance()->Allocate();
 
 	//SRVを作成するDescriptorの場所を決める

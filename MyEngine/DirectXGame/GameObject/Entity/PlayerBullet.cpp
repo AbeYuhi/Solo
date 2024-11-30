@@ -73,7 +73,7 @@ void PlayerBullet::Update() {
 
 		// 減衰率を設定
 		float normalDamping = 0.5f;  // 法線方向（正面衝突）の減衰率
-		float tangentDamping = 0.8f; // 接線方向（横滑り）の減衰率
+		float tangentDamping = 0.7f; // 接線方向（横滑り）の減衰率
 
 		// 法線方向の速度が逆向きにならないように調整
 		if (Dot(velocityNormal, normal) < 0.0f) {
