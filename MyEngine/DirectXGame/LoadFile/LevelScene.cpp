@@ -183,8 +183,6 @@ void LevelScene::LoadFile(const std::string& fileName) {
 				}
 
 				if (colliderData.tag == "GLASS") {
-					
-
 					colliderData.glassInfo.groundingInfosUp = collider["groundingInfos_up"];
 					colliderData.glassInfo.groundingInfosDown = collider["groundingInfos_down"];
 					colliderData.glassInfo.groundingInfosRight = collider["groundingInfos_right"];
@@ -194,6 +192,9 @@ void LevelScene::LoadFile(const std::string& fileName) {
 
 					colliderData.glassInfo.verticalDivisions = collider["verticalDivisions"];
 					colliderData.glassInfo.horizontalDivisions = collider["horizontalDivisions"];
+
+					colliderData.glassInfo.moveLimit = collider["moveLimit"];
+					colliderData.glassInfo.moveSpeed = collider["moveSpeed"];
 				}
 
 				colliderData.collisionCheck = collider["collision_check"];
@@ -383,6 +384,9 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 
 					colliderData.glassInfo.verticalDivisions = collider["verticalDivisions"];
 					colliderData.glassInfo.horizontalDivisions = collider["horizontalDivisions"];
+
+					colliderData.glassInfo.moveLimit = collider["moveLimit"];
+					colliderData.glassInfo.moveSpeed = collider["moveSpeed"];
 				}
 
 				colliderData.collisionCheck = collider["collision_check"];

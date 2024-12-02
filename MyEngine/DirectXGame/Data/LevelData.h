@@ -26,6 +26,8 @@ struct GlassInfo {
 	std::string moveType;
 	unsigned int verticalDivisions;
 	unsigned int horizontalDivisions;
+	float moveLimit;
+	float moveSpeed;
 };
 
 struct LevelData {

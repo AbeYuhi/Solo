@@ -72,6 +72,7 @@ private:
 	float time_;
 	EulerTransformData keepData_;
 	Vector3 moveLimit_;
+	float moveSpeed_;
 	bool isTurnAround_;
 
 	//分割片のサイズを計算

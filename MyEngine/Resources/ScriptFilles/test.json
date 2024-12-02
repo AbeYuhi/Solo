@@ -414,9 +414,11 @@
             "groundingInfos_down": true,
             "groundingInfos_right": false,
             "groundingInfos_left": false,
-            "glassMoveTypes": "DONTMOVE",
+            "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
             "verticalDivisions": 10,
-            "horizontalDivisions": 5
+            "horizontalDivisions": 5,
+            "moveLimit": 5.0,
+            "moveSpeed": 5.0
           }
         }
     ]

@@ -37,7 +37,10 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 
 	time_ = 0.0f;
 	keepData_ = renderItem->worldTransform_.data_;
-	moveLimit_ = {5.0f, 0.0f, 0.0f};
+	if (info.moveType == "ALTERNATE_LEFT_RIGHT") {
+		moveLimit_ = Vector3{ info.moveLimit, 0.0f, 0.0f };
+		moveSpeed_ = info.moveSpeed;
+	}
 	isTurnAround_ = false;
 
 	mainColldier_.Initialize(renderItem_.worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
@@ -353,7 +356,6 @@ void Glass::Update() {
 				if (colliders_[y][x].breakTime == 0.0f) {
 					colliders_[y][x].collider->isDelete_ = true;
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
-					colliders_[y][x].velocity.z += 2.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;
@@ -431,13 +433,13 @@ void Glass::MoveGlassUpRight() {
 void Glass::MoveGlassAlternateLeftRight() {
 	time_ += 1.0f / 60.0f;
 	if (!isTurnAround_) {
-		renderItem_.worldTransform_.data_.translate_.x += 4.0f / 60.0f;
+		renderItem_.worldTransform_.data_.translate_.x += moveSpeed_ * (1.0f / 60.0f);
 		if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
 			isTurnAround_ = true;
 		}
 	}
 	else {
-		renderItem_.worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
+		renderItem_.worldTransform_.data_.translate_.x -= moveSpeed_ * (1.0f / 60.0f);
 		if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
 			isTurnAround_ = false;
 		}

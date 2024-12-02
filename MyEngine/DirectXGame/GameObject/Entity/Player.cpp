@@ -110,7 +110,6 @@ void Player::Update() {
 			if (input_->IsMouseTrigger(0)) {
 				Vector2 mousePos = input_->GetMousePos();
 
-				comboDestroyCount_ = 45;
 				int bulletNum = (comboDestroyCount_ / 10) + 1;
 				if (bulletNum >= 5) {
 					bulletNum = 5;
