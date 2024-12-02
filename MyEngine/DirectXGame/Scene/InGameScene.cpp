@@ -47,7 +47,7 @@ void InGameScene::Initialize() {
 	blendMode_ = kBlendModeNormal;
 
 	levelScene_.Initialize("test.json", 1);
-	stage0Scene_.Initialize("glassTest.json");
+	stage0Scene_.Initialize("0.json");
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
@@ -107,7 +107,7 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
-	if (gameOver_) {
+	if (gameOver_) {	//ゲームオーバー時のカメラ挙動
 		gameOverTimer_ += 1.0f / 60.0f;
 
 		gameOverInfo_.materialInfo_.material_->color.w += 0.05f;
@@ -145,7 +145,7 @@ void InGameScene::Update() {
 			cameraEasingTimer_ = 0.0f;
 		}
 	}
-	else if (gameClear_) {
+	else if (gameClear_) {	//ゲームクリア時のカメラ挙動
 		if (gameClearTimer_ == 0.0f) {
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 		}
@@ -179,7 +179,7 @@ void InGameScene::Update() {
 			SceneChange::GetInstance()->StartSceneChange();
 		}
 	}
-	else {
+	else {	//通常時のカメラ挙動
 		gameOverTimer_ = 0.0f;
 		if (startTimer_ >= 1.0f && startTimer_ <= 4.0f) {
 			cameraEasingTimer_ += 1.0f / 120.0f;
@@ -203,7 +203,7 @@ void InGameScene::Update() {
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
 	startTimer_ += 1.0f / 60.0f;
-	if (startTimer_ >= 2.0f && startTimer_ <= 3.0f) {
+	if (startTimer_ >= 4.0f && startTimer_ <= 5.0f) {
 		ballShotExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
 		if (ballShotExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
 			ballShotExplanationInfo_.materialInfo_.material_->color.w = 1;
@@ -218,7 +218,7 @@ void InGameScene::Update() {
 		}
 	}
 
-	if (startTimer_ >= 8.0f && startTimer_ <= 9.0f) {
+	if (startTimer_ >= 10.0f && startTimer_ <= 11.0f) {
 		crystalExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
 		if (crystalExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
 			crystalExplanationInfo_.materialInfo_.material_->color.w = 1;
@@ -320,7 +320,7 @@ void InGameScene::Draw() {
 	///オブジェクトの描画開始
 
 	player_.Draw();
-	levelScene_.Draw();
+	//levelScene_.Draw();
 	stage0Scene_.Draw();
 	collisionManager_->Draw();
 

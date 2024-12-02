@@ -15,6 +15,7 @@ public:
 	enum MoveType {
 		DONTMOVE,
 		ALTERNATE_LEFT_RIGHT,
+		ALTERNATE_UP_DOWN,
 		UPRIGHT
 	};
 	struct GroundingInfo {
@@ -53,6 +54,8 @@ private:
 	void MoveGlassUpRight();
 
 	void MoveGlassAlternateLeftRight();
+
+	void MoveGlassAlternateUpDown();
 
 
 private:

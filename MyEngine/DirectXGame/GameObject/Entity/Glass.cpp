@@ -20,6 +20,9 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	else if (info.moveType == "ALTERNATE_LEFT_RIGHT") {
 		type_ = ALTERNATE_LEFT_RIGHT;
 	}
+	else if (info.moveType == "ALTERNATE_UP_DOWN") {
+		type_ = ALTERNATE_UP_DOWN;
+	}
 	else if (info.moveType == "UPRIGHT") {
 		type_ = UPRIGHT;
 	}
@@ -39,6 +42,10 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	keepData_ = renderItem->worldTransform_.data_;
 	if (info.moveType == "ALTERNATE_LEFT_RIGHT") {
 		moveLimit_ = Vector3{ info.moveLimit, 0.0f, 0.0f };
+		moveSpeed_ = info.moveSpeed;
+	}
+	else if (info.moveType == "ALTERNATE_UP_DOWN") {
+		moveLimit_ = Vector3{ 0.0f, info.moveLimit, 0.0f };
 		moveSpeed_ = info.moveSpeed;
 	}
 	isTurnAround_ = false;
@@ -138,6 +145,9 @@ void Glass::Update() {
 		break;
 	case Glass::ALTERNATE_LEFT_RIGHT:
 		MoveGlassAlternateLeftRight();
+		break;
+	case Glass::ALTERNATE_UP_DOWN:
+		MoveGlassAlternateUpDown();
 		break;
 	case Glass::UPRIGHT:
 		MoveGlassUpRight();
@@ -431,7 +441,6 @@ void Glass::MoveGlassUpRight() {
 }
 
 void Glass::MoveGlassAlternateLeftRight() {
-	time_ += 1.0f / 60.0f;
 	if (!isTurnAround_) {
 		renderItem_.worldTransform_.data_.translate_.x += moveSpeed_ * (1.0f / 60.0f);
 		if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
@@ -441,6 +450,21 @@ void Glass::MoveGlassAlternateLeftRight() {
 	else {
 		renderItem_.worldTransform_.data_.translate_.x -= moveSpeed_ * (1.0f / 60.0f);
 		if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
+			isTurnAround_ = false;
+		}
+	}
+}
+
+void Glass::MoveGlassAlternateUpDown() {
+	if (!isTurnAround_) {
+		renderItem_.worldTransform_.data_.translate_.y += moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_.worldTransform_.data_.translate_.y >= moveLimit_.y) {
+			isTurnAround_ = true;
+		}
+	}
+	else {
+		renderItem_.worldTransform_.data_.translate_.y -= moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_.worldTransform_.data_.translate_.y <= -moveLimit_.y) {
 			isTurnAround_ = false;
 		}
 	}
