@@ -2,8 +2,10 @@
 
 void LevelScene::Initialize(const std::string& fileName, unsigned int stageNum) {
 
+	const float kStageSize = 300.0f;
+
 	levelSceneData_.Initialize();
-	levelSceneData_.translate_ = {0.0f, 0.0f, stageNum * 100.0f};
+	levelSceneData_.translate_ = {0.0f, 0.0f, stageNum * kStageSize};
 
 	//ステージの読み込み
 	LoadFile(fileName);
@@ -505,9 +507,14 @@ void LevelScene::LevelCreate() {
 				gameObject_.crystalDatas_.push_back(crystal);
 			}
 			else if (objectData.collider->tag == "GLASS") {
-				std::unique_ptr<Glass> glass = std::make_unique<Glass>();
-				glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
-				gameObject_.glassDatas_.push_back(std::move(glass));
+				if (objectData.parent) {
+
+				}
+				else {
+					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
+					glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
+					gameObject_.glassDatas_.push_back(std::move(glass));
+				}
 			}
 			else{
 				if (objectData.type == kMESH) {
