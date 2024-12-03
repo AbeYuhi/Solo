@@ -36,7 +36,7 @@ struct ObjData {
 
 struct LevelObject {
 	std::vector<std::unique_ptr<ObjData>> objDatas_;
-	std::vector<ObjData> wallDatas_;
+	std::vector<ObjData*> wallDatas_;
 	std::vector<Door> doorDatas_;
 	std::vector<Crystal> crystalDatas_;
 	std::vector<std::unique_ptr<Glass>> glassDatas_;

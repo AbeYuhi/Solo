@@ -5,7 +5,8 @@ Glass::~Glass(){}
 
 void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	MyEngine::RenderItem* renderItem,
-	GlassInfo info) {
+	GlassInfo info,
+	MyEngine::RenderItem* parent) {
 
 	model_ = model;
 	isBreak = false;
@@ -35,6 +36,10 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	renderItem_.materialInfo_.material_->color.z = 0.5f;
 	renderItem_.materialInfo_.material_->enableLightint = 1;
 
+	if (parent) {
+		renderItem_.worldTransform_.parent_ = &parent->worldTransform_;
+	}
+
 	divisionX_ = info.verticalDivisions;
 	divisionY_ = info.horizontalDivisions;
 
@@ -50,7 +55,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	}
 	isTurnAround_ = false;
 
-	mainColldier_.Initialize(renderItem_.worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
+	mainColldier_.Initialize(renderItem_.worldTransform_.GetPWorldEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
@@ -107,16 +112,17 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);	
 			Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-			item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
-			item->worldTransform_.data_.translate_.y = base_.y + rotatedPosition.y;
-			item->worldTransform_.data_.translate_.z = base_.z + rotatedPosition.z;
+			item->worldTransform_.data_.translate_.x = rotatedPosition.x;
+			item->worldTransform_.data_.translate_.y = rotatedPosition.y;
+			item->worldTransform_.data_.translate_.z = rotatedPosition.z;
+			item->worldTransform_.parent_ = &renderItem_.worldTransform_;
 
 			GlassPiece colliderItem;
 			colliderItem.isConnected = false;
 			colliderItem.isBreaked = false;
 			colliderItem.breakTime = 0.0f;
 			colliderItem.collider = std::make_unique<Collider>();
-			colliderItem.collider->Initialize(item->worldTransform_.GetPEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
+			colliderItem.collider->Initialize(item->worldTransform_.GetPWorldEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
 
 			colliders_[y].push_back(std::move(colliderItem));
 			renderItems_[y].push_back(std::move(item));
@@ -173,9 +179,9 @@ void Glass::Update() {
 				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
 				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-				renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
-				renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
-				renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+				renderItems_[y][x]->worldTransform_.data_.translate_.x = rotatedPosition.x;
+				renderItems_[y][x]->worldTransform_.data_.translate_.y = rotatedPosition.y;
+				renderItems_[y][x]->worldTransform_.data_.translate_.z = rotatedPosition.z;
 			}
 		}
 	}
@@ -391,7 +397,8 @@ void Glass::Update() {
 	}
 
 	//ガラスがカメラの裏側に行ったらコライダーから消すように
-	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z + 1.0f) {
+	renderItem_.worldTransform_.UpdateWorld();
+	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.worldPos_.z + 1.0f) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				mainColldier_.isDelete_ = true;

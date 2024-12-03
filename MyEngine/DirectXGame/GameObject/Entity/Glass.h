@@ -39,7 +39,8 @@ public:
 
 	void Initialize(std::shared_ptr<MyEngine::Model> model,
 		MyEngine::RenderItem* renderItem,
-		GlassInfo info);
+		GlassInfo info,
+		MyEngine::RenderItem* parent = nullptr);
 
 	void Update();
 

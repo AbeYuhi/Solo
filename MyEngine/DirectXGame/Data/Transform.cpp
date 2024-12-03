@@ -21,6 +21,7 @@ namespace MyEngine {
 		RunMap();
 
 		data_.Initialize();
+		worldData_.Initialize();
 
 		if (isSprite) {
 			viewProjectionMatrix_ = SpriteCamera::GetInstance()->GetPViewProjectionMatrix();
@@ -52,6 +53,11 @@ namespace MyEngine {
 			worldMatrix_.m[3][1],
 			worldMatrix_.m[3][2]
 		};
+
+		//ワールドDataの更新
+		worldData_.scale_ = data_.scale_;
+		worldData_.rotate_ = data_.rotate_;
+		worldData_.translate_ = worldPos_;
 
 		TransferMatrix();
 	}
@@ -85,8 +91,12 @@ namespace MyEngine {
 		return &worldPos_;
 	}
 
-	EulerTransformData* WorldTransform::GetPEulerTransformData() {
+	EulerTransformData* WorldTransform::GetPLocalEulerTransformData() {
 		return &data_;
+	}
+
+	EulerTransformData* WorldTransform::GetPWorldEulerTransformData() {
+		return &worldData_;
 	}
 
 }

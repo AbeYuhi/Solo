@@ -46,7 +46,8 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	levelScene_.Initialize("test.json", 1);
+	levelScene_.Initialize("parent.json", 1);
+	//levelScene_.Initialize("test.json", 1);
 	stage0Scene_.Initialize("0.json");
 
 	//インゲームカメラ
@@ -94,7 +95,7 @@ void InGameScene::Initialize() {
 	gameClear_ = false;
 	gameClearTimer_ = 0.0f;
 
-	playerSpeed_ = { 0.0f,0.0f, 10.0f };
+	//playerSpeed_ = { 0.0f,0.0f, 10.0f };
 }
 
 void InGameScene::Update() {
@@ -320,7 +321,7 @@ void InGameScene::Draw() {
 	///オブジェクトの描画開始
 
 	player_.Draw();
-	//levelScene_.Draw();
+	levelScene_.Draw();
 	stage0Scene_.Draw();
 	collisionManager_->Draw();
 
