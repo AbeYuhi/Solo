@@ -46,17 +46,26 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
-	levelScene_.Initialize("test.json", 1);
-	stage0Scene_.Initialize("0.json");
+	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
+	level0->Initialize("stage0.json");
+	stageSize_ = level0->GetCameraData().stageSize.z;
+	levelScenes_.push_back(std::move(level0));
+	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
+	level1->Initialize("stage0.json", stageSize_);
+	stageSize_ += level1->GetCameraData().stageSize.z;
+	levelScenes_.push_back(std::move(level1));
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
 	gameCamera_->Initialize();
-	//gameCamera_->transform_ = levelScene_.GetCameraData().CameraInfo;
-	gameCamera_->transform_ = stage0Scene_.GetCameraData().CameraInfo;
+	gameCamera_->transform_ = levelScenes_[0]->GetCameraData().CameraInfo;
 
 	player_.Initialize(&gameCamera_->transform_);
-	for (auto& crystal : levelScene_.GetCrystals()) {
+	for (auto& crystal : levelScenes_[0]->GetCrystals()) {
+		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+	}
+	for (auto& crystal : levelScenes_[1]->GetCrystals()) {
 		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
 	}
@@ -202,39 +211,45 @@ void InGameScene::Update() {
 
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
+	const float kBallShotTutorialStartTime = 4.0f;
+	const float kTutorialEndTime = 2.0f;
+	const float kTutorialDuration = 1.0f;
+	const float kColorFadeStep = 0.05f;
 	startTimer_ += 1.0f / 60.0f;
-	if (startTimer_ >= 4.0f && startTimer_ <= 5.0f) {
-		ballShotExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
+	if (startTimer_ >= kBallShotTutorialStartTime && startTimer_ <= kBallShotTutorialStartTime + kTutorialDuration) {
+		ballShotExplanationInfo_.materialInfo_.material_->color.w += kColorFadeStep;
 		if (ballShotExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
 			ballShotExplanationInfo_.materialInfo_.material_->color.w = 1;
 			isBallShotRxplanation_ = true;
 			ballShotRxplanationTime_ = startTimer_;
 		}
 	}
-	if (ballShotRxplanationTime_ + 2.0f <= startTimer_) {
-		ballShotExplanationInfo_.materialInfo_.material_->color.w -= 0.05f;
+	if (ballShotRxplanationTime_ + kTutorialEndTime <= startTimer_) {
+		ballShotExplanationInfo_.materialInfo_.material_->color.w -= kColorFadeStep;
 		if (ballShotExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
 			ballShotExplanationInfo_.materialInfo_.material_->color.w = 0;
 		}
 	}
 
-	if (startTimer_ >= 10.0f && startTimer_ <= 11.0f) {
-		crystalExplanationInfo_.materialInfo_.material_->color.w += 0.05f;
+	const float kCrystalTutorialStartTime = 10.0f;
+	if (startTimer_ >= kCrystalTutorialStartTime && startTimer_ <= kCrystalTutorialStartTime + kTutorialDuration) {
+		crystalExplanationInfo_.materialInfo_.material_->color.w += kColorFadeStep;
 		if (crystalExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
 			crystalExplanationInfo_.materialInfo_.material_->color.w = 1;
 			isCrystalRxplanation_ = true;
 			crystalRxplanationTime_ = startTimer_;
 		}
 	}
-	if (crystalRxplanationTime_ + 2.0f <= startTimer_) {
-		crystalExplanationInfo_.materialInfo_.material_->color.w -= 0.05f;
+	if (crystalRxplanationTime_ + kTutorialEndTime <= startTimer_) {
+		crystalExplanationInfo_.materialInfo_.material_->color.w -= kColorFadeStep;
 		if (crystalExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
 			crystalExplanationInfo_.materialInfo_.material_->color.w = 0;
 		}
 	}
 
-	levelScene_.Update();
-	stage0Scene_.Update();
+	for (int index = 0; index < levelScenes_.size(); index++) {
+		levelScenes_[index]->Update();
+	}
 	
 	if (player_.IsGameClear()) {
 		gameClear_ = true;
@@ -320,8 +335,9 @@ void InGameScene::Draw() {
 	///オブジェクトの描画開始
 
 	player_.Draw();
-	//levelScene_.Draw();
-	stage0Scene_.Draw();
+	for (int index = 0; index < levelScenes_.size(); index++) {
+		levelScenes_[index]->Draw();
+	}
 	collisionManager_->Draw();
 
 	if (!gameOver_) {
@@ -336,8 +352,9 @@ void InGameScene::Draw() {
 
 	///パーティクルの描画
 
-	//testParticle1_->Draw();
-	levelScene_.ParticleDraw();
+	for (int index = 0; index < levelScenes_.size(); index++) {
+		levelScenes_[index]->ParticleDraw();
+	}
 	player_.ParticleDraw();
 
 	///パーティクルの描画終了

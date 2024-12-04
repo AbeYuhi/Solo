@@ -1,11 +1,9 @@
 #include "LevelScene.h"
 
-void LevelScene::Initialize(const std::string& fileName, unsigned int stageNum) {
-
-	const float kStageSize = 300.0f;
+void LevelScene::Initialize(const std::string& fileName, float stageSize) {
 
 	levelSceneData_.Initialize();
-	levelSceneData_.translate_ = {0.0f, 0.0f, stageNum * kStageSize};
+	levelSceneData_.translate_ = {0.0f, 0.0f, stageSize};
 
 	//ステージの読み込み
 	LoadFile(fileName);
@@ -236,6 +234,14 @@ void LevelScene::LoadFile(const std::string& fileName) {
 			objectData.scaling.y = (float)transform["scaling"][2];
 			objectData.scaling.z = (float)transform["scaling"][1];
 
+			if (object.contains("camera_speed")) {
+				CameraData cameraData;
+				cameraData.cameraSpeed = object["camera_speed"];
+				cameraData.cameraRotateSpeed = Vector3{-0.0f, -0.0f, -1.0f * object["camera_rotation_speed"]};
+				cameraData.stageSize = Vector3{0.0f, 0.0f, object["stage_size"]};
+				objectData.cameraData = cameraData;
+			}
+
 			if (object.contains("collider")) {
 				json& collider = object["collider"];
 				//コライダータイプ
@@ -435,7 +441,8 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-			gameObject_.cameraData_ = { .CameraInfo = levelObject->renderItem.worldTransform_.data_, .cameraSpeed = 1.0f };
+			auto &data = objectData.cameraData.value();
+			gameObject_.cameraData_ = { .CameraInfo = levelObject->renderItem.worldTransform_.data_, .cameraSpeed = data.cameraSpeed, .cameraRotateSpeed = {data.cameraRotateSpeed.x, data.cameraRotateSpeed.z, data.cameraRotateSpeed.y}, .stageSize = data.stageSize };
 			levelObject->type = kCamera;
 		}
 

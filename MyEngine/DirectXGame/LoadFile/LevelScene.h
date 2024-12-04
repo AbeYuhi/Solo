@@ -49,7 +49,7 @@ public:
 	LevelScene() = default;
 	~LevelScene() = default;
 
-	void Initialize(const std::string& fileName, unsigned int stageNum = 0);
+	void Initialize(const std::string& fileName, float stageSize = 0.0f);
 
 	void Update();
 

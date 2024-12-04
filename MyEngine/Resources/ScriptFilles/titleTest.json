@@ -51,8 +51,8 @@
       "transform": {
         "translation": [
           0.0,
-          -20.0,
-          7.5
+          0.0,
+          5.0
         ],
         "rotation": [
           90.00000762939453,
@@ -65,7 +65,15 @@
           1.0
         ]
       },
-      "file_name": "cube.obj"
+      "camera_speed": 10.0,
+      "camera_rotation_speed": 0.0,
+      "stage_size": 300.0,
+      "file_name": "cube.obj",
+      "collider": {
+        "type": "NONE",
+        "tag": "WALL",
+        "collision_check": false
+      }
     },
     {
       "type": "MESH",

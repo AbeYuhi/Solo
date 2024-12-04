@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Manager/ImGuiManager.h"
@@ -66,8 +67,8 @@ private:
 
 	//テクスチャハンドル
 
-	LevelScene levelScene_;
-	LevelScene stage0Scene_;
+	vector<std::unique_ptr<LevelScene>> levelScenes_;
+	float stageSize_;
 	float time_;
 
 	Player player_;

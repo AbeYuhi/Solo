@@ -7,7 +7,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    150.0,
+                    100.0,
                     0.0
                 ],
                 "rotation": [
@@ -16,8 +16,8 @@
                     0.0
                 ],
                 "scaling": [
-                    5.0,
-                    150.0,
+                    10.0,
+                    100.0,
                     1.0
                 ]
             },
@@ -25,7 +25,7 @@
             "collider": {
                 "type": "OBB",
                 "tag": "WALL",
-                "collision_check": true,
+                "collision_check": false,
                 "center": [
                     0.0,
                     0.0,
@@ -71,7 +71,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    100.0,
+                    150.0,
                     5.0
                 ],
                 "rotation": [
@@ -85,7 +85,15 @@
                     1.0
                 ]
             },
-            "file_name": "cube.obj"
+            "camera_speed": 10.0,
+            "camera_rotation_speed": 0.0,
+            "stage_size": 300.0,
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "NONE",
+                "tag": "WALL",
+                "collision_check": false
+            }
         }
     ]
 }

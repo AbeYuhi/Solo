@@ -30,6 +30,13 @@ struct GlassInfo {
 	float moveSpeed;
 };
 
+struct CameraData {
+	EulerTransformData CameraInfo;
+	float cameraSpeed;
+	Vector3 cameraRotateSpeed;
+	Vector3 stageSize;
+};
+
 struct LevelData {
 	struct ObjectCollider {
 		std::string type;
@@ -52,13 +59,9 @@ struct LevelData {
 		bool drawCheck;
 		std::optional<ObjectCollider> collider;
 		std::optional<int32_t> parent;
+		std::optional<CameraData> cameraData;
 		ObjectType type;
 	};
 
 	std::vector<ObjectData> objects;
-};
-
-struct CameraData {
-	EulerTransformData CameraInfo;
-	float cameraSpeed;
 };
