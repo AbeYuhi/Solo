@@ -96,36 +96,67 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			std::unique_ptr<MyEngine::RenderItem> item = std::make_unique<MyEngine::RenderItem>();
 			item->Initialize();
-			item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
-			item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
-			item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
-			item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
-			item->materialInfo_.material_->color.w = 0.5f;
-			item->materialInfo_.material_->color.x = 0.5f;
-			item->materialInfo_.material_->color.y = 0.5f;
-			item->materialInfo_.material_->color.z = 0.5f;
-			item->materialInfo_.material_->enableLightint = 1;
+			if (parent) {
+				item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
+				item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
+				item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
+				item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+				item->materialInfo_.material_->color.w = 0.5f;
+				item->materialInfo_.material_->color.x = 0.5f;
+				item->materialInfo_.material_->color.y = 0.5f;
+				item->materialInfo_.material_->color.z = 0.5f;
+				item->materialInfo_.material_->enableLightint = 1;
 
-			// ローカル位置を計算
-			float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
-			float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
-			float localZ = 0.0f; // Z方向は固定
+				// ローカル位置を計算
+				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
+				float localZ = 0.0f; // Z方向は固定
 
-			Vector3 localPosition = { localX, localY, localZ };
+				Vector3 localPosition = { localX, localY, localZ };
 
-			// 回転を適用
-			Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);	
-			Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+				// 回転を適用
+				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-			item->worldTransform_.data_.translate_.x = rotatedPosition.x;
-			item->worldTransform_.data_.translate_.y = rotatedPosition.y;
-			item->worldTransform_.data_.translate_.z = rotatedPosition.z;
-			item->worldTransform_.parent_ = &renderItem_.worldTransform_;
+				item->worldTransform_.data_.translate_.x = rotatedPosition.x;
+				item->worldTransform_.data_.translate_.y = rotatedPosition.y;
+				item->worldTransform_.data_.translate_.z = rotatedPosition.z;
+				item->worldTransform_.parent_ = &renderItem_.worldTransform_;
+			}
+			else {
+				item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
+				item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
+				item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
+				item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+				item->materialInfo_.material_->color.w = 0.5f;
+				item->materialInfo_.material_->color.x = 0.5f;
+				item->materialInfo_.material_->color.y = 0.5f;
+				item->materialInfo_.material_->color.z = 0.5f;
+				item->materialInfo_.material_->enableLightint = 1;
+
+				// ローカル位置を計算
+				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
+				float localZ = 0.0f; // Z方向は固定
+
+				Vector3 localPosition = { localX, localY, localZ };
+
+				// 回転を適用
+				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+
+				item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
+				item->worldTransform_.data_.translate_.y = base_.y + rotatedPosition.y;
+				item->worldTransform_.data_.translate_.z = base_.z + rotatedPosition.z;
+			}
 
 			GlassPiece colliderItem;
 
 			colliderItem.particle = std::make_unique<GlassPieceParticle>(100);
 			colliderItem.particle->Initialize();
+			colliderItem.emitter.transform.Initialize();
+			colliderItem.emitter.transform.rotate_ = item->worldTransform_.data_.rotate_;
+			colliderItem.emitter.transform.scale_ = item->worldTransform_.data_.scale_;
 			colliderItem.isConnected = false;
 			colliderItem.isBreaked = false;
 			colliderItem.breakTime = 0.0f;
@@ -174,28 +205,48 @@ void Glass::Update() {
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (!colliders_[y][x].isBreaked) {
-				renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+				if (renderItem_.worldTransform_.parent_) {
+					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
 
-				// ローカル位置を計算
-				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
-				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
-				float localZ = 0.0f; // Z方向は固定
+					// ローカル位置を計算
+					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
+					float localZ = 0.0f; // Z方向は固定
 
-				Vector3 localPosition = { localX, localY, localZ };
+					Vector3 localPosition = { localX, localY, localZ };
 
-				// 回転を適用
-				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+					// 回転を適用
+					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-				renderItems_[y][x]->worldTransform_.data_.translate_.x = rotatedPosition.x;
-				renderItems_[y][x]->worldTransform_.data_.translate_.y = rotatedPosition.y;
-				renderItems_[y][x]->worldTransform_.data_.translate_.z = rotatedPosition.z;
+					renderItems_[y][x]->worldTransform_.data_.translate_.x = rotatedPosition.x;
+					renderItems_[y][x]->worldTransform_.data_.translate_.y = rotatedPosition.y;
+					renderItems_[y][x]->worldTransform_.data_.translate_.z = rotatedPosition.z;
+				}
+				else {
+					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+
+					// ローカル位置を計算
+					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
+					float localZ = 0.0f; // Z方向は固定
+
+					Vector3 localPosition = { localX, localY, localZ };
+
+					// 回転を適用
+					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+
+					renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
+					renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
+					renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+				}
 
 				//パーティクル
-				colliders_[y][x].emitter.count = 40;
+				colliders_[y][x].emitter.count = 20;
 				colliders_[y][x].emitter.frequency = 9999.0f;
 				colliders_[y][x].emitter.frequencyTime = 0.0f;
-				colliders_[y][x].emitter.transform = renderItems_[y][x]->worldTransform_.data_;
+				colliders_[y][x].emitter.transform.translate_ = renderItems_[y][x]->worldTransform_.GetWorldPos();
 			}
 		}
 	}
@@ -438,7 +489,9 @@ void Glass::Draw() {
 	if (isBreak) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				model_->Draw(*renderItems_[y][x], 1);
+				if (!colliders_[y][x].isBreaked) {
+					model_->Draw(*renderItems_[y][x], 1);
+				}
 			}
 		}
 	}

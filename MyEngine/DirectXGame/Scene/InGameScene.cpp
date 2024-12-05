@@ -54,6 +54,7 @@ void InGameScene::Initialize() {
 	level1->Initialize("stage1.json", stageSize_);
 	stageSize_ += level1->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level1));
+	nowStage_ = 0;
 
 	//インゲームカメラ
 	gameCamera_ = std::make_unique<InGameCamera>();
