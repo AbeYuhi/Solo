@@ -24,6 +24,12 @@ void LevelScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	for (auto& data : gameObject_.objDatas_) {
+		if (data->objName == "aaa") {
+			data->renderItem.worldTransform_.data_.rotate_.x += 1.0f * (1.0f / 60.0f);
+		}
+	}
+
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Update();
 	}
@@ -38,7 +44,7 @@ void LevelScene::Update() {
 void LevelScene::Draw() {
 
 	for (auto& levelObject : gameObject_.wallDatas_) {
-		levelObject.model->Draw(levelObject.renderItem, 1);
+		levelObject->model->Draw(levelObject->renderItem, 1);
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Draw();
@@ -417,13 +423,19 @@ void LevelScene::LevelCreate() {
 		if (objectData.type == kMESH) {
 
 			levelObject->renderItem.Initialize();
-			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+			if (objectData.parent) {
+				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			}
+			else {
+				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+			}
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			levelObject->model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
 			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 			levelObject->type = kMESH;
+			levelObject->renderItem.Update();
 
 			if (objectData.drawCheck) {
 				levelObject->renderItem.materialInfo_.isInvisible_ = false;
@@ -438,7 +450,12 @@ void LevelScene::LevelCreate() {
 		}
 		else if (objectData.type == kCamera) {
 			levelObject->renderItem.Initialize();
-			levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+			if (objectData.parent) {
+				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+			}
+			else {
+				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+			}
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			auto &data = objectData.cameraData.value();
@@ -485,7 +502,7 @@ void LevelScene::LevelCreate() {
 
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
-						levelObject->renderItem.worldTransform_.GetPEulerTransformData(),
+						levelObject->renderItem.worldTransform_.GetPWorldEulerTransformData(),
 						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
 						tag,
 						type,
@@ -515,7 +532,9 @@ void LevelScene::LevelCreate() {
 			}
 			else if (objectData.collider->tag == "GLASS") {
 				if (objectData.parent) {
-
+					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
+					glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo, &gameObject_.objDatas_[*objectData.parent]->renderItem);
+					gameObject_.glassDatas_.push_back(std::move(glass));
 				}
 				else {
 					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
@@ -525,13 +544,13 @@ void LevelScene::LevelCreate() {
 			}
 			else{
 				if (objectData.type == kMESH) {
-					gameObject_.wallDatas_.push_back(*levelObject);
+					gameObject_.wallDatas_.push_back(levelObject.get());
 				}
 			}
 		}
 		else {
 			if (objectData.type == kMESH) {
-				gameObject_.wallDatas_.push_back(*levelObject);
+				gameObject_.wallDatas_.push_back(levelObject.get());
 			}
 		}
 

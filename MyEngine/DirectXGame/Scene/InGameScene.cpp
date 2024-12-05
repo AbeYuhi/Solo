@@ -103,7 +103,7 @@ void InGameScene::Initialize() {
 	gameClear_ = false;
 	gameClearTimer_ = 0.0f;
 
-	playerSpeed_ = { 0.0f,0.0f, 10.0f };
+	//playerSpeed_ = { 0.0f,0.0f, 10.0f };
 }
 
 void InGameScene::Update() {

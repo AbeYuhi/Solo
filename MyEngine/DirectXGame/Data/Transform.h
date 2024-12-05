@@ -34,6 +34,8 @@ namespace MyEngine {
 		const WorldTransform* parent_ = nullptr;
 		//ビュープロジェクションのポインタ
 		const Matrix4x4* viewProjectionMatrix_ = nullptr;
+		//ワールド空間上でのdata_;
+		EulerTransformData worldData_;
 
 		/// <summary>
 		/// 初期化
@@ -62,7 +64,9 @@ namespace MyEngine {
 
 		Vector3* GetPWorldPos();
 
-		EulerTransformData* GetPEulerTransformData();
+		EulerTransformData* GetPLocalEulerTransformData();
+						    
+		EulerTransformData* GetPWorldEulerTransformData();
 
 	private:
 		/// <summary>
