@@ -65,8 +65,6 @@ private:
 	//ブレンドモード
 	int blendMode_;
 
-	//テクスチャハンドル
-
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
 	float stageSize_;
 	unsigned int nowStage_;
