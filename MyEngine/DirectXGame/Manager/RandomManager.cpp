@@ -1,5 +1,10 @@
 #include "RandomManager.h"
 
+/// <summary>
+/// RandomManager.h
+/// ランダム処理を管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	RandomManager* RandomManager::GetInstance() {

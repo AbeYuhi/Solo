@@ -1,5 +1,10 @@
 #include "SceneManager.h"
 
+/// <summary>
+/// SceneManager.h
+/// シーン情報を管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	SceneManager* SceneManager::GetInstance() {

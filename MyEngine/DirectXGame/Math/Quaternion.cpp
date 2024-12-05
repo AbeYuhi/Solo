@@ -1,5 +1,10 @@
 #include "Quaternion.h"
 
+/// <summary>
+/// Quaternion.h
+/// クォータニオン構造体に関する処理の実装ファイル
+/// </summary>
+
 Quaternion operator*(const Quaternion& num1, const float num2) {
 	Quaternion ans;
 	ans.w = num1.w * num2;

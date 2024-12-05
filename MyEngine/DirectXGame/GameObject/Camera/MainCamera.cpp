@@ -1,5 +1,10 @@
 #include "MainCamera.h"
 
+/// <summary>
+/// MainCamera.cpp
+/// GPUに3D用カメラの情報を送信するための情報をまとめられているクラスの実装ファイル
+/// </summary>
+
 MainCamera* MainCamera::GetInstance() {
 	static MainCamera instance;
 	return &instance;

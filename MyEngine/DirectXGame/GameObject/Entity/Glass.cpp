@@ -1,5 +1,10 @@
 #include "Glass.h"
 
+/// <summary>
+/// Glass.cpp
+/// ガラスクラスの実装ファイル
+/// </summary>
+
 Glass::Glass(){}
 Glass::~Glass(){}
 
@@ -118,6 +123,9 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			item->worldTransform_.parent_ = &renderItem_.worldTransform_;
 
 			GlassPiece colliderItem;
+
+			colliderItem.particle = std::make_unique<GlassPieceParticle>(100);
+			colliderItem.particle->Initialize();
 			colliderItem.isConnected = false;
 			colliderItem.isBreaked = false;
 			colliderItem.breakTime = 0.0f;
@@ -182,6 +190,12 @@ void Glass::Update() {
 				renderItems_[y][x]->worldTransform_.data_.translate_.x = rotatedPosition.x;
 				renderItems_[y][x]->worldTransform_.data_.translate_.y = rotatedPosition.y;
 				renderItems_[y][x]->worldTransform_.data_.translate_.z = rotatedPosition.z;
+
+				//パーティクル
+				colliders_[y][x].emitter.count = 40;
+				colliders_[y][x].emitter.frequency = 9999.0f;
+				colliders_[y][x].emitter.frequencyTime = 0.0f;
+				colliders_[y][x].emitter.transform = renderItems_[y][x]->worldTransform_.data_;
 			}
 		}
 	}
@@ -373,6 +387,10 @@ void Glass::Update() {
 					colliders_[y][x].collider->isDelete_ = true;
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
+					colliders_[y][x].emitter.frequency = 0.0f;
+				}
+				else {
+					colliders_[y][x].emitter.frequency = 9999.9999f;
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;
 				colliders_[y][x].velocity.y -= gravity_ * (1.0f / 60.0f);
@@ -406,6 +424,13 @@ void Glass::Update() {
 			}
 		}
 	}
+
+	for (unsigned int y = 0; y < divisionY_; y++) {
+		for (unsigned int x = 0; x < divisionX_; x++) {
+			colliders_[y][x].particle->SetEmitter(colliders_[y][x].emitter);
+			colliders_[y][x].particle->Update();
+		}
+	}
 }
 
 void Glass::Draw() {
@@ -423,7 +448,11 @@ void Glass::Draw() {
 }
 
 void Glass::ParticleDraw() {
-
+	for (unsigned int y = 0; y < divisionY_; y++) {
+		for (unsigned int x = 0; x < divisionX_; x++) {
+			colliders_[y][x].particle->Draw();
+		}
+	}
 }
 
 void Glass::DontMoveGlass() {

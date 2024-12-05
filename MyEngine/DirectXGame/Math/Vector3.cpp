@@ -1,5 +1,10 @@
 #include "Vector3.h"
 
+/// <summary>
+/// Vectro3.h
+/// Vector3構造体に関する処理の実装ファイル
+/// </summary>
+
 Vector3 operator+(const Vector3& num1, const Vector3& num2) {
 	Vector3 num3;
 

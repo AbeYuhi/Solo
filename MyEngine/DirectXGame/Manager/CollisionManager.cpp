@@ -1,5 +1,10 @@
 #include "CollisionManager.h"
 
+/// <summary>
+/// CollisionManager.h
+/// 衝突判定を管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	CollisionManager* CollisionManager::GetInstance() {

@@ -5,6 +5,11 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
+/// <summary>
+/// SrvManager.h
+/// Srvを管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	const uint32_t SrvManager::kMaxCount_ = 4096;

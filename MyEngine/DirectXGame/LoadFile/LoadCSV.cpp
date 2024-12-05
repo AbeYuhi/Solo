@@ -1,5 +1,10 @@
 #include "LoadCSV.h"
 
+/// <summary>
+/// LoadCSV.cpp
+/// LoadCSVクラスの実装ファイル
+/// </summary>
+
 std::stringstream LoadCSV::Load(std::string fileName) {
 
     std::string filePath = "Resources/ScriptFilles/" + fileName;

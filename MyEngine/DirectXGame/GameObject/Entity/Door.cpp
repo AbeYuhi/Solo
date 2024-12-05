@@ -1,5 +1,10 @@
 #include "Door.h"
 
+/// <summary>
+/// Door.cpp
+/// ドアクラスの実装ファイル
+/// </summary>
+
 Door::Door() {}
 Door::~Door() {}
 

@@ -51,7 +51,7 @@ void InGameScene::Initialize() {
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
-	level1->Initialize("stage0.json", stageSize_);
+	level1->Initialize("stage1.json", stageSize_);
 	stageSize_ += level1->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level1));
 
@@ -103,7 +103,8 @@ void InGameScene::Initialize() {
 	gameClear_ = false;
 	gameClearTimer_ = 0.0f;
 
-	//playerSpeed_ = { 0.0f,0.0f, 10.0f };
+	cameraSpeed_.z = levelScenes_[0]->GetCameraData().cameraSpeed;
+	playerSpeed_ = cameraSpeed_;
 }
 
 void InGameScene::Update() {

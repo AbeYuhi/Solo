@@ -1,6 +1,11 @@
 #include "AudioManager.h"
 #pragma comment(lib, "xaudio2.lib")
 
+/// <summary>
+/// AudioManager.h
+/// 音を管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	AudioManager* AudioManager::GetInstance() {

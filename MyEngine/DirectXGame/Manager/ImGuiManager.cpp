@@ -1,5 +1,10 @@
 #include "ImGuiManager.h"
 
+/// <summary>
+/// ImGuiManager.h
+/// ImGuiを管理しているクラスの実装ファイル
+/// </summary>
+
 #ifdef _DEBUG
 namespace MyEngine {
 	ImGuiManager* ImGuiManager::GetInstance() {

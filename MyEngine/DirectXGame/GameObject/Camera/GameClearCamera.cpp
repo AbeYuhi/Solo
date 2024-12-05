@@ -1,5 +1,10 @@
 #include "GameClearCamera.h"
 
+/// <summary>
+/// GameClearCamera.cpp
+/// ゲームクリアシーンカメラクラスの実装ファイル
+/// </summary>
+
 GameClearCamera::GameClearCamera() {}
 GameClearCamera::~GameClearCamera() {}
 

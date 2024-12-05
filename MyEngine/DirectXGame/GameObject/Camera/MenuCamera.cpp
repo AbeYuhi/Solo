@@ -1,5 +1,10 @@
 #include "MenuCamera.h"
 
+/// <summary>
+/// MenuCamera.cpp
+/// メニューシーンカメラクラスの実装ファイル
+/// </summary>
+
 MenuCamera::MenuCamera() {}
 MenuCamera::~MenuCamera() {}
 

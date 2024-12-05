@@ -1,5 +1,10 @@
 #include "GameOverCamera.h"
 
+/// <summary>
+/// GameOverCamera.cpp
+/// ゲームクリアシーンカメラクラスの実装ファイル
+/// </summary>
+
 GameOverCamera::GameOverCamera() {}
 GameOverCamera::~GameOverCamera() {}
 

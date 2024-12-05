@@ -1,6 +1,11 @@
 #include "GraphicsPipelineManager.h"
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
 
+/// <summary>
+/// GraphicPipelineManager.h
+/// GraphicPipelineを管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	GraphicsPipelineManager* GraphicsPipelineManager::GetInstance() {

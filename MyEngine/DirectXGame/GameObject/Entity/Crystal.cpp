@@ -1,5 +1,10 @@
 #include "Crystal.h"
 
+/// <summary>
+/// Crystal.cpp
+/// クリスタルクラスの実装ファイル
+/// </summary>
+
 void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	MyEngine::RenderItem* renderItem,
 	Collider* collider) {

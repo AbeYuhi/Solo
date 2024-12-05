@@ -3,6 +3,11 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
+/// <summary>
+/// InputManager.h
+/// 入力処理を管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	InputManager* InputManager::GetInstance() {

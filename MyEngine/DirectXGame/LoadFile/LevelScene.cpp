@@ -1,5 +1,10 @@
 #include "LevelScene.h"
 
+/// <summary>
+/// LevelScene.cpp
+/// LevelSceneクラスの実装ファイル
+/// </summary>
+
 void LevelScene::Initialize(const std::string& fileName, float stageSize) {
 
 	levelSceneData_.Initialize();

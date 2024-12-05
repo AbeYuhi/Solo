@@ -1,5 +1,10 @@
 #include "GlobalVariables.h"
 
+/// <summary>
+/// GlobalVariables.cpp
+/// GlobalVariablesクラスの実装ファイル
+/// </summary>
+
 GlobalVariables* GlobalVariables::GetInstance() {
 	static GlobalVariables instance;
 	return &instance;

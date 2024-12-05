@@ -1,5 +1,10 @@
 #include "TextureManager.h"
 
+/// <summary>
+/// TextureManager.h
+/// Texture情報をまとめて管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 TextureManager* TextureManager::GetInstance() {

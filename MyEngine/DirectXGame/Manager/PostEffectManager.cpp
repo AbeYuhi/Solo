@@ -1,5 +1,10 @@
 #include "PostEffectManager.h"
 
+/// <summary>
+/// PostEffectManager.h
+/// ポストエフェクトを管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	PostEffectManager* PostEffectManager::GetInstance() {

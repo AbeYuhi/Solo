@@ -1,5 +1,10 @@
 #include "Player.h"
 
+/// <summary>
+/// Player.cpp
+/// プレイヤークラスの実装ファイル
+/// </summary>
+
 void Player::Initialize(EulerTransformData* cameraData) {
 	numberofSlashAttacks_ = 25;
 	gameOverTime_ = 0.0f;

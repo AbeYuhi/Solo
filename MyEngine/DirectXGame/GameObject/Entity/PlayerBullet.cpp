@@ -1,5 +1,10 @@
 #include "PlayerBullet.h"
 
+/// <summary>
+/// PlayerBullet.cpp
+/// プレイヤー弾クラスの実装ファイル
+/// </summary>
+
 void PlayerBullet::Initialize(Vector2 mousePos) {
 	input_ = MyEngine::InputManager::GetInstance();
 
@@ -44,20 +49,11 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
-	particle_ = std::make_unique<GlassPieceParticle>(200);
-	particle_->Initialize();
 	isGround_ = false;
 }
 
 void PlayerBullet::Update() {
 	lifeTime_ -= 1.0f / 60.0f;
-
-	//パーティクル
-	Emitter emitter;
-	emitter.count = 10;
-	emitter.frequency = 9999.0f;
-	emitter.frequencyTime = 0.0f;
-	emitter.transform = renderItem_.worldTransform_.data_;
 
 	if (collider_.isContact_[WALL] || collider_.isContact_[BUTTON] || collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
@@ -96,7 +92,6 @@ void PlayerBullet::Update() {
 	}
 	if (collider_.isContact_[GLASS]) {
 		velocity_ *= 0.9f;
-		emitter.frequency = 0.0f;
 	}
 
 	//重力の加算
@@ -120,9 +115,6 @@ void PlayerBullet::Update() {
 
 	// 位置の更新
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
-
-	particle_->SetEmitter(emitter);
-	particle_->Update();
 }
 
 void PlayerBullet::Draw() {
@@ -132,5 +124,5 @@ void PlayerBullet::Draw() {
 }
 
 void PlayerBullet::ParticleDraw() {
-	particle_->Draw();
+
 }

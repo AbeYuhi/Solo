@@ -1,5 +1,10 @@
 #include "GameManager.h"
 
+/// <summary>
+/// GameManager.h
+/// ゲームを管理しているクラスの実装ファイル
+/// </summary>
+
 GameManager* GameManager::GetInstance() {
 	static GameManager instance;
 	return &instance;

@@ -1,5 +1,10 @@
 #include "ParticleManager.h"
 
+/// <summary>
+/// ParticleManager.h
+/// Particleを管理しているクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	ParticleManager::ParticleManager(int maxParticleCount) : kMaxParticleCount_(maxParticleCount) {}

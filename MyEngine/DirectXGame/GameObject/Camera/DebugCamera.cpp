@@ -1,5 +1,10 @@
 #include "DebugCamera.h"
 
+/// <summary>
+/// DebugCamera.cpp
+/// デバッグカメラクラスの実装ファイル
+/// </summary>
+
 DebugCamera::DebugCamera()
 {
 }

@@ -1,5 +1,10 @@
 #include "SpriteCamera.h"
 
+/// <summary>
+/// SpriteCamera.cpp
+/// GPUにスプライト用カメラの情報を送信するための情報をまとめられているクラスの実装ファイル
+/// </summary>
+
 SpriteCamera* SpriteCamera::GetInstance() {
 	static SpriteCamera instance;
 	return &instance;

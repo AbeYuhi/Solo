@@ -69,6 +69,7 @@ private:
 
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
 	float stageSize_;
+	unsigned int nowStage_;
 	float time_;
 
 	Player player_;

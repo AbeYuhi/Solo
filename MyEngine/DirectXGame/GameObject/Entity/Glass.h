@@ -1,5 +1,6 @@
 #pragma once
 #include "Manager/CollisionManager.h"
+#include "GameObject/Particle/Object/GlassPieceParticle/GlassPieceParticle.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 #include "Data/LevelData.h"
@@ -27,6 +28,8 @@ public:
 
 	struct GlassPiece {
 		std::unique_ptr<Collider> collider;
+		std::unique_ptr<GlassPieceParticle> particle;
+		Emitter emitter;
 		bool isBreaked;
 		bool isConnected;
 		float breakTime;

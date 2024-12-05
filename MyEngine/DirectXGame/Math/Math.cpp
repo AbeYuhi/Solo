@@ -1,5 +1,10 @@
 #include "Math.h"
 
+/// <summary>
+/// Math.cpp
+/// 数学に関する関数の実装ファイル
+/// </summary>
+
 #pragma region Vector3
 Vector3 Add(const Vector3& v1, const Vector3& v2) {
 	Vector3 v3 = {0, 0, 0};

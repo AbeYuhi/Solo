@@ -1,5 +1,10 @@
 #include "Base3DCamera.h"
 
+/// <summary>
+/// Base3DCamera.cpp
+/// カメラの規定クラスの実装ファイル
+/// </summary>
+
 Base3DCamera::Base3DCamera()
 {
 }

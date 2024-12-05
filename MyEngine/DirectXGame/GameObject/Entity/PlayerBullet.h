@@ -42,7 +42,5 @@ private:
 	float speed_;
 
 	bool isGround_;
-
-	std::unique_ptr<GlassPieceParticle> particle_;
 };
 

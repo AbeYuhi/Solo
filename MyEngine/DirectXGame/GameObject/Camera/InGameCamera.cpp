@@ -1,5 +1,10 @@
 #include "InGameCamera.h"
 
+/// <summary>
+/// InGameCamera.cpp
+/// ゲームクリアシーンカメラクラスの実装ファイル
+/// </summary>
+
 InGameCamera::InGameCamera()
 {
 }
