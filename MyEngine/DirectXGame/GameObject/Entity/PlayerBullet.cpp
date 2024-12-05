@@ -46,7 +46,7 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 
 	lifeTime_ = 15.0f;
 
-	collider_.Initialize(&renderItem_.worldTransform_.data_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
+	collider_.Initialize(&renderItem_.worldTransform_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
 	isGround_ = false;
@@ -57,7 +57,7 @@ void PlayerBullet::Update() {
 
 	if (collider_.isContact_[WALL] || collider_.isContact_[BUTTON] || collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
-		collider_.objData_->translate_ = collider_.contactPoint_ + (collider_.normal_ * (collider_.combinedScale / 2.0f));
+		collider_.objData_->data_.translate_ = collider_.contactPoint_ + (collider_.normal_ * (collider_.combinedScale / 2.0f));
 		velocity_ = collider_.reflection_;
 
 		// 法線ベクトル（衝突面の法線）
@@ -91,7 +91,9 @@ void PlayerBullet::Update() {
 		}
 	}
 	if (collider_.isContact_[GLASS]) {
-		velocity_ *= 0.9f;
+		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
+		velocity_ += Normalize(collider_.reflection_) * 0.4f;
+		velocity_ *= 0.5f;
 	}
 
 	//重力の加算

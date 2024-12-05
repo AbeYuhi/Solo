@@ -12,6 +12,8 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	doorInvincibilityTime_ = 0.0f;
 	glassInvincibilityTime_ = 0.0f;
 	cameraData_ = cameraData;
+	renderItem_.Initialize();
+	renderItem_.worldTransform_.data_ = *cameraData;
 
 	numberSpriteTextures_[0] = MyEngine::TextureManager::Load("numberTexture/0.png");
 	numberSpriteTextures_[1] = MyEngine::TextureManager::Load("numberTexture/1.png");
@@ -34,7 +36,7 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
 	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
 
-	collider_.Initialize(cameraData_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
+	collider_.Initialize(&renderItem_.worldTransform_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
 	isShot_ = false;
@@ -42,6 +44,7 @@ void Player::Initialize(EulerTransformData* cameraData) {
 
 void Player::Update() {
 	MyEngine::InputManager* input_ = MyEngine::InputManager::GetInstance();
+	renderItem_.worldTransform_.data_ = *cameraData_;
 
 	if (collider_.isContact_[GOAL]) {
 		isGameClear_ = true;
@@ -122,6 +125,8 @@ void Player::Update() {
 				for (int index = 0; index < bulletNum; index++) {
 					Vector2 bulletPos = { 0.0f, 0.0f };
 					const int test = 50;
+
+					//コンボ数によって玉の出方を変える処理
 					if (bulletNum == 1) {
 						bulletPos = mousePos;
 					}

@@ -62,13 +62,11 @@ void InGameScene::Initialize() {
 	gameCamera_->transform_ = levelScenes_[0]->GetCameraData().CameraInfo;
 
 	player_.Initialize(&gameCamera_->transform_);
-	for (auto& crystal : levelScenes_[0]->GetCrystals()) {
-		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
-		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
-	}
-	for (auto& crystal : levelScenes_[1]->GetCrystals()) {
-		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
-		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+	for (int i = 0; i < 2; i++) {
+		for (auto& crystal : levelScenes_[i]->GetCrystals()) {
+			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+		}
 	}
 
 	ballShotExplanationTexture_ = MyEngine::TextureManager::Load("ballShot_Explanation.png");
@@ -118,6 +116,7 @@ void InGameScene::Update() {
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
 
+	//現在の状況に沿ったカメラの挙動の処理
 	if (gameOver_) {	//ゲームオーバー時のカメラ挙動
 		gameOverTimer_ += 1.0f / 60.0f;
 
@@ -207,12 +206,13 @@ void InGameScene::Update() {
 				postEffectManager_->SetPostEffect(kNone);
 				postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 			}
-		}	
-		player_.Update();
+		}
 	}
 
+	//カメラを移動
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
+	//チュートリアルの処理
 	const float kBallShotTutorialStartTime = 4.0f;
 	const float kTutorialEndTime = 2.0f;
 	const float kTutorialDuration = 1.0f;
@@ -249,10 +249,16 @@ void InGameScene::Update() {
 		}
 	}
 
+	//プレイヤーの処理
+	if (!gameClear_ && !gameOver_) {
+		player_.Update();
+	}
+
+	//ステージの処理
 	for (int index = 0; index < levelScenes_.size(); index++) {
 		levelScenes_[index]->Update();
 	}
-	
+
 	if (player_.IsGameClear()) {
 		gameClear_ = true;
 	}

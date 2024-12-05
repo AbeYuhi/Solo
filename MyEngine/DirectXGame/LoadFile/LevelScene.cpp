@@ -507,7 +507,7 @@ void LevelScene::LevelCreate() {
 
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
-						levelObject->renderItem.worldTransform_.GetPWorldEulerTransformData(),
+						&levelObject->renderItem.worldTransform_,
 						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
 						tag,
 						type,

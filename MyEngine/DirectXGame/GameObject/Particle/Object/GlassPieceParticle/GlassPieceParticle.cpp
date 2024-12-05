@@ -22,6 +22,8 @@ void GlassPieceParticle::Initialize() {
 	blendMode_ = kBlendModeAdd;
 	preBlendMode_ = MyEngine::GraphicsPipelineManager::GetInstance()->GetBlendMode();
 
+	drawInfo_.materialInfo_->material_->color = { 0.5f, 0.5f, 0.5f, 0.5f };
+
 	isBillboard_ = false;
 }
 
@@ -84,7 +86,7 @@ ParticleInfo GlassPieceParticle::MakeNewParticle() {
 		randomManager_->GetRandomNumber(-3.14f, 3.14f),
 		randomManager_->GetRandomNumber(-3.14f, 3.14f) };
 	particle.velocity = { randomManager_->GetRandomNumber(-2.0f, 2.0f), randomManager_->GetRandomNumber(-2.0f, 2.0f), randomManager_->GetRandomNumber(0.0f, 1.0f) };
-	particle.color = { 0.25f, 0.25f, 0.25f, 0.5f };
+	particle.color = { 0.5f, 0.5f, 0.5f, 0.75f };
 	particle.lifeTime = randomManager_->GetRandomNumber(3.0f, 5.0f);
 	particle.currenttime = 0.0f;
 	return particle;

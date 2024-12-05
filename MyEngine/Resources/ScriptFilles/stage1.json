@@ -105,7 +105,7 @@
                     3.0
                 ],
                 "rotation": [
-                    0.0,
+                    -90.0,
                     -0.0,
                     0.0
                 ],
@@ -124,7 +124,7 @@
                 "groundingInfos_down": true,
                 "groundingInfos_right": false,
                 "groundingInfos_left": false,
-                "glassMoveTypes": "DONTMOVE",
+                "glassMoveTypes": "UPRIGHT",
                 "verticalDivisions": 5,
                 "horizontalDivisions": 10,
                 "moveLimit": 1.0,

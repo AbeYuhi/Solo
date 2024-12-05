@@ -36,7 +36,7 @@ enum ColliderType {
 };
 
 struct Collider {
-	EulerTransformData* objData_;
+	MyEngine::WorldTransform* objData_;
 	EulerTransformData colliderData_;
 	Matrix4x4 worldMatrix_;
 	Vector3 scale_;
@@ -72,6 +72,6 @@ struct Collider {
 
 	bool isCollisionCheck_;
 	
-	void Initialize(EulerTransformData* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	void Initialize(MyEngine::WorldTransform* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
 	void Update();
 };

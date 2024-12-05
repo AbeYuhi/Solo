@@ -42,6 +42,7 @@ private:
 	std::shared_ptr<MyEngine::Sprite> numberSprites_[3];
 	MyEngine::SpriteItem numberInfo_[3];
 
+	MyEngine::RenderItem renderItem_;
 	EulerTransformData* cameraData_;
 	Collider collider_;
 

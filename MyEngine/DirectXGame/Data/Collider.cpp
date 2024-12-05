@@ -1,10 +1,10 @@
 #include "Collider.h"
 
-void Collider::Initialize(EulerTransformData* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
+void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
 	objData_ = objData;
 	colliderData_ = colliderData;
 	worldMatrix_ = MakeAffineMatrix(colliderData_);
-	worldMatrix_ = Multiply(worldMatrix_, MakeAffineMatrix(*objData_));
+	worldMatrix_ = Multiply(worldMatrix_, MakeAffineMatrix(*objData_->GetPWorldEulerTransformData()));
 	tag_ = tag;
 	type_ = type;
 	velocity_ = velocity;
@@ -40,7 +40,7 @@ void Collider::Initialize(EulerTransformData* objData, EulerTransformData collid
 }
 
 void Collider::Update() {
-	Matrix4x4 objMatrix = MakeAffineMatrix(*objData_);
+	Matrix4x4 objMatrix = MakeAffineMatrix(*objData_->GetPWorldEulerTransformData());
 	Matrix4x4 colliderMatrix = MakeAffineMatrix(colliderData_);
 	Matrix4x4 combinedMatrix = Multiply(colliderMatrix, objMatrix);
 
@@ -54,11 +54,16 @@ void Collider::Update() {
 	//combinedScale = combinedData.scale_;
 
 	// 合成された位置
-	combinedPosition = objData_->translate_;
+	combinedPosition = objData_->GetPWorldEulerTransformData()->translate_;
 	// 合成された回転
-	combinedRotation = objData_->rotate_;
+	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_;
 	// 合成されたスケール
-	combinedScale = objData_->scale_ * colliderData_.scale_;
+	if (objData_->parent_) {
+		combinedScale = objData_->parent_->data_.scale_ * objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
+	}
+	else {
+		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
+	}
 
 	std::visit([&](auto& shape) {
 		using T = std::decay_t<decltype(shape)>;

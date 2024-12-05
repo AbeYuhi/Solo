@@ -60,7 +60,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	}
 	isTurnAround_ = false;
 
-	mainColldier_.Initialize(renderItem_.worldTransform_.GetPWorldEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
+	mainColldier_.Initialize(&renderItem_.worldTransform_, { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&mainColldier_);
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
@@ -77,17 +77,19 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	base_.y = keepData_.translate_.y;
 	base_.z = keepData_.translate_.z;
 	
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-	newPos *= renderItem_.worldTransform_.data_.scale_.y;
-	renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
-	renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-	renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
+	if (type_ == UPRIGHT) {
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
+		newPos *= renderItem_.worldTransform_.data_.scale_.y;
+		renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
+		renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
+		renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
 
-	// 基準点（ガラス全体の中心点）
-	base_.x = renderItem_.worldTransform_.data_.translate_.x;
-	base_.y = renderItem_.worldTransform_.data_.translate_.y;
-	base_.z = renderItem_.worldTransform_.data_.translate_.z;
+		// 基準点（ガラス全体の中心点）
+		base_.x = renderItem_.worldTransform_.data_.translate_.x;
+		base_.y = renderItem_.worldTransform_.data_.translate_.y;
+		base_.z = renderItem_.worldTransform_.data_.translate_.z;
+	}
 
 	//小さい破片ごとの初期化
 	for (unsigned int y = 0; y < divisionY_; y++) {
@@ -112,15 +114,9 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 				float localZ = 0.0f; // Z方向は固定
 
-				Vector3 localPosition = { localX, localY, localZ };
-
-				// 回転を適用
-				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
-
-				item->worldTransform_.data_.translate_.x = rotatedPosition.x;
-				item->worldTransform_.data_.translate_.y = rotatedPosition.y;
-				item->worldTransform_.data_.translate_.z = rotatedPosition.z;
+				item->worldTransform_.data_.translate_.x = localX;
+				item->worldTransform_.data_.translate_.y = localY;
+				item->worldTransform_.data_.translate_.z = 0.0f;
 				item->worldTransform_.parent_ = &renderItem_.worldTransform_;
 			}
 			else {
@@ -139,19 +135,30 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 				float localZ = 0.0f; // Z方向は固定
 
-				Vector3 localPosition = { localX, localY, localZ };
+				if (type_ == UPRIGHT) {
+					// ローカル位置を計算
+					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
+					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
+					float localZ = 0.0f; // Z方向は固定
 
-				// 回転を適用
-				Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-				Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+					Vector3 localPosition = { localX, localY, localZ };
 
-				item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
-				item->worldTransform_.data_.translate_.y = base_.y + rotatedPosition.y;
-				item->worldTransform_.data_.translate_.z = base_.z + rotatedPosition.z;
+					// 回転を適用
+					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
+
+					item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
+					item->worldTransform_.data_.translate_.y = base_.y + rotatedPosition.y;
+					item->worldTransform_.data_.translate_.z = base_.z + rotatedPosition.z;
+				}
+				else {
+					item->worldTransform_.data_.translate_.x = base_.x + localX;
+					item->worldTransform_.data_.translate_.y = base_.y + localY;
+					item->worldTransform_.data_.translate_.z = base_.z + localZ;
+				}
 			}
 
 			GlassPiece colliderItem;
-
 			colliderItem.particle = std::make_unique<GlassPieceParticle>(100);
 			colliderItem.particle->Initialize();
 			colliderItem.emitter.transform.Initialize();
@@ -161,7 +168,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			colliderItem.isBreaked = false;
 			colliderItem.breakTime = 0.0f;
 			colliderItem.collider = std::make_unique<Collider>();
-			colliderItem.collider->Initialize(item->worldTransform_.GetPWorldEulerTransformData(), { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
+			colliderItem.collider->Initialize(&item->worldTransform_, { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
 
 			colliders_[y].push_back(std::move(colliderItem));
 			renderItems_[y].push_back(std::move(item));
@@ -197,8 +204,6 @@ void Glass::Update() {
 	case Glass::UPRIGHT:
 		MoveGlassUpRight();
 		break;
-	default:
-		break;
 	}
 
 	//本体のガラスの移動に基づいて細分化されているガラスも同期させる処理
@@ -213,15 +218,9 @@ void Glass::Update() {
 					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 					float localZ = 0.0f; // Z方向は固定
 
-					Vector3 localPosition = { localX, localY, localZ };
-
-					// 回転を適用
-					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
-
-					renderItems_[y][x]->worldTransform_.data_.translate_.x = rotatedPosition.x;
-					renderItems_[y][x]->worldTransform_.data_.translate_.y = rotatedPosition.y;
-					renderItems_[y][x]->worldTransform_.data_.translate_.z = rotatedPosition.z;
+					renderItems_[y][x]->worldTransform_.data_.translate_.x = localX;
+					renderItems_[y][x]->worldTransform_.data_.translate_.y = localY;
+					renderItems_[y][x]->worldTransform_.data_.translate_.z = localZ;
 				}
 				else {
 					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
@@ -231,15 +230,21 @@ void Glass::Update() {
 					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
 					float localZ = 0.0f; // Z方向は固定
 
-					Vector3 localPosition = { localX, localY, localZ };
+					if (type_ == UPRIGHT) {
+						Vector3 localPosition = { localX, localY, localZ };
+						// 回転を適用
+						Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+						Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-					// 回転を適用
-					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
-					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
-
-					renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
-					renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
-					renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
+						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
+						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+					}
+					else {
+						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + localX;
+						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + localY;
+						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + localZ;
+					}
 				}
 
 				//パーティクル
