@@ -460,7 +460,6 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			levelObject->model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
-			levelObject->renderItem.materialInfo_.material_->enableLightint = 2;
 			levelObject->type = kMESH;
 			levelObject->renderItem.Update();
 
