@@ -12,9 +12,7 @@ void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData 
 	isCollisionCheck_ = isCollisionCheck;
 
 	//デバック時にコライダーの衝突範囲を可視化するためにrenderItemを初期化する
-#ifdef _DEBUG
 	renderItem_.Initialize();
-#endif // _DEBUG
 	for (int i = 0; i < kNumColliderTag; i++) {
 		isContact_[i] = false;
 		normal_ = Vector3{ 0.0f, 0.0f, 0.0f };

@@ -55,9 +55,7 @@ struct Collider {
 	// 合成された大きさ
 	Vector3 combinedScale;
 
-#ifdef _DEBUG
 	MyEngine::RenderItem renderItem_;
-#endif // _DEBUG
 
 	bool isContact_[kNumColliderTag];
 
