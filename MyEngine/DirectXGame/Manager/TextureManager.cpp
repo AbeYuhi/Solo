@@ -32,8 +32,13 @@ uint32_t TextureManager::Load(const std::string& filePath, const std::string& te
 }
 
 uint32_t TextureManager::LoadInternal(const std::string& filePath, const std::string& textureName) {
-
-	std::string fullFilePath = filePath + "/" + textureName;
+	std::string fullFilePath;
+	if (filePath == ""){
+		fullFilePath = textureName;
+	}
+	else {
+		fullFilePath = filePath + "/" + textureName;
+	}
 
 	if (textureDatas_.find(fullFilePath) == textureDatas_.end()) {
 		sTextureNum_++;

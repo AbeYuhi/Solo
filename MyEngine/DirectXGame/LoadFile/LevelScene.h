@@ -72,6 +72,8 @@ private: //メンバ変数
 	const std::string kDirectoryPath = "Resources/ScriptFilles/";
 	std::unique_ptr<LevelData> levelData_;
 
+	uint32_t wallTexutre_;
+
 	EulerTransformData levelSceneData_;
 	LevelObject gameObject_;
 

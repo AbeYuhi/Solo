@@ -43,23 +43,25 @@ namespace MyEngine {
 						std::visit([&](auto& shape1) {
 							if (IsCollision(shape0, shape1)) {
 								collider0->isContact_[collider1->tag_] = true;
-								Vector3 tmpNormal = Vector3{ 0.0f, 0.0f, 0.0f };
-								Vector3 tmpContactPoint = Vector3{ 0.0f, 0.0f, 0.0f };
-								if (collider0->normal_ != Vector3{0.0f, 0.0f, 0.0f}) {
-									tmpNormal = collider0->normal_;
-									tmpContactPoint = collider0->contactPoint_;
-									collider0->normal_ = CalculateNormal(shape0, shape1);
-									//接触点の計算
-									if (Length(GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
-										collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
+								if (collider0->velocity_) {
+									Vector3 tmpNormal = Vector3{ 0.0f, 0.0f, 0.0f };
+									Vector3 tmpContactPoint = Vector3{ 0.0f, 0.0f, 0.0f };
+									if (collider0->normal_ != Vector3{ 0.0f, 0.0f, 0.0f }) {
+										tmpNormal = collider0->normal_;
+										tmpContactPoint = collider0->contactPoint_;
+										collider0->normal_ = CalculateNormal(shape0, shape1);
+										//接触点の計算
+										if (Length(GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
+											collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
+										}
+										else {
+											collider0->normal_ = tmpNormal;
+										}
 									}
 									else {
-										collider0->normal_ = tmpNormal;
+										collider0->normal_ = CalculateNormal(shape0, shape1);
+										collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
 									}
-								}
-								else {
-									collider0->normal_ = CalculateNormal(shape0, shape1);
-									collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
 								}
 							}
 							}, collider1->colliderShape_);

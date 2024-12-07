@@ -10,6 +10,8 @@ void LevelScene::Initialize(const std::string& fileName, float stageSize) {
 	levelSceneData_.Initialize();
 	levelSceneData_.translate_ = {0.0f, 0.0f, stageSize};
 
+	wallTexutre_ = MyEngine::TextureManager::Load("wall", "wall.png");
+
 	//ステージの読み込み
 	LoadFile(fileName);
 
@@ -29,12 +31,6 @@ void LevelScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
-	for (auto& data : gameObject_.objDatas_) {
-		if (data->objName == "aaa") {
-			data->renderItem.worldTransform_.data_.rotate_.x += 1.0f * (1.0f / 60.0f);
-		}
-	}
-
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Update();
 	}
@@ -49,7 +45,7 @@ void LevelScene::Update() {
 void LevelScene::Draw() {
 
 	for (auto& levelObject : gameObject_.wallDatas_) {
-		levelObject->model->Draw(levelObject->renderItem, 1);
+		levelObject->model->Draw(levelObject->renderItem, wallTexutre_);
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Draw();
@@ -183,14 +179,21 @@ void LevelScene::LoadFile(const std::string& fileName) {
 					colliderData.size.y = collider["size"][2];
 					colliderData.size.z = collider["size"][1];
 				}
-				else if (colliderData.type == "Sphere") {
+				else if (colliderData.type == "SPHERE") {
 
 					//ポジション
 					colliderData.centerPos.x = collider["center"][0];
 					colliderData.centerPos.y = collider["center"][2];
 					colliderData.centerPos.z = collider["center"][1];
+					//回転
+					colliderData.rotate.x = 0.0f;
+					colliderData.rotate.y = 0.0f;
+					colliderData.rotate.z = 0.0f;
 					//サイズ
 					colliderData.radius = collider["radius"];
+					colliderData.size.x = colliderData.radius * 2.0f;
+					colliderData.size.y = colliderData.radius * 2.0f;
+					colliderData.size.z = colliderData.radius * 2.0f;
 				}
 
 				if (colliderData.tag == "GLASS") {
@@ -286,14 +289,23 @@ void LevelScene::LoadFile(const std::string& fileName) {
 					colliderData.size.y = collider["size"][2];
 					colliderData.size.z = collider["size"][1];
 				}
-				else if (colliderData.type == "Sphere") {
+				else if (colliderData.type == "SPHERE") {
 
 					//ポジション
 					colliderData.centerPos.x = collider["center"][0];
 					colliderData.centerPos.y = collider["center"][2];
 					colliderData.centerPos.z = collider["center"][1];
+
+					//回転
+					colliderData.rotate.x = 0.0f;
+					colliderData.rotate.y = 0.0f;
+					colliderData.rotate.z = 0.0f;
 					//サイズ
 					colliderData.radius = collider["radius"];
+
+					colliderData.size.x = colliderData.radius * 2.0f;
+					colliderData.size.y	= colliderData.radius * 2.0f;
+					colliderData.size.z	= colliderData.radius * 2.0f;
 				}
 				colliderData.collisionCheck = collider["collision_check"];
 				colliderData.tag = collider["tag"];
@@ -328,6 +340,9 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 
 			if (object.contains("draw_check")) {
 				objectData.drawCheck = object["draw_check"];
+			}
+			else {
+				objectData.drawCheck = true;
 			}
 
 			objectData.type = kMESH;
@@ -383,14 +398,21 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 					colliderData.size.y = collider["size"][2];
 					colliderData.size.z = collider["size"][1];
 				}
-				else if (colliderData.type == "Sphere") {
+				else if (colliderData.type == "SPHERE") {
 
 					//ポジション
 					colliderData.centerPos.x = collider["center"][0];
 					colliderData.centerPos.y = collider["center"][2];
 					colliderData.centerPos.z = collider["center"][1];
+					//回転
+					colliderData.rotate.x = 0.0f;
+					colliderData.rotate.y = 0.0f;
+					colliderData.rotate.z = 0.0f;
 					//サイズ
 					colliderData.radius = collider["radius"];
+					colliderData.size.x = colliderData.radius * 2.0f;
+					colliderData.size.y = colliderData.radius * 2.0f;
+					colliderData.size.z = colliderData.radius * 2.0f;
 				}
 
 				if (colliderData.tag == "GLASS") {
@@ -438,7 +460,7 @@ void LevelScene::LevelCreate() {
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
 			levelObject->model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
-			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
+			levelObject->renderItem.materialInfo_.material_->enableLightint = 2;
 			levelObject->type = kMESH;
 			levelObject->renderItem.Update();
 
@@ -525,9 +547,11 @@ void LevelScene::LevelCreate() {
 				gameObject_.doorDatas_.push_back(door);
 			}
 			else if (objectData.collider->tag == "LDOOR") {
+				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
 				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
 			}
 			else if (objectData.collider->tag == "RDOOR") {
+				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
 				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
 			}
 			else if (objectData.collider->tag == "CRYSTAL") {

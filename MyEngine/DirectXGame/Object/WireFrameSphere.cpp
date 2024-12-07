@@ -103,6 +103,9 @@ namespace MyEngine {
 		if (renderItem.materialInfo_.isInvisible_) {
 			return;
 		}
+#ifdef NDEBUG
+		return;
+#endif // NDEBUG
 
 		renderItem.Update();
 

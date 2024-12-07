@@ -99,24 +99,30 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			std::unique_ptr<MyEngine::RenderItem> item = std::make_unique<MyEngine::RenderItem>();
 			item->Initialize();
 			if (parent) {
-				item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
-				item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
-				item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
+				// スケールの設定
+				item->worldTransform_.data_.scale_ = {
+					1.0f / divisionX_,
+					1.0f / divisionY_,
+					renderItem_.worldTransform_.data_.translate_.z
+				};
+
+				// 回転の引き継ぎ
 				item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
-				item->materialInfo_.material_->color.w = 0.5f;
-				item->materialInfo_.material_->color.x = 0.5f;
-				item->materialInfo_.material_->color.y = 0.5f;
-				item->materialInfo_.material_->color.z = 0.5f;
+
+				// マテリアルの設定
+				item->materialInfo_.material_->color = { 0.5f, 0.5f, 0.5f, 0.5f };
 				item->materialInfo_.material_->enableLightint = 1;
 
 				// ローカル位置を計算
-				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
-				float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
-				float localZ = 0.0f; // Z方向は固定
+				float scaleX = 1.0f / divisionX_;
+				float scaleY = 1.0f / divisionY_;
+				item->worldTransform_.data_.translate_ = {
+					(x + 0.5f) * scaleX - 0.5f,
+					(y + 0.5f) * scaleY - 0.5f,
+					0.0f
+				};
 
-				item->worldTransform_.data_.translate_.x = localX;
-				item->worldTransform_.data_.translate_.y = localY;
-				item->worldTransform_.data_.translate_.z = 0.0f;
+				// 親トランスフォームの設定
 				item->worldTransform_.parent_ = &renderItem_.worldTransform_;
 			}
 			else {
@@ -136,11 +142,6 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				float localZ = 0.0f; // Z方向は固定
 
 				if (type_ == UPRIGHT) {
-					// ローカル位置を計算
-					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
-					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
-					float localZ = 0.0f; // Z方向は固定
-
 					Vector3 localPosition = { localX, localY, localZ };
 
 					// 回転を適用
@@ -211,16 +212,20 @@ void Glass::Update() {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (!colliders_[y][x].isBreaked) {
 				if (renderItem_.worldTransform_.parent_) {
-					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+					float invDivX = 1.0f / divisionX_;
+					float invDivY = 1.0f / divisionY_;
 
-					// ローカル位置を計算
-					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
-					float localY = -size_.y / 2.0f + (y + 0.5f) * segmentHeight_;
-					float localZ = 0.0f; // Z方向は固定
+					float baseX = -0.5f + 0.5f * invDivX;
+					float baseY = -0.5f + 0.5f * invDivY;
 
-					renderItems_[y][x]->worldTransform_.data_.translate_.x = localX;
-					renderItems_[y][x]->worldTransform_.data_.translate_.y = localY;
-					renderItems_[y][x]->worldTransform_.data_.translate_.z = localZ;
+					float scaleZ = renderItem_.worldTransform_.data_.translate_.z;
+
+					renderItems_[y][x]->worldTransform_.data_.scale_ = { invDivX, invDivY, scaleZ };
+					renderItems_[y][x]->worldTransform_.data_.translate_ = {
+						baseX + x * invDivX,
+						baseY + y * invDivY,
+						0.0f
+					};
 				}
 				else {
 					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;

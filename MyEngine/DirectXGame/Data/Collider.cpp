@@ -12,7 +12,9 @@ void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData 
 	isCollisionCheck_ = isCollisionCheck;
 
 	//デバック時にコライダーの衝突範囲を可視化するためにrenderItemを初期化する
+#ifdef _DEBUG
 	renderItem_.Initialize();
+#endif // _DEBUG
 	for (int i = 0; i < kNumColliderTag; i++) {
 		isContact_[i] = false;
 		normal_ = Vector3{ 0.0f, 0.0f, 0.0f };
@@ -38,6 +40,7 @@ void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData 
 }
 
 void Collider::Update() {
+	objData_->UpdateWorld();
 	Matrix4x4 objMatrix = MakeAffineMatrix(*objData_->GetPWorldEulerTransformData());
 	Matrix4x4 colliderMatrix = MakeAffineMatrix(colliderData_);
 	Matrix4x4 combinedMatrix = Multiply(colliderMatrix, objMatrix);
@@ -92,16 +95,7 @@ void Collider::Update() {
 		}
 		else if constexpr (std::is_same_v<T, Sphere>) {
 			shape.center = combinedPosition;
-			if (combinedScale.x >= combinedScale.y && combinedScale.x >= combinedScale.z) {
-				shape.radius = combinedScale.x / 2.0f;
-			}
-			else if (combinedScale.y >= combinedScale.z) {
-				shape.radius = combinedScale.y / 2.0f;
-			}
-			else {
-				shape.radius = combinedScale.z / 2.0f;
-			}
-
+			shape.radius = combinedScale.x / 2.0f;
 		}
 	}, colliderShape_);
 }

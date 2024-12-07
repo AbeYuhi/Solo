@@ -12,9 +12,10 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 
 	model_ = MyEngine::Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
-	renderItem_.worldTransform_.data_.scale_ *= 0.5f;
+	renderItem_.worldTransform_.data_.scale_ *= 0.3f;
 	renderItem_.materialInfo_.material_->enableLightint = true;
 	renderItem_.materialInfo_.material_->isEnvironment = true;
+	renderItem_.materialInfo_.material_->color.w = 1.0f;
 	renderItem_.materialInfo_.environmentTextureHandle_ = environmentTextureHandle;
 
 	//発射位置の計算
@@ -41,7 +42,7 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 	reticlePos_ = posNear + (mouseDirection * kDistanceTestObject);
 
 	velocity_ = Normalize(reticlePos_ - MainCamera::GetInstance()->GetWorldPos());
-	velocity_.z *= 1.25f;
+	velocity_.z *= 1.1f;
 	speed_ = 40.0f;
 
 	lifeTime_ = 15.0f;
