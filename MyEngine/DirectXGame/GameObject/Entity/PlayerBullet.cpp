@@ -8,13 +8,16 @@
 void PlayerBullet::Initialize(Vector2 mousePos) {
 	input_ = MyEngine::InputManager::GetInstance();
 
+	//uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("skybox.dds");
 	uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("rostock_laage_airport_4k.dds");
 
 	model_ = MyEngine::Model::Create("sphere", "sphere.obj");
 	renderItem_.Initialize();
 	renderItem_.worldTransform_.data_.scale_ *= 0.3f;
 	renderItem_.materialInfo_.material_->enableLightint = true;
+	renderItem_.materialInfo_.material_->isSpecularReflection = true;
 	renderItem_.materialInfo_.material_->isEnvironment = true;
+	renderItem_.materialInfo_.material_->environmentCoefficient = 1.0f;
 	renderItem_.materialInfo_.material_->color.w = 1.0f;
 	renderItem_.materialInfo_.environmentTextureHandle_ = environmentTextureHandle;
 
