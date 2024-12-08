@@ -40,7 +40,9 @@ void Crystal::Update() {
 void Crystal::Draw() {
 
 	if (!isBreak_) {
-		data_.model->Draw(*data_.renderItem);
+		if (Length(data_.renderItem->worldTransform_.GetWorldPos() - MainCamera::GetInstance()->GetWorldPos()) <= 100.0f) {
+			data_.model->Draw(*data_.renderItem);
+		}
 	}
 
 }

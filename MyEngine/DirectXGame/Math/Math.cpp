@@ -1251,6 +1251,7 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, cons
 	if (IsCollision(sphere, obb)) {
 		Sphere tmpSphere = sphere;
 		tmpSphere.center -= velocity;
+		int breakNum = 0;
 		while (true) {
 			tmpSphere.center += velocity * 0.005f;
 			if (IsCollision(tmpSphere, obb)) {
@@ -1259,6 +1260,10 @@ Vector3 GetClosestPointOnOBB(const Sphere& sphere, const Vector3& velocity, cons
 				tmpSphere.center -= normal * sphere.radius;
 				closest_point = tmpSphere.center;
 				break;
+			}
+			breakNum++;
+			if (breakNum >= 500) {
+				return Vector3{ 0.0f ,0.0f ,0.0f };
 			}
 		}
 		return closest_point;

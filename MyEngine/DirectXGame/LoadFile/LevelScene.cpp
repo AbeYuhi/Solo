@@ -458,6 +458,7 @@ void LevelScene::LevelCreate() {
 			}
 			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
 			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
+			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
 			levelObject->model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
 			levelObject->type = kMESH;
@@ -572,12 +573,16 @@ void LevelScene::LevelCreate() {
 			}
 			else{
 				if (objectData.type == kMESH) {
+					Vector3 scale = { std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.x), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.y), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.z) };
+					levelObject->renderItem.materialInfo_.uvTransform_.scale_ = scale;
 					gameObject_.wallDatas_.push_back(levelObject.get());
 				}
 			}
 		}
 		else {
 			if (objectData.type == kMESH) {
+				Vector3 scale = { std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.x), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.y), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.z) };
+				levelObject->renderItem.materialInfo_.uvTransform_.scale_ = scale;
 				gameObject_.wallDatas_.push_back(levelObject.get());
 			}
 		}

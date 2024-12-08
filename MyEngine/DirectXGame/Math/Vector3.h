@@ -11,6 +11,12 @@ struct Vector3 final {
 	float z;
 };
 
+struct Vector3Int final {
+	int x;
+	int y;
+	int z;
+};
+
 struct Line {
 	Vector3 origin; //始点
 	Vector3 diff;   //終点への差分ベクトル

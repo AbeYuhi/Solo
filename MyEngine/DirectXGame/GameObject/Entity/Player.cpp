@@ -48,6 +48,7 @@ void Player::Update() {
 
 	if (collider_.isContact_[GOAL]) {
 		isGameClear_ = true;
+		MyEngine::CollisionManager::GetInstance()->ClearColliders();
 	}
 
 	if (doorInvincibilityTime_ <= 0.0f) {
@@ -124,7 +125,7 @@ void Player::Update() {
 				}
 				for (int index = 0; index < bulletNum; index++) {
 					Vector2 bulletPos = { 0.0f, 0.0f };
-					const int test = 50;
+					const int test = 25;
 
 					//コンボ数によって玉の出方を変える処理
 					if (bulletNum == 1) {

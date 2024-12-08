@@ -506,7 +506,9 @@ void Glass::Draw() {
 		}
 	}
 	else {
-		model_->Draw(renderItem_, 1);
+		if (Length(renderItem_.worldTransform_.GetWorldPos() - MainCamera::GetInstance()->GetWorldPos()) <= 80.0f) {
+			model_->Draw(renderItem_, 1);
+		}
 	}
 }
 

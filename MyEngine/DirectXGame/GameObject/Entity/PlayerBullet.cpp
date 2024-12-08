@@ -118,6 +118,10 @@ void PlayerBullet::Update() {
 
 	// 位置の更新
 	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
+
+	if (lifeTime_ <= 0.0f || renderItem_.worldTransform_.GetWorldPos().z + 10.0f <= MainCamera::GetInstance()->GetWorldPos().z) {
+		collider_.isDelete_ = true;
+	}
 }
 
 void PlayerBullet::Draw() {

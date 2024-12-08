@@ -37,6 +37,7 @@ void Door::Update() {
 }
 
 void Door::Draw() {
+
 	button_.model->Draw(*button_.renderItem);
 
 	leftDoor_.model->Draw(*leftDoor_.renderItem);
