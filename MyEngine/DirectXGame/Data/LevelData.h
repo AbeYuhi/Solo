@@ -30,6 +30,13 @@ struct GlassInfo {
 	float moveSpeed;
 };
 
+struct WallInfo {
+	std::string moveType;
+	float moveLimit;
+	float moveSpeed;
+	float rotateSpeed;
+};
+
 struct CameraData {
 	EulerTransformData CameraInfo;
 	float cameraSpeed;
@@ -48,6 +55,7 @@ struct LevelData {
 		bool collisionCheck;
 
 		GlassInfo glassInfo;
+		WallInfo wallInfo;
 	};
 	struct ObjectData {
 		Vector3 translation;

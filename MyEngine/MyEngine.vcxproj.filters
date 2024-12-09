@@ -393,6 +393,9 @@
     <ClCompile Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.cpp">
       <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Entity\Wall.cpp">
+      <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -724,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Particle\Object\GlassPieceParticle\GlassPieceParticle.h">
       <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Entity\Wall.h">
+      <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

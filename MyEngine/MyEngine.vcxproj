@@ -192,6 +192,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\GameObject\Entity\PlayerBullet.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Entity\Player.cpp" />
     <ClCompile Include="DirectXGame\Scene\SceneChange\SceneChange.cpp" />
+    <ClCompile Include="DirectXGame\GameObject\Entity\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Data\RadialBlurInfo.h" />
@@ -307,6 +308,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DirectXGame\Data\VignettingInfo.h" />
+    <ClInclude Include="DirectXGame\GameObject\Entity\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj" />

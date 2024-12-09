@@ -23,6 +23,10 @@ void TitleScene::Initialize() {
 
 	postEffectManager_ = MyEngine::PostEffectManager::GetInstance();
 
+	collisionManager_ = MyEngine::CollisionManager::GetInstance();
+	collisionManager_->ClearColliders();
+	collisionManager_->Update();
+
 	sceneChange_ = SceneChange::GetInstance();
 
 	//カメラ

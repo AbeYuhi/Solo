@@ -44,8 +44,8 @@ void LevelScene::Update() {
 
 void LevelScene::Draw() {
 
-	for (auto& levelObject : gameObject_.wallDatas_) {
-		levelObject->model->Draw(levelObject->renderItem, wallTexutre_);
+	for (auto& wallDatas : gameObject_.wallDatas_) {
+		wallDatas.Draw();
 	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Draw();
@@ -194,6 +194,13 @@ void LevelScene::LoadFile(const std::string& fileName) {
 					colliderData.size.x = colliderData.radius * 2.0f;
 					colliderData.size.y = colliderData.radius * 2.0f;
 					colliderData.size.z = colliderData.radius * 2.0f;
+				}
+
+				if (colliderData.tag == "WALL") {
+					colliderData.wallInfo.moveType = collider["wallMoveTypes"];
+					colliderData.wallInfo.moveLimit = collider["wallMoveLimit"];
+					colliderData.wallInfo.moveSpeed = collider["wallMoveSpeed"];
+					colliderData.wallInfo.rotateSpeed = collider["wallRotateSpeed"];
 				}
 
 				if (colliderData.tag == "GLASS") {
@@ -575,15 +582,10 @@ void LevelScene::LevelCreate() {
 				if (objectData.type == kMESH) {
 					Vector3 scale = { std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.x), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.y), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.z) };
 					levelObject->renderItem.materialInfo_.uvTransform_.scale_ = scale;
-					gameObject_.wallDatas_.push_back(levelObject.get());
+					Wall wall;
+					wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
+					gameObject_.wallDatas_.push_back(wall);
 				}
-			}
-		}
-		else {
-			if (objectData.type == kMESH) {
-				Vector3 scale = { std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.x), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.y), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.z) };
-				levelObject->renderItem.materialInfo_.uvTransform_.scale_ = scale;
-				gameObject_.wallDatas_.push_back(levelObject.get());
 			}
 		}
 

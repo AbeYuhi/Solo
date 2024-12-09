@@ -12,6 +12,7 @@
 #include "DirectXGame/Manager/CollisionManager.h"
 #include "GameObject/Camera/MainCamera.h"
 #include "GameObject/Camera/InGameCamera.h"
+#include "GameObject/Entity/Wall.h"
 #include "GameObject/Entity/Door.h"
 #include "GameObject/Entity/Crystal.h"
 #include "GameObject/Entity/Glass.h"
@@ -36,7 +37,7 @@ struct ObjData {
 
 struct LevelObject {
 	std::vector<std::unique_ptr<ObjData>> objDatas_;
-	std::vector<ObjData*> wallDatas_;
+	std::vector<Wall> wallDatas_;
 	std::vector<Door> doorDatas_;
 	std::vector<Crystal> crystalDatas_;
 	std::vector<std::unique_ptr<Glass>> glassDatas_;
