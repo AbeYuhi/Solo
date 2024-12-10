@@ -31,6 +31,9 @@ void LevelScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	for (auto& wallDatas : gameObject_.wallDatas_) {
+		wallDatas.Update();
+	}
 	for (auto& crystalData : gameObject_.crystalDatas_) {
 		crystalData.Update();
 	}
@@ -567,25 +570,14 @@ void LevelScene::LevelCreate() {
 				gameObject_.crystalDatas_.push_back(crystal);
 			}
 			else if (objectData.collider->tag == "GLASS") {
-				if (objectData.parent) {
-					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
-					glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo, &gameObject_.objDatas_[*objectData.parent]->renderItem);
-					gameObject_.glassDatas_.push_back(std::move(glass));
-				}
-				else {
-					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
-					glass->Initialize(levelObject->model, &levelObject->renderItem, objectData.collider->glassInfo);
-					gameObject_.glassDatas_.push_back(std::move(glass));
-				}
+				std::unique_ptr<Glass> glass = std::make_unique<Glass>();
+				glass->Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->glassInfo);
+				gameObject_.glassDatas_.push_back(std::move(glass));
 			}
-			else{
-				if (objectData.type == kMESH) {
-					Vector3 scale = { std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.x), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.y), std::ceil(levelObject->renderItem.worldTransform_.data_.scale_.z) };
-					levelObject->renderItem.materialInfo_.uvTransform_.scale_ = scale;
-					Wall wall;
-					wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
-					gameObject_.wallDatas_.push_back(wall);
-				}
+			else if (objectData.collider->tag == "WALL") {
+				Wall wall;
+				wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
+				gameObject_.wallDatas_.push_back(wall);
 			}
 		}
 

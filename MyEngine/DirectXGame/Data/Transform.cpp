@@ -22,6 +22,7 @@ namespace MyEngine {
 
 		data_.Initialize();
 		worldData_.Initialize();
+		parent_ = nullptr;
 
 		if (isSprite) {
 			viewProjectionMatrix_ = SpriteCamera::GetInstance()->GetPViewProjectionMatrix();

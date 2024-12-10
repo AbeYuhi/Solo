@@ -10,8 +10,8 @@ Glass::~Glass(){}
 
 void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	MyEngine::RenderItem* renderItem,
-	GlassInfo info,
-	MyEngine::RenderItem* parent) {
+	Collider* collider,
+	GlassInfo info) {
 
 	model_ = model;
 	isBreak = false;
@@ -33,17 +33,12 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 		type_ = UPRIGHT;
 	}
 
-	renderItem_.Initialize();
-	renderItem_.worldTransform_.data_ = renderItem->worldTransform_.data_;
-	renderItem_.materialInfo_.material_->color.w = 0.5f;
-	renderItem_.materialInfo_.material_->color.x = 0.5f;
-	renderItem_.materialInfo_.material_->color.y = 0.5f;
-	renderItem_.materialInfo_.material_->color.z = 0.5f;
-	renderItem_.materialInfo_.material_->enableLightint = 1;
-
-	if (parent) {
-		renderItem_.worldTransform_.parent_ = &parent->worldTransform_;
-	}
+	renderItem_ = renderItem;
+	renderItem_->materialInfo_.material_->color.w = 0.5f;
+	renderItem_->materialInfo_.material_->color.x = 0.5f;
+	renderItem_->materialInfo_.material_->color.y = 0.5f;
+	renderItem_->materialInfo_.material_->color.z = 0.5f;
+	renderItem_->materialInfo_.material_->enableLightint = 1;
 
 	divisionX_ = info.verticalDivisions;
 	divisionY_ = info.horizontalDivisions;
@@ -60,8 +55,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	}
 	isTurnAround_ = false;
 
-	mainColldier_.Initialize(&renderItem_.worldTransform_, { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f}}, GLASS, kOBB, true);
-	MyEngine::CollisionManager::GetInstance()->AddCollider(&mainColldier_);
+	mainColldier_ = collider;
 
 	// ガラス全体のサイズを取得（例としてX, Y, Z軸方向のサイズを sizeX, sizeY, sizeZ とする）
 	size_.x = keepData_.scale_.x * 2.0f;
@@ -78,17 +72,17 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	base_.z = keepData_.translate_.z;
 	
 	if (type_ == UPRIGHT) {
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_->worldTransform_.data_.rotate_);
 		Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-		newPos *= renderItem_.worldTransform_.data_.scale_.y;
-		renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
-		renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-		renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
+		newPos *= renderItem_->worldTransform_.data_.scale_.y;
+		renderItem_->worldTransform_.data_.translate_.x = base_.x + newPos.x;
+		renderItem_->worldTransform_.data_.translate_.y = 1 + newPos.y;
+		renderItem_->worldTransform_.data_.translate_.z = base_.z + newPos.z;
 
 		// 基準点（ガラス全体の中心点）
-		base_.x = renderItem_.worldTransform_.data_.translate_.x;
-		base_.y = renderItem_.worldTransform_.data_.translate_.y;
-		base_.z = renderItem_.worldTransform_.data_.translate_.z;
+		base_.x = renderItem_->worldTransform_.data_.translate_.x;
+		base_.y = renderItem_->worldTransform_.data_.translate_.y;
+		base_.z = renderItem_->worldTransform_.data_.translate_.z;
 	}
 
 	//小さい破片ごとの初期化
@@ -98,16 +92,16 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			std::unique_ptr<MyEngine::RenderItem> item = std::make_unique<MyEngine::RenderItem>();
 			item->Initialize();
-			if (parent) {
+			if (renderItem_->worldTransform_.parent_) {
 				// スケールの設定
 				item->worldTransform_.data_.scale_ = {
 					1.0f / divisionX_,
 					1.0f / divisionY_,
-					renderItem_.worldTransform_.data_.translate_.z
+					renderItem_->worldTransform_.data_.translate_.z
 				};
 
 				// 回転の引き継ぎ
-				item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+				item->worldTransform_.data_.rotate_ = renderItem_->worldTransform_.data_.rotate_;
 
 				// マテリアルの設定
 				item->materialInfo_.material_->color = { 0.5f, 0.5f, 0.5f, 0.5f };
@@ -123,13 +117,13 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				};
 
 				// 親トランスフォームの設定
-				item->worldTransform_.parent_ = &renderItem_.worldTransform_;
+				item->worldTransform_.parent_ = &renderItem_->worldTransform_;
 			}
 			else {
 				item->worldTransform_.data_.scale_.x = segmentWidth_ / 2.0f;
 				item->worldTransform_.data_.scale_.y = segmentHeight_ / 2.0f;
 				item->worldTransform_.data_.scale_.z = size_.z / 2.0f;
-				item->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+				item->worldTransform_.data_.rotate_ = renderItem_->worldTransform_.data_.rotate_;
 				item->materialInfo_.material_->color.w = 0.5f;
 				item->materialInfo_.material_->color.x = 0.5f;
 				item->materialInfo_.material_->color.y = 0.5f;
@@ -145,7 +139,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 					Vector3 localPosition = { localX, localY, localZ };
 
 					// 回転を適用
-					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+					Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_->worldTransform_.data_.rotate_);
 					Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
 					item->worldTransform_.data_.translate_.x = base_.x + rotatedPosition.x;
@@ -179,9 +173,9 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 
 void Glass::Update() {
 
-	if (mainColldier_.isContact_[BULLET] && !isBreak) {
+	if (mainColldier_->isContact_[BULLET] && !isBreak) {
 		isBreak = true;
-		mainColldier_.isDelete_ = true;
+		mainColldier_->isDelete_ = true;
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
@@ -211,14 +205,14 @@ void Glass::Update() {
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			if (!colliders_[y][x].isBreaked) {
-				if (renderItem_.worldTransform_.parent_) {
+				if (renderItem_->worldTransform_.parent_) {
 					float invDivX = 1.0f / divisionX_;
 					float invDivY = 1.0f / divisionY_;
 
 					float baseX = -0.5f + 0.5f * invDivX;
 					float baseY = -0.5f + 0.5f * invDivY;
 
-					float scaleZ = renderItem_.worldTransform_.data_.translate_.z;
+					float scaleZ = renderItem_->worldTransform_.data_.translate_.z;
 
 					renderItems_[y][x]->worldTransform_.data_.scale_ = { invDivX, invDivY, scaleZ };
 					renderItems_[y][x]->worldTransform_.data_.translate_ = {
@@ -228,7 +222,7 @@ void Glass::Update() {
 					};
 				}
 				else {
-					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_.worldTransform_.data_.rotate_;
+					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_->worldTransform_.data_.rotate_;
 
 					// ローカル位置を計算
 					float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
@@ -238,17 +232,17 @@ void Glass::Update() {
 					if (type_ == UPRIGHT) {
 						Vector3 localPosition = { localX, localY, localZ };
 						// 回転を適用
-						Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+						Matrix4x4 rotationMatrix = MakeRotateMatrix(renderItem_->worldTransform_.data_.rotate_);
 						Vector3 rotatedPosition = Transform(localPosition, rotationMatrix);
 
-						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + rotatedPosition.x;
-						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + rotatedPosition.y;
-						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + rotatedPosition.z;
+						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_->worldTransform_.data_.translate_.x + rotatedPosition.x;
+						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_->worldTransform_.data_.translate_.y + rotatedPosition.y;
+						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_->worldTransform_.data_.translate_.z + rotatedPosition.z;
 					}
 					else {
-						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_.worldTransform_.data_.translate_.x + localX;
-						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_.worldTransform_.data_.translate_.y + localY;
-						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_.worldTransform_.data_.translate_.z + localZ;
+						renderItems_[y][x]->worldTransform_.data_.translate_.x = renderItem_->worldTransform_.data_.translate_.x + localX;
+						renderItems_[y][x]->worldTransform_.data_.translate_.y = renderItem_->worldTransform_.data_.translate_.y + localY;
+						renderItems_[y][x]->worldTransform_.data_.translate_.z = renderItem_->worldTransform_.data_.translate_.z + localZ;
 					}
 				}
 
@@ -476,11 +470,11 @@ void Glass::Update() {
 	}
 
 	//ガラスがカメラの裏側に行ったらコライダーから消すように
-	renderItem_.worldTransform_.UpdateWorld();
-	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.worldPos_.z + 1.0f) {
+	renderItem_->worldTransform_.UpdateWorld();
+	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_->worldTransform_.worldPos_.z + 1.0f) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
-				mainColldier_.isDelete_ = true;
+				mainColldier_->isDelete_ = true;
 				colliders_[y][x].collider->isDelete_ = true;
 			}
 		}
@@ -506,8 +500,8 @@ void Glass::Draw() {
 		}
 	}
 	else {
-		if (Length(renderItem_.worldTransform_.GetWorldPos() - MainCamera::GetInstance()->GetWorldPos()) <= 80.0f) {
-			model_->Draw(renderItem_, 1);
+		if (Length(renderItem_->worldTransform_.GetWorldPos() - MainCamera::GetInstance()->GetWorldPos()) <= 80.0f) {
+			model_->Draw(*renderItem_, 1);
 		}
 	}
 }
@@ -525,32 +519,32 @@ void Glass::DontMoveGlass() {
 }
 
 void Glass::MoveGlassUpRight() {
-	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_.worldTransform_.data_.translate_.z - 50.0f) {
+	if (MainCamera::GetInstance()->GetWorldPos().z >= renderItem_->worldTransform_.data_.translate_.z - 50.0f) {
 		time_ += 1.0f / 60.0f;
 		if (time_ >= 1.0f) {
 			time_ = 1.0f;
 		}
-		renderItem_.worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
+		renderItem_->worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
 	}
 
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_.worldTransform_.data_.rotate_);
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(renderItem_->worldTransform_.data_.rotate_);
 	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-	newPos *= renderItem_.worldTransform_.data_.scale_.y;
-	renderItem_.worldTransform_.data_.translate_.x = base_.x + newPos.x;
-	renderItem_.worldTransform_.data_.translate_.y = 1 + newPos.y;
-	renderItem_.worldTransform_.data_.translate_.z = base_.z + newPos.z;
+	newPos *= renderItem_->worldTransform_.data_.scale_.y;
+	renderItem_->worldTransform_.data_.translate_.x = base_.x + newPos.x;
+	renderItem_->worldTransform_.data_.translate_.y = 1 + newPos.y;
+	renderItem_->worldTransform_.data_.translate_.z = base_.z + newPos.z;
 }
 
 void Glass::MoveGlassAlternateLeftRight() {
 	if (!isTurnAround_) {
-		renderItem_.worldTransform_.data_.translate_.x += moveSpeed_ * (1.0f / 60.0f);
-		if (renderItem_.worldTransform_.data_.translate_.x >= moveLimit_.x) {
+		renderItem_->worldTransform_.data_.translate_.x += moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_->worldTransform_.data_.translate_.x >= keepData_.translate_.x + moveLimit_.x) {
 			isTurnAround_ = true;
 		}
 	}
 	else {
-		renderItem_.worldTransform_.data_.translate_.x -= moveSpeed_ * (1.0f / 60.0f);
-		if (renderItem_.worldTransform_.data_.translate_.x <= -moveLimit_.x) {
+		renderItem_->worldTransform_.data_.translate_.x -= moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_->worldTransform_.data_.translate_.x <= keepData_.translate_.x - moveLimit_.x) {
 			isTurnAround_ = false;
 		}
 	}
@@ -558,14 +552,14 @@ void Glass::MoveGlassAlternateLeftRight() {
 
 void Glass::MoveGlassAlternateUpDown() {
 	if (!isTurnAround_) {
-		renderItem_.worldTransform_.data_.translate_.y += moveSpeed_ * (1.0f / 60.0f);
-		if (renderItem_.worldTransform_.data_.translate_.y >= moveLimit_.y) {
+		renderItem_->worldTransform_.data_.translate_.y += moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_->worldTransform_.data_.translate_.y >= keepData_.translate_.y + moveLimit_.y) {
 			isTurnAround_ = true;
 		}
 	}
 	else {
-		renderItem_.worldTransform_.data_.translate_.y -= moveSpeed_ * (1.0f / 60.0f);
-		if (renderItem_.worldTransform_.data_.translate_.y <= -moveLimit_.y) {
+		renderItem_->worldTransform_.data_.translate_.y -= moveSpeed_ * (1.0f / 60.0f);
+		if (renderItem_->worldTransform_.data_.translate_.y <= keepData_.translate_.y - moveLimit_.y) {
 			isTurnAround_ = false;
 		}
 	}

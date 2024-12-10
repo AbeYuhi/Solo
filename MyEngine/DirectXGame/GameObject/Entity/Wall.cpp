@@ -6,7 +6,7 @@ Wall::~Wall(){}
 void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	MyEngine::RenderItem* renderItem,
 	Collider* collider,
-	WallInfo info){
+	WallInfo info) {
 
 	data_.model = model;
 	data_.renderItem = renderItem;
@@ -35,6 +35,35 @@ void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	else {
 		data_.moveType = DONTMOVE;
 	}
+	//移動前の最初期のデータを保存
+	keepData_ = renderItem->worldTransform_.data_;
+	//uvTransformのために6面を求める
+	Vector3 scale = { std::ceil(data_.renderItem->worldTransform_.data_.scale_.x), std::ceil(data_.renderItem->worldTransform_.data_.scale_.y), std::ceil(data_.renderItem->worldTransform_.data_.scale_.z) };
+	for (int i = 0; i < 6; i++) {
+		renderItems_[i].Initialize();
+		renderItems_[i].worldTransform_.data_ = data_.renderItem->worldTransform_.data_;
+	}
+	//手前の面
+	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
+	renderItems_[0].worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z;
+	renderItems_[0].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	//奥の面
+	renderItems_[1].worldTransform_.data_.rotate_.x += 3.14f / 2.0f;
+	renderItems_[1].worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z;
+	renderItems_[1].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	//左の面
+	renderItems_[2].worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
+	renderItems_[2].worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
+	renderItems_[2].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	//右の面
+	renderItems_[3].worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
+	renderItems_[3].worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
+	renderItems_[3].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	//下の面
+	renderItems_[4].worldTransform_.data_.rotate_.z += 3.14f;
+	renderItems_[4].worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y;
+	//上の面
+	renderItems_[5].worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y;
 }
 
 void Wall::Update(){
@@ -62,15 +91,37 @@ void Wall::Update(){
 		break;
 	}
 
-	//画面より後ろに行ったら消えるようにする処理
-	data_.renderItem->worldTransform_.UpdateWorld();
-	if (MainCamera::GetInstance()->GetWorldPos().z >= data_.renderItem->worldTransform_.worldPos_.z + 1.0f) {
-		data_.collider->isDelete_ = true;
+	//6面の移動
+	for (int i = 0; i < 6; i++) {
+		renderItems_[i].worldTransform_.data_ = data_.renderItem->worldTransform_.data_;
 	}
+	//手前の面
+	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
+	renderItems_[0].worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z;
+	renderItems_[0].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	//奥の面
+	renderItems_[1].worldTransform_.data_.rotate_.x += 3.14f / 2.0f;
+	renderItems_[1].worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z;
+	renderItems_[1].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	//左の面
+	renderItems_[2].worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
+	renderItems_[2].worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
+	renderItems_[2].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	//右の面
+	renderItems_[3].worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
+	renderItems_[3].worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
+	renderItems_[3].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	//下の面
+	renderItems_[4].worldTransform_.data_.rotate_.z += 3.14f;
+	renderItems_[4].worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y;
+	//上の面
+	renderItems_[5].worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y;
 }
 
 void Wall::Draw(){
-	data_.model->Draw(*data_.renderItem);
+	for (int i = 0; i < 6; i++) {
+		data_.model->Draw(renderItems_[i]);
+	}
 }
 
 void Wall::DontMove(){
@@ -78,21 +129,43 @@ void Wall::DontMove(){
 }
 
 void Wall::MoveAlternateLeftRight(){
-
+	if (!isTurnAround_) {
+		data_.renderItem->worldTransform_.data_.translate_.x += data_.moveSpeed * (1.0f / 60.0f);
+		if (data_.renderItem->worldTransform_.data_.translate_.x >= keepData_.translate_.x + data_.moveLimit) {
+			isTurnAround_ = true;
+		}
+	}
+	else {
+		data_.renderItem->worldTransform_.data_.translate_.x -= data_.moveSpeed * (1.0f / 60.0f);
+		if (data_.renderItem->worldTransform_.data_.translate_.x <= keepData_.translate_.x - data_.moveLimit) {
+			isTurnAround_ = false;
+		}
+	}
 }
 
 void Wall::MoveAlternateUpDown(){
-
+	if (!isTurnAround_) {
+		data_.renderItem->worldTransform_.data_.translate_.y += data_.moveSpeed * (1.0f / 60.0f);
+		if (data_.renderItem->worldTransform_.data_.translate_.y >= keepData_.translate_.y + data_.moveLimit) {
+			isTurnAround_ = true;
+		}
+	}
+	else {
+		data_.renderItem->worldTransform_.data_.translate_.y -= data_.moveSpeed * (1.0f / 60.0f);
+		if (data_.renderItem->worldTransform_.data_.translate_.y <= keepData_.translate_.y - data_.moveLimit) {
+			isTurnAround_ = false;
+		}
+	}
 }
 
 void Wall::MoveXRotate() {
-
+	data_.renderItem->worldTransform_.data_.rotate_.x += (data_.rotateSpeed * (3.14f / 180.0f)) * (1.0f / 60.0f);
 }
 
 void Wall::MoveYRotate() {
-
+	data_.renderItem->worldTransform_.data_.rotate_.y += (data_.rotateSpeed * (3.14f / 180.0f)) * (1.0f / 60.0f);
 }
 
 void Wall::MoveZRotate() {
-
+	data_.renderItem->worldTransform_.data_.rotate_.z += (data_.rotateSpeed * (3.14f / 180.0f)) * (1.0f / 60.0f);
 }

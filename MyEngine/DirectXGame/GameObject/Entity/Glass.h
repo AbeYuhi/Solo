@@ -42,8 +42,8 @@ public:
 
 	void Initialize(std::shared_ptr<MyEngine::Model> model,
 		MyEngine::RenderItem* renderItem,
-		GlassInfo info,
-		MyEngine::RenderItem* parent = nullptr);
+		Collider* collider,
+		GlassInfo info);
 
 	void Update();
 
@@ -65,8 +65,8 @@ private:
 private:
 
 	std::shared_ptr<MyEngine::Model> model_;
-	MyEngine::RenderItem renderItem_;
-	Collider mainColldier_;
+	MyEngine::RenderItem* renderItem_;
+	Collider* mainColldier_;
 	
 	MoveType type_;
 	GroundingInfo groudingInfo_;

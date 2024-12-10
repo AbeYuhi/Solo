@@ -57,12 +57,11 @@ private:
 	void MoveYRotate();
 	void MoveZRotate();
 
-
 private:
 	WallData data_;
 	float time_;
 	EulerTransformData keepData_;
-	Vector3 moveLimit_;
-	float moveSpeed_;
 	bool isTurnAround_;
+	Vector3 basePos_;
+	MyEngine::RenderItem renderItems_[6];
 };

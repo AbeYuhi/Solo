@@ -53,7 +53,7 @@ void TitleScene::Initialize() {
 	backGroundSprite_ = MyEngine::Sprite::Create();
 	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 
-	levelScene_.Initialize("titleTest.json");
+	levelScene_.Initialize("test.json");
 	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
 
 	if (preSceneNo_ == INGAME) {
@@ -90,7 +90,7 @@ void TitleScene::Update() {
 	}
 
 	if (titleCamera_->GetWorldTransrom().translate_.z >= 70) {
-		titleCamera_->SetPos({ 0.0f, 7.5f, -20.0f });
+		titleCamera_->SetPos({ 0.0f, 5.0f, -20.0f });
 	}
 
 	if (isResult_) {

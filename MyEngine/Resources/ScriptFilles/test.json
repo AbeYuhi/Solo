@@ -1,0 +1,179 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "translation": [
+                    0.0,
+                    50.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    50.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 10.0
+            }
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -100.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "camera_speed": 10.0,
+            "camera_rotation_speed": 0.0,
+            "stage_size": 300.0,
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体",
+            "transform": {
+                "translation": [
+                    10.0,
+                    50.0,
+                    -47.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ALTERNATE_UP_DOWN",
+                "wallMoveLimit": 5.0,
+                "wallMoveSpeed": 3.0,
+                "wallRotateSpeed": 90.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "ICO球",
+                    "transform": {
+                        "translation": [
+                            0.0,
+                            0.0,
+                            1.0199999809265137
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            1.0,
+                            1.0,
+                            0.019999999552965164
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        }
+    ]
+}

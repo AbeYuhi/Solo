@@ -47,13 +47,13 @@ void InGameScene::Initialize() {
 	blendMode_ = kBlendModeNormal;
 
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
-	level0->Initialize("stage0.json");
+	level0->Initialize("test.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
-	level1->Initialize("stage1.json", stageSize_);
+	/*level1->Initialize("stage1.json", stageSize_);
 	stageSize_ += level1->GetCameraData().stageSize.z;
-	levelScenes_.push_back(std::move(level1));
+	levelScenes_.push_back(std::move(level1));*/
 	nowStage_ = 0;
 
 	//インゲームカメラ
@@ -62,7 +62,7 @@ void InGameScene::Initialize() {
 	gameCamera_->transform_ = levelScenes_[0]->GetCameraData().CameraInfo;
 
 	player_.Initialize(&gameCamera_->transform_);
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 1; i++) {
 		for (auto& crystal : levelScenes_[i]->GetCrystals()) {
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
@@ -179,7 +179,6 @@ void InGameScene::Update() {
 			easingTimer_ = (std::pow(2.0f, -20.0f * cameraEasingTimer_ + 10.0f) * std::sin((20.0f * cameraEasingTimer_ - 11.125f) * c5)) / 2.0f + 1.0f;
 		}
 
-		//easingTimer_ = 1 - std::cos((cameraEasingTimer_ * M_PI) / 2);
 		cameraSpeed_.z = (1.0f - easingTimer_) * 5.0f + easingTimer_ * 30.0f;
 		postEffectManager_->SetPostEffect(kRadialBlur);
 		postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.0005f;
