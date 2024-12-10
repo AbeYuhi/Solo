@@ -47,13 +47,13 @@ void InGameScene::Initialize() {
 	blendMode_ = kBlendModeNormal;
 
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
-	level0->Initialize("test.json");
+	level0->Initialize("debug.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
-	/*level1->Initialize("stage1.json", stageSize_);
+	level1->Initialize("stage1.json", stageSize_);
 	stageSize_ += level1->GetCameraData().stageSize.z;
-	levelScenes_.push_back(std::move(level1));*/
+	levelScenes_.push_back(std::move(level1));
 	nowStage_ = 0;
 
 	//インゲームカメラ
@@ -62,7 +62,7 @@ void InGameScene::Initialize() {
 	gameCamera_->transform_ = levelScenes_[0]->GetCameraData().CameraInfo;
 
 	player_.Initialize(&gameCamera_->transform_);
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2; i++) {
 		for (auto& crystal : levelScenes_[i]->GetCrystals()) {
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());

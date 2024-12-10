@@ -1,0 +1,197 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "translation": [
+                    0.0,
+                    150.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    150.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 0.0
+            }
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "camera_speed": 10.0,
+            "camera_rotation_speed": 0.0,
+            "stage_size": 300.0,
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    210.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    1.0099999904632568,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 0.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Cube.002",
+                    "transform": {
+                        "translation": [
+                            0.0,
+                            0.0,
+                            -5.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.5,
+                            0.19801980257034302,
+                            4.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "DONTMOVE",
+                        "verticalDivisions": 5,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 1.0,
+                        "moveSpeed": 1.0
+                    }
+                }
+            ]
+        }
+    ]
+}

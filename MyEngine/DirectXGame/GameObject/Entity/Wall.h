@@ -59,9 +59,7 @@ private:
 
 private:
 	WallData data_;
-	float time_;
 	EulerTransformData keepData_;
 	bool isTurnAround_;
-	Vector3 basePos_;
 	MyEngine::RenderItem renderItems_[6];
 };

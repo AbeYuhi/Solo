@@ -535,7 +535,7 @@ void LevelScene::LevelCreate() {
 				tag = GLASS;
 			}
 
-			if (objectData.collider->type != "NONE" && objectData.collider->tag != "GLASS") {
+			if (objectData.collider->type != "NONE") {
 
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
@@ -550,34 +550,36 @@ void LevelScene::LevelCreate() {
 			}
 		}
 		
-		if (objectData.collider) {
-			if (objectData.collider->tag == "BUTTON") {
-				Door door;
-				door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-				gameObject_.doorDatas_.push_back(door);
-			}
-			else if (objectData.collider->tag == "LDOOR") {
-				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
-				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-			}
-			else if (objectData.collider->tag == "RDOOR") {
-				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
-				gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-			}
-			else if (objectData.collider->tag == "CRYSTAL") {
-				Crystal crystal;
-				crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
-				gameObject_.crystalDatas_.push_back(crystal);
-			}
-			else if (objectData.collider->tag == "GLASS") {
-				std::unique_ptr<Glass> glass = std::make_unique<Glass>();
-				glass->Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->glassInfo);
-				gameObject_.glassDatas_.push_back(std::move(glass));
-			}
-			else if (objectData.collider->tag == "WALL") {
-				Wall wall;
-				wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
-				gameObject_.wallDatas_.push_back(wall);
+		if (objectData.type == kMESH) {
+			if (objectData.collider) {
+				if (objectData.collider->tag == "BUTTON") {
+					Door door;
+					door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					gameObject_.doorDatas_.push_back(door);
+				}
+				else if (objectData.collider->tag == "LDOOR") {
+					levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
+					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+				}
+				else if (objectData.collider->tag == "RDOOR") {
+					levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
+					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+				}
+				else if (objectData.collider->tag == "CRYSTAL") {
+					Crystal crystal;
+					crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					gameObject_.crystalDatas_.push_back(crystal);
+				}
+				else if (objectData.collider->tag == "GLASS") {
+					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
+					glass->Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->glassInfo);
+					gameObject_.glassDatas_.push_back(std::move(glass));
+				}
+				else if (objectData.collider->tag == "WALL") {
+					Wall wall;
+					wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
+					gameObject_.wallDatas_.push_back(wall);
+				}
 			}
 		}
 

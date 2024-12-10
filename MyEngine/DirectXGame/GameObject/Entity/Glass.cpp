@@ -111,8 +111,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				float scaleX = 1.0f / divisionX_;
 				float scaleY = 1.0f / divisionY_;
 				item->worldTransform_.data_.translate_ = {
-					(x + 0.5f) * scaleX - 0.5f,
-					(y + 0.5f) * scaleY - 0.5f,
+					0.0f,
+					0.0f,
 					0.0f
 				};
 
@@ -216,8 +216,8 @@ void Glass::Update() {
 
 					renderItems_[y][x]->worldTransform_.data_.scale_ = { invDivX, invDivY, scaleZ };
 					renderItems_[y][x]->worldTransform_.data_.translate_ = {
-						baseX + x * invDivX,
-						baseY + y * invDivY,
+						1.0f,
+						0.0f,
 						0.0f
 					};
 				}

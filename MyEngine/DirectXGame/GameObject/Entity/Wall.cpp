@@ -47,23 +47,35 @@ void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
 	renderItems_[0].worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z;
 	renderItems_[0].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[0].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[0].materialInfo_.uvTransform_.scale_.y = scale.y;
 	//奥の面
 	renderItems_[1].worldTransform_.data_.rotate_.x += 3.14f / 2.0f;
 	renderItems_[1].worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z;
 	renderItems_[1].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[1].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[1].materialInfo_.uvTransform_.scale_.y = scale.y;
 	//左の面
 	renderItems_[2].worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
 	renderItems_[2].worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
 	renderItems_[2].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[2].materialInfo_.uvTransform_.scale_.x = scale.y;
+	renderItems_[2].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//右の面
 	renderItems_[3].worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
 	renderItems_[3].worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
 	renderItems_[3].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[3].materialInfo_.uvTransform_.scale_.x = scale.y;
+	renderItems_[3].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//下の面
 	renderItems_[4].worldTransform_.data_.rotate_.z += 3.14f;
 	renderItems_[4].worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[4].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[4].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//上の面
 	renderItems_[5].worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[5].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[5].materialInfo_.uvTransform_.scale_.y = scale.z;
 }
 
 void Wall::Update(){
@@ -91,6 +103,8 @@ void Wall::Update(){
 		break;
 	}
 
+	//スケールの計算
+	Vector3 scale = { std::ceil(data_.renderItem->worldTransform_.data_.scale_.x), std::ceil(data_.renderItem->worldTransform_.data_.scale_.y), std::ceil(data_.renderItem->worldTransform_.data_.scale_.z) };
 	//6面の移動
 	for (int i = 0; i < 6; i++) {
 		renderItems_[i].worldTransform_.data_ = data_.renderItem->worldTransform_.data_;
@@ -99,23 +113,35 @@ void Wall::Update(){
 	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
 	renderItems_[0].worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z;
 	renderItems_[0].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[0].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[0].materialInfo_.uvTransform_.scale_.y = scale.y;
 	//奥の面
 	renderItems_[1].worldTransform_.data_.rotate_.x += 3.14f / 2.0f;
 	renderItems_[1].worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z;
 	renderItems_[1].worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[1].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[1].materialInfo_.uvTransform_.scale_.y = scale.y;
 	//左の面
 	renderItems_[2].worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
 	renderItems_[2].worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
 	renderItems_[2].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[2].materialInfo_.uvTransform_.scale_.x = scale.y;
+	renderItems_[2].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//右の面
 	renderItems_[3].worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
 	renderItems_[3].worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
 	renderItems_[3].worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[3].materialInfo_.uvTransform_.scale_.x = scale.y;
+	renderItems_[3].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//下の面
 	renderItems_[4].worldTransform_.data_.rotate_.z += 3.14f;
 	renderItems_[4].worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[4].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[4].materialInfo_.uvTransform_.scale_.y = scale.z;
 	//上の面
 	renderItems_[5].worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y;
+	renderItems_[5].materialInfo_.uvTransform_.scale_.x = scale.x;
+	renderItems_[5].materialInfo_.uvTransform_.scale_.y = scale.z;
 }
 
 void Wall::Draw(){
