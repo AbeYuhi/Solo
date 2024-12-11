@@ -111,8 +111,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				float scaleX = 1.0f / divisionX_;
 				float scaleY = 1.0f / divisionY_;
 				item->worldTransform_.data_.translate_ = {
-					(x + 0.5f) * scaleX - 0.5f,
-					(y + 0.5f) * scaleY - 0.5f,
+					0.0f,
+					0.0f,
 					0.0f
 				};
 
@@ -208,18 +208,18 @@ void Glass::Update() {
 				if (renderItem_->worldTransform_.parent_) {
 					float invDivX = 1.0f / divisionX_;
 					float invDivY = 1.0f / divisionY_;
+					float scaleZ = 1.0f;
 
-					float baseX = -0.5f + 0.5f * invDivX;
-					float baseY = -0.5f + 0.5f * invDivY;
+					float baseX = -1.0f + invDivX;
+					float baseY = -1.0f + invDivY;
 
-					float scaleZ = renderItem_->worldTransform_.data_.translate_.z;
+					Vector3 translate;
+					translate.x = baseX + invDivX * x * 2.0f;
+					translate.y = baseY + invDivY * y * 2.0f;
+					translate.z = renderItem_->worldTransform_.data_.translate_.z;
 
 					renderItems_[y][x]->worldTransform_.data_.scale_ = { invDivX, invDivY, scaleZ };
-					renderItems_[y][x]->worldTransform_.data_.translate_ = {
-						baseX + x * invDivX,
-						baseY + y * invDivY,
-						0.0f
-					};
+					renderItems_[y][x]->worldTransform_.data_.translate_ = translate;
 				}
 				else {
 					renderItems_[y][x]->worldTransform_.data_.rotate_ = renderItem_->worldTransform_.data_.rotate_;
