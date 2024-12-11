@@ -60,7 +60,24 @@ void Collider::Update() {
 	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_;
 	// 合成されたスケール
 	if (objData_->parent_) {
-		combinedScale = objData_->parent_->data_.scale_ * objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
+		std::vector<Vector3> scales;
+		MyEngine::WorldTransform worldTransform;
+		worldTransform = *objData_;
+		while (true) {
+			if (worldTransform.parent_) {
+				Vector3 parentScale;
+				parentScale = worldTransform.parent_->data_.scale_;
+				scales.push_back(parentScale);
+				worldTransform = *worldTransform.parent_;
+			}
+			else {
+				break;
+			}
+		}
+		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
+		for (int i = 0; i < scales.size(); i++) {
+			combinedScale *= scales[i];
+		}
 	}
 	else {
 		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
