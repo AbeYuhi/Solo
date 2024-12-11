@@ -13,6 +13,11 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	data_.renderItem = renderItem;
 	data_.collider = collider;
 
+	data_.renderItem->materialInfo_.material_->color.x = 0.5f;
+	data_.renderItem->materialInfo_.material_->color.y = 0.5f;
+	data_.renderItem->materialInfo_.material_->color.z = 0.5f;
+	data_.renderItem->materialInfo_.material_->color.w = 0.5f;
+
 	isBreak_ = false;
 }
 
@@ -40,6 +45,10 @@ void Crystal::Update() {
 }
 
 void Crystal::Draw() {
+
+}
+
+void Crystal::DrawTransparentObject() {
 
 	if (!isBreak_) {
 		if (Length(data_.renderItem->worldTransform_.GetWorldPos() - MainCamera::GetInstance()->GetWorldPos()) <= 100.0f) {

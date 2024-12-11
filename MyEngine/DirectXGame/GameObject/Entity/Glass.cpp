@@ -490,6 +490,10 @@ void Glass::Update() {
 
 void Glass::Draw() {
 
+}
+
+void Glass::DrawTransparentObject() {
+
 	if (isBreak) {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {

@@ -49,6 +49,8 @@ public:
 
 	void Draw();
 
+	void DrawTransparentObject();
+
 	void ParticleDraw();
 
 private:

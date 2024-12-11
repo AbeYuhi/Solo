@@ -170,6 +170,9 @@ void TitleScene::Draw() {
 	else {
 		titleNameSprite_->Draw(titleNameInfo_);
 	}
-
 	levelScene_.Draw();
+
+	//半透明オブジェクトの描画
+	levelScene_.DrawTransparentObject();
+
 }

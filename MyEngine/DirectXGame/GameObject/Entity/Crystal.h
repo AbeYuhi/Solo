@@ -26,6 +26,8 @@ public:
 
 	void Draw();
 
+	void DrawTransparentObject();
+
 	inline void SetNumberofSlashAttacks(int* num) { numberofSlashAttacks_ = num; }
 	inline void SetComboDestroyCount(int* num) { comboDestroyCount_ = num; }
 	inline void SetPlayer(Player* player) { player_ = player; }

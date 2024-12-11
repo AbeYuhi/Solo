@@ -55,6 +55,7 @@ public:
 	void Update();
 
 	void Draw();
+	void DrawTransparentObject();
 	void ParticleDraw();
 
 	inline CameraData GetCameraData() const { return gameObject_.cameraData_; }

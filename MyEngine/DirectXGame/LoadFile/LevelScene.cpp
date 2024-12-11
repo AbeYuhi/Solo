@@ -50,14 +50,18 @@ void LevelScene::Draw() {
 	for (auto& wallDatas : gameObject_.wallDatas_) {
 		wallDatas.Draw();
 	}
-	for (auto& crystalData : gameObject_.crystalDatas_) {
-		crystalData.Draw();
-	}
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
 	}
+}
+
+void LevelScene::DrawTransparentObject() {
+
+	for (auto& crystalData : gameObject_.crystalDatas_) {
+		crystalData.DrawTransparentObject();
+	}
 	for (auto& glassData : gameObject_.glassDatas_) {
-		glassData->Draw();
+		glassData->DrawTransparentObject();
 	}
 }
 

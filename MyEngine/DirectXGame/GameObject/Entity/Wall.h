@@ -45,6 +45,8 @@ public:
 
 	void Draw();
 
+	void DrawTransparentObject();
+
 private:
 
 	void DontMove();
