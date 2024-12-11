@@ -194,6 +194,9 @@ namespace MyEngine {
 		case kRadialBlur:
 			directX->GetCommandList()->SetGraphicsRootConstantBufferView(1, radialBlurInfoResource_->GetGPUVirtualAddress());
 			break;
+		case kDepthFade:
+
+			break;
 		default:
 			break;
 		}
@@ -269,6 +272,68 @@ namespace MyEngine {
 				staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
 				staticSamplers[0].ShaderRegister = 0;
 				staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+				descriptionRootSignature.pStaticSamplers = staticSamplers;
+				descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
+
+				//シリアライズしてバイナリする
+				LRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob[shaderPack], &errorBlob[shaderPack]);
+				if (FAILED(hr)) {
+					Log(reinterpret_cast<char*>(errorBlob[shaderPack]->GetBufferPointer()));
+					assert(false);
+				}
+				//バイナリをもとに生成
+				hr = directXCommon->GetDevice()->CreateRootSignature(0, signatureBlob[shaderPack]->GetBufferPointer(), signatureBlob[shaderPack]->GetBufferSize(), IID_PPV_ARGS(&rootSignature_[shaderPack]));
+				assert(SUCCEEDED(hr));
+				break;
+			}
+			case kDepthFade:
+			{
+				//DescriptorRangeの設定
+				D3D12_DESCRIPTOR_RANGE descriptorRange[2] = {};
+				descriptorRange[0].BaseShaderRegister = 0;
+				descriptorRange[0].NumDescriptors = 1;
+				descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+				descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+				descriptorRange[1].BaseShaderRegister = 1;
+				descriptorRange[1].NumDescriptors = 1;
+				descriptorRange[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+				descriptorRange[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+				//RootSignature生成
+				D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+				descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+				//RootParameter作成。
+				D3D12_ROOT_PARAMETER rootParameters[2] = {};
+				rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+				rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+				rootParameters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0];
+				rootParameters[0].DescriptorTable.NumDescriptorRanges = descriptorRange[0].NumDescriptors;
+				rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+				rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+				rootParameters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1];
+				rootParameters[1].DescriptorTable.NumDescriptorRanges = descriptorRange[1].NumDescriptors;
+				descriptionRootSignature.pParameters = rootParameters;
+				descriptionRootSignature.NumParameters = _countof(rootParameters);
+
+				//Sampler
+				D3D12_STATIC_SAMPLER_DESC staticSamplers[2] = {};
+				staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+				staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+				staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+				staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+				staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+				staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
+				staticSamplers[0].ShaderRegister = 0;
+				staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+				staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+				staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+				staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+				staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+				staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+				staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX;
+				staticSamplers[1].ShaderRegister = 1;
+				staticSamplers[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 				descriptionRootSignature.pStaticSamplers = staticSamplers;
 				descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
@@ -481,6 +546,14 @@ namespace MyEngine {
 				assert(vertexShaderBlob[shaderPack] != nullptr);
 				//ピクセルシェーダー
 				pixelShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/RadialBlur.PS.hlsl", L"ps_6_0");
+				assert(pixelShaderBlob[shaderPack] != nullptr);
+				break;
+			case PostEffect::kDepthFade:
+				//頂点シェーダー
+				vertexShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/FullScreen.VS.hlsl", L"vs_6_0");
+				assert(vertexShaderBlob[shaderPack] != nullptr);
+				//ピクセルシェーダー
+				pixelShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/DepthFade.PS.hlsl", L"ps_6_0");
 				assert(pixelShaderBlob[shaderPack] != nullptr);
 				break;
 			}

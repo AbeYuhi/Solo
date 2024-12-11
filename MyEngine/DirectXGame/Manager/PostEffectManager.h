@@ -24,6 +24,7 @@ enum PostEffect {
 	kVignetteBlur,
 	kSmoothing,
 	kRadialBlur,
+	kDepthFade,
 	kCountOfPostEffect
 };
 

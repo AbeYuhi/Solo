@@ -821,5 +821,8 @@
     <FxCompile Include="Resources\Shaders\PostEffect\RadialBlur.PS.hlsl">
       <Filter>Shader\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffect\DepthFade.PS.hlsl">
+      <Filter>Shader\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
