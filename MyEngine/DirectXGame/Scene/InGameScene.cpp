@@ -361,6 +361,7 @@ void InGameScene::Draw() {
 	for (int index = 0; index < levelScenes_.size(); index++) {
 		levelScenes_[index]->DrawTransparentObject();
 	}
+	///半透明オブジェクトの描画終了
 
 	///パーティクルの描画
 

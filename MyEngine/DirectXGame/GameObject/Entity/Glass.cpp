@@ -93,28 +93,25 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			std::unique_ptr<MyEngine::RenderItem> item = std::make_unique<MyEngine::RenderItem>();
 			item->Initialize();
 			if (renderItem_->worldTransform_.parent_) {
-				// スケールの設定
-				item->worldTransform_.data_.scale_ = {
-					1.0f / divisionX_,
-					1.0f / divisionY_,
-					renderItem_->worldTransform_.data_.translate_.z
-				};
+				float invDivX = 1.0f / divisionX_;
+				float invDivY = 1.0f / divisionY_;
+				float scaleZ = 1.0f;
 
-				// 回転の引き継ぎ
-				item->worldTransform_.data_.rotate_ = renderItem_->worldTransform_.data_.rotate_;
+				float baseX = -1.0f + invDivX;
+				float baseY = -1.0f + invDivY;
 
-				// マテリアルの設定
-				item->materialInfo_.material_->color = { 0.5f, 0.5f, 0.5f, 0.5f };
+				Vector3 translate;
+				translate.x = baseX + invDivX * x * 2.0f;
+				translate.y = baseY + invDivY * y * 2.0f;
+				translate.z = renderItem_->worldTransform_.data_.translate_.z;
+
+				item->worldTransform_.data_.scale_ = { invDivX, invDivY, scaleZ };
+				item->worldTransform_.data_.translate_ = translate;
+				item->materialInfo_.material_->color.w = 0.5f;
+				item->materialInfo_.material_->color.x = 0.5f;
+				item->materialInfo_.material_->color.y = 0.5f;
+				item->materialInfo_.material_->color.z = 0.5f;
 				item->materialInfo_.material_->enableLightint = 1;
-
-				// ローカル位置を計算
-				float scaleX = 1.0f / divisionX_;
-				float scaleY = 1.0f / divisionY_;
-				item->worldTransform_.data_.translate_ = {
-					0.0f,
-					0.0f,
-					0.0f
-				};
 
 				// 親トランスフォームの設定
 				item->worldTransform_.parent_ = &renderItem_->worldTransform_;
