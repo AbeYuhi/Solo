@@ -425,6 +425,13 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 					colliderData.size.z = colliderData.radius * 2.0f;
 				}
 
+				if (colliderData.tag == "WALL") {
+					colliderData.wallInfo.moveType = collider["wallMoveTypes"];
+					colliderData.wallInfo.moveLimit = collider["wallMoveLimit"];
+					colliderData.wallInfo.moveSpeed = collider["wallMoveSpeed"];
+					colliderData.wallInfo.rotateSpeed = collider["wallRotateSpeed"];
+				}
+
 				if (colliderData.tag == "GLASS") {
 					colliderData.glassInfo.groundingInfosUp = collider["groundingInfos_up"];
 					colliderData.glassInfo.groundingInfosDown = collider["groundingInfos_down"];
@@ -446,7 +453,7 @@ void LevelScene::ScanChildData(LevelData* levelData, json& childrens, int32_t pa
 			}
 
 			if (object.contains("children")) {
-				ScanChildData(levelData, object["children"], static_cast<int32_t>(levelData_->objects.size()) - 1);
+				ScanChildData(levelData, object, static_cast<int32_t>(levelData_->objects.size()) - 1);
 			}
 		}
 	}

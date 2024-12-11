@@ -41,7 +41,7 @@ void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	Vector3 scale = { std::ceil(data_.renderItem->worldTransform_.data_.scale_.x), std::ceil(data_.renderItem->worldTransform_.data_.scale_.y), std::ceil(data_.renderItem->worldTransform_.data_.scale_.z) };
 	for (int i = 0; i < 6; i++) {
 		renderItems_[i].Initialize();
-		renderItems_[i].worldTransform_.data_ = data_.renderItem->worldTransform_.data_;
+		renderItems_[i].worldTransform_.data_ = *data_.renderItem->worldTransform_.GetPWorldEulerTransformData();
 	}
 	//手前の面
 	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
@@ -105,9 +105,11 @@ void Wall::Update(){
 
 	//スケールの計算
 	Vector3 scale = { std::ceil(data_.renderItem->worldTransform_.data_.scale_.x), std::ceil(data_.renderItem->worldTransform_.data_.scale_.y), std::ceil(data_.renderItem->worldTransform_.data_.scale_.z) };
+	//ワールド情報の更新
+	data_.renderItem->worldTransform_.UpdateWorld();
 	//6面の移動
 	for (int i = 0; i < 6; i++) {
-		renderItems_[i].worldTransform_.data_ = data_.renderItem->worldTransform_.data_;
+		renderItems_[i].worldTransform_.data_ = *data_.renderItem->worldTransform_.GetPWorldEulerTransformData();
 	}
 	//手前の面
 	renderItems_[0].worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
