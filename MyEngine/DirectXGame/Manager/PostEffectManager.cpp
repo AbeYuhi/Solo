@@ -13,6 +13,7 @@ namespace MyEngine {
 	}
 
 	void PostEffectManager::Initialize() {
+		DirectXCommon* directX = DirectXCommon::GetInstance();
 
 		postEffect_ = kNone;
 
@@ -50,6 +51,41 @@ namespace MyEngine {
 		vignetteBlurInfoResource_->Map(0, nullptr, reinterpret_cast<void**>(&vignetteBlurInfo_));
 		vignetteBlurInfo_->intensity = 0.5f;
 		vignetteBlurInfo_->blurAmount = 0.5f;
+
+		//Fog
+		//Resourceの設定
+		D3D12_RESOURCE_DESC depthTextureDesc{};
+		depthTextureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+		depthTextureDesc.Width = WinApp::GetInstance()->kWindowWidth;
+		depthTextureDesc.Height = WinApp::GetInstance()->kWindowHeight;
+		depthTextureDesc.MipLevels = 1;
+		depthTextureDesc.Format = DXGI_FORMAT_D32_FLOAT;
+		depthTextureDesc.SampleDesc.Count = 1;
+		depthTextureDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+		//利用するHeapの設定
+		D3D12_HEAP_PROPERTIES heapProperties{};
+		heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+		[[maybe_unused]] HRESULT hr = directX->GetDevice()->CreateCommittedResource(
+			&heapProperties,
+			D3D12_HEAP_FLAG_NONE,
+			&depthTextureDesc,
+			D3D12_RESOURCE_STATE_COPY_DEST,
+			nullptr,
+			IID_PPV_ARGS(&depthTextureResource_));
+		assert(SUCCEEDED(hr));
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+
+		//uint32_t srvIndex = SrvManager::GetInstance()->Allocate();
+		//depthTextureSrvHandleCPU_ = SrvManager::GetInstance()->GetCPUDescriptorHandle(srvIndex);
+		//depthTextureSrvHandleGPU_ = SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex);
+		//SRVの生成
+		//directX->GetDevice()->CreateShaderResourceView(depthTextureResource_.Get(), &srvDesc, depthTextureSrvHandleCPU_);
 
 	}
 
@@ -194,8 +230,8 @@ namespace MyEngine {
 		case kRadialBlur:
 			directX->GetCommandList()->SetGraphicsRootConstantBufferView(1, radialBlurInfoResource_->GetGPUVirtualAddress());
 			break;
-		case kDepthFade:
-
+		case kFog:
+			directX->GetCommandList()->SetGraphicsRootDescriptorTable(1, depthTextureSrvHandleGPU_);
 			break;
 		default:
 			break;
@@ -286,56 +322,56 @@ namespace MyEngine {
 				assert(SUCCEEDED(hr));
 				break;
 			}
-			case kDepthFade:
+			case kFog:
 			{
-				//DescriptorRangeの設定
-				D3D12_DESCRIPTOR_RANGE descriptorRange[2] = {};
-				descriptorRange[0].BaseShaderRegister = 0;
-				descriptorRange[0].NumDescriptors = 1;
-				descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-				descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-				descriptorRange[1].BaseShaderRegister = 1;
-				descriptorRange[1].NumDescriptors = 1;
-				descriptorRange[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-				descriptorRange[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+					//DescriptorRangeの設定
+					D3D12_DESCRIPTOR_RANGE descriptorRange[2] = {};
+					descriptorRange[0].BaseShaderRegister = 0;
+					descriptorRange[0].NumDescriptors = 1;
+					descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+					descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+					descriptorRange[1].BaseShaderRegister = 1;
+					descriptorRange[1].NumDescriptors = 1;
+					descriptorRange[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+					descriptorRange[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-				//RootSignature生成
-				D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
-				descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+					//RootSignature生成
+					D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+					descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-				//RootParameter作成。
-				D3D12_ROOT_PARAMETER rootParameters[2] = {};
-				rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-				rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-				rootParameters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0];
-				rootParameters[0].DescriptorTable.NumDescriptorRanges = descriptorRange[0].NumDescriptors;
-				rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-				rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-				rootParameters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1];
-				rootParameters[1].DescriptorTable.NumDescriptorRanges = descriptorRange[1].NumDescriptors;
-				descriptionRootSignature.pParameters = rootParameters;
-				descriptionRootSignature.NumParameters = _countof(rootParameters);
+					//RootParameter作成。
+					D3D12_ROOT_PARAMETER rootParameters[2] = {};
+					rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+					rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+					rootParameters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0];
+					rootParameters[0].DescriptorTable.NumDescriptorRanges = descriptorRange[0].NumDescriptors;
+					rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+					rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+					rootParameters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1];
+					rootParameters[1].DescriptorTable.NumDescriptorRanges = descriptorRange[1].NumDescriptors;
+					descriptionRootSignature.pParameters = rootParameters;
+					descriptionRootSignature.NumParameters = _countof(rootParameters);
 
-				//Sampler
-				D3D12_STATIC_SAMPLER_DESC staticSamplers[2] = {};
-				staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-				staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-				staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-				staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-				staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-				staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
-				staticSamplers[0].ShaderRegister = 0;
-				staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-				staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-				staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-				staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-				staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-				staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-				staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX;
-				staticSamplers[1].ShaderRegister = 1;
-				staticSamplers[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-				descriptionRootSignature.pStaticSamplers = staticSamplers;
-				descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
+					//Sampler
+					D3D12_STATIC_SAMPLER_DESC staticSamplers[2] = {};
+					staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+					staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+					staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+					staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+					staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+					staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
+					staticSamplers[0].ShaderRegister = 0;
+					staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+					staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
+					staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+					staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+					staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+					staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+					staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX;
+					staticSamplers[1].ShaderRegister = 1;
+					staticSamplers[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+					descriptionRootSignature.pStaticSamplers = staticSamplers;
+					descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
 				//シリアライズしてバイナリする
 				LRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob[shaderPack], &errorBlob[shaderPack]);
@@ -548,12 +584,12 @@ namespace MyEngine {
 				pixelShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/RadialBlur.PS.hlsl", L"ps_6_0");
 				assert(pixelShaderBlob[shaderPack] != nullptr);
 				break;
-			case PostEffect::kDepthFade:
+			case PostEffect::kFog:
 				//頂点シェーダー
 				vertexShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/FullScreen.VS.hlsl", L"vs_6_0");
 				assert(vertexShaderBlob[shaderPack] != nullptr);
 				//ピクセルシェーダー
-				pixelShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/DepthFade.PS.hlsl", L"ps_6_0");
+				pixelShaderBlob[shaderPack] = directXCommon->CompilerShader(L"Resources/Shaders/PostEffect/Fog.PS.hlsl", L"ps_6_0");
 				assert(pixelShaderBlob[shaderPack] != nullptr);
 				break;
 			}

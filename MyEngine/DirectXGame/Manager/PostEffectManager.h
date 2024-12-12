@@ -24,7 +24,7 @@ enum PostEffect {
 	kVignetteBlur,
 	kSmoothing,
 	kRadialBlur,
-	kDepthFade,
+	kFog,
 	kCountOfPostEffect
 };
 
@@ -98,6 +98,10 @@ namespace MyEngine {
 		//VignetteBlur
 		ComPtr<ID3D12Resource> vignetteBlurInfoResource_ = nullptr;
 		VignetteBlurInfo* vignetteBlurInfo_;
+
+		D3D12_CPU_DESCRIPTOR_HANDLE depthTextureSrvHandleCPU_;
+		D3D12_GPU_DESCRIPTOR_HANDLE depthTextureSrvHandleGPU_;
+		ComPtr<ID3D12Resource> depthTextureResource_;
 	};
 
 }

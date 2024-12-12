@@ -1,5 +1,10 @@
 #include "Wall.h"
 
+/// <summary>
+/// Walls.h
+/// 壁に関するクラス関数の実装ファイル
+/// </summary>
+
 Wall::Wall(){}
 Wall::~Wall(){}
 
@@ -8,12 +13,14 @@ void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	Collider* collider,
 	WallInfo info) {
 
+	//アドレスを保存
 	data_.model = model;
 	data_.renderItem = renderItem;
 	data_.collider = collider;
 	data_.moveLimit = info.moveLimit;
 	data_.moveSpeed = info.moveSpeed;
 	data_.rotateSpeed = info.rotateSpeed;
+	//MoveTypeをEnumに変換
 	if (info.moveType == "DONTMOVE") {
 		data_.moveType = DONTMOVE;
 	}

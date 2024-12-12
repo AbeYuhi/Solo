@@ -118,22 +118,49 @@ namespace MyEngine {
 		DirectXCommon() = default;
 		~DirectXCommon() = default;
 
+		/// <summary>
+		/// DXGIの初期化
+		/// </summary>
 		void InitializeDxgiDevice();
 
+		/// <summary>
+		/// コマンドの初期化
+		/// </summary>
 		void InitializeCommand();
 
+		/// <summary>
+		/// スワップチェインの初期化
+		/// </summary>
 		void InitializeSwapChain();
 
+		/// <summary>
+		/// RenderTargetViewの作成関数
+		/// </summary>
 		void CreateRenderTargetView();
 
+		/// <summary>
+		/// ShaderResourceViewの作成関数
+		/// </summary>
 		void CreateShaderResourceView();
 
+		/// <summary>
+		/// 深度情報の作成関数
+		/// </summary>
 		void CreateDepthStencilView();
 
+		/// <summary>
+		/// フェンス機能の作製
+		/// </summary>
 		void CreateFence();
 
+		/// <summary>
+		/// DXCの初期化
+		/// </summary>
 		void InitializeDXC();
 
+		/// <summary>
+		/// FPS計算機能の初期化
+		/// </summary>
 		void InitializeFixFPS();
 
 	private: //メンバ変数

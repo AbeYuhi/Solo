@@ -208,6 +208,8 @@ void InGameScene::Update() {
 		}
 	}
 
+	postEffectManager_->SetPostEffect(kFog);
+
 	//カメラを移動
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
