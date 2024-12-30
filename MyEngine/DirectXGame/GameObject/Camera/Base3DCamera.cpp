@@ -21,7 +21,7 @@ void Base3DCamera::Initialize() {
 
 	//カメラが切り取る範囲
 	nearClip_ = 0.1f;
-	farClip_ = 100.0f;
+	farClip_ = 1000.0f;
 	fovY_ = 0.45f;
 }
 

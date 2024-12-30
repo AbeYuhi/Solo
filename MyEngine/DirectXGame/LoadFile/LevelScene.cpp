@@ -25,7 +25,7 @@ void LevelScene::Update() {
 	ImGui::Begin("levelObjInfo");
 	ImGui::BeginTabBar("levelObjInfo");
 	for (auto& levelObject : gameObject_.objDatas_) {
-		MyEngine::ImGuiManager::GetInstance()->RenderItemDebug(levelObject->objName + "info", levelObject->renderItem);
+		MyEngine::ImGuiManager::GetInstance()->RenderItemDebug(levelObject->objName + "info", *levelObject->info.renderItem);
 	}
 	ImGui::EndTabBar();
 	ImGui::End();
@@ -53,21 +53,11 @@ void LevelScene::Draw() {
 	for (auto& doorData : gameObject_.doorDatas_) {
 		doorData.Draw();
 	}
-}
-
-void LevelScene::DrawTransparentObject() {
-
 	for (auto& crystalData : gameObject_.crystalDatas_) {
-		crystalData.DrawTransparentObject();
+		crystalData.Draw();
 	}
 	for (auto& glassData : gameObject_.glassDatas_) {
-		glassData->DrawTransparentObject();
-	}
-}
-
-void LevelScene::ParticleDraw() {
-	for (auto& glassData : gameObject_.glassDatas_) {
-		glassData->ParticleDraw();
+		glassData->Draw();
 	}
 }
 
@@ -470,44 +460,46 @@ void LevelScene::LevelCreate() {
 		std::unique_ptr<ObjData> levelObject = std::make_unique<ObjData>();
 		if (objectData.type == kMESH) {
 
-			levelObject->renderItem.Initialize();
+			levelObject->info.renderItem = std::make_shared<MyEngine::RenderItem>();
+			levelObject->info.renderItem->Initialize();
 			if (objectData.parent) {
-				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+				levelObject->info.renderItem->worldTransform_.data_.translate_ = objectData.translation;
 			}
 			else {
-				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+				levelObject->info.renderItem->worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			}
-			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
-			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
-			levelObject->renderItem.materialInfo_.material_->enableLightint = 1;
-			levelObject->model = MyEngine::Model::Create(objectData.fileName);
+			levelObject->info.renderItem->worldTransform_.data_.rotate_ = objectData.rotation;
+			levelObject->info.renderItem->worldTransform_.data_.scale_ = objectData.scaling;
+			levelObject->info.renderItem->materialInfo_.material_->enableLightint = 1;
+			levelObject->info.model = MyEngine::Model::Create(objectData.fileName);
 			levelObject->objName = objectData.objName;
 			levelObject->type = kMESH;
-			levelObject->renderItem.Update();
+			levelObject->info.renderItem->Update();
 
 			if (objectData.drawCheck) {
-				levelObject->renderItem.materialInfo_.isInvisible_ = false;
+				levelObject->info.renderItem->materialInfo_.isInvisible_ = false;
 			}
 			else {
-				levelObject->renderItem.materialInfo_.isInvisible_ = true;
+				levelObject->info.renderItem->materialInfo_.isInvisible_ = true;
 			}
 
 			if (objectData.parent) {
-				levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
+				levelObject->info.renderItem->worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->info.renderItem->worldTransform_;
 			}
 		}
 		else if (objectData.type == kCamera) {
-			levelObject->renderItem.Initialize();
+			levelObject->info.renderItem = std::make_shared<MyEngine::RenderItem>();
+			levelObject->info.renderItem->Initialize();
 			if (objectData.parent) {
-				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation;
+				levelObject->info.renderItem->worldTransform_.data_.translate_ = objectData.translation;
 			}
 			else {
-				levelObject->renderItem.worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
+				levelObject->info.renderItem->worldTransform_.data_.translate_ = objectData.translation + levelSceneData_.translate_;
 			}
-			levelObject->renderItem.worldTransform_.data_.rotate_ = objectData.rotation;
-			levelObject->renderItem.worldTransform_.data_.scale_ = objectData.scaling;
+			levelObject->info.renderItem->worldTransform_.data_.rotate_ = objectData.rotation;
+			levelObject->info.renderItem->worldTransform_.data_.scale_ = objectData.scaling;
 			auto &data = objectData.cameraData.value();
-			gameObject_.cameraData_ = { .CameraInfo = levelObject->renderItem.worldTransform_.data_, .cameraSpeed = data.cameraSpeed, .cameraRotateSpeed = {data.cameraRotateSpeed.x, data.cameraRotateSpeed.z, data.cameraRotateSpeed.y}, .stageSize = data.stageSize };
+			gameObject_.cameraData_ = { .CameraInfo = levelObject->info.renderItem->worldTransform_.data_, .cameraSpeed = data.cameraSpeed, .cameraRotateSpeed = {data.cameraRotateSpeed.x, data.cameraRotateSpeed.z, data.cameraRotateSpeed.y}, .stageSize = data.stageSize };
 			levelObject->type = kCamera;
 		}
 
@@ -550,7 +542,7 @@ void LevelScene::LevelCreate() {
 
 				if (objectData.type != kCamera) {
 					levelObject->collider.Initialize(
-						&levelObject->renderItem.worldTransform_,
+						&levelObject->info.renderItem->worldTransform_,
 						{ .scale_ = objectData.collider->size, .rotate_ = objectData.collider->rotate, .translate_ = objectData.collider->centerPos },
 						tag,
 						type,
@@ -565,30 +557,30 @@ void LevelScene::LevelCreate() {
 			if (objectData.collider) {
 				if (objectData.collider->tag == "BUTTON") {
 					Door door;
-					door.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					door.Initialize(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider);
 					gameObject_.doorDatas_.push_back(door);
 				}
 				else if (objectData.collider->tag == "LDOOR") {
-					levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
-					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					levelObject->info.renderItem->worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->info.renderItem->worldTransform_;
+					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetLeftDoor(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider);
 				}
 				else if (objectData.collider->tag == "RDOOR") {
-					levelObject->renderItem.worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->renderItem.worldTransform_;
-					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					levelObject->info.renderItem->worldTransform_.parent_ = &gameObject_.objDatas_[*objectData.parent]->info.renderItem->worldTransform_;
+					gameObject_.doorDatas_[gameObject_.doorDatas_.size() - 1].SetRightDoor(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider);
 				}
 				else if (objectData.collider->tag == "CRYSTAL") {
 					Crystal crystal;
-					crystal.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider);
+					crystal.Initialize(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider);
 					gameObject_.crystalDatas_.push_back(crystal);
 				}
 				else if (objectData.collider->tag == "GLASS") {
 					std::unique_ptr<Glass> glass = std::make_unique<Glass>();
-					glass->Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->glassInfo);
+					glass->Initialize(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider, objectData.collider->glassInfo);
 					gameObject_.glassDatas_.push_back(std::move(glass));
 				}
 				else if (objectData.collider->tag == "WALL") {
 					Wall wall;
-					wall.Initialize(levelObject->model, &levelObject->renderItem, &levelObject->collider, objectData.collider->wallInfo);
+					wall.Initialize(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider, objectData.collider->wallInfo);
 					gameObject_.wallDatas_.push_back(wall);
 				}
 			}

@@ -3,12 +3,12 @@
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
 #include "Math/Vector4.h"
 
-namespace MyEngine {
+/// <summary>
+/// CreateResource.h
+/// DirectX12の処理に必要なメモリを確保しているファイル
+/// </summary>
 
-	/// <summary>
-	/// CreateResource.h
-	/// DirectX12の処理に必要なメモリを確保しているファイル
-	/// </summary>
+namespace MyEngine {
 
 	/// <summary>
 	/// 頂点のメモリ確保

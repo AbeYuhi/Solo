@@ -94,6 +94,8 @@ namespace MyEngine {
 
 		inline ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 
+		inline ID3D12Resource* GetDsvResource() { return depthStencilResource_.Get(); }
+
 		inline D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc() { return rtvDesc_; }
 
 		inline D3D12_DEPTH_STENCIL_VIEW_DESC GetDsvDesc() { return dsvDesc_; }

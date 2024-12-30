@@ -4,6 +4,7 @@
 #include "Manager/InputManager.h"
 #include "Manager/CollisionManager.h"
 #include "Manager/TextureManager.h"
+#include "Manager/DrawManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 #include "Data/Collider.h"
@@ -26,14 +27,11 @@ public:
 
 	void Draw();
 
-	void ParticleDraw();
-
 	inline float GetLifeTime() { return lifeTime_; }
 
 private:
 	MyEngine::InputManager* input_;
-	std::shared_ptr<MyEngine::Model> model_;
-	MyEngine::RenderItem renderItem_;
+	ModelDrawInfo info_;
 	Collider collider_;
 
 	float lifeTime_;

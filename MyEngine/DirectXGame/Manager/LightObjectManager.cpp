@@ -1,5 +1,10 @@
 #include "LightObjectManager.h"
 
+/// <summary>
+/// LightObjectManager.cpp
+/// 光源情報に関するクラス関数の実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	LightObjectManager* LightObjectManager::GetInstance() {

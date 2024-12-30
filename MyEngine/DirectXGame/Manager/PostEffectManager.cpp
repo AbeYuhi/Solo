@@ -53,40 +53,23 @@ namespace MyEngine {
 		vignetteBlurInfo_->blurAmount = 0.5f;
 
 		//Fog
-		//Resourceの設定
-		D3D12_RESOURCE_DESC depthTextureDesc{};
-		depthTextureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-		depthTextureDesc.Width = WinApp::GetInstance()->kWindowWidth;
-		depthTextureDesc.Height = WinApp::GetInstance()->kWindowHeight;
-		depthTextureDesc.MipLevels = 1;
-		depthTextureDesc.Format = DXGI_FORMAT_D32_FLOAT;
-		depthTextureDesc.SampleDesc.Count = 1;
-		depthTextureDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-
-		//利用するHeapの設定
-		D3D12_HEAP_PROPERTIES heapProperties{};
-		heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
-		[[maybe_unused]] HRESULT hr = directX->GetDevice()->CreateCommittedResource(
-			&heapProperties,
-			D3D12_HEAP_FLAG_NONE,
-			&depthTextureDesc,
-			D3D12_RESOURCE_STATE_COPY_DEST,
-			nullptr,
-			IID_PPV_ARGS(&depthTextureResource_));
-		assert(SUCCEEDED(hr));
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-
-		//uint32_t srvIndex = SrvManager::GetInstance()->Allocate();
-		//depthTextureSrvHandleCPU_ = SrvManager::GetInstance()->GetCPUDescriptorHandle(srvIndex);
-		//depthTextureSrvHandleGPU_ = SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex);
-		//SRVの生成
-		//directX->GetDevice()->CreateShaderResourceView(depthTextureResource_.Get(), &srvDesc, depthTextureSrvHandleCPU_);
-
+		//リソースの確保
+		depthTextureResource_ = directX->GetDsvResource();
+		//Srvの作成
+		depthSrvIndex_ = SrvManager::GetInstance()->Allocate();
+		D3D12_SHADER_RESOURCE_VIEW_DESC depthTextureSrvDesc{};
+		depthTextureSrvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+		depthTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		depthTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		depthTextureSrvDesc.Texture2D.MipLevels = 1;
+		D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SrvManager::GetInstance()->GetCPUDescriptorHandle(depthSrvIndex_);
+		directX->GetDevice()->CreateShaderResourceView(depthTextureResource_, &depthTextureSrvDesc, handleCPU);
+		//Viewを送るためのリソースの生成
+		//Resourceの生成
+		inverseProjectionResorce_ = MyEngine::CreateBufferResource(sizeof(Matrix4x4));
+		//Resourceにデータを書き込む
+		inverseProjectionResorce_->Map(0, nullptr, reinterpret_cast<void**>(&inverseProjectionData_));
+		*inverseProjectionData_ = MakeIdentity4x4();
 	}
 
 	void PostEffectManager::PreDraw() {
@@ -102,9 +85,15 @@ namespace MyEngine {
 	}
 
 	void PostEffectManager::PostDraw() {
+		//通常物の描画
+		DrawManager::GetInstance()->Draw();
+
 		if (postEffect_ != PostEffect::kNone) {
 			RenderPostDraw();
 		}
+
+		//UIの描画
+		DrawManager::GetInstance()->ForegroundSpritesDraw();
 	}
 
 	void PostEffectManager::NormalPreDraw() {
@@ -128,6 +117,19 @@ namespace MyEngine {
 		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 		//TransitionBarrierを張る
 		directX->GetCommandList()->ResourceBarrier(1, &barrier);
+
+		//DSVのBarrierの設定
+		D3D12_RESOURCE_BARRIER dsvBarrier{};
+		//今回のバリアの種類
+		dsvBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		dsvBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		dsvBarrier.Transition.pResource = depthTextureResource_;
+		//遷移前のResourceState
+		dsvBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		//遷移後のResoruceState
+		dsvBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+		//TransitionBarrierを張る
+		directX->GetCommandList()->ResourceBarrier(1, &dsvBarrier);
 
 		//RTVの設定
 		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = directX->GetDsvHandle();
@@ -159,6 +161,19 @@ namespace MyEngine {
 		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 		//TransitionBarrierを張る
 		directX->GetCommandList()->ResourceBarrier(1, &barrier);
+
+		//DSVのBarrierの設定
+		D3D12_RESOURCE_BARRIER dsvBarrier{};
+		//今回のバリアの種類
+		dsvBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		dsvBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		dsvBarrier.Transition.pResource = depthTextureResource_;
+		//遷移前のResourceState
+		dsvBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		//遷移後のResoruceState
+		dsvBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+		//TransitionBarrierを張る
+		directX->GetCommandList()->ResourceBarrier(1, &dsvBarrier);
 
 		//RTVの設定
 		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = directX->GetDsvHandle();
@@ -193,6 +208,19 @@ namespace MyEngine {
 		//スワップチェインに表示するためセット
 		NormalPreDraw();
 
+		//DSVのBarrierの設定
+		D3D12_RESOURCE_BARRIER dsvBarrier{};
+		//今回のバリアの種類
+		dsvBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		dsvBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		dsvBarrier.Transition.pResource = depthTextureResource_;
+		//遷移前のResourceState
+		dsvBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+		//遷移後のResoruceState
+		dsvBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		//TransitionBarrierを張る
+		directX->GetCommandList()->ResourceBarrier(1, &dsvBarrier);
+
 		//描画処理の記入
 		GraphicsPipelineManager* psoManager = GraphicsPipelineManager::GetInstance();
 		//ViewPortの設定
@@ -203,6 +231,11 @@ namespace MyEngine {
 		directX->GetCommandList()->SetPipelineState(graphicsPipelineState_[postEffect_]->Get());
 		directX->GetCommandList()->SetGraphicsRootSignature(rootSignature_[postEffect_].Get());
 		directX->GetCommandList()->SetGraphicsRootDescriptorTable(0, SrvManager::GetInstance()->GetGPUDescriptorHandle(srvIndex_));
+
+		//カメラの情報を取得
+		*inverseProjectionData_ = MainCamera::GetInstance()->GetProjectionMatrix();
+		*inverseProjectionData_ = Inverse(*inverseProjectionData_);
+		
 		//CBufferで送る場合
 		switch (postEffect_)
 		{
@@ -231,7 +264,8 @@ namespace MyEngine {
 			directX->GetCommandList()->SetGraphicsRootConstantBufferView(1, radialBlurInfoResource_->GetGPUVirtualAddress());
 			break;
 		case kFog:
-			directX->GetCommandList()->SetGraphicsRootDescriptorTable(1, depthTextureSrvHandleGPU_);
+			directX->GetCommandList()->SetGraphicsRootDescriptorTable(1, SrvManager::GetInstance()->GetGPUDescriptorHandle(depthSrvIndex_));
+			directX->GetCommandList()->SetGraphicsRootConstantBufferView(2, inverseProjectionResorce_->GetGPUVirtualAddress());
 			break;
 		default:
 			break;
@@ -340,7 +374,7 @@ namespace MyEngine {
 					descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 					//RootParameter作成。
-					D3D12_ROOT_PARAMETER rootParameters[2] = {};
+					D3D12_ROOT_PARAMETER rootParameters[3] = {};
 					rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 					rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 					rootParameters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0];
@@ -349,6 +383,9 @@ namespace MyEngine {
 					rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 					rootParameters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1];
 					rootParameters[1].DescriptorTable.NumDescriptorRanges = descriptorRange[1].NumDescriptors;
+					rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+					rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+					rootParameters[2].Descriptor.ShaderRegister = 0;
 					descriptionRootSignature.pParameters = rootParameters;
 					descriptionRootSignature.NumParameters = _countof(rootParameters);
 

@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{00f13469-27cc-40ea-be14-78f370355915}</UniqueIdentifier>
     </Filter>
@@ -148,6 +144,10 @@
     <Filter Include="ヘッダー ファイル\Scene\SceneChange">
       <UniqueIdentifier>{8535fb97-9a6d-4990-bbb4-08fdf26f3326}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Manager\リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -231,9 +231,6 @@
     <ClCompile Include="DirectXGame\GameObject\Particle\testParticle.cpp">
       <Filter>ソース ファイル\GameObject\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Data\TextureData.cpp">
-      <Filter>ソース ファイル\Data</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXGame\Scene\InGameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -301,9 +298,6 @@
       <Filter>ソース ファイル\GameObject\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Data\SpriteData.cpp">
-      <Filter>ソース ファイル\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXGame\Data\SpriteItem.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\GameObject\Particle\Object\PlaneParticle.cpp">
@@ -395,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\GameObject\Entity\Wall.cpp">
       <Filter>ソース ファイル\GameObject\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Manager\DrawManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -730,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\GameObject\Entity\Wall.h">
       <Filter>ヘッダー ファイル\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Manager\DrawManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

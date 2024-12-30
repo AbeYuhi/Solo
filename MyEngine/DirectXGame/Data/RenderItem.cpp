@@ -1,6 +1,11 @@
 #include "RenderItem.h"
 #include "Object/Model.h"
 
+/// <summary>
+/// RenderItem.cpp
+/// レンダリング情報を処理する関数の実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	RenderItem::~RenderItem() {

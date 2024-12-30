@@ -1,5 +1,10 @@
 #include "CreateResource.h"
 
+/// <summary>
+/// CreateResource.cpp
+/// DirectX12の処理に必要なメモリを確保している関数実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	ComPtr<ID3D12Resource> CreateBufferResource(size_t sizeInBytes) {

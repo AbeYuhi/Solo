@@ -26,6 +26,7 @@ void InGameScene::Initialize() {
 	randomManager_ = MyEngine::RandomManager::GetInstance();
 	postEffectManager_ = MyEngine::PostEffectManager::GetInstance();
 	collisionManager_ = MyEngine::CollisionManager::GetInstance();
+	drawManager_ = DrawManager::GetInstance();
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
 
@@ -69,25 +70,31 @@ void InGameScene::Initialize() {
 		}
 	}
 
-	ballShotExplanationTexture_ = MyEngine::TextureManager::Load("ballShot_Explanation.png");
-	ballShotExplanationSprite_ = MyEngine::Sprite::Create();
-	ballShotExplanationInfo_.Initialize(ballShotExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
-	ballShotExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
+	ballShotExplanationInfo_.Initialize();
+	ballShotExplanationInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("ballShot_Explanation.png");
+	ballShotExplanationInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	ballShotExplanationInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
 
-	crystalExplanationTexture_ = MyEngine::TextureManager::Load("crystal_Explanation.png");
-	crystalExplanationSprite_ = MyEngine::Sprite::Create();
-	crystalExplanationInfo_.Initialize(crystalExplanationTexture_, { 1280, 720 }, { 0.0f, 0.0f });
-	crystalExplanationInfo_.materialInfo_.material_->color.w = 0.0f;
+	crystalExplanationInfo_.Initialize();
+	crystalExplanationInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("crystal_Explanation.png");
+	crystalExplanationInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	crystalExplanationInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
 
-	gameOverTexture_ = MyEngine::TextureManager::Load("gameOver_Explanation.png");
-	gameOverSprite_ = MyEngine::Sprite::Create();
-	gameOverInfo_.Initialize(gameOverTexture_, { 1280, 720 }, { 0.0f, 0.0f });
-	gameOverInfo_.materialInfo_.material_->color.w = 0.0f;
-	
-	backGroundTexture_ = MyEngine::TextureManager::Load("backGround.png");
-	backGroundSprite_ = MyEngine::Sprite::Create();
-	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
-	
+	gameOverInfo_.Initialize();
+	gameOverInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("gameOver_Explanation.png");
+	gameOverInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	gameOverInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	gameOverInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
+
+	backGroundInfo_.Initialize();
+	backGroundInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("backGround.png");
+	backGroundInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	backGroundInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	backGroundInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
+
+
 	startTimer_ = 0.0f;
 	ballShotRxplanationTime_ = 9999.9999f;
 	crystalRxplanationTime_ = 9999.9999f;
@@ -120,9 +127,9 @@ void InGameScene::Update() {
 	if (gameOver_) {	//ゲームオーバー時のカメラ挙動
 		gameOverTimer_ += 1.0f / 60.0f;
 
-		gameOverInfo_.materialInfo_.material_->color.w += 0.05f;
-		if (gameOverInfo_.materialInfo_.material_->color.w > 1.0f) {
-			gameOverInfo_.materialInfo_.material_->color.w = 1;
+		gameOverInfo_.spriteItem->materialInfo_.material_->color.w += 0.05f;
+		if (gameOverInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
+			gameOverInfo_.spriteItem->materialInfo_.material_->color.w = 1;
 		}
 
 		if (gameOverTimer_ >= 1.0f && gameOverTimer_ < 3.0f) {
@@ -220,33 +227,33 @@ void InGameScene::Update() {
 	const float kColorFadeStep = 0.05f;
 	startTimer_ += 1.0f / 60.0f;
 	if (startTimer_ >= kBallShotTutorialStartTime && startTimer_ <= kBallShotTutorialStartTime + kTutorialDuration) {
-		ballShotExplanationInfo_.materialInfo_.material_->color.w += kColorFadeStep;
-		if (ballShotExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
-			ballShotExplanationInfo_.materialInfo_.material_->color.w = 1;
+		ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
+		if (ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
+			ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
 			isBallShotRxplanation_ = true;
 			ballShotRxplanationTime_ = startTimer_;
 		}
 	}
 	if (ballShotRxplanationTime_ + kTutorialEndTime <= startTimer_) {
-		ballShotExplanationInfo_.materialInfo_.material_->color.w -= kColorFadeStep;
-		if (ballShotExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
-			ballShotExplanationInfo_.materialInfo_.material_->color.w = 0;
+		ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
+		if (ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
+			ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
 		}
 	}
 
 	const float kCrystalTutorialStartTime = 10.0f;
 	if (startTimer_ >= kCrystalTutorialStartTime && startTimer_ <= kCrystalTutorialStartTime + kTutorialDuration) {
-		crystalExplanationInfo_.materialInfo_.material_->color.w += kColorFadeStep;
-		if (crystalExplanationInfo_.materialInfo_.material_->color.w > 1.0f) {
-			crystalExplanationInfo_.materialInfo_.material_->color.w = 1;
+		crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
+		if (crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
+			crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
 			isCrystalRxplanation_ = true;
 			crystalRxplanationTime_ = startTimer_;
 		}
 	}
 	if (crystalRxplanationTime_ + kTutorialEndTime <= startTimer_) {
-		crystalExplanationInfo_.materialInfo_.material_->color.w -= kColorFadeStep;
-		if (crystalExplanationInfo_.materialInfo_.material_->color.w < 0.0f) {
-			crystalExplanationInfo_.materialInfo_.material_->color.w = 0;
+		crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
+		if (crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
+			crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
 		}
 	}
 
@@ -331,17 +338,8 @@ void InGameScene::Update() {
 
 void InGameScene::Draw() {
 
-	///背景スプライトの描画開始 
-	backGroundSprite_->Draw(backGroundInfo_);
-
-	///背景スプライト描画終了
-	//深度バッファのクリア
-	directXCommon_->ClearDepthStencilBuffer();
-
-	///前面スプライトの描画開始
-	///前面スプライトの描画終了
-
-	///オブジェクトの描画開始
+	//描画処理をmanagerに積む
+	drawManager_->PushBackBackgroundSprite(&backGroundInfo_);
 
 	player_.Draw();
 	for (int index = 0; index < levelScenes_.size(); index++) {
@@ -350,27 +348,10 @@ void InGameScene::Draw() {
 	collisionManager_->Draw();
 
 	if (!gameOver_) {
-		ballShotExplanationSprite_->Draw(ballShotExplanationInfo_);
-		crystalExplanationSprite_->Draw(crystalExplanationInfo_);
+		drawManager_->PushBackForegroundSprite(&ballShotExplanationInfo_);
+		drawManager_->PushBackForegroundSprite(&crystalExplanationInfo_);
 	}
 	if (gameOver_) {
-		gameOverSprite_->Draw(gameOverInfo_);
+		drawManager_->PushBackForegroundSprite(&gameOverInfo_);
 	}
-
-	///オブジェクトの描画終了
-
-	///半透明オブジェクトの描画
-	for (int index = 0; index < levelScenes_.size(); index++) {
-		levelScenes_[index]->DrawTransparentObject();
-	}
-	///半透明オブジェクトの描画終了
-
-	///パーティクルの描画
-
-	for (int index = 0; index < levelScenes_.size(); index++) {
-		levelScenes_[index]->ParticleDraw();
-	}
-	player_.ParticleDraw();
-
-	///パーティクルの描画終了
 }

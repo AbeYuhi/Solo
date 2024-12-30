@@ -3,10 +3,10 @@
 #include "DirectXGame/Object/Model.h"
 
 /// <summary>
-/// PlaneParticle.h
+/// GlassPieceParticle.h
 /// ガラスの破壊演出をしているクラス
 /// </summary>
-/// 
+
 class GlassPieceParticle : public MyEngine::ParticleManager
 {
 public:

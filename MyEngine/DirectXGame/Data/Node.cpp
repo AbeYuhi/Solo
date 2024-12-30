@@ -1,5 +1,10 @@
 #include "Node.h"
 
+/// <summary>
+/// Node.cpp
+/// アニメーションNodeの情報を処理する関数の実装ファイル
+/// </summary>
+
 int32_t ReadNode(aiNode* node, std::vector<Node>& nodes) {
 	Node result;
 	result.name = node->mName.C_Str();

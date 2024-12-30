@@ -1,5 +1,10 @@
 #include "testParticle.h"
 
+/// <summary>
+/// testParticle.cpp
+/// パーティクルを複数組み合わせるテストしているクラス
+/// </summary>
+
 void TestParticle::Initialize() {
 
 	particle0_ = std::make_unique<PlaneParticle>(100);

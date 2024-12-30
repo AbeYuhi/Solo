@@ -4,6 +4,11 @@
 #include "External/imgui/imgui_impl_win32.h"
 #pragma comment(lib, "winmm.lib")
 
+/// <summary>
+/// WinApp.cpp
+/// ウィンドウ表示に関する関数の実装ファイル
+/// </summary>
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 namespace MyEngine {
 

@@ -26,6 +26,7 @@ void MainCamera::Initialize() {
 void MainCamera::Update() {
 	worldMatrix_ = MakeAffineMatrix(transform_);
 	viewMatrix_ = Inverse(worldMatrix_);
+	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, (float)MyEngine::WinApp::kWindowWidth / (float)MyEngine::WinApp::kWindowHeight, 0.1f, 1000.0f);
 	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
 }
 

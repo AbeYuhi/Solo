@@ -33,25 +33,35 @@ void TitleScene::Initialize() {
 	titleCamera_ = std::make_unique<TitleCamera>();
 	titleCamera_->Initialize();
 
-	leftMouseClickTexture_ = MyEngine::TextureManager::Load("leftClick.png");
-	titleNameTexture_ = MyEngine::TextureManager::Load("titleName.png");
+	leftMouseClickInfo_.Initialize();
+	leftMouseClickInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("leftClick.png");
+	leftMouseClickInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	leftMouseClickInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	leftMouseClickInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
+
+	titleNameInfo_.Initialize();
+	titleNameInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("titleName.png");
+	titleNameInfo_.spriteItem->spriteData_.size_ = { 360, 120 };
+	titleNameInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.5f, 0.5f };
+	titleNameInfo_.spriteItem->worldTransform_.data_.translate_ = { 640, 150, 0 };
+	titleNameInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
+
+	backGroundInfo_.Initialize();
+	backGroundInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("backGround.png");
+	backGroundInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	backGroundInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	backGroundInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
+
+	scoreInfo_.Initialize();
+	scoreInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("score.png");
+	scoreInfo_.spriteItem->spriteData_.size_ = { 600, 600 };
+	scoreInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.5f, 0.5f };
+	scoreInfo_.spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+	scoreInfo_.spriteItem->worldTransform_.data_.scale_ = { 0.0f, 0.0f, 1.0f };
+	scoreInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
+
 	scoreTexture_ = MyEngine::TextureManager::Load("score.png");
 	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
-
-	leftMosueClickSprite_ = MyEngine::Sprite::Create();
-	leftMouseClickInfo_.Initialize(leftMouseClickTexture_, {1280, 720}, {0.0f, 0.0f});
-	titleNameSprite_ = MyEngine::Sprite::Create();
-	titleNameInfo_.Initialize(titleNameTexture_, { 360, 120 }, { 0.5f, 0.5f });
-	titleNameInfo_.worldTransform_.data_.translate_ = { 640, 150, 0 };
-
-	scoreSprite_ = MyEngine::Sprite::Create();
-	scoreInfo_.Initialize(scoreTexture_, { 600, 600 }, { 0.5f, 0.5f });
-	scoreInfo_.worldTransform_.data_.translate_ = {640, 360, 0};
-	scoreInfo_.worldTransform_.data_.scale_ = { 0.0f, 0.0f, 1.0f };
-
-	backGroundTexture_ = MyEngine::TextureManager::Load("backGround.png");
-	backGroundSprite_ = MyEngine::Sprite::Create();
-	backGroundInfo_.Initialize(backGroundTexture_, { 1280, 720 }, { 0.0f, 0.0f });
 
 	levelScene_.Initialize("test.json");
 	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
@@ -60,13 +70,13 @@ void TitleScene::Initialize() {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
-		scoreInfo_.spriteData_.textureHandle_ = scoreTexture_;
+		scoreInfo_.spriteItem->spriteData_.textureHandle_ = scoreTexture_;
 	}
 	else if (preSceneNo_ == GAMECLEAR) {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
-		scoreInfo_.spriteData_.textureHandle_ = clearTexture_;
+		scoreInfo_.spriteItem->spriteData_.textureHandle_ = clearTexture_;
 	}
 	else {
 		isPreviousSceneInGame_ = false;
@@ -110,22 +120,22 @@ void TitleScene::Update() {
 	if (isScoreImageScale_) {
 
 		if (isResult_) {
-			scoreInfo_.worldTransform_.data_.scale_.x += (1.0f / 60.0f) * 3.0f;
-			scoreInfo_.worldTransform_.data_.scale_.y += (1.0f / 60.0f) * 3.0f;
+			scoreInfo_.spriteItem->worldTransform_.data_.scale_.x += (1.0f / 60.0f) * 3.0f;
+			scoreInfo_.spriteItem->worldTransform_.data_.scale_.y += (1.0f / 60.0f) * 3.0f;
 
-			if (scoreInfo_.worldTransform_.data_.scale_.x >= 1.0f) {
-				scoreInfo_.worldTransform_.data_.scale_.x = 1;
-				scoreInfo_.worldTransform_.data_.scale_.y = 1;
+			if (scoreInfo_.spriteItem->worldTransform_.data_.scale_.x >= 1.0f) {
+				scoreInfo_.spriteItem->worldTransform_.data_.scale_.x = 1;
+				scoreInfo_.spriteItem->worldTransform_.data_.scale_.y = 1;
 				isScoreImageScale_ = false;
 			}
 		}
 		else {
-			scoreInfo_.worldTransform_.data_.scale_.x -= (1.0f / 60.0f) * 5.0f;
-			scoreInfo_.worldTransform_.data_.scale_.y -= (1.0f / 60.0f) * 5.0f;
+			scoreInfo_.spriteItem->worldTransform_.data_.scale_.x -= (1.0f / 60.0f) * 5.0f;
+			scoreInfo_.spriteItem->worldTransform_.data_.scale_.y -= (1.0f / 60.0f) * 5.0f;
 
-			if (scoreInfo_.worldTransform_.data_.scale_.x <= 0.0f) {
-				scoreInfo_.worldTransform_.data_.scale_.x = 0;
-				scoreInfo_.worldTransform_.data_.scale_.y = 0;
+			if (scoreInfo_.spriteItem->worldTransform_.data_.scale_.x <= 0.0f) {
+				scoreInfo_.spriteItem->worldTransform_.data_.scale_.x = 0;
+				scoreInfo_.spriteItem->worldTransform_.data_.scale_.y = 0;
 				isScoreImageScale_ = false;
 			}
 		}
@@ -150,29 +160,22 @@ void TitleScene::Update() {
 }
 
 void TitleScene::Draw() {
-	backGroundSprite_->Draw(backGroundInfo_);
-
-	///背景スプライト描画終了
-	//深度バッファのクリア
-	MyEngine::DirectXCommon::GetInstance()->ClearDepthStencilBuffer();
+	DrawManager::GetInstance()->PushBackBackgroundSprite(&backGroundInfo_);
 
 	if(!change_) {
 		if (!isResult_) {
 			if (time_ <= 0.5f) {
-				leftMosueClickSprite_->Draw(leftMouseClickInfo_);
+				DrawManager::GetInstance()->PushBackForegroundSprite(&leftMouseClickInfo_);
 			}
 		}
 	}
 	
-	if (scoreInfo_.worldTransform_.data_.scale_.x > 0) {
-		scoreSprite_->Draw(scoreInfo_);
+	if (scoreInfo_.spriteItem->worldTransform_.data_.scale_.x > 0) {
+		DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfo_);
 	}
 	else {
-		titleNameSprite_->Draw(titleNameInfo_);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&titleNameInfo_);
 	}
 	levelScene_.Draw();
-
-	//半透明オブジェクトの描画
-	levelScene_.DrawTransparentObject();
 
 }

@@ -1,5 +1,10 @@
 #include "DebugLog.h"
 
+/// <summary>
+/// DebugLog.cpp
+/// Logの表示関数などのデバッグ機能に関数を実装しているクラス
+/// </summary>
+
 void Log(const std::string& message) {
     OutputDebugStringA(message.c_str());
 }

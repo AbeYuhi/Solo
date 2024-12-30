@@ -1,5 +1,10 @@
 #include "Shadow.h"
 
+/// <summary>
+/// Shadow.cpp
+/// 影を再現しようとテストしているクラス
+/// </summary>
+
 void Shadow::Initialize() {
 
 	//Resourceの生成

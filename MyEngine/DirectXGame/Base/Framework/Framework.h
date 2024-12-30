@@ -17,7 +17,7 @@
 
 /// <summary>
 /// Framework.h
-/// ゲームエンジンのフレームワークがある構造体があるファイル
+/// ゲームエンジンのフレームワークであるクラスの宣言ファイル
 /// </summary>
 
 namespace MyEngine {

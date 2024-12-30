@@ -1,5 +1,10 @@
 #include "AnimationData.h"
 
+/// <summary>
+/// AnimationData.cpp
+/// アニメーションDataの情報をまとめるための構造体の関数の実装ファイル
+/// </summary>
+
 Vector3 CalculateValue(const AnimationCurve<Vector3>& curve, float time) {
 	assert(!curve.keyframes.empty());
 	if (curve.keyframes.size() == 1 || time <= curve.keyframes[0].time) {

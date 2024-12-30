@@ -1,5 +1,6 @@
 #pragma once
 #include "Manager/CollisionManager.h"
+#include "Manager/DrawManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 
@@ -22,7 +23,7 @@ public:
 
 	void Initialize(
 		std::shared_ptr<MyEngine::Model> model,
-		MyEngine::RenderItem* renderItem,
+		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider);
 
 	void Update();
@@ -30,10 +31,10 @@ public:
 	void Draw();
 
 	void SetRightDoor(std::shared_ptr<MyEngine::Model> model,
-		MyEngine::RenderItem* renderItem,
+		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider);
 	void SetLeftDoor(std::shared_ptr<MyEngine::Model> model,
-		MyEngine::RenderItem* renderItem,
+		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider);
 	inline void IsHitBullet(bool isHit) { isOpen_ = isHit; }
 
@@ -42,9 +43,12 @@ public:
 
 private:
 
-	DoorData button_;
-	DoorData leftDoor_;
-	DoorData rightDoor_;
+	ModelDrawInfo buttonInfo_;
+	ModelDrawInfo leftDoorInfo_;
+	ModelDrawInfo rightDoorInfo_;
+	Collider* buttonCollider_;
+	Collider* leftDoorCollider_;
+	Collider* rightDoorCollider_;
 	bool isOpen_;
 	float moveTime_;
 

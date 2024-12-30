@@ -1,5 +1,10 @@
 #include "Collider.h"
 
+/// <summary>
+/// Collider.cpp
+/// コライダーに関する関数の実装ファイル
+/// </summary>
+
 void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity, bool isDrawCollider) {
 	objData_ = objData;
 	colliderData_ = colliderData;

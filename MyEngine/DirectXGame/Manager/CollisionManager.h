@@ -6,6 +6,7 @@
 #include "DirectXGame/Object/WireFrameSphere.h"
 #include "DirectXGame/Math/AABB.h"
 #include "DirectXGame/Math/Math.h"
+#include "Manager/DrawManager.h"
 
 /// <summary>
 /// CollisionManager.h

@@ -1,5 +1,10 @@
 #include "GlassPieceParticle.h"
 
+/// <summary>
+/// GlassPieceParticle.cpp
+/// ガラスの破壊演出をしているクラスの関数実装ファイル
+/// </summary>
+
 GlassPieceParticle::GlassPieceParticle(int maxParticleCount) : ParticleManager(maxParticleCount) {}
 
 void GlassPieceParticle::Initialize() {

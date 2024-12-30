@@ -29,8 +29,7 @@ using json = nlohmann::json;
 
 struct ObjData {
 	std::string objName;
-	std::shared_ptr<MyEngine::Model> model;
-	MyEngine::RenderItem renderItem;
+	ModelDrawInfo info;
 	ObjectType type;
 	Collider collider;
 };
@@ -55,8 +54,6 @@ public:
 	void Update();
 
 	void Draw();
-	void DrawTransparentObject();
-	void ParticleDraw();
 
 	inline CameraData GetCameraData() const { return gameObject_.cameraData_; }
 	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }

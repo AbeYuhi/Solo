@@ -1,6 +1,11 @@
 #include "Animation.h"
 #include "Object/Model.h"
 
+/// <summary>
+/// Animation.cpp
+/// アニメーションの情報すべてをまとめるための構造体の関数の実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	void Animation::Initialize() {

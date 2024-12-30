@@ -1,6 +1,8 @@
 #pragma once
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/CreateResource/CreateResource.h"
+#include "Manager/DrawManager.h"
+#include "GameObject/Camera/MainCamera.h"
 #include "GraphicsPipelineManager.h"
 #include "SrvManager.h"
 #include "Data/SmoothingInfo.h"
@@ -98,10 +100,11 @@ namespace MyEngine {
 		//VignetteBlur
 		ComPtr<ID3D12Resource> vignetteBlurInfoResource_ = nullptr;
 		VignetteBlurInfo* vignetteBlurInfo_;
-
-		D3D12_CPU_DESCRIPTOR_HANDLE depthTextureSrvHandleCPU_;
-		D3D12_GPU_DESCRIPTOR_HANDLE depthTextureSrvHandleGPU_;
-		ComPtr<ID3D12Resource> depthTextureResource_;
+		//Fog
+		ID3D12Resource* depthTextureResource_;
+		uint32_t depthSrvIndex_;
+		ComPtr<ID3D12Resource> inverseProjectionResorce_ = nullptr;
+		Matrix4x4* inverseProjectionData_;
 	};
 
 }

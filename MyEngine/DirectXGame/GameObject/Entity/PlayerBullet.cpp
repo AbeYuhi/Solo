@@ -11,18 +11,17 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 	//uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("skybox.dds");
 	uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("rostock_laage_airport_4k.dds");
 
-	model_ = MyEngine::Model::Create("sphere", "sphere.obj");
-	renderItem_.Initialize();
-	renderItem_.worldTransform_.data_.scale_ *= 0.3f;
-	renderItem_.materialInfo_.material_->enableLightint = true;
-	renderItem_.materialInfo_.material_->isSpecularReflection = true;
-	renderItem_.materialInfo_.material_->isEnvironment = true;
-	renderItem_.materialInfo_.material_->environmentCoefficient = 1.0f;
-	renderItem_.materialInfo_.material_->color.w = 1.0f;
-	renderItem_.materialInfo_.environmentTextureHandle_ = environmentTextureHandle;
+	info_.Initialize(MyEngine::Model::Create("sphere", "sphere.obj"));
+	info_.renderItem->worldTransform_.data_.scale_ *= 0.3f;
+	info_.renderItem->materialInfo_.material_->enableLightint = true;
+	info_.renderItem->materialInfo_.material_->isSpecularReflection = true;
+	info_.renderItem->materialInfo_.material_->isEnvironment = true;
+	info_.renderItem->materialInfo_.material_->environmentCoefficient = 1.0f;
+	info_.renderItem->materialInfo_.material_->color.w = 1.0f;
+	info_.renderItem->materialInfo_.environmentTextureHandle_ = environmentTextureHandle;
 
 	//発射位置の計算
-	renderItem_.worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
+	info_.renderItem->worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
 	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, MyEngine::WinApp::kWindowWidth, MyEngine::WinApp::kWindowHeight, 0, 1);
 	Matrix4x4 matVPV = MainCamera::GetInstance()->GetViewProjectionMatrix() * viewportMatrix;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
@@ -50,7 +49,7 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 
 	lifeTime_ = 15.0f;
 
-	collider_.Initialize(&renderItem_.worldTransform_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
+	collider_.Initialize(&info_.renderItem->worldTransform_, {.scale_ = {2, 2, 2}, .rotate_ = {0, 0, 0}, .translate_ = {0, 0, 0}}, ColliderTag::BULLET, kSPHERE, true, &velocity_);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
 	isGround_ = false;
@@ -120,19 +119,15 @@ void PlayerBullet::Update() {
 	}
 
 	// 位置の更新
-	renderItem_.worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
+	info_.renderItem->worldTransform_.data_.translate_ += velocity_ * speed_ * (1.0f / 60.0f);
 
-	if (lifeTime_ <= 0.0f || renderItem_.worldTransform_.GetWorldPos().z + 10.0f <= MainCamera::GetInstance()->GetWorldPos().z) {
+	if (lifeTime_ <= 0.0f || info_.renderItem->worldTransform_.GetWorldPos().z + 10.0f <= MainCamera::GetInstance()->GetWorldPos().z) {
 		collider_.isDelete_ = true;
 	}
 }
 
 void PlayerBullet::Draw() {
 
-	model_->Draw(renderItem_);
-
-}
-
-void PlayerBullet::ParticleDraw() {
+	DrawManager::GetInstance()->PushBackOpaqueObject(&info_);
 
 }

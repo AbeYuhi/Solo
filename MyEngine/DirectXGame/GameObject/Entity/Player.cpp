@@ -26,15 +26,15 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	numberSpriteTextures_[8] = MyEngine::TextureManager::Load("numberTexture/8.png");
 	numberSpriteTextures_[9] = MyEngine::TextureManager::Load("numberTexture/9.png");
 	
-	numberSprites_[0] = MyEngine::Sprite::Create();
-	numberSprites_[1] = MyEngine::Sprite::Create();
-	numberSprites_[2] = MyEngine::Sprite::Create();
-	numberInfo_[0].Initialize(numberSpriteTextures_[0], {30, 50});
-	numberInfo_[0].worldTransform_.data_.translate_ = { 90, 50, 0 };
-	numberInfo_[1].Initialize(numberSpriteTextures_[0], {30, 50});
-	numberInfo_[1].worldTransform_.data_.translate_ = { 60, 50, 0 };
-	numberInfo_[2].Initialize(numberSpriteTextures_[0], {30, 50});
-	numberInfo_[2].worldTransform_.data_.translate_ = { 30, 50, 0 };
+	infos_[0].Initialize();
+	infos_[1].Initialize();
+	infos_[2].Initialize();
+	infos_[0].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
+	infos_[0].spriteItem->worldTransform_.data_.translate_ = { 90, 50, 0 };
+	infos_[1].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
+	infos_[1].spriteItem->worldTransform_.data_.translate_ = { 60, 50, 0 };
+	infos_[2].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
+	infos_[2].spriteItem->worldTransform_.data_.translate_ = { 30, 50, 0 };
 
 	collider_.Initialize(&renderItem_.worldTransform_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
@@ -253,16 +253,16 @@ void Player::Update() {
 	}
 
 	if (digitCount_ == 1) {
-		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
 	}
 	else if (digitCount_ == 2) {
-		numberInfo_[1].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
-		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		infos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
+		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
 	}
 	else if (digitCount_ == 3) {
-		numberInfo_[2].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 2)];
-		numberInfo_[1].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
-		numberInfo_[0].spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		infos_[2].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 2)];
+		infos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
+		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
 	}
 
 #ifdef _DEBUG
@@ -279,24 +279,16 @@ void Player::Draw() {
 	}
 
 	if (digitCount_ == 1) {
-		numberSprites_[0]->Draw(numberInfo_[0]);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[0]);
 	}
 	else if (digitCount_ == 2) {
-		numberSprites_[1]->Draw(numberInfo_[1]);
-		numberSprites_[0]->Draw(numberInfo_[0]);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[1]);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[0]);
 	}
 	else if (digitCount_ == 3) {
-		numberSprites_[2]->Draw(numberInfo_[2]);
-		numberSprites_[1]->Draw(numberInfo_[1]);
-		numberSprites_[0]->Draw(numberInfo_[0]);
-	}
-
-}
-
-void Player::ParticleDraw() {
-
-	for (auto& bullet : bullets_) {
-		bullet->ParticleDraw();
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[2]);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[1]);
+		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[0]);
 	}
 
 }

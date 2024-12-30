@@ -6,6 +6,11 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
+/// <summary>
+/// DirectXCommon.cpp
+/// DirectX12に関する機能の処理をまとめている実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	DirectXCommon* DirectXCommon::GetInstance() {

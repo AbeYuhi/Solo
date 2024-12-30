@@ -1,5 +1,10 @@
 #include "CreateStage.h"
 
+/// <summary>
+/// CreateStage.cpp
+/// CSVでステージを生成するクラス関数の実装ファイル
+/// </summary>
+
 std::list<std::unique_ptr<StageBlock>> CreateStage(std::string stageFileName, Vector3 size) {
 	//返り値
 	std::list<std::unique_ptr<StageBlock>> stageBlockList;

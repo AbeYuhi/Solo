@@ -1,5 +1,10 @@
 #include "Framework.h"
 
+/// <summary>
+/// Framework.h
+/// ゲームエンジンのフレームワークであるクラスの実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	void Framework::Initialize() {

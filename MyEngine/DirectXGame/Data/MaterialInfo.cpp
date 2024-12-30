@@ -1,5 +1,10 @@
 #include "MaterialInfo.h"
 
+/// <summary>
+/// MaterialInfo.cpp
+/// マテリアルに情報をGPUに送ったりする関数の実装ファイル
+/// </summary>
+
 namespace MyEngine {
 
 	void MaterialInfo::Initialize() {

@@ -39,6 +39,18 @@ struct Emitter {
 
 namespace MyEngine {
 
+	class Particle {
+	public:
+		std::function<void()> draw; // 描画関数を保持
+		bool isAlive_;
+		bool isDelete_;
+		bool isDraw_;
+		Particle(std::function<void()> drawFunction) : draw(drawFunction), isAlive_(false), isDelete_(false), isDraw_(false) {}
+		void Draw() {
+			if (draw) draw(); // 関数が設定されていれば呼び出し
+		}
+	};
+
 	class ParticleManager
 	{
 	public: //メンバ関数

@@ -1,5 +1,10 @@
 #include "SkinCluster.h"
 
+/// <summary>
+/// SkinCluster.cpp
+/// SkinClusterを処理する関数の実装ファイル
+/// </summary>
+
 SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modeldata) {
 	MyEngine::DirectXCommon* dxCommon = MyEngine::DirectXCommon::GetInstance();
 	SkinCluster skinCluster;

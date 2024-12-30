@@ -2,6 +2,11 @@
 #include "DirectXGame/GameObject/Camera/MainCamera.h"
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 
+/// <summary>
+/// Transform.cpp
+/// オブジェクトの状態を処理する関数の実装ファイル
+/// </summary>
+
 void EulerTransformData::Initialize() {
 	scale_ = { 1.0f, 1.0f, 1.0f };
 	rotate_ = { 0.0f, 0.0f, 0.0f };

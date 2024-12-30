@@ -1,5 +1,6 @@
 #pragma once
 #include "Manager/CollisionManager.h"
+#include "Manager/DrawManager.h"
 #include "GameObject/Particle/Object/GlassPieceParticle/GlassPieceParticle.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
@@ -24,7 +25,7 @@ public:
 
 	struct WallData {
 		std::shared_ptr<MyEngine::Model> model;
-		MyEngine::RenderItem* renderItem;
+		std::shared_ptr<MyEngine::RenderItem> renderItem;
 		Collider* collider;
 		MoveType moveType;
 		float moveLimit;
@@ -37,7 +38,7 @@ public:
 	~Wall();
 
 	void Initialize(std::shared_ptr<MyEngine::Model> model,
-		MyEngine::RenderItem* renderItem,
+		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider,
 		WallInfo info);
 
@@ -63,5 +64,5 @@ private:
 	WallData data_;
 	EulerTransformData keepData_;
 	bool isTurnAround_;
-	MyEngine::RenderItem renderItems_[6];
+	ModelDrawInfo infos_[6];
 };

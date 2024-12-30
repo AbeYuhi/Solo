@@ -11,6 +11,7 @@
 #include "Manager/RandomManager.h"
 #include "Manager/LightObjectManager.h"
 #include "Manager/CollisionManager.h"
+#include "Manager/DrawManager.h"
 #include "Object/Sprite.h"
 #include "Object/Model.h"
 #include "Object/SkyBox.h"
@@ -55,6 +56,7 @@ private:
 	MyEngine::RandomManager* randomManager_;
 	MyEngine::PostEffectManager* postEffectManager_;
 	MyEngine::CollisionManager* collisionManager_;
+	DrawManager* drawManager_;
 	MainCamera* mainCamera_;
 	SpriteCamera* spriteCamera_;
 	//ライト
@@ -75,21 +77,10 @@ private:
 	//ゲームカメラ
 	std::unique_ptr<InGameCamera> gameCamera_;
 
-	uint32_t ballShotExplanationTexture_;
-	std::shared_ptr<MyEngine::Sprite> ballShotExplanationSprite_;
-	MyEngine::SpriteItem ballShotExplanationInfo_;
-
-	uint32_t crystalExplanationTexture_;
-	std::shared_ptr<MyEngine::Sprite> crystalExplanationSprite_;
-	MyEngine::SpriteItem crystalExplanationInfo_;
-
-	uint32_t gameOverTexture_;
-	std::shared_ptr<MyEngine::Sprite> gameOverSprite_;
-	MyEngine::SpriteItem gameOverInfo_;
-	
-	uint32_t backGroundTexture_;
-	std::shared_ptr<MyEngine::Sprite> backGroundSprite_;
-	MyEngine::SpriteItem backGroundInfo_;
+	SpriteDrawInfo ballShotExplanationInfo_;
+	SpriteDrawInfo crystalExplanationInfo_;
+	SpriteDrawInfo gameOverInfo_;
+	SpriteDrawInfo backGroundInfo_;
 
 	float startTimer_;
 	bool isBallShotRxplanation_;

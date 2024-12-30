@@ -1,5 +1,10 @@
 #include "Skeleton.h"
 
+/// <summary>
+/// Skeleton.cpp
+/// アニメーションのBoneを処理する関数の実装ファイル
+/// </summary>
+
 int32_t CreateJoint(const RootNode& rootNode, const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
 	Joint joint;
 	joint.name = node.name;

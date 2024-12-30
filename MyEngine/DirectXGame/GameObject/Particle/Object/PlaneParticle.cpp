@@ -1,5 +1,10 @@
 #include "PlaneParticle.h"
 
+/// <summary>
+/// PlaneParticle.cpp
+/// 3DPlaneの実験的パーティクルをしているクラス
+/// </summary>
+
 PlaneParticle::PlaneParticle(int maxParticleCount) : ParticleManager(maxParticleCount) {}
 
 void PlaneParticle::Initialize() {

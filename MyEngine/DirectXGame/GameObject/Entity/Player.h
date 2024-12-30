@@ -4,6 +4,7 @@
 #include "Object/Sprite.h"
 #include "Manager/PostEffectManager.h"
 #include "Manager/RandomManager.h"
+#include "Manager/DrawManager.h"
 #include "PlayerBullet.h"
 
 /// <summary>
@@ -20,7 +21,6 @@ public:
 	void Update();
 
 	void Draw();
-	void ParticleDraw();
 
 	inline void SetCameraData(EulerTransformData* data) { cameraData_ = data; }
 	inline bool IsGameOver() const { return isGameOver_; }
@@ -39,8 +39,7 @@ private:
 	int comboDestroyCount_;
 
 	uint32_t numberSpriteTextures_[10];
-	std::shared_ptr<MyEngine::Sprite> numberSprites_[3];
-	MyEngine::SpriteItem numberInfo_[3];
+	SpriteDrawInfo infos_[3];
 
 	MyEngine::RenderItem renderItem_;
 	EulerTransformData* cameraData_;

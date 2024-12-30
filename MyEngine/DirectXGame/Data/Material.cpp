@@ -1,5 +1,10 @@
 #include "Material.h"
 
+/// <summary>
+/// Material.cpp
+/// マテリアルに関する関数の実装ファイル
+/// </summary>
+
 void Material::Initialize() {
 	//色の書き込み
 	color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);

@@ -1,5 +1,10 @@
 #include "SpriteParticle.h"
 
+/// <summary>
+/// SpriteParticle.cpp
+/// 2DSpriteのパーティクルをテストしているクラス
+/// </summary>
+
 SpriteParticle::SpriteParticle(int maxParticleCount) : ParticleManager(maxParticleCount) {}
 
 void SpriteParticle::Initialize() {
