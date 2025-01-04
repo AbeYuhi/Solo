@@ -40,8 +40,15 @@ namespace MyEngine {
 		WireFrameSphere();
 		~WireFrameSphere();
 
+		/// <summary>
+		/// 初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 描画関数
+		/// </summary>
+		/// <param name="renderItem"></param>
 		void Draw(RenderItem& renderItem);
 
 	private: //メンバ変数

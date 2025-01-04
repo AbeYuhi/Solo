@@ -36,12 +36,25 @@ namespace MyEngine {
 		LineObj();
 		~LineObj();
 
+		/// <summary>
+		/// ラインの初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// ラインの描画関数
+		/// </summary>
+		/// <param name="posA">始点</param>
+		/// <param name="posB">終点</param>
 		void Draw(const Vector3& posA, const Vector3& posB);
 
 	public: //ゲッターセッター
 
+		/// <summary>
+		/// ラインの頂点位置の設定関数
+		/// </summary>
+		/// <param name="pos">場所</param>
+		/// <param name="index">始点か終点かのインデックス</param>
 		void SetVertexPos(const Vector4& pos, int index) { vertexData_[index].position = pos; }
 
 	private: //メンバ変数

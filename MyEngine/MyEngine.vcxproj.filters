@@ -144,7 +144,7 @@
     <Filter Include="ヘッダー ファイル\Scene\SceneChange">
       <UniqueIdentifier>{8535fb97-9a6d-4990-bbb4-08fdf26f3326}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Manager\リソース ファイル">
+    <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>

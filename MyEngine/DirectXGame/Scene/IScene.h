@@ -16,12 +16,24 @@ public:
 	IScene() = default;
 	virtual ~IScene() = default;
 
+	/// <summary>
+	/// シーンの初期化関数
+	/// </summary>
 	virtual void Initialize() = 0;
 
+	/// <summary>
+	/// シーンのアップデート関数
+	/// </summary>
 	virtual void Update() = 0;
 
+	/// <summary>
+	/// シーンの描画処理
+	/// </summary>
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// シーン削除時の処理
+	/// </summary>
 	virtual void Finalize() = 0;
 
 	inline int GetSceneNo() { return sceneNo_; }

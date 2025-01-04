@@ -16,6 +16,10 @@ class SceneFactory
 {
 public:
 
+	/// <summary>
+	/// インスタンスの取得関数
+	/// </summary>
+	/// <returns></returns>
 	static SceneFactory* GetInstance();
 
 	/// <summary>

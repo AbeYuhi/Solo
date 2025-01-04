@@ -30,7 +30,7 @@ namespace MyEngine {
 	public: //静的メンバ関数
 
 		/// <summary>
-		/// スプライトの生成
+		/// スプライトの生成関数
 		/// </summary>
 		static std::shared_ptr<Sprite> Create();
 
@@ -42,12 +42,28 @@ namespace MyEngine {
 		Sprite();
 		~Sprite();
 
+		/// <summary>
+		/// スプライトの初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// スプライトの調整関数
+		/// </summary>
+		/// <param name="spriteData"></param>
 		void TransferVertices(SpriteData spriteData);
 
+		/// <summary>
+		/// スプライトの通常描画関数
+		/// </summary>
+		/// <param name="spriteItem"></param>
 		void Draw(SpriteItem& spriteItem);
 
+		/// <summary>
+		/// スプライトのパーティクル時の描画関数
+		/// </summary>
+		/// <param name="drawInfo"></param>
+		/// <param name="spriteData"></param>
 		void Draw(const ParticleDrawInfo& drawInfo, SpriteData spriteData);
 
 	public: //ゲッターセッター

@@ -37,10 +37,20 @@ namespace MyEngine {
 		WireFrameSpriteBox();
 		~WireFrameSpriteBox();
 
+		/// <summary>
+		/// 初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 描画関数
+		/// </summary>
+		/// <param name="spriteItem"></param>
 		void Draw(SpriteItem& spriteItem);
 
+		/// <summary>
+		/// 頂点位置の設定関数
+		/// </summary>
 		void TransferVertices(SpriteData& spriteData);
 
 	public: //ゲッターセッター

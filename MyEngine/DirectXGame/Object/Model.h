@@ -44,8 +44,19 @@ namespace MyEngine {
 	{
 	public: //静的メンバ関数
 
+		/// <summary>
+		/// 3Dモデルの作成関数
+		/// </summary>
+		/// <param name="filename">ファイルネーム</param>
+		/// <returns></returns>
 		static std::shared_ptr<Model> Create(const std::string& filename);
 
+		/// <summary>
+		/// 3Dモデルの作成関数
+		/// </summary>
+		/// <param name="filepath">ファイルパス</param>
+		/// <param name="filename">ファイルネーム</param>
+		/// <returns></returns>
 		static std::shared_ptr<Model> Create(const std::string& filepath, const std::string& filename);
 
 	private: //静的メンバ変数
@@ -56,26 +67,70 @@ namespace MyEngine {
 		Model();
 		~Model();
 
+		/// <summary>
+		/// 3Dモデルの初期化関数
+		/// </summary>
+		/// <param name="filepath"></param>
+		/// <param name="filename"></param>
 		void Initialize(const std::string& filepath, const std::string& filename);
 
+		/// <summary>
+		/// 3Dモデルの通常描画処理
+		/// </summary>
+		/// <param name="renderItem">描画情報</param>
 		void Draw(RenderItem& renderItem);
+		/// <summary>
+		/// 3Dモデルの通常描画処理
+		/// </summary>
+		/// <param name="renderItem">描画情報</param>
+		/// <param name="textureHandle">テクスチャハンドル</param>
 		void Draw(RenderItem& renderItem, uint32_t textureHandle);
 
+		/// <summary>
+		/// パーティクルの時に使用する描画関数
+		/// </summary>
+		/// <param name="drawInfo">描画情報</param>
 		void Draw(const ParticleDrawInfo& drawInfo);
+		/// <summary>
+		/// パーティクルの時に使用する描画関数
+		/// </summary>
+		/// <param name="drawInfo">描画情報</param>
+		/// <param name="textureHandle">テクスチャハンドル</param>
 		void Draw(const ParticleDrawInfo& drawInfo, uint32_t textureHandle);
 
 	public: //ゲッター
 
+		/// <summary>
+		/// アニメーションのデータを取得
+		/// </summary>
+		/// <returns></returns>
 		inline const std::list<AnimationData> GetAnimationData() { return animations_; }
 
+		/// <summary>
+		/// 初期状態のノード状態を取得
+		/// </summary>
+		/// <returns></returns>
 		inline const RootNode GetInialNode() { return rootNode_; }
 
+		/// <summary>
+		/// スケルトン情報を取得
+		/// </summary>
+		/// <returns></returns>
 		inline const Skeleton GetSkeleton() { return skeleton_; }
 
+		/// <summary>
+		/// メッシュデータを取得
+		/// </summary>
+		/// <returns></returns>
 		inline const std::list<Mesh> GetMeshs() { return meshs_; }
 
 	private: //メンバ関数
 
+		/// <summary>
+		/// 3Dモデルを他ファイルから読み込む
+		/// </summary>
+		/// <param name="filepath"></param>
+		/// <param name="filename"></param>
 		void LoadModelFile(const std::string& filepath, const std::string& filename);
 
 	private: //メンバ変数

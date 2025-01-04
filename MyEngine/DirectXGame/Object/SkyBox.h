@@ -28,6 +28,11 @@ namespace MyEngine {
 	{
 	public: //制的メンバ関数
 
+		/// <summary>
+		/// スカイボックスの作成関数
+		/// </summary>
+		/// <param name="textureHandle"></param>
+		/// <returns></returns>
 		static std::shared_ptr<SkyBox> Create(uint32_t textureHandle);
 
 	private: //静的メンバ変数
@@ -38,10 +43,22 @@ namespace MyEngine {
 		SkyBox();
 		~SkyBox();
 
+		/// <summary>
+		/// スカイボックスの初期化関数
+		/// </summary>
+		/// <param name="textureHandle"></param>
 		void Initialize(uint32_t textureHandle);
 
+		/// <summary>
+		/// スカイボックスの描画関数
+		/// </summary>
+		/// <param name="renderItem"></param>
 		void Draw(RenderItem& renderItem);
 
+		/// <summary>
+		/// スカイボックスのテクスチャ設定
+		/// </summary>
+		/// <param name="textureHandle"></param>
 		inline void SetSkyBoxTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
 		inline uint32_t GetSkyBoxTextureHandle() { return textureHandle_; }
 

@@ -22,12 +22,24 @@ public:
 	TitleScene();
 	~TitleScene();
 
+	/// <summary>
+	/// シーンの初期化関数
+	/// </summary>
 	void Initialize() override;
 
+	/// <summary>
+	/// シーンのアップデート関数
+	/// </summary>
 	void Update() override;
 
+	/// <summary>
+	/// シーンの描画処理
+	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// シーン削除時の処理
+	/// </summary>
 	void Finalize() override;
 
 private:
