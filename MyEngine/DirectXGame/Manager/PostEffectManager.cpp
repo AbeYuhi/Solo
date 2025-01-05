@@ -75,11 +75,13 @@ namespace MyEngine {
 	void PostEffectManager::PreDraw() {
 		DirectXCommon* directX = DirectXCommon::GetInstance();
 
+		//ポストエフェクトをしないときは通常描画するように
 		if (postEffect_ == PostEffect::kNone) {
 			NormalPreDraw();
 			directX->ClearDepthStencilBuffer();
 		}
 		else {
+			//ポストエフェクト時の処理
 			RenderPreDraw();
 		}
 	}
@@ -88,6 +90,7 @@ namespace MyEngine {
 		//通常物の描画
 		DrawManager::GetInstance()->Draw();
 
+		//ポストエフェクト時に通過するように
 		if (postEffect_ != PostEffect::kNone) {
 			RenderPostDraw();
 		}

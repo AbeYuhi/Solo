@@ -16,7 +16,7 @@ void TitleScene::Finalize() {
 void TitleScene::Initialize() {
 	sceneNo_ = TITLE;
 
-	//
+	//インスタンスの取得
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
 	spriteCamera_->Initialize();
@@ -33,6 +33,7 @@ void TitleScene::Initialize() {
 	titleCamera_ = std::make_unique<TitleCamera>();
 	titleCamera_->Initialize();
 
+	//スプライトの初期化処理
 	leftMouseClickInfo_.Initialize();
 	leftMouseClickInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("leftClick.png");
 	leftMouseClickInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
@@ -63,6 +64,7 @@ void TitleScene::Initialize() {
 	scoreTexture_ = MyEngine::TextureManager::Load("score.png");
 	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
+	//ステージの読み込み
 	levelScene_.Initialize("test.json");
 	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
 
@@ -103,6 +105,7 @@ void TitleScene::Update() {
 		titleCamera_->SetPos({ 0.0f, 5.0f, -20.0f });
 	}
 
+	//インゲームに移行するための処理
 	if (isResult_) {
 		if (MyEngine::InputManager::GetInstance()->IsMouseTrigger(0)) {
 			isResult_ = false;
@@ -117,6 +120,7 @@ void TitleScene::Update() {
 		}
 	}
 
+	//ゲーム後の結果表示シーン
 	if (isScoreImageScale_) {
 
 		if (isResult_) {
@@ -141,6 +145,7 @@ void TitleScene::Update() {
 		}
 	}
 
+	//シーンチェンジ時の演出
 	if (change_) {
 		changeTime_ += 1.0f / 60.0f;
 		titleCamera_->transform_.translate_.z += (6.0f * (changeTime_ + 2.0f)) * (1.0f / 60.0f);
@@ -156,6 +161,7 @@ void TitleScene::Update() {
 		titleCamera_->transform_.translate_.z += 6.0f * (1.0f / 60.0f);
 	}
 
+	//ステージのアップデート
 	levelScene_.Update();
 }
 

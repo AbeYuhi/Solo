@@ -24,7 +24,7 @@ namespace MyEngine {
 		//コライダーを破壊
 		SyncColliderList();
 
-		//AABBの更新
+		//コライダーの更新
 		for (auto& collider : colliders_) {
 			collider->Update();
 		}
