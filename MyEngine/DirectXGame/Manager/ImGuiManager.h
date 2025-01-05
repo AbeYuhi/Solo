@@ -46,10 +46,23 @@ namespace MyEngine {
 		/// </summary>
 		void Draw();
 
+		/// <summary>
+		/// 解放処理
+		/// </summary>
 		void ReleseProcess();
 
+		/// <summary>
+		/// レンダーアイテムの情報をImGuiで編集
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="renderItem"></param>
 		void RenderItemDebug(std::string name, RenderItem& renderItem);
 
+		/// <summary>
+		/// スプライトアイテムの情報をImGuiで編集
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="spriteItem"></param>
 		void SpriteItemDebug(std::string name, SpriteItem& spriteItem);
 
 	private:
