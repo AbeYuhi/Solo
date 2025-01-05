@@ -291,6 +291,7 @@ void Glass::Update() {
 			}
 		}
 
+		//接触面とくっついていないガラスピースを検出し壊す処理
 		bool isChange = false;
 		while (true) {
 			isChange = false;
@@ -476,6 +477,7 @@ void Glass::Update() {
 		}
 	}
 
+	//ガラスが割れるパーティクルの更新
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
 			colliders_[y][x].particle->SetEmitter(colliders_[y][x].emitter);

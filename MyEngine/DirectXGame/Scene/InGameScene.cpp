@@ -166,6 +166,8 @@ void InGameScene::Update() {
 		if (gameClearTimer_ == 0.0f) {
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.0f;
 		}
+		
+		//カメラスピードのイージングする処理
 		gameClearTimer_ += 1.0f / 60.0f;
 		cameraEasingTimer_ += 1.0f / 120.0f;
 		if (cameraEasingTimer_ > 1.0f) {
@@ -267,6 +269,7 @@ void InGameScene::Update() {
 		levelScenes_[index]->Update();
 	}
 
+	//プレイヤーの状態に応じてゲームクリアなどに移行
 	if (player_.IsGameClear()) {
 		gameClear_ = true;
 	}
@@ -277,6 +280,7 @@ void InGameScene::Update() {
 		gameOver_ = false;
 	}
 
+	//コリジョンマネージャーを更新
 	collisionManager_->Update();
 #ifdef _DEBUG
 
@@ -341,17 +345,24 @@ void InGameScene::Draw() {
 	//描画処理をmanagerに積む
 	drawManager_->PushBackBackgroundSprite(&backGroundInfo_);
 
+	//プレイヤーの描画
 	player_.Draw();
+
+	//レベルシーンの描画
 	for (int index = 0; index < levelScenes_.size(); index++) {
 		levelScenes_[index]->Draw();
 	}
+
+	//コライダーの衝突判定を描画
 	collisionManager_->Draw();
 
 	if (!gameOver_) {
+		//チュートリアルの描画
 		drawManager_->PushBackForegroundSprite(&ballShotExplanationInfo_);
 		drawManager_->PushBackForegroundSprite(&crystalExplanationInfo_);
 	}
 	if (gameOver_) {
+		//玉切れの警告
 		drawManager_->PushBackForegroundSprite(&gameOverInfo_);
 	}
 }

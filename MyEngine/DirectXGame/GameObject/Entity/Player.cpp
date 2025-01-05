@@ -46,11 +46,13 @@ void Player::Update() {
 	MyEngine::InputManager* input_ = MyEngine::InputManager::GetInstance();
 	renderItem_.worldTransform_.data_ = *cameraData_;
 
+	//プレイヤーがゴールに衝突したらクリアシーンに移行
 	if (collider_.isContact_[GOAL]) {
 		isGameClear_ = true;
 		MyEngine::CollisionManager::GetInstance()->ClearColliders();
 	}
 
+	//ドアと衝突したときの無敵時間
 	if (doorInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 
@@ -66,6 +68,7 @@ void Player::Update() {
 		doorInvincibilityTime_ -= 1.0f / 60.0f;
 	}
 
+	//ガラスと衝突したときの無敵時間
 	if (glassInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[GLASS]) {
 			numberofSlashAttacks_ -= 10;
@@ -274,10 +277,13 @@ void Player::Update() {
 }
 
 void Player::Draw() {
+
+	//弾の描画
 	for (auto& bullet : bullets_) {
 		bullet->Draw();
 	}
 
+	//残り玉数の描画
 	if (digitCount_ == 1) {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[0]);
 	}

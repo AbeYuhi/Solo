@@ -19,6 +19,7 @@ void Door::Initialize(std::shared_ptr<MyEngine::Model> model,
 
 void Door::Update() {
 
+	//ボールがボタンに衝突したときにドアを開く処理を有効に
 	if (buttonCollider_->isContact_[BULLET]) {
 		if (!isOpen_) {
 			isOpen_ = true;
@@ -26,6 +27,7 @@ void Door::Update() {
 		}
 	}
 
+	//実際に開く処理
 	if (isOpen_) {
 		if (moveTime_ <= 1.0f) {
 			moveTime_ += 1.0f / 60.0f;
@@ -37,6 +39,7 @@ void Door::Update() {
 
 void Door::Draw() {
 
+	//ドア関連のオブジェクトの描画
 	DrawManager::GetInstance()->PushBackOpaqueObject(&buttonInfo_);
 	DrawManager::GetInstance()->PushBackOpaqueObject(&leftDoorInfo_);
 	DrawManager::GetInstance()->PushBackOpaqueObject(&rightDoorInfo_);

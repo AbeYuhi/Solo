@@ -503,6 +503,7 @@ void LevelScene::LevelCreate() {
 			levelObject->type = kCamera;
 		}
 
+		//コライダーがある場合コライダーマネージャーに追加
 		if (objectData.collider) {
 			ColliderType type = kAABB;
 			ColliderTag tag = WALL;
@@ -553,6 +554,7 @@ void LevelScene::LevelCreate() {
 			}
 		}
 		
+		//オブジェクトをそれぞれのタイプに収納
 		if (objectData.type == kMESH) {
 			if (objectData.collider) {
 				if (objectData.collider->tag == "BUTTON") {

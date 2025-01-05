@@ -87,7 +87,8 @@ void Collider::Update() {
 	else {
 		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
 	}
-
+	
+	//形状に合わせた処理
 	std::visit([&](auto& shape) {
 		using T = std::decay_t<decltype(shape)>;
 		if constexpr (std::is_same_v<T, AABB>) {

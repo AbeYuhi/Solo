@@ -23,12 +23,15 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 void Crystal::Update() {
 
 	if (comboDestroyCount_) {
+
+		//弾と衝突したら残弾の追加やコンボを増やす
 		if (collider_->isContact_[BULLET] && !isBreak_) {
 			*numberofSlashAttacks_ += 3;
 			*comboDestroyCount_ += 1;
 			isBreak_ = true;
 		}
 
+		//壊されないまま通り過ぎたらコンボが途切れるように
 		if (!isBreak_) {
 			if (info_.renderItem->worldTransform_.GetWorldPos().z <= MainCamera::GetInstance()->GetWorldPos().z) {
 				*comboDestroyCount_ = 0;
@@ -37,6 +40,7 @@ void Crystal::Update() {
 		}
 	}
 
+	//壊れたらコライダーマネージャーから削除するように
 	if (isBreak_) {
 		collider_->isDelete_ = true;
 	}
