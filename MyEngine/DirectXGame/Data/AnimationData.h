@@ -50,6 +50,18 @@ struct AnimationInfo {
 	bool isLoop;
 };
 
+/// <summary>
+/// Vector3の線形補間する処理
+/// </summary>
+/// <param name="curve"></param>
+/// <param name="time"></param>
+/// <returns></returns>
 Vector3 CalculateValue(const AnimationCurve<Vector3>& curve, float time);
 
+/// <summary>
+/// Quaternionの線形補間する処理
+/// </summary>
+/// <param name="curve"></param>
+/// <param name="time"></param>
+/// <returns></returns>
 Quaternion CalculateValue(const AnimationCurve<Quaternion>& curve, float time);

@@ -27,12 +27,28 @@ namespace MyEngine {
 		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 更新処理
+		/// </summary>
 		void Update();
 
+		/// <summary>
+		/// GLTFの更新処理
+		/// </summary>
+		/// <param name="mesh"></param>
+		/// <param name="index"></param>
 		void UpdateGltf(Mesh mesh, int index);
 
+		/// <summary>
+		/// Modekのセッター
+		/// </summary>
+		/// <param name="model"></param>
 		void SetModel(Model* model);
 
+		/// <summary>
+		/// アニメーションのセッター
+		/// </summary>
+		/// <param name="datas"></param>
 		void SetAnimation(std::list<AnimationData> datas);
 	};
 

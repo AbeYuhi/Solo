@@ -19,21 +19,48 @@ namespace MyEngine {
 	{
 	public:
 
+		/// <summary>
+		/// インスタンスの取得関数
+		/// </summary>
+		/// <returns></returns>
 		static CollisionManager* GetInstance();
-
+		
+		/// <summary>
+		/// 初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 更新関数
+		/// </summary>
 		void Update();
 
+		/// <summary>
+		/// 描画関数
+		/// </summary>
 		void Draw();
 
+		/// <summary>
+		/// IsDeleteが有効なコライダーを除去する処理
+		/// </summary>
 		void SyncColliderList();
 
+		/// <summary>
+		/// すべてのコライダーデータを除去する処理
+		/// </summary>
 		void Reset();
 
 	public:
 
+		/// <summary>
+		/// すべてのコライダーデータを除去する処理
+		/// </summary>
 		inline void ClearColliders() { colliders_.clear(); }
+
+		/// <summary>
+		/// コライダーマネージャーにコライダーを追加する処理
+		/// </summary>
+		/// <param name="collider"></param>
 		inline void AddCollider(Collider* collider) { colliders_.push_back(collider); }
 
 	private:

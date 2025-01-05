@@ -49,21 +49,54 @@ public:
 	LevelScene() = default;
 	~LevelScene() = default;
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	/// <param name="stageSize"></param>
 	void Initialize(const std::string& fileName, float stageSize = 0.0f);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// カメラデータの取得処理
+	/// </summary>
+	/// <returns></returns>
 	inline CameraData GetCameraData() const { return gameObject_.cameraData_; }
+
+	/// <summary>
+	/// クリスタルデータの取得処理
+	/// </summary>
+	/// <returns></returns>
 	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }
 
 private: //メンバ関数
 
+	/// <summary>
+	/// ステージファイルの読み込み処理
+	/// </summary>
+	/// <param name="fileName"></param>
 	void LoadFile(const std::string& fileName);
 
+	/// <summary>
+	/// オブジェクトの子を読み込む処理
+	/// </summary>
+	/// <param name="levelData"></param>
+	/// <param name="childrens"></param>
+	/// <param name="parent"></param>
 	void ScanChildData(LevelData* levelData, json& childrens, int32_t parent);
 
+	/// <summary>
+	/// レベルを作成する処理
+	/// </summary>
 	void LevelCreate();
 
 private: //メンバ変数

@@ -20,6 +20,9 @@ struct Material {
 	Vector3 shininessColor;
 	float environmentCoefficient;
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Initialize();
 };
 
@@ -27,5 +30,8 @@ struct ParticleMaterial {
 	Vector4 color;
 	Matrix4x4 uvTransform;
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Initialize();
 };

@@ -32,6 +32,9 @@ namespace MyEngine {
 			spriteData_.Initialize(textureHandle, size, anchorPoint, baseUvPos, texSize, isFlipX, isFlipY);
 		}
 
+		/// <summary>
+		/// 更新処理
+		/// </summary>
 		void Update() {
 			materialInfo_.UpdateMatrix();
 			worldTransform_.UpdateWorld();

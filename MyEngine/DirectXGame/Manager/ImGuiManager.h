@@ -19,14 +19,31 @@ namespace MyEngine {
 	class ImGuiManager
 	{
 	public:
+
+		/// <summary>
+		/// インスタンスの取得
+		/// </summary>
+		/// <returns></returns>
 		static ImGuiManager* GetInstance();
 
+		/// <summary>
+		/// 初期化関数
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// ゲームループ中の初期化処理
+		/// </summary>
 		void Begin();
 
+		/// <summary>
+		/// ゲームループ中の処理終了
+		/// </summary>
 		void End();
 
+		/// <summary>
+		/// 描画関数
+		/// </summary>
 		void Draw();
 
 		void ReleseProcess();

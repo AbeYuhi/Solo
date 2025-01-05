@@ -13,6 +13,11 @@ class LoadCSV
 {
 public:
 
+	/// <summary>
+	/// CSVファイルを読み込む処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	/// <returns></returns>
 	static std::stringstream Load(std::string fileName);
 
 

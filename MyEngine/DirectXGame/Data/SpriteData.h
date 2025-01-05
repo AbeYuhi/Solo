@@ -17,5 +17,15 @@ struct SpriteData {
 	bool isFlipX_;
 	bool isFlipY_;
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <param name="size"></param>
+	/// <param name="anchorPoint"></param>
+	/// <param name="baseUvPos"></param>
+	/// <param name="texSize"></param>
+	/// <param name="isFlipX"></param>
+	/// <param name="isFlipY"></param>
 	void Initialize(uint32_t textureHandle = 0, Vector2 size = { 640, 360 }, Vector2 anchorPoint = { 0.5f, 0.5f }, Vector2 baseUvPos = { 0, 0 }, Vector2 texSize = { 1.0f, 1.0f }, bool isFlipX = false, bool isFlipY = false);
 };

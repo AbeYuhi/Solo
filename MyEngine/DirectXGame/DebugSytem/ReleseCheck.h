@@ -6,6 +6,9 @@
 /// ゲームエンジン上のメモリを解放できているか確認しているファイル
 /// </summary>
 
+/// <summary>
+/// リソースリークが発生していないかを検知する処理
+/// </summary>
 struct D3DResoruceLeakCheaker {
 	~D3DResoruceLeakCheaker() {
 		ComPtr<IDXGIDebug1> debug;

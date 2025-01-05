@@ -18,6 +18,10 @@ using json = nlohmann::json;
 class GlobalVariables
 {
 public:
+	/// <summary>
+	/// インスタンスの取得処理
+	/// </summary>
+	/// <returns></returns>
 	static GlobalVariables* GetInstance();
 
 	/// <summary>
@@ -48,23 +52,76 @@ public:
 	/// <param name="groupName">グループ名</param>
 	void LoadFile(const std::string& groupName);
 
-	//値のセット(int)
+	/// <summary>
+	/// 値のセット(int)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
-	//値のセット(float)
+
+	/// <summary>
+	/// 値のセット(float)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void SetValue(const std::string& groupName, const std::string& key, float value);
-	//値のセット(Vec3)
+	
+	/// <summary>
+	/// 値のセット(Vec3)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 
-	//項目の追加(int)
+	/// <summary>
+	/// 項目の追加(int)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void AddValue(const std::string& groupName, const std::string& key, int32_t value);
-	//項目の追加(float)
+	
+	/// <summary>
+	/// 項目の追加(float)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void AddValue(const std::string& groupName, const std::string& key, float value);
-	//項目の追加(Vec3)
+	
+	/// <summary>
+	/// 項目の追加(Vec3)
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	void AddValue(const std::string& groupName, const std::string& key, const Vector3& value);
 
-	//値の取得
+	/// <summary>
+	/// int値の取得
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <returns></returns>
 	int32_t GetIntValue(const std::string& groupName, const std::string& key) const;
+
+	/// <summary>
+	/// float値の取得
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <returns></returns>
 	float GetFloatValue(const std::string& groupName, const std::string& key) const;
+
+	/// <summary>
+	/// Vector3値の取得
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <returns></returns>
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key) const;
 
 	//項目

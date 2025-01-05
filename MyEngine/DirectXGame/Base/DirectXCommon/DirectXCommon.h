@@ -33,8 +33,14 @@ namespace MyEngine {
 		DirectXCommon(const DirectXCommon&) = delete;
 		DirectXCommon& operator=(const DirectXCommon&) = delete;
 
+		/// <summary>
+		/// 初期化処理
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 描画後の処理
+		/// </summary>
 		void PostDraw();
 
 		/// <summary>
@@ -84,26 +90,71 @@ namespace MyEngine {
 
 	public: //ゲッターセッター
 
+		/// <summary>
+		/// デバイスのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12Device* GetDevice() { return device_.Get(); }
 
+		/// <summary>
+		/// コマンドリストのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12GraphicsCommandList* GetCommandList() { return commandList_.Get(); }
 
+		/// <summary>
+		/// スワップチェインのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline IDXGISwapChain4* GetSwapShain() { return swapChain_.Get(); }
 
+		/// <summary>
+		/// RTVデスクリプターヒープのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12DescriptorHeap* GetRtvDescriptorHeap() { return rtvDescriptorHeap_.Get(); }
 
+		/// <summary>
+		/// DSVデスクリプターヒープのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 
+		/// <summary>
+		/// DSVリソースのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12Resource* GetDsvResource() { return depthStencilResource_.Get(); }
 
+		/// <summary>
+		/// RTVデスクのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc() { return rtvDesc_; }
 
+		/// <summary>
+		/// DSVデスクのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline D3D12_DEPTH_STENCIL_VIEW_DESC GetDsvDesc() { return dsvDesc_; }
 
+		/// <summary>
+		/// RTVハンドルのゲッター
+		/// </summary>
+		/// <returns></returns>
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRtvHandle();
 
+		/// <summary>
+		/// DSVハンドルのゲッター
+		/// </summary>
+		/// <returns></returns>
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDsvHandle();
 
+		/// <summary>
+		/// バックバッファーのゲッター
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		inline ID3D12Resource* GetBackBuffer(int index) { return backBuffers[index].Get(); }
 
 		/// <summary>

@@ -18,24 +18,65 @@
 
 class MainCamera {
 public:
-	//インスタンスの取得
+	/// <summary>
+	/// インスタンスの取得
+	/// </summary>
+	/// <returns></returns>
 	static MainCamera* GetInstance();
 
-	//カメラのリソースなどの初期化処理
+	/// <summary>
+	/// カメラのリソースなどの初期化処理
+	/// </summary>
 	void Initialize();
 
-	//カメラの更新処理
+	/// <summary>
+	/// カメラの更新処理
+	/// </summary>
 	void Update();
+	/// <summary>
+	/// カメラの更新処理
+	/// </summary>
 	void Update(EulerTransformData transform_, Matrix4x4 worldMatrix = MakeIdentity4x4(), Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, (float)MyEngine::WinApp::kWindowWidth / (float)MyEngine::WinApp::kWindowHeight, 0.1f, 100.0f));
 
-	//カメラの情報をGPUに送るための処理
+	/// <summary>
+	/// カメラの情報をGPUに送るための処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ワールドマトリックスの取得処理
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4 GetWorldMatrix() const { return worldMatrix_; }
+
+	/// <summary>
+	/// ビュープロジェクションの取得処理
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4 GetViewProjectionMatrix() const { return viewProjectionMatrix_; }
+
+	/// <summary>
+	/// ビュープロジェクションのポインタ取得処理
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4* GetPViewProjectionMatrix() { return &viewProjectionMatrix_; }
+
+	/// <summary>
+	/// ビューマトリックスの取得処理
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
+
+	/// <summary>
+	/// プロジェクションマトリックスの取得処理
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
+
+	/// <summary>
+	/// ワールド座標のカメラ位置の取得処理
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetWorldPos() const { return { worldMatrix_.m[3][0], worldMatrix_.m[3][1] , worldMatrix_.m[3][2] }; }
 
 public:

@@ -57,30 +57,74 @@ namespace MyEngine {
 		ParticleManager(int maxParticleCount);
 		~ParticleManager();
 
+		/// <summary>
+		/// 初期化処理
+		/// </summary>
 		virtual void Initialize();
 
+		/// <summary>
+		/// 更新処理
+		/// </summary>
 		virtual void Update();
 
+		/// <summary>
+		/// エミッターの描画処理
+		/// </summary>
 		virtual void EmitterDraw();
 
+		/// <summary>
+		/// パーティクルの描画処理
+		/// </summary>
 		virtual void Draw();
 
+		/// <summary>
+		/// 粒子の発生関数
+		/// </summary>
+		/// <returns></returns>
 		virtual ParticleInfo MakeNewParticle() = 0;
 
+		/// <summary>
+		/// パーティクルの発生処理
+		/// </summary>
 		void PopParticle();
 
+		/// <summary>
+		/// パーティクルを削除する処理
+		/// </summary>
 		void UnloadParticle();
 
 	private: //メンバ関数
 
+		/// <summary>
+		/// SRVを作成する処理
+		/// </summary>
 		void CreateSRV();
+
+		/// <summary>
+		/// 粒子を複数発生させる処理
+		/// </summary>
+		/// <returns></returns>
 		std::list<ParticleInfo> Emission();
 
 	public: //ゲッターセッター
 
+		/// <summary>
+		/// パーティクルの発生を有効にするか無効にするか
+		/// </summary>
+		/// <returns></returns>
 		inline bool GetIsPopParticle() { return isPopParticle_; }
 		inline void SetIsPopParticle(bool isPopParticle) { isPopParticle_ = isPopParticle; }
+
+		/// <summary>
+		/// パーティクルのテクスチャ設定処理
+		/// </summary>
+		/// <param name="textureHandle"></param>
 		inline void SetTextureHandle(uint32_t textureHandle) { textureHandle_ = textureHandle; }
+
+		/// <summary>
+		/// パーティクルの発生位置の調整処理
+		/// </summary>
+		/// <param name="pos"></param>
 		inline void SetEmitterPos(Vector3 pos) { emitter_.transform.translate_ = pos; }
 
 	protected: //メンバ変数

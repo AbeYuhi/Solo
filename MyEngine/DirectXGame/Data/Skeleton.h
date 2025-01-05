@@ -28,6 +28,19 @@ struct Skeleton {
 	std::vector<Joint> joints;
 };
 
+/// <summary>
+/// ジョイントの作成
+/// </summary>
+/// <param name="rootNode"></param>
+/// <param name="node"></param>
+/// <param name="parent"></param>
+/// <param name="joints"></param>
+/// <returns></returns>
 int32_t CreateJoint(const RootNode& rootNode, const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 
+/// <summary>
+/// スケルトンの作成
+/// </summary>
+/// <param name="rootNode"></param>
+/// <returns></returns>
 Skeleton CreateSkeleton(const RootNode& rootNode);

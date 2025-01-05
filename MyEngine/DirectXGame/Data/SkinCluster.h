@@ -41,6 +41,16 @@ struct SkinCluster {
 	int srvIndex;
 };
 
+/// <summary>
+/// スキンクラスターの作成
+/// </summary>
+/// <param name="skeleton"></param>
+/// <param name="modeldata"></param>
+/// <returns></returns>
 SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modeldata);
 
+/// <summary>
+/// スキンクラスターの削除処理
+/// </summary>
+/// <param name="skinCluster"></param>
 void ClearSkinCluster(SkinCluster& skinCluster);

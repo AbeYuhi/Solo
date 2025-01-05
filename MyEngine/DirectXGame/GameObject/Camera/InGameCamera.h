@@ -22,8 +22,14 @@ public:
 	InGameCamera();
 	~InGameCamera();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Initialize() override;
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update() override;
 
 private:

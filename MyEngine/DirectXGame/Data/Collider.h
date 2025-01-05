@@ -72,6 +72,20 @@ struct Collider {
 
 	bool isCollisionCheck_;
 	
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="objData"></param>
+	/// <param name="colliderData"></param>
+	/// <param name="tag"></param>
+	/// <param name="type"></param>
+	/// <param name="isCollisionCheck"></param>
+	/// <param name="velocity"></param>
+	/// <param name="isDrawCollider"></param>
 	void Initialize(MyEngine::WorldTransform* objData, EulerTransformData colliderData, ColliderTag tag, ColliderType type, bool isCollisionCheck, Vector3* velocity = nullptr, bool isDrawCollider = true);
+	
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 };

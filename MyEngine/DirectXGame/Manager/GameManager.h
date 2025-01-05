@@ -14,12 +14,26 @@ class GameManager : public MyEngine::Framework
 {
 public:
 
+	/// <summary>
+	/// インスタンスの取得
+	/// </summary>
+	/// <returns></returns>
 	static GameManager* GetInstance();
 
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
 	void Initialize() override;
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize() override;
 
+	/// <summary>
+	/// ゲームループ部分
+	/// </summary>
+	/// <returns></returns>
 	int Run();
 
 private:

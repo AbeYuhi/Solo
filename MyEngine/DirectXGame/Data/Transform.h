@@ -62,10 +62,22 @@ namespace MyEngine {
 		/// </summary>
 		Vector3 GetWorldPos();
 
+		/// <summary>
+		/// ワールドポジションのポインタ取得
+		/// </summary>
+		/// <returns></returns>
 		Vector3* GetPWorldPos();
 
+		/// <summary>
+		/// ローカル座標系でのオブジェクト情報の取得
+		/// </summary>
+		/// <returns></returns>
 		EulerTransformData* GetPLocalEulerTransformData();
-						    
+		
+		/// <summary>
+		/// ワールド座標系でのオブジェクト情報の取得
+		/// </summary>
+		/// <returns></returns>
 		EulerTransformData* GetPWorldEulerTransformData();
 
 	private:

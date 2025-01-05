@@ -21,12 +21,26 @@ public:
 	PlayerBullet() = default;
 	~PlayerBullet() = default;
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="mousePos"></param>
 	void Initialize(Vector2 mousePos);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 弾が残り続ける残り時間
+	/// </summary>
+	/// <returns></returns>
 	inline float GetLifeTime() { return lifeTime_; }
 
 private:

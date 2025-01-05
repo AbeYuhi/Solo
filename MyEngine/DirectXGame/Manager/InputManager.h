@@ -18,12 +18,23 @@ namespace MyEngine {
 
 	class InputManager {
 	public: //静的メンバ関数
+
+		/// <summary>
+		/// インスタンスの取得
+		/// </summary>
+		/// <returns></returns>
 		static InputManager* GetInstance();
 
 	public: //メンバ関数
 
+		/// <summary>
+		/// 初期化処理
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 更新処理
+		/// </summary>
 		void Update();
 
 		/// <summary>
@@ -51,6 +62,7 @@ namespace MyEngine {
 		}
 
 		/// <summary>
+		/// マウスが入力されているかを検知
 		/// 左ボタン[0]
 		/// 右ボタン[1]
 		/// ホイール[2]
@@ -64,61 +76,118 @@ namespace MyEngine {
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// マウストリガーの検知
+		/// </summary>
+		/// <param name="clickNum"></param>
+		/// <returns></returns>
 		inline bool IsMouseTrigger(BYTE clickNum) {
 			if (mouseState_.rgbButtons[clickNum] && !preMouseState_.rgbButtons[clickNum]) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// マウスの入力が外されたか検知
+		/// </summary>
+		/// <param name="clickNum"></param>
+		/// <returns></returns>
 		inline bool IsMouseRelsease(BYTE clickNum) {
 			if (!mouseState_.rgbButtons[clickNum] && preMouseState_.rgbButtons[clickNum]) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// マウスホイールの量を検知
+		/// </summary>
+		/// <returns></returns>
 		inline float GetMouseWheelDelta() {
 			return static_cast<float>(mouseState_.lZ);
 		}
+
+		/// <summary>
+		/// マウスのポジションを検出
+		/// </summary>
+		/// <returns></returns>
 		inline Vector2 GetMousePos() {
 			return clientMousePos_;
 		}
+
+		/// <summary>
+		/// マウスの移動量を検出
+		/// </summary>
+		/// <returns></returns>
 		inline Vector2 GetMouseMovement() {
 			return { (float)mouseState_.lX, (float)mouseState_.lY };
 		}
 
 		//コントローラー
-		//ボタン
+		/// <summary>
+		/// コントローラーのボタンが押されているか検出
+		/// </summary>
+		/// <param name="buttons"></param>
+		/// <returns></returns>
 		inline WORD IsPushGamePadbutton(WORD buttons) {
 			if (gamePadState_.Gamepad.wButtons & buttons) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// コントローラーのボタンがトリガーされたか検出
+		/// </summary>
+		/// <param name="buttons"></param>
+		/// <returns></returns>
 		inline WORD IsTriggerGamePadbutton(WORD buttons) {
 			if (gamePadState_.Gamepad.wButtons & buttons && !(preGamePadState_.Gamepad.wButtons & buttons)) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// コントローラーのボタンの入力が無効になったかを検出
+		/// </summary>
+		/// <param name="buttons"></param>
+		/// <returns></returns>
 		inline WORD IsReleaseGamePadbutton(WORD buttons) {
 			if (!(gamePadState_.Gamepad.wButtons & buttons) && preGamePadState_.Gamepad.wButtons & buttons) {
 				return true;
 			}
 			return false;
 		}
-		//左トリガー
+		
+		/// <summary>
+		/// コントローラーの左トリガーが入力されているか検出
+		/// </summary>
+		/// <returns></returns>
 		inline WORD IsPushGamePadLTrigger() {
 			if (gamePadState_.Gamepad.bLeftTrigger) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// コントローラーの左トリガーがトリガーされたかを検出
+		/// </summary>
+		/// <returns></returns>
 		inline WORD IsTriggerGamePadLTrigger() {
 			if (gamePadState_.Gamepad.bLeftTrigger && !preGamePadState_.Gamepad.bLeftTrigger) {
 				return true;
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// コントローラー左トリガーが無効になったかを検出
+		/// </summary>
+		/// <returns></returns>
 		inline WORD IsReleaseGamePadLTrigger() {
 			if (!gamePadState_.Gamepad.bLeftTrigger && preGamePadState_.Gamepad.bLeftTrigger) {
 				return true;

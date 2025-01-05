@@ -8,6 +8,12 @@
 /// </summary>
 
 struct ParticleDrawInfo {
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="srvHandle"></param>
+	/// <param name="materialInfo"></param>
+	/// <param name="kMaxParticleCount"></param>
 	void Initialize(const ResourceHandles* srvHandle, const MyEngine::ParticleMaterialInfo* materialInfo, const int* kMaxParticleCount) {
 		srvHandle_ = srvHandle;
 		materialInfo_ = materialInfo;

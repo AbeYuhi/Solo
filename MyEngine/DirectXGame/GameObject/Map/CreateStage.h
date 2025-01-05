@@ -9,4 +9,10 @@
 /// CSVで読みんだ情報からステージを作成するファイル
 /// </summary>
 
+/// <summary>
+/// CSVで読み込んだ情報からステージを作成する処理
+/// </summary>
+/// <param name="stageFileName"></param>
+/// <param name="size"></param>
+/// <returns></returns>
 std::list<std::unique_ptr<StageBlock>> CreateStage(std::string stageFileName, Vector3 size);

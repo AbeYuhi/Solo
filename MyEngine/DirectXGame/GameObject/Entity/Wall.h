@@ -37,27 +37,58 @@ public:
 	Wall();
 	~Wall();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model"></param>
+	/// <param name="renderItem"></param>
+	/// <param name="collider"></param>
+	/// <param name="info"></param>
 	void Initialize(std::shared_ptr<MyEngine::Model> model,
 		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider,
 		WallInfo info);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
-
-	void DrawTransparentObject();
 
 private:
 
+	/// <summary>
+	/// 動かない時の処理
+	/// </summary>
 	void DontMove();
 
+	/// <summary>
+	/// 左右に動く時の処理
+	/// </summary>
 	void MoveAlternateLeftRight();
 
+	/// <summary>
+	/// 上下に動く時の処理
+	/// </summary>
 	void MoveAlternateUpDown();
 
+	/// <summary>
+	/// X軸で回転するときの処理
+	/// </summary>
 	void MoveXRotate();
+
+	/// <summary>
+	/// Y軸で回転するときの処理
+	/// </summary>
 	void MoveYRotate();
+
+	/// <summary>
+	/// Z軸で回転するときの処理
+	/// </summary>
 	void MoveZRotate();
 
 private:

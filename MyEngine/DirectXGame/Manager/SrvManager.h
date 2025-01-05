@@ -24,20 +24,49 @@ namespace MyEngine {
 	class SrvManager
 	{
 	public:
+		/// <summary>
+		/// インスタンスの取得
+		/// </summary>
+		/// <returns></returns>
 		static SrvManager* GetInstance();
 
 	public:
 
+		/// <summary>
+		/// 初期化処理
+		/// </summary>
 		void Initialize();
 
+		/// <summary>
+		/// 空いてるSRVインデックスを探す処理
+		/// </summary>
+		/// <returns></returns>
 		uint32_t Allocate();
 
+		/// <summary>
+		/// SRVのでスクリプターヒープの取得関数
+		/// </summary>
+		/// <returns></returns>
 		inline ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return descriptorHeap_.Get(); }
 
+		/// <summary>
+		/// リソースをデリートする処理
+		/// </summary>
+		/// <param name="index"></param>
 		void UnLoadResource(int index);
 
+		/// <summary>
+		/// GPUのSRVインデックスを取得する処理
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(int index);
 
+		/// <summary>
+		/// CPUのSRVインデックスを取得する処理
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(int index);
 
 	private:

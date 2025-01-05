@@ -41,23 +41,48 @@ public:
 	Glass();
 	~Glass();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model"></param>
+	/// <param name="renderItem"></param>
+	/// <param name="collider"></param>
+	/// <param name="info"></param>
 	void Initialize(std::shared_ptr<MyEngine::Model> model,
 		std::shared_ptr<MyEngine::RenderItem> renderItem,
 		Collider* collider,
 		GlassInfo info);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
 private:
 
+	/// <summary>
+	/// ガラスが動かない時の処理
+	/// </summary>
 	void DontMoveGlass();
 
+	/// <summary>
+	/// ガラスが起き上がるときの処理
+	/// </summary>
 	void MoveGlassUpRight();
 
+	/// <summary>
+	/// ガラスが左右に動く時の処理
+	/// </summary>
 	void MoveGlassAlternateLeftRight();
 
+	/// <summary>
+	/// ガラスが上下に動く時の処理
+	/// </summary>
 	void MoveGlassAlternateUpDown();
 
 

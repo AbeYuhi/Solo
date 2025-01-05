@@ -12,9 +12,20 @@ namespace MyEngine {
 	class WinApp
 	{
 	public: //静的関数
-		//インスタンスの取得
+		/// <summary>
+		/// インスタンスの取得
+		/// </summary>
+		/// <returns></returns>
 		static WinApp* GetInstance();
 
+		/// <summary>
+		/// ウィンドウ情報の設定
+		/// </summary>
+		/// <param name="hwnd"></param>
+		/// <param name="msg"></param>
+		/// <param name="wparam"></param>
+		/// <param name="lparam"></param>
+		/// <returns></returns>
 		static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 	public: //静的メンバ変数
@@ -24,13 +35,36 @@ namespace MyEngine {
 
 	public: //メンバ関数
 
+		/// <summary>
+		/// ウィンドウの生成処理
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="windowStyle"></param>
+		/// <param name="windowWidth"></param>
+		/// <param name="windowHeight"></param>
 		void CreateGameWindow(const wchar_t* title = L"MyEngine", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t windowWidth = kWindowWidth, int32_t windowHeight = kWindowHeight);
 
+		/// <summary>
+		/// ウィンドウの開放処理
+		/// </summary>
 		void DiscardingWindow();
 
+		/// <summary>
+		/// ウィンドウにされた操作の取得処理
+		/// </summary>
+		/// <returns></returns>
 		bool ProcessMessage();
 
+		/// <summary>
+		/// HWNDのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline HWND GetHWND() { return hwnd_; }
+
+		/// <summary>
+		/// WNDCクラスのゲッター
+		/// </summary>
+		/// <returns></returns>
 		inline WNDCLASS GetWNDCLASS() { return wc_; }
 
 	private: //メンバ関数

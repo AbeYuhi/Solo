@@ -16,17 +16,56 @@ class Player
 {
 public:
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="cameraData"></param>
 	void Initialize(EulerTransformData* cameraData);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// カメラデータをセット
+	/// </summary>
+	/// <param name="data"></param>
 	inline void SetCameraData(EulerTransformData* data) { cameraData_ = data; }
+
+	/// <summary>
+	/// ゲームオーバーか取得
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsGameOver() const { return isGameOver_; }
+
+	/// <summary>
+	/// ゲームクリアか取得
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsGameClear() const { return isGameClear_; }
+
+	/// <summary>
+	/// 残り玉数の取得
+	/// </summary>
+	/// <returns></returns>
 	inline int* GetNumberofSlashAttacks() { return &numberofSlashAttacks_; }
+
+	/// <summary>
+	/// コンボ数の取得
+	/// </summary>
+	/// <returns></returns>
 	inline int* GetComboDestroyCount() { return &comboDestroyCount_; }
+
+	/// <summary>
+	/// 射出しているかをセット
+	/// </summary>
+	/// <param name="isShot"></param>
 	inline void SetIsShot(bool isShot) { isShot_ = isShot; }
 
 private:
