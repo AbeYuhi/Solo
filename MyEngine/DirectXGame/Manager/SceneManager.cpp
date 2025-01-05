@@ -31,6 +31,7 @@ namespace MyEngine {
 	}
 
 	void SceneManager::Update() {
+		//前回、現在のシーンナンバーを取得
 		preSceneNo_ = sceneNo_;
 		sceneNo_ = scene_->GetSceneNo();
 
@@ -55,6 +56,8 @@ namespace MyEngine {
 			//シーンの初期化
 			scene_->Initialize();
 		}
+
+		//シーン遷移機能の更新
 		sceneChange_->Update();
 
 		//シーンの更新

@@ -29,6 +29,8 @@ namespace MyEngine {
 	}
 
 	uint32_t SrvManager::Allocate() {
+
+		//SRVの空きインデックスを捜索し取得する
 		for (int index = 0; index < kMaxCount_; index++) {
 			assert(index < kMaxCount_);
 			if (!isUseIndex_[index]) {
