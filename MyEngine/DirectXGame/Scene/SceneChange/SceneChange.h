@@ -14,14 +14,30 @@ class SceneChange
 {
 public:
 
+	/// <summary>
+	/// インスタンスの取得
+	/// </summary>
+	/// <returns></returns>
 	static SceneChange* GetInstance();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Inialize();
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// シーンチェンジをスタート
+	/// </summary>
 	void StartSceneChange();
 
 	inline bool IsChange() const { return isChange_; }

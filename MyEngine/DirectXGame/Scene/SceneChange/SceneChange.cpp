@@ -29,6 +29,7 @@ void SceneChange::Update(){
 	if (isStart_) {
 		time_ += 1.0f / 60.0f;
 		if (isReverse_) {
+			isChange_ = false;
 			whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w -= 1.0f / 60.0f;
 
 			if (whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w <= 0.0f) {

@@ -50,7 +50,8 @@ namespace MyEngine {
 			isChange_ = false;
 			//シーンの削除
 			scene_->Finalize();
-			scene_.release();
+			scene_.reset();
+			DrawManager::GetInstance()->Clear();
 			//シーンの生成
 			scene_ = sceneFactory_->CreateScene((GameScene)sceneNo_);
 			//シーンの初期化

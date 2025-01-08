@@ -10,7 +10,9 @@ TitleScene::TitleScene() {}
 TitleScene::~TitleScene() {}
 
 void TitleScene::Finalize() {
-
+	levelScene_.reset();
+	levelScene1_.reset();
+	levelScene2_.reset();
 }
 
 void TitleScene::Initialize() {
@@ -65,10 +67,13 @@ void TitleScene::Initialize() {
 	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
 	//ステージの読み込み
-	levelScene_.Initialize("title.json");
-	levelScene1_.Initialize("title.json", 300);
-	levelScene2_.Initialize("title.json", 600);
-	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
+	levelScene_ = std::make_unique<LevelScene>();
+	levelScene1_ = std::make_unique<LevelScene>();
+	levelScene2_ = std::make_unique<LevelScene>();
+	levelScene_->Initialize("title.json");
+	levelScene1_->Initialize("title.json", 300);
+	levelScene2_->Initialize("title.json", 600);
+	titleCamera_->SetWorldTransrom(levelScene_->GetCameraData().CameraInfo);
 
 	if (preSceneNo_ == INGAME) {
 		isPreviousSceneInGame_ = true;
@@ -166,9 +171,9 @@ void TitleScene::Update() {
 	}
 
 	//ステージのアップデート
-	levelScene_.Update();
-	levelScene1_.Update();
-	levelScene2_.Update();
+	levelScene_->Update();
+	levelScene1_->Update();
+	levelScene2_->Update();
 }
 
 void TitleScene::Draw() {
@@ -188,8 +193,8 @@ void TitleScene::Draw() {
 	else {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&titleNameInfo_);
 	}
-	levelScene_.Draw();
-	levelScene1_.Draw();
-	levelScene2_.Draw();
+	levelScene_->Draw();
+	levelScene1_->Draw();
+	levelScene2_->Draw();
 
 }

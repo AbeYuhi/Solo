@@ -62,9 +62,9 @@ private:
 	SceneChange* sceneChange_;
 
 	float time_;
-	LevelScene levelScene_;
-	LevelScene levelScene1_;
-	LevelScene levelScene2_;
+	std::unique_ptr<LevelScene> levelScene_;
+	std::unique_ptr<LevelScene> levelScene1_;
+	std::unique_ptr<LevelScene> levelScene2_;
 
 	float changeTime_;
 	bool change_;
