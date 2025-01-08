@@ -82,6 +82,20 @@ void InGameScene::Initialize() {
 	crystalExplanationInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
 	crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
 
+	comboExplanationInfo_.Initialize();
+	comboExplanationInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("combo_Explanation.png");
+	comboExplanationInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	comboExplanationInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
+	isFirst10Combo_ = false;
+
+	ballLostExplanationInfo_.Initialize();
+	ballLostExplanationInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("ballLost_Explanation.png");
+	ballLostExplanationInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
+	ballLostExplanationInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
+	isFirstLost_ = false;
+
 	gameOverInfo_.Initialize();
 	gameOverInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("gameOver_Explanation.png");
 	gameOverInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
@@ -96,8 +110,8 @@ void InGameScene::Initialize() {
 
 
 	startTimer_ = 0.0f;
-	ballShotRxplanationTime_ = 9999.9999f;
-	crystalRxplanationTime_ = 9999.9999f;
+	ballShotExplanationTime_ = 9999.9999f;
+	crystalExplanationTime_ = 9999.9999f;
 	cameraSpeed_ = { 0.0f, 0.0f, 0.0f };
 	cameraEasingTimer_ = 0.0f;
 	easingTimer_ = 0.0f;
@@ -221,6 +235,7 @@ void InGameScene::Update() {
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
 	//チュートリアルの処理
+	//ボールの発射方法
 	const float kBallShotTutorialStartTime = 4.0f;
 	const float kTutorialEndTime = 2.0f;
 	const float kTutorialDuration = 1.0f;
@@ -230,36 +245,80 @@ void InGameScene::Update() {
 		ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
 		if (ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
 			ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
-			isBallShotRxplanation_ = true;
-			ballShotRxplanationTime_ = startTimer_;
+			isBallShotExplanation_ = true;
+			ballShotExplanationTime_ = startTimer_;
 		}
 	}
-	if (ballShotRxplanationTime_ + kTutorialEndTime <= startTimer_) {
+	if (isBallShotExplanation_ && ballShotExplanationTime_ + kTutorialEndTime <= startTimer_) {
 		ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
 		if (ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
 			ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
 		}
 	}
 
+	//クリスタルについての説明
 	const float kCrystalTutorialStartTime = 10.0f;
 	if (startTimer_ >= kCrystalTutorialStartTime && startTimer_ <= kCrystalTutorialStartTime + kTutorialDuration) {
 		crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
 		if (crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
 			crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
-			isCrystalRxplanation_ = true;
-			crystalRxplanationTime_ = startTimer_;
+			isCrystalExplanation_ = true;
+			crystalExplanationTime_ = startTimer_;
 		}
 	}
-	if (crystalRxplanationTime_ + kTutorialEndTime <= startTimer_) {
+	if (isCrystalExplanation_ && crystalExplanationTime_ + kTutorialEndTime <= startTimer_) {
 		crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
 		if (crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
 			crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
 		}
 	}
 
+	//コンボについての説明
+	if (!isComboExplanation_ && isFirst10Combo_) {
+		comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
+		if (comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
+			comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
+			isComboExplanation_ = true;
+			comboExplanationTime_ = startTimer_;
+		}
+	}
+	if (isComboExplanation_ && comboExplanationTime_ + kTutorialEndTime <= startTimer_) {
+		comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
+		if (comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
+			comboExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
+		}
+	}
+
+	//ボールロストについての説明
+	if (!isballLostExplanation_ && isFirstLost_) {
+		ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
+		if (ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
+			ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 1;
+			isballLostExplanation_ = true;
+			ballLostExplanationTime_ = startTimer_;
+		}
+	}
+	if (isballLostExplanation_ && ballLostExplanationTime_ + kTutorialEndTime <= startTimer_) {
+		ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w -= kColorFadeStep;
+		if (ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
+			ballLostExplanationInfo_.spriteItem->materialInfo_.material_->color.w = 0;
+		}
+	}
+
 	//プレイヤーの処理
 	if (!gameClear_ && !gameOver_) {
 		player_.Update();
+		if (!isFirst10Combo_) {
+			if (*player_.GetComboDestroyCount() >= 10) {
+				isFirst10Combo_ = true;
+			}
+		}
+
+		if (!isFirstLost_) {
+			if (player_.IsBallLost()) {
+				isFirstLost_ = true;
+			}
+		}
 	}
 
 	//ステージの処理
@@ -358,6 +417,8 @@ void InGameScene::Draw() {
 		//チュートリアルの描画
 		drawManager_->PushBackForegroundSprite(&ballShotExplanationInfo_);
 		drawManager_->PushBackForegroundSprite(&crystalExplanationInfo_);
+		drawManager_->PushBackForegroundSprite(&comboExplanationInfo_);
+		drawManager_->PushBackForegroundSprite(&ballLostExplanationInfo_);
 	}
 	if (gameOver_) {
 		//玉切れの警告

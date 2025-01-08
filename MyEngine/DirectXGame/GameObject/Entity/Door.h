@@ -93,6 +93,11 @@ private:
 
 	uint32_t openDoorButtonTexture_;
 
+	ModelDrawInfo buttonHintLeft_;
+	ModelDrawInfo buttonHintRight_;
+	bool isButtonHintReturn_;
+	float buttonHintTimer_;
+
 	int* numberofSlashAttacks_;
 	int* comboDestroyCount_;
 };

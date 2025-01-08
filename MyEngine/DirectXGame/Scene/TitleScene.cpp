@@ -65,7 +65,9 @@ void TitleScene::Initialize() {
 	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
 	//ステージの読み込み
-	levelScene_.Initialize("test.json");
+	levelScene_.Initialize("title.json");
+	levelScene1_.Initialize("title.json", 300);
+	levelScene2_.Initialize("title.json", 600);
 	titleCamera_->SetWorldTransrom(levelScene_.GetCameraData().CameraInfo);
 
 	if (preSceneNo_ == INGAME) {
@@ -101,8 +103,10 @@ void TitleScene::Update() {
 		time_ -= 1.0f;
 	}
 
-	if (titleCamera_->GetWorldTransrom().translate_.z >= 70) {
-		titleCamera_->SetPos({ 0.0f, 5.0f, -20.0f });
+	if (titleCamera_->GetWorldTransrom().translate_.z >= 300) {
+		titleCamera_->SetPos({ titleCamera_->GetWorldTransrom().translate_.x,
+			titleCamera_->GetWorldTransrom().translate_.y,
+			titleCamera_->GetWorldTransrom().translate_.z - 300 });
 	}
 
 	//インゲームに移行するための処理
@@ -163,6 +167,8 @@ void TitleScene::Update() {
 
 	//ステージのアップデート
 	levelScene_.Update();
+	levelScene1_.Update();
+	levelScene2_.Update();
 }
 
 void TitleScene::Draw() {
@@ -183,5 +189,7 @@ void TitleScene::Draw() {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&titleNameInfo_);
 	}
 	levelScene_.Draw();
+	levelScene1_.Draw();
+	levelScene2_.Draw();
 
 }

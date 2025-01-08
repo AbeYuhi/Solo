@@ -91,14 +91,22 @@ private:
 
 	SpriteDrawInfo ballShotExplanationInfo_;
 	SpriteDrawInfo crystalExplanationInfo_;
+	SpriteDrawInfo comboExplanationInfo_;
+	SpriteDrawInfo ballLostExplanationInfo_;
 	SpriteDrawInfo gameOverInfo_;
 	SpriteDrawInfo backGroundInfo_;
 
 	float startTimer_;
-	bool isBallShotRxplanation_;
-	float ballShotRxplanationTime_;
-	bool isCrystalRxplanation_;
-	float crystalRxplanationTime_;
+	bool isBallShotExplanation_;
+	float ballShotExplanationTime_;
+	bool isCrystalExplanation_;
+	float crystalExplanationTime_;
+	bool isComboExplanation_;
+	float comboExplanationTime_;
+	bool isFirst10Combo_;
+	bool isballLostExplanation_;
+	float ballLostExplanationTime_;
+	bool isFirstLost_;
 	Vector3 cameraSpeed_;
 	float cameraEasingTimer_;
 	float easingTimer_;

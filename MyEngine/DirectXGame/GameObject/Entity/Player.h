@@ -63,6 +63,12 @@ public:
 	inline int* GetComboDestroyCount() { return &comboDestroyCount_; }
 
 	/// <summary>
+	/// ボールをロストしたか
+	/// </summary>
+	/// <returns></returns>
+	inline bool IsBallLost() const { return isBallLost_; }
+
+	/// <summary>
 	/// 射出しているかをセット
 	/// </summary>
 	/// <param name="isShot"></param>
@@ -74,11 +80,18 @@ private:
 	float gameOverTime_;
 	bool isGameOver_;
 	bool isGameClear_;
+	bool isBallLost_;
 	int digitCount_;
 	int comboDestroyCount_;
 
 	uint32_t numberSpriteTextures_[10];
 	SpriteDrawInfo infos_[3];
+
+	uint32_t bulletNumTextures_[5];
+	SpriteDrawInfo bulletNumInfo_;
+
+	uint32_t bulletComboTextures_;
+	SpriteDrawInfo bulletComboInfo_[9];
 
 	MyEngine::RenderItem renderItem_;
 	EulerTransformData* cameraData_;

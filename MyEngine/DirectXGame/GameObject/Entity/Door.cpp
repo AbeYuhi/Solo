@@ -17,6 +17,25 @@ void Door::Initialize(std::shared_ptr<MyEngine::Model> model,
 	isOpen_ = false;
 
 	openDoorButtonTexture_ = MyEngine::TextureManager::Load("button", "openButtonTexture.png");
+
+	buttonHintLeft_.Initialize(MyEngine::Model::Create("plane", "plane.obj"));
+	buttonHintLeft_.renderItem->worldTransform_.data_.translate_ = buttonInfo_.renderItem->worldTransform_.data_.translate_;
+	buttonHintLeft_.renderItem->worldTransform_.data_.translate_.x -= 2.0f;
+	buttonHintLeft_.renderItem->worldTransform_.data_.translate_.z -= 2.5f;
+	buttonHintLeft_.renderItem->worldTransform_.data_.rotate_.y += 3.14f;
+	buttonHintLeft_.renderItem->worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
+	buttonHintLeft_.textureIndex = MyEngine::TextureManager::Load("buttonHint.png");
+
+	buttonHintRight_.Initialize(MyEngine::Model::Create("plane", "plane.obj"));
+	buttonHintRight_.renderItem->worldTransform_.data_.translate_ = buttonInfo_.renderItem->worldTransform_.data_.translate_;
+	buttonHintRight_.renderItem->worldTransform_.data_.translate_.x += 2.0f;
+	buttonHintRight_.renderItem->worldTransform_.data_.translate_.z -= 2.5f;
+	buttonHintRight_.renderItem->worldTransform_.data_.rotate_.y += 3.14f;
+	buttonHintRight_.renderItem->worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
+	buttonHintRight_.textureIndex = MyEngine::TextureManager::Load("buttonHint.png");
+
+	isButtonHintReturn_ = false;
+	buttonHintTimer_ = 0.0f;
 }
 
 void Door::Update() {
@@ -38,6 +57,22 @@ void Door::Update() {
 			rightDoorInfo_.renderItem->worldTransform_.data_.translate_.x += 3.0f / 60.0f;
 		}
 	}
+
+	//ボタンのヒントの表示
+	buttonHintTimer_ += 1.0f / 60.0f;
+	if (buttonHintTimer_ > 0.25f) {	//0.25秒過ぎると反転するように
+		buttonHintTimer_ -= 0.25f;
+		isButtonHintReturn_ = !isButtonHintReturn_;
+	}
+	//矢印を動かす
+	if (isButtonHintReturn_) {
+		buttonHintLeft_.renderItem->worldTransform_.data_.translate_.x += 4.0f / 60.0f;
+		buttonHintRight_.renderItem->worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
+	}
+	else {
+		buttonHintLeft_.renderItem->worldTransform_.data_.translate_.x -= 4.0f / 60.0f;
+		buttonHintRight_.renderItem->worldTransform_.data_.translate_.x += 4.0f / 60.0f;
+	}
 }
 
 void Door::Draw() {
@@ -46,6 +81,12 @@ void Door::Draw() {
 	DrawManager::GetInstance()->PushBackOpaqueObject(&buttonInfo_);
 	DrawManager::GetInstance()->PushBackOpaqueObject(&leftDoorInfo_);
 	DrawManager::GetInstance()->PushBackOpaqueObject(&rightDoorInfo_);
+
+	//ヒントの表示
+	if (buttonInfo_.renderItem->worldTransform_.data_.translate_.z - MainCamera::GetInstance()->GetWorldPos().z <= 100.0f) {
+		DrawManager::GetInstance()->PushBackOpaqueObject(&buttonHintLeft_);
+		DrawManager::GetInstance()->PushBackOpaqueObject(&buttonHintRight_);
+	}
 
 }
 

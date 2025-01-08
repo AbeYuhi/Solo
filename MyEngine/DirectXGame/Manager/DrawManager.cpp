@@ -42,7 +42,7 @@ void DrawManager::Draw() {
 	//背景
 	for (auto it = backgroundSprites_.begin(); it != backgroundSprites_.end();) {
 		SpriteDrawInfo* info = *it;
-		if (!info->isDraw) {
+		if (!info->isDraw || !info->spriteItem) {
 			info->isAlive = false;
 			it = backgroundSprites_.erase(it);
 		}
@@ -53,7 +53,7 @@ void DrawManager::Draw() {
 	//非透明オブジェクト
 	for (auto it = opaqueObjects_.begin(); it != opaqueObjects_.end();) {
 		ModelDrawInfo* info = *it;
-		if (!info->isDraw) {
+		if (!info->isDraw || !info->renderItem) {
 			info->isAlive = false;
 			it = opaqueObjects_.erase(it);
 		}
@@ -64,7 +64,7 @@ void DrawManager::Draw() {
 	//透明オブジェクト
 	for (auto it = translucentObjects_.begin(); it != translucentObjects_.end();) {
 		ModelDrawInfo* info = *it;
-		if (!info->isDraw) {
+		if (!info->isDraw || !info->renderItem) {
 			info->isAlive = false;
 			it = translucentObjects_.erase(it);
 		}
@@ -120,7 +120,6 @@ void DrawManager::Draw() {
 	for (auto& info : opaqueObjects_) {
 		info->isDraw = false;
 	}
-
 	//透明オブジェクトを描画
 	for (auto& info : translucentObjects_) {
 		info->isDraw = false;
@@ -135,7 +134,7 @@ void DrawManager::ForegroundSpritesDraw() {
 	//不要なものを削除
 	for (auto it = foregroundSprites_.begin(); it != foregroundSprites_.end();) {
 		SpriteDrawInfo* info = *it;
-		if (!info->isDraw) {
+		if (!info->isDraw || !info->spriteItem) {
 			info->isAlive = false;
 			it = foregroundSprites_.erase(it);
 		}

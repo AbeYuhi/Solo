@@ -25,21 +25,40 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	numberSpriteTextures_[7] = MyEngine::TextureManager::Load("numberTexture/7.png");
 	numberSpriteTextures_[8] = MyEngine::TextureManager::Load("numberTexture/8.png");
 	numberSpriteTextures_[9] = MyEngine::TextureManager::Load("numberTexture/9.png");
+
+	bulletNumTextures_[0] = MyEngine::TextureManager::Load("bulletNums/bulletNum1.png");
+	bulletNumTextures_[1] = MyEngine::TextureManager::Load("bulletNums/bulletNum2.png");
+	bulletNumTextures_[2] = MyEngine::TextureManager::Load("bulletNums/bulletNum3.png");
+	bulletNumTextures_[3] = MyEngine::TextureManager::Load("bulletNums/bulletNum4.png");
+	bulletNumTextures_[4] = MyEngine::TextureManager::Load("bulletNums/bulletNum5.png");
 	
 	infos_[0].Initialize();
 	infos_[1].Initialize();
 	infos_[2].Initialize();
 	infos_[0].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
-	infos_[0].spriteItem->worldTransform_.data_.translate_ = { 90, 50, 0 };
+	infos_[0].spriteItem->worldTransform_.data_.translate_ = { 670, 50, 0 };
 	infos_[1].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
-	infos_[1].spriteItem->worldTransform_.data_.translate_ = { 60, 50, 0 };
+	infos_[1].spriteItem->worldTransform_.data_.translate_ = { 640, 50, 0 };
 	infos_[2].spriteItem->spriteData_.Initialize(numberSpriteTextures_[0], {30, 50});
-	infos_[2].spriteItem->worldTransform_.data_.translate_ = { 30, 50, 0 };
+	infos_[2].spriteItem->worldTransform_.data_.translate_ = { 610, 50, 0 };
+
+	bulletNumInfo_.Initialize();
+	bulletNumInfo_.spriteItem->spriteData_.Initialize(bulletNumTextures_[0], { 100, 100 });
+	bulletNumInfo_.spriteItem->worldTransform_.data_.translate_ = { 580, 50, 0 };
+
+	bulletComboTextures_ = MyEngine::TextureManager::Load("bulletCombo.png");
+	for (int i = 0; i < 9; i++) {
+		bulletComboInfo_[i].Initialize();
+		bulletComboInfo_[i].spriteItem->spriteData_.Initialize(bulletComboTextures_, { 100, 100 });
+		bulletComboInfo_[i].spriteItem->worldTransform_.data_.translate_ = { 580, 50, 0 };
+		bulletComboInfo_[i].spriteItem->worldTransform_.data_.rotate_.z += (3.14f / 5.0f) * (i + 1);
+	}
 
 	collider_.Initialize(&renderItem_.worldTransform_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
 	isShot_ = false;
+	isBallLost_ = false;
 }
 
 void Player::Update() {
@@ -61,6 +80,7 @@ void Player::Update() {
 			doorInvincibilityTime_ = 1.25f;
 
 			isHitEffect_ = true;
+			isBallLost_ = true;
 			time_ = 0.0f;
 		}
 	}
@@ -76,6 +96,7 @@ void Player::Update() {
 			glassInvincibilityTime_ = 0.5f;
 
 			isHitEffect_ = true;
+			isBallLost_ = true;
 			time_ = 0.0f;
 		}
 	}
@@ -115,6 +136,17 @@ void Player::Update() {
 	else {
 		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
 	}
+
+	//bulletNumに応じて玉の出方を変更
+	int bulletNum = (comboDestroyCount_ / 10) + 1;
+	if (bulletNum < 1) {
+		bulletNum = 1;
+	}
+	if (bulletNum >= 5) {
+		bulletNum = 5;
+	}
+	//bulletNumに応じてUIが変わるように
+	bulletNumInfo_.spriteItem->spriteData_.textureHandle_ = bulletNumTextures_[bulletNum - 1];
 	
 	//弾の発射処理
 	if (isShot_) {
@@ -122,10 +154,6 @@ void Player::Update() {
 			if (input_->IsMouseTrigger(0)) {
 				Vector2 mousePos = input_->GetMousePos();
 
-				int bulletNum = (comboDestroyCount_ / 10) + 1;
-				if (bulletNum >= 5) {
-					bulletNum = 5;
-				}
 				for (int index = 0; index < bulletNum; index++) {
 					Vector2 bulletPos = { 0.0f, 0.0f };
 					const int test = 25;
@@ -241,6 +269,7 @@ void Player::Update() {
 	}
 
 	//プレイヤーの残弾を表示するための処理
+	//桁数の計算
 	digitCount_ = 0;
 	int number = numberofSlashAttacks_;
 	if (number == 0) {
@@ -255,17 +284,27 @@ void Player::Update() {
 		}
 	}
 
+	//桁数に応じた処理
 	if (digitCount_ == 1) {
 		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		//玉の桁数により表示位置の変更
+		infos_[0].spriteItem->worldTransform_.data_.translate_ = { 655, 50, 0 };
 	}
 	else if (digitCount_ == 2) {
 		infos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
 		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		//玉の桁数により表示位置の変更
+		infos_[1].spriteItem->worldTransform_.data_.translate_ = { 655, 50, 0 };
+		infos_[0].spriteItem->worldTransform_.data_.translate_ = { 685, 50, 0 };
 	}
 	else if (digitCount_ == 3) {
 		infos_[2].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 2)];
 		infos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 1)];
 		infos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(numberofSlashAttacks_, 0)];
+		//玉の桁数により表示位置の変更
+		infos_[2].spriteItem->worldTransform_.data_.translate_ = { 655, 50, 0 };
+		infos_[1].spriteItem->worldTransform_.data_.translate_ = { 685, 50, 0 };
+		infos_[0].spriteItem->worldTransform_.data_.translate_ = { 915, 50, 0 };
 	}
 
 #ifdef _DEBUG
@@ -295,6 +334,16 @@ void Player::Draw() {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[2]);
 		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[1]);
 		DrawManager::GetInstance()->PushBackForegroundSprite(&infos_[0]);
+	}
+
+	//コンボ数などの玉の情報の描画
+	DrawManager::GetInstance()->PushBackForegroundSprite(&bulletNumInfo_);
+
+	int num = (comboDestroyCount_ / 10);
+	int combo = comboDestroyCount_ - (num * 10);
+
+	for (int i = 0; i < combo; i++) {
+		DrawManager::GetInstance()->PushBackForegroundSprite(&bulletComboInfo_[i]);
 	}
 
 }
