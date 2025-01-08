@@ -15,6 +15,8 @@ void Door::Initialize(std::shared_ptr<MyEngine::Model> model,
 	buttonInfo_.Initialize(model, renderItem);
 	buttonCollider_ = collider;
 	isOpen_ = false;
+
+	openDoorButtonTexture_ = MyEngine::TextureManager::Load("button", "openButtonTexture.png");
 }
 
 void Door::Update() {
@@ -23,6 +25,7 @@ void Door::Update() {
 	if (buttonCollider_->isContact_[BULLET]) {
 		if (!isOpen_) {
 			isOpen_ = true;
+			buttonInfo_.textureIndex = openDoorButtonTexture_;
 			moveTime_ = 0.0f;
 		}
 	}

@@ -91,6 +91,8 @@ private:
 	bool isOpen_;
 	float moveTime_;
 
+	uint32_t openDoorButtonTexture_;
+
 	int* numberofSlashAttacks_;
 	int* comboDestroyCount_;
 };

@@ -469,7 +469,7 @@
                     1.0
                 ]
             },
-            "file_name": "cube.obj",
+            "file_name": "button.obj",
             "collider": {
                 "type": "OBB",
                 "tag": "BUTTON",
@@ -511,7 +511,7 @@
                             3.0
                         ]
                     },
-                    "file_name": "cube.obj",
+                    "file_name": "Ldoor.obj",
                     "collider": {
                         "type": "OBB",
                         "tag": "LDOOR",
@@ -553,7 +553,7 @@
                             3.0
                         ]
                     },
-                    "file_name": "cube.obj",
+                    "file_name": "Rdoor.obj",
                     "collider": {
                         "type": "OBB",
                         "tag": "RDOOR",
