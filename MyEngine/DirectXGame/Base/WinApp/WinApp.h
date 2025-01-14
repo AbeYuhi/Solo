@@ -56,6 +56,14 @@ namespace MyEngine {
 		bool ProcessMessage();
 
 		/// <summary>
+		/// カーソルに制限をつける
+		/// </summary>
+		void LockCursorToWindow();
+
+		// カーソルの制限を解除
+		void UnlockCursor();
+
+		/// <summary>
 		/// HWNDのゲッター
 		/// </summary>
 		/// <returns></returns>

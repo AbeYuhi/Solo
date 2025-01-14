@@ -83,6 +83,9 @@ namespace MyEngine {
 
 	void WinApp::DiscardingWindow() {
 
+		//マウスカーソルの制限解除
+		UnlockCursor();
+
 		//Comの終了処理
 		CoUninitialize();
 
@@ -103,6 +106,26 @@ namespace MyEngine {
 		}
 
 		return false;
+	}
+
+	void WinApp::LockCursorToWindow() {
+		RECT clientRect;
+		GetClientRect(hwnd_, &clientRect);
+
+		// クライアント座標をスクリーン座標に変換
+		POINT topLeft = { clientRect.left, clientRect.top };
+		POINT bottomRight = { clientRect.right, clientRect.bottom };
+		ClientToScreen(hwnd_, &topLeft);
+		ClientToScreen(hwnd_, &bottomRight);
+
+		// カーソルを範囲内に制限
+		RECT clipRect = { topLeft.x, topLeft.y, bottomRight.x, bottomRight.y };
+		ClipCursor(&clipRect);
+	}
+
+	// カーソルの制限を解除
+	void WinApp::UnlockCursor() {
+		ClipCursor(nullptr);
 	}
 
 }

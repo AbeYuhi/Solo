@@ -65,12 +65,6 @@ void Player::Update() {
 	MyEngine::InputManager* input_ = MyEngine::InputManager::GetInstance();
 	renderItem_.worldTransform_.data_ = *cameraData_;
 
-	//プレイヤーがゴールに衝突したらクリアシーンに移行
-	if (collider_.isContact_[GOAL]) {
-		isGameClear_ = true;
-		MyEngine::CollisionManager::GetInstance()->ClearColliders();
-	}
-
 	//ドアと衝突したときの無敵時間
 	if (doorInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {

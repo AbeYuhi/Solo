@@ -5,6 +5,7 @@
 #include "DirectXGame/GameObject/Camera/SpriteCamera.h"
 #include "Manager/PostEffectManager.h"
 #include "Manager/DrawManager.h"
+#include "Manager/InputManager.h"
 #include "Scene/SceneChange/SceneChange.h"
 #include "Data/SpriteItem.h"
 #include "Object/Model.h"

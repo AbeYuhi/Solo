@@ -96,10 +96,11 @@ namespace MyEngine {
 		for (auto it = colliders_.begin(); it != colliders_.end();) {
 			Collider* collider = *it;
 			if (collider->isDelete_) {
-				it = colliders_.erase(it);
+				// 要素を削除
+				it = colliders_.erase(it);	
 			}
 			else {
-				it++;
+				++it;
 			}
 		}
 	}

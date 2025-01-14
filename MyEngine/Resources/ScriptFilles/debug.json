@@ -134,10 +134,10 @@
             2.0,
             2.0
           ],
-          "wallMoveTypes": "DONTMOVE",
+          "wallMoveTypes": "XROTATE",
           "wallMoveLimit": 1.0,
           "wallMoveSpeed": 1.0,
-          "wallRotateSpeed": 0.0
+          "wallRotateSpeed": 90.0
         },
         "children": [
           {

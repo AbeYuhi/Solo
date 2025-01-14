@@ -95,6 +95,9 @@ void TitleScene::Initialize() {
 	time_ = 0.0f;
 	change_ = false;
 	postEffectManager_->SetPostEffect(kNone);
+
+	//マウスカーソルの制限解除
+	MyEngine::WinApp::GetInstance()->UnlockCursor();
 }
 
 void TitleScene::Update() {

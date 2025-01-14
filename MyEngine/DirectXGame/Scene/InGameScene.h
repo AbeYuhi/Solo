@@ -26,6 +26,7 @@
 #include "GameObject/Particle/Sprite/SpriteParticle.h"
 #include "GameObject/Entity/Player.h"
 #include "LoadFile/LevelScene.h"
+#include "GameObject/Map/CreateStage.h"
 #include "Scene/SceneChange/SceneChange.h"
 #include "Scene/IScene.h"
 
@@ -79,6 +80,7 @@ private:
 	//ブレンドモード
 	int blendMode_;
 
+	vector<LevelData> levelDatas_;
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
 	float stageSize_;
 	unsigned int nowStage_;
@@ -116,6 +118,8 @@ private:
 
 	bool gameClear_;
 	float gameClearTimer_;
+
+	static const int kStageNum_ = 2;
 
 	Vector3 playerSpeed_;
 };

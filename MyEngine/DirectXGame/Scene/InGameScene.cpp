@@ -47,13 +47,13 @@ void InGameScene::Initialize() {
 	//ブレンドモード
 	blendMode_ = kBlendModeNormal;
 
+	//ステージのjsonを読み込む
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
 	level0->Initialize("stage0.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
 	level1->Initialize("stage1.json", stageSize_);
-	stageSize_ += level1->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level1));
 	nowStage_ = 0;
 
@@ -70,6 +70,7 @@ void InGameScene::Initialize() {
 		}
 	}
 
+	//チュートリアル素材の読み込み
 	ballShotExplanationInfo_.Initialize();
 	ballShotExplanationInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("ballShot_Explanation.png");
 	ballShotExplanationInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
@@ -125,6 +126,9 @@ void InGameScene::Initialize() {
 
 	cameraSpeed_.z = levelScenes_[0]->GetCameraData().cameraSpeed;
 	playerSpeed_ = cameraSpeed_;
+
+	//マウスカーソルに制限をつける
+	winApp_->LockCursorToWindow();
 }
 
 void InGameScene::Update() {
@@ -234,6 +238,31 @@ void InGameScene::Update() {
 	//カメラを移動
 	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
 
+	//ステージの一定量まで進んだら次のステージを読み込むように
+	if (stageSize_ <= gameCamera_->transform_.translate_.z) {
+		nowStage_++;
+		if (kStageNum_ < nowStage_) {
+			gameClear_ = true;
+		}
+		else {
+			stageSize_ += levelScenes_[nowStage_]->GetCameraData().stageSize.z;
+			cameraSpeed_.z = levelScenes_[nowStage_]->GetCameraData().cameraSpeed;
+			if (kStageNum_ != nowStage_) {
+				//次のステージを読み込む
+				std::string nextStageName = "stage" + to_string(nowStage_ + 1) + ".json";
+				std::unique_ptr<LevelScene> level = std::make_unique<LevelScene>();
+				level->Initialize(nextStageName, stageSize_);
+				levelScenes_.push_back(std::move(level));
+
+				//クリスタル
+				for (auto& crystal : levelScenes_[nowStage_ + 1]->GetCrystals()) {
+					crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+					crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+				}
+			}
+		}
+	}
+
 	//チュートリアルの処理
 	//ボールの発射方法
 	const float kBallShotTutorialStartTime = 4.0f;
@@ -327,9 +356,6 @@ void InGameScene::Update() {
 	}
 
 	//プレイヤーの状態に応じてゲームクリアなどに移行
-	if (player_.IsGameClear()) {
-		gameClear_ = true;
-	}
 	if (player_.IsGameOver()) {
 		gameOver_ = true;
 	}
@@ -406,7 +432,7 @@ void InGameScene::Draw() {
 	player_.Draw();
 
 	//レベルシーンの描画
-	for (int index = 0; index < levelScenes_.size(); index++) {
+	for (int index = nowStage_; index < levelScenes_.size(); index++) {
 		levelScenes_[index]->Draw();
 	}
 

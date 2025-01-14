@@ -1,0 +1,5616 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "camera_speed": 10.0,
+            "camera_rotation_speed": 0.0,
+            "stage_size": 300.0,
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.120",
+            "transform": {
+                "translation": [
+                    0.0,
+                    282.73980712890625,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    19.25,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.119",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    280.7807922363281,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    17.214677810668945,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.118",
+            "transform": {
+                "translation": [
+                    -56.0,
+                    264.4062805175781,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    50.0,
+                    0.8607339262962341,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.117",
+            "transform": {
+                "translation": [
+                    7.0,
+                    280.7811279296875,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    17.214677810668945,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.116",
+            "transform": {
+                "translation": [
+                    0.0,
+                    280.7807922363281,
+                    12.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    8.0,
+                    17.214677810668945,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.115",
+            "transform": {
+                "translation": [
+                    0.0,
+                    264.4062805175781,
+                    61.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.8607339262962341,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.114",
+            "transform": {
+                "translation": [
+                    56.0,
+                    264.4062805175781,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    50.0,
+                    0.8607339262962341,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.009",
+            "transform": {
+                "translation": [
+                    0.0,
+                    299.0,
+                    16.906396865844727
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    0.5,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.008",
+            "transform": {
+                "translation": [
+                    -14.0,
+                    299.75,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    0.25,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.007",
+            "transform": {
+                "translation": [
+                    14.0,
+                    299.75,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    0.25,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.006",
+            "transform": {
+                "translation": [
+                    14.0,
+                    298.25,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    0.25,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.005",
+            "transform": {
+                "translation": [
+                    0.0,
+                    301.0,
+                    50.070499420166016
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    50.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "draw_check": false,
+            "collider": {
+                "type": "OBB",
+                "tag": "GOAL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.004",
+            "transform": {
+                "translation": [
+                    -14.0,
+                    298.25,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    0.25,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.003",
+            "transform": {
+                "translation": [
+                    0.0,
+                    299.0,
+                    8.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "button.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "BUTTON",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Cube.001",
+                    "transform": {
+                        "translation": [
+                            -2.0,
+                            0.0,
+                            -4.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            2.0,
+                            0.5,
+                            3.0
+                        ]
+                    },
+                    "file_name": "Ldoor.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "LDOOR",
+                        "collision_check": false,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ]
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.002",
+                    "transform": {
+                        "translation": [
+                            2.0,
+                            0.0,
+                            -4.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            2.0,
+                            0.5,
+                            3.0
+                        ]
+                    },
+                    "file_name": "Rdoor.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "RDOOR",
+                        "collision_check": false,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light.001",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "translation": [
+                    0.0,
+                    3.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    3.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.017",
+            "transform": {
+                "translation": [
+                    8.0,
+                    8.0,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    8.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.010",
+            "transform": {
+                "translation": [
+                    -8.0,
+                    8.0,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    8.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.015",
+            "transform": {
+                "translation": [
+                    0.0,
+                    15.0,
+                    -49.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    7.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.058",
+            "transform": {
+                "translation": [
+                    -6.0,
+                    15.0,
+                    1.600000023841858
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.6000000238418579
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.056",
+            "transform": {
+                "translation": [
+                    4.0,
+                    15.0,
+                    1.4982600212097168
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.5
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.035",
+            "transform": {
+                "translation": [
+                    -2.0,
+                    15.0,
+                    1.149999976158142
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.15000000596046448
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.034",
+            "transform": {
+                "translation": [
+                    0.0,
+                    15.0,
+                    1.2999999523162842
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.30000001192092896
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.033",
+            "transform": {
+                "translation": [
+                    2.0,
+                    15.0,
+                    1.2624733448028564
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.031",
+            "transform": {
+                "translation": [
+                    -4.0,
+                    15.0,
+                    1.2999999523162842
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.30000001192092896
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.011",
+            "transform": {
+                "translation": [
+                    6.0,
+                    15.0,
+                    2.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.012",
+            "transform": {
+                "translation": [
+                    0.0,
+                    13.0,
+                    -9.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.014",
+            "transform": {
+                "translation": [
+                    0.0,
+                    46.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    30.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.112",
+            "transform": {
+                "translation": [
+                    -9.22092056274414,
+                    89.86497497558594,
+                    -13.966386795043945
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ALTERNATE_UP_DOWN",
+                "wallMoveLimit": 5.0,
+                "wallMoveSpeed": 4.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.015",
+                    "transform": {
+                        "translation": [
+                            -0.006025791168212891,
+                            -0.041912078857421875,
+                            1.0572919845581055
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.018",
+            "transform": {
+                "translation": [
+                    8.900594711303711,
+                    104.28065490722656,
+                    -9.970635414123535
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ALTERNATE_UP_DOWN",
+                "wallMoveLimit": 6.0,
+                "wallMoveSpeed": 3.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.004",
+                    "transform": {
+                        "translation": [
+                            -0.006026268005371094,
+                            -0.041900634765625,
+                            1.057292103767395
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.013",
+            "transform": {
+                "translation": [
+                    0.0,
+                    34.631534576416016,
+                    12.570320129394531
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.016",
+            "transform": {
+                "translation": [
+                    0.0,
+                    35.631534576416016,
+                    12.570320129394531
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.019",
+            "transform": {
+                "translation": [
+                    0.0,
+                    35.131534576416016,
+                    7.570319175720215
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    2.0,
+                    0.20000000298023224,
+                    5.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "GLASS",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "groundingInfos_up": true,
+                "groundingInfos_down": false,
+                "groundingInfos_right": false,
+                "groundingInfos_left": false,
+                "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                "verticalDivisions": 7,
+                "horizontalDivisions": 3,
+                "moveLimit": 10.0,
+                "moveSpeed": 8.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.020",
+            "transform": {
+                "translation": [
+                    0.0,
+                    97.78724670410156,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    19.81519317626953,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.021",
+            "transform": {
+                "translation": [
+                    9.514464378356934,
+                    43.8693733215332,
+                    -15.993339538574219
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ALTERNATE_UP_DOWN",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.001",
+                    "transform": {
+                        "translation": [
+                            -0.0060253143310546875,
+                            -0.04191017150878906,
+                            1.057292103767395
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.022",
+            "transform": {
+                "translation": [
+                    0.0,
+                    77.0,
+                    -49.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.023",
+            "transform": {
+                "translation": [
+                    -6.988093376159668,
+                    77.0,
+                    1.2999999523162842
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.30000001192092896
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.024",
+            "transform": {
+                "translation": [
+                    -5.0,
+                    76.99085235595703,
+                    1.5028650760650635
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.5
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.025",
+            "transform": {
+                "translation": [
+                    5.0,
+                    76.99085235595703,
+                    1.498260736465454
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.5
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.026",
+            "transform": {
+                "translation": [
+                    -1.0,
+                    76.99085235595703,
+                    1.600000023841858
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.6000000238418579
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.027",
+            "transform": {
+                "translation": [
+                    1.0,
+                    76.99147033691406,
+                    1.149999976158142
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.15000000596046448
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.028",
+            "transform": {
+                "translation": [
+                    3.0,
+                    76.99085235595703,
+                    1.2624733448028564
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.029",
+            "transform": {
+                "translation": [
+                    -2.9900104999542236,
+                    76.99085235595703,
+                    1.2498136758804321
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.030",
+            "transform": {
+                "translation": [
+                    6.994376182556152,
+                    77.0,
+                    1.2999999523162842
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.30000001192092896
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.032",
+            "transform": {
+                "translation": [
+                    13.0,
+                    77.0,
+                    -49.5
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.036",
+            "transform": {
+                "translation": [
+                    15.0,
+                    77.0,
+                    -50.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.037",
+            "transform": {
+                "translation": [
+                    11.0,
+                    77.0,
+                    -50.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.038",
+            "transform": {
+                "translation": [
+                    -14.999156951904297,
+                    77.0,
+                    -50.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.039",
+            "transform": {
+                "translation": [
+                    -10.999156951904297,
+                    77.0,
+                    -50.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.040",
+            "transform": {
+                "translation": [
+                    -12.999156951904297,
+                    77.0,
+                    -49.5
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.041",
+            "transform": {
+                "translation": [
+                    -26.019306182861328,
+                    77.0,
+                    -51.03900909423828
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.042",
+            "transform": {
+                "translation": [
+                    25.976184844970703,
+                    77.0,
+                    -50.46628952026367
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.043",
+            "transform": {
+                "translation": [
+                    -6.997567653656006,
+                    74.99918365478516,
+                    -50.01930236816406
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.044",
+            "transform": {
+                "translation": [
+                    -4.997567653656006,
+                    74.99918365478516,
+                    -53.952354431152344
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.045",
+            "transform": {
+                "translation": [
+                    -8.997568130493164,
+                    74.99918365478516,
+                    -51.806766510009766
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.046",
+            "transform": {
+                "translation": [
+                    7.002696990966797,
+                    74.99918365478516,
+                    -53.040279388427734
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.047",
+            "transform": {
+                "translation": [
+                    3.008695602416992,
+                    74.99910736083984,
+                    1.149999976158142
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.15000000596046448
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Plane.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    118.58438873291016,
+                    0.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.055",
+            "transform": {
+                "translation": [
+                    0.0,
+                    118.58438873291016,
+                    61.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.059",
+            "transform": {
+                "translation": [
+                    56.0,
+                    118.58438873291016,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    50.0,
+                    1.0,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.060",
+            "transform": {
+                "translation": [
+                    7.0,
+                    121.50463104248047,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.061",
+            "transform": {
+                "translation": [
+                    -56.0,
+                    118.58438873291016,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    50.0,
+                    1.0,
+                    5.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.062",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    121.50463104248047,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.063",
+            "transform": {
+                "translation": [
+                    0.0,
+                    118.58438873291016,
+                    -49.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.057",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    127.5013198852539,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.064",
+            "transform": {
+                "translation": [
+                    7.0,
+                    127.5013198852539,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.065",
+            "transform": {
+                "translation": [
+                    7.0,
+                    133.3286590576172,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.066",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    133.3286590576172,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.067",
+            "transform": {
+                "translation": [
+                    2.08323335647583,
+                    124.45931243896484,
+                    4.448762893676758
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    0.20000000298023224,
+                    2.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "GLASS",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "groundingInfos_up": false,
+                "groundingInfos_down": false,
+                "groundingInfos_right": true,
+                "groundingInfos_left": false,
+                "glassMoveTypes": "ALTERNATE_UP_DOWN",
+                "verticalDivisions": 3,
+                "horizontalDivisions": 7,
+                "moveLimit": 8.0,
+                "moveSpeed": 5.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.068",
+            "transform": {
+                "translation": [
+                    9.71275520324707,
+                    124.95931243896484,
+                    12.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.069",
+            "transform": {
+                "translation": [
+                    9.71275520324707,
+                    123.95931243896484,
+                    12.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.070",
+            "transform": {
+                "translation": [
+                    -10.486902236938477,
+                    129.8632354736328,
+                    12.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.071",
+            "transform": {
+                "translation": [
+                    -10.486902236938477,
+                    130.8632354736328,
+                    12.0
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    0.25,
+                    2.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.072",
+            "transform": {
+                "translation": [
+                    -3.211282253265381,
+                    130.3632354736328,
+                    7.284080505371094
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    0.20000000298023224,
+                    2.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "GLASS",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "groundingInfos_up": false,
+                "groundingInfos_down": false,
+                "groundingInfos_right": false,
+                "groundingInfos_left": true,
+                "glassMoveTypes": "ALTERNATE_UP_DOWN",
+                "verticalDivisions": 3,
+                "horizontalDivisions": 7,
+                "moveLimit": 10.0,
+                "moveSpeed": 6.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.077",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    232.31192016601562,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.078",
+            "transform": {
+                "translation": [
+                    7.0,
+                    231.1322479248047,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.4564764499664307,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.079",
+            "transform": {
+                "translation": [
+                    7.0,
+                    221.6141815185547,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.722046136856079,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.080",
+            "transform": {
+                "translation": [
+                    0.0,
+                    208.8211212158203,
+                    -49.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    1.0,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.081",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    213.76368713378906,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.082",
+            "transform": {
+                "translation": [
+                    7.0,
+                    213.76368713378906,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.083",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    224.0578155517578,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.8925312757492065,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.087",
+            "transform": {
+                "translation": [
+                    -14.597854614257812,
+                    199.7865447998047,
+                    -18.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.008",
+                    "transform": {
+                        "translation": [
+                            -0.006026268005371094,
+                            -0.0419158935546875,
+                            1.0572919845581055
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.088",
+            "transform": {
+                "translation": [
+                    -10.584811210632324,
+                    199.7865447998047,
+                    -19.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.009",
+                    "transform": {
+                        "translation": [
+                            -0.006025791168212891,
+                            -0.0419158935546875,
+                            1.057292103767395
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.089",
+            "transform": {
+                "translation": [
+                    -6.576074600219727,
+                    199.7865447998047,
+                    -20.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.007",
+                    "transform": {
+                        "translation": [
+                            -0.006026268005371094,
+                            -0.0419158935546875,
+                            1.0572919845581055
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.076",
+            "transform": {
+                "translation": [
+                    5.995278358459473,
+                    216.5967254638672,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    0.25,
+                    3.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.092",
+            "transform": {
+                "translation": [
+                    5.995278358459473,
+                    217.8072967529297,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    0.25,
+                    3.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.093",
+            "transform": {
+                "translation": [
+                    5.9074320793151855,
+                    217.2323455810547,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.25,
+                    0.25,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ZROTATE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 90.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Cube.073",
+                    "transform": {
+                        "translation": [
+                            -0.05486106872558594,
+                            0.01861572265625,
+                            21.020103454589844
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.074",
+                    "transform": {
+                        "translation": [
+                            -20.957660675048828,
+                            -0.02679443359375,
+                            -0.10285186767578125
+                        ],
+                        "rotation": [
+                            -0.0,
+                            89.99999237060547,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.075",
+                    "transform": {
+                        "translation": [
+                            21.042993545532227,
+                            -0.0645751953125,
+                            0.01055908203125
+                        ],
+                        "rotation": [
+                            -0.0,
+                            89.99999237060547,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.091",
+                    "transform": {
+                        "translation": [
+                            -0.020345687866210938,
+                            0.019287109375,
+                            -20.998001098632812
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.095",
+            "transform": {
+                "translation": [
+                    -7.043942928314209,
+                    241.9093780517578,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    4.432422161102295,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.096",
+            "transform": {
+                "translation": [
+                    7.0,
+                    256.8368835449219,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.9460976123809814,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.097",
+            "transform": {
+                "translation": [
+                    -7.0,
+                    257.5673828125,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.6925292015075684,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.103",
+            "transform": {
+                "translation": [
+                    7.0,
+                    242.40077209472656,
+                    6.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    4.083807945251465,
+                    50.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.106",
+            "transform": {
+                "translation": [
+                    0.0,
+                    202.83944702148438,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    4.0,
+                    5.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Icosphere",
+            "transform": {
+                "translation": [
+                    4.952119827270508,
+                    271.716552734375,
+                    2.612239360809326
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "sphere.obj",
+            "collider": {
+                "type": "SPHERE",
+                "tag": "CRYSTAL",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "radius": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Icosphere.002",
+            "transform": {
+                "translation": [
+                    -4.576249599456787,
+                    285.88861083984375,
+                    2.2326951026916504
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "sphere.obj",
+            "collider": {
+                "type": "SPHERE",
+                "tag": "CRYSTAL",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "radius": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.107",
+            "transform": {
+                "translation": [
+                    5.001529216766357,
+                    271.716552734375,
+                    1.2624733448028564
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Icosphere.003",
+            "transform": {
+                "translation": [
+                    2.786407709121704,
+                    285.88861083984375,
+                    2.6083648204803467
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "sphere.obj",
+            "collider": {
+                "type": "SPHERE",
+                "tag": "CRYSTAL",
+                "collision_check": true,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "radius": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.108",
+            "transform": {
+                "translation": [
+                    2.7778892517089844,
+                    285.8695373535156,
+                    1.2624733448028564
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.109",
+            "transform": {
+                "translation": [
+                    4.784918785095215,
+                    285.8695373535156,
+                    1.4364229440689087
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.43785616755485535
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.110",
+            "transform": {
+                "translation": [
+                    0.7733420729637146,
+                    285.8695373535156,
+                    1.1795891523361206
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    0.16692262887954712
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.084",
+            "transform": {
+                "translation": [
+                    14.586444854736328,
+                    199.7865447998047,
+                    -18.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.010",
+                    "transform": {
+                        "translation": [
+                            -0.0060253143310546875,
+                            -0.0419158935546875,
+                            1.0572919845581055
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.085",
+            "transform": {
+                "translation": [
+                    10.611572265625,
+                    199.7865447998047,
+                    -19.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.005",
+                    "transform": {
+                        "translation": [
+                            -0.006026268005371094,
+                            -0.0419158935546875,
+                            1.057292103767395
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.086",
+            "transform": {
+                "translation": [
+                    6.564664840698242,
+                    199.7865447998047,
+                    -20.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.5,
+                    1.5,
+                    20.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 4.0,
+                "wallMoveSpeed": 2.0,
+                "wallRotateSpeed": 1.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Icosphere.006",
+                    "transform": {
+                        "translation": [
+                            -0.006025791168212891,
+                            -0.0419158935546875,
+                            1.0572919845581055
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            0.6666666865348816,
+                            0.6666666865348816,
+                            0.05000000074505806
+                        ]
+                    },
+                    "file_name": "sphere.obj",
+                    "collider": {
+                        "type": "SPHERE",
+                        "tag": "CRYSTAL",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "radius": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.048",
+            "transform": {
+                "translation": [
+                    -6.012589931488037,
+                    250.2268829345703,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.25,
+                    0.25,
+                    0.25
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "ZROTATE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 90.0
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "Cube.050",
+                    "transform": {
+                        "translation": [
+                            -0.020345687866210938,
+                            0.019287109375,
+                            -20.998001098632812
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.052",
+                    "transform": {
+                        "translation": [
+                            21.042993545532227,
+                            -0.0645751953125,
+                            0.01055908203125
+                        ],
+                        "rotation": [
+                            -0.0,
+                            89.99999237060547,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.053",
+                    "transform": {
+                        "translation": [
+                            -20.957658767700195,
+                            -0.02679443359375,
+                            -0.10285186767578125
+                        ],
+                        "rotation": [
+                            -0.0,
+                            89.99999237060547,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                },
+                {
+                    "type": "MESH",
+                    "name": "Cube.054",
+                    "transform": {
+                        "translation": [
+                            -0.05486106872558594,
+                            0.01861572265625,
+                            21.020103454589844
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            8.0,
+                            0.800000011920929,
+                            20.0
+                        ]
+                    },
+                    "file_name": "cube.obj",
+                    "collider": {
+                        "type": "OBB",
+                        "tag": "GLASS",
+                        "collision_check": true,
+                        "center": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "size": [
+                            2.0,
+                            2.0,
+                            2.0
+                        ],
+                        "groundingInfos_up": true,
+                        "groundingInfos_down": false,
+                        "groundingInfos_right": false,
+                        "groundingInfos_left": false,
+                        "glassMoveTypes": "ALTERNATE_LEFT_RIGHT",
+                        "verticalDivisions": 7,
+                        "horizontalDivisions": 3,
+                        "moveLimit": 7.0,
+                        "moveSpeed": 5.0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.049",
+            "transform": {
+                "translation": [
+                    -5.92474365234375,
+                    250.8018341064453,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    0.25,
+                    3.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.051",
+            "transform": {
+                "translation": [
+                    -5.92474365234375,
+                    249.5912628173828,
+                    5.9709978103637695
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.0,
+                    0.25,
+                    3.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider": {
+                "type": "OBB",
+                "tag": "WALL",
+                "collision_check": false,
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "wallMoveTypes": "DONTMOVE",
+                "wallMoveLimit": 1.0,
+                "wallMoveSpeed": 1.0,
+                "wallRotateSpeed": 1.0
+            }
+        }
+    ]
+}
