@@ -48,9 +48,9 @@ void Collider::Update() {
 	objData_->UpdateWorld();
 
 	// 合成された位置
-	combinedPosition = objData_->GetPWorldEulerTransformData()->translate_;
+	combinedPosition = objData_->GetPWorldEulerTransformData()->translate_ + colliderData_.translate_;
 	// 合成された回転
-	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_;
+	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_ + colliderData_.rotate_;
 	// 合成されたスケール
 	combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
 	

@@ -48,10 +48,12 @@ namespace MyEngine {
 
 		if (isChange_ && sceneChange_->IsChange()) {
 			isChange_ = false;
+			//ゲーム内マネージャーの初期化
+			DrawManager::GetInstance()->Clear();
+			CollisionManager::GetInstance()->ClearColliders();
 			//シーンの削除
 			scene_->Finalize();
 			scene_.reset();
-			DrawManager::GetInstance()->Clear();
 			//シーンの生成
 			scene_ = sceneFactory_->CreateScene((GameScene)sceneNo_);
 			//シーンの初期化

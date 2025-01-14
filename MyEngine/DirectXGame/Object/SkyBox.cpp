@@ -117,7 +117,7 @@ namespace MyEngine {
 		//Scirssorの設定
 		dxCommon->GetCommandList()->RSSetScissorRects(1, psoManager->GetScissorRect());
 		//パイプラインステートの設定
-		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(PipelineState::kSkyBox));
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(renderItem.materialInfo_.blendMode_, PipelineState::kSkyBox));
 		//ルートシグネチャの設定
 		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetRootSignature(PipelineState::kSkyBox));
 		//プリミティブ形状を設定

@@ -194,6 +194,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\GameObject\Entity\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXGame\Data\BlendMode.h" />
     <ClInclude Include="DirectXGame\Data\RadialBlurInfo.h" />
     <ClInclude Include="DirectXGame\Data\VignetteBlurInfo.h" />
     <ClInclude Include="DirectXGame\GameObject\Entity\Crystal.h" />

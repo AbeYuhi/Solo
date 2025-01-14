@@ -108,6 +108,7 @@ void TitleScene::Update() {
 		time_ -= 1.0f;
 	}
 
+	//一定距離すすんだらカメラを戻す
 	if (titleCamera_->GetWorldTransrom().translate_.z >= 300) {
 		titleCamera_->SetPos({ titleCamera_->GetWorldTransrom().translate_.x,
 			titleCamera_->GetWorldTransrom().translate_.y,
@@ -159,7 +160,7 @@ void TitleScene::Update() {
 		changeTime_ += 1.0f / 60.0f;
 		titleCamera_->transform_.translate_.z += (6.0f * (changeTime_ + 2.0f)) * (1.0f / 60.0f);
 		postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.00005f;
-		if (changeTime_ >= 5.0f) {
+		if (changeTime_ >= 3.0f) {
 			sceneNo_ = INGAME;
 			sceneChange_->StartSceneChange();
 			postEffectManager_->GetRadialBlurInfo()->blurWidth = 0.015f;

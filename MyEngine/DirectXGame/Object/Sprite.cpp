@@ -102,7 +102,7 @@ namespace MyEngine {
 		//Scirssorの設定
 		dxCommon->GetCommandList()->RSSetScissorRects(1, psoManager->GetScissorRect());
 		//パイプラインステートの設定
-		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(kSprite));
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(spriteItem.materialInfo_.blendMode_, kSprite));
 		//ルートシグネチャの設定
 		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetRootSignature(kSprite));
 		//プリミティブ形状を設定
@@ -137,7 +137,7 @@ namespace MyEngine {
 		//Scirssorの設定
 		dxCommon->GetCommandList()->RSSetScissorRects(1, psoManager->GetScissorRect());
 		//パイプラインステートの設定
-		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(PipelineState::kParticle));
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPSO(drawInfo.materialInfo_->blendMode_, PipelineState::kParticle));
 		//ルートシグネチャの設定
 		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetRootSignature(PipelineState::kParticle));
 		//プリミティブ形状を設定

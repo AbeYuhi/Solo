@@ -19,6 +19,7 @@ void SceneChange::Inialize(){
 	whiteTextureInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("whiteTexture2x2.png");
 	whiteTextureInfo_.spriteItem->spriteData_.size_ = { 1280, 720 };
 	whiteTextureInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
+	whiteTextureInfo_.spriteItem->materialInfo_.blendMode_ = BlendMode::kBlendModeNormal;
 
 	isStart_ = false;
 }
@@ -26,21 +27,20 @@ void SceneChange::Inialize(){
 void SceneChange::Update(){
 	spriteCamera_->Update();
 
-	if (isStart_) {
+	if (isStart_) { //ホワイトイン処理
 		time_ += 1.0f / 60.0f;
 		if (isReverse_) {
-			isChange_ = false;
 			whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w -= 1.0f / 60.0f;
 
-			if (whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w <= 0.0f) {
+			if (whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w < 0.0f) {
 				whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
 				isStart_ = false;
 			}
 
 		}
-		else {
+		else { //ホワイトアウト処理
 			whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w += 1.0f / 60.0f;
-			if (whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w >= 1.0f) {
+			if (whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
 				whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
 				isReverse_ = true;
 				isChange_ = true;
@@ -48,14 +48,15 @@ void SceneChange::Update(){
 
 		}
 	}
+	else {
+		whiteTextureInfo_.spriteItem->materialInfo_.material_->color.w = 0.0f;
+	}
 
 }
 
 void SceneChange::Draw(){
 
-	if (isStart_) {
-		DrawManager::GetInstance()->PushBackForegroundSprite(&whiteTextureInfo_);
-	}
+	DrawManager::GetInstance()->PushBackForegroundSprite(&whiteTextureInfo_);
 
 }
 

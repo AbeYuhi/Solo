@@ -59,15 +59,11 @@ namespace MyEngine {
 		//ビルボードさせるか
 		isBillboard_ = true;
 
-		//ブレンドモード
-		blendMode_ = kBlendModeAdd;
-
 		//描画に必要なもの
 		drawInfo_.Initialize(&srvHandle_, &materialInfo_, &particleCount_);
 	}
 
 	void ParticleManager::Update() {
-		preBlendMode_ = GraphicsPipelineManager::GetInstance()->GetBlendMode();
 
 		//エミッターの可視化
 		emitterObjInfo_.worldTransform_.data_ = emitter_.transform;

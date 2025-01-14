@@ -76,9 +76,6 @@ private:
 	//シャドウ
 	std::unique_ptr<Shadow> shadow_;
 
-	//ブレンドモード
-	int blendMode_;
-
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
 	float stageSize_;
 	unsigned int nowStage_;

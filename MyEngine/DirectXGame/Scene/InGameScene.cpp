@@ -44,9 +44,6 @@ void InGameScene::Initialize() {
 	//コリジョンマネージャー
 	collisionManager_->Initialize();
 
-	//ブレンドモード
-	blendMode_ = kBlendModeNormal;
-
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
 	level0->Initialize("stage0.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
@@ -344,12 +341,6 @@ void InGameScene::Update() {
 	ImGui::Begin("RenderItemInfo");
 	ImGui::BeginTabBar("RenderItemInfo");
 	ImGui::EndTabBar();
-	ImGui::End();
-
-	ImGui::Begin("BlendMode");
-	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
-	ImGui::Combo("blendMode", &blendMode_, modes, IM_ARRAYSIZE(modes));
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(static_cast<BlendMode>(blendMode_));
 	ImGui::End();
 
 	ImGui::Begin("PostEffect");

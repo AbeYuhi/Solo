@@ -14,11 +14,7 @@ namespace MyEngine {
 	}
 
 	void GraphicsPipelineManager::Initialize() {
-
-		blendMode_ = BlendMode::kBlendModeNormal;
-
 		CreateGraphicsPipelineManager();
-
 	}
 
 	void GraphicsPipelineManager::CreateGraphicsPipelineManager() {
