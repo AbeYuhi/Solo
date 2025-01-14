@@ -80,7 +80,6 @@ private:
 	//ブレンドモード
 	int blendMode_;
 
-	vector<LevelData> levelDatas_;
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
 	float stageSize_;
 	unsigned int nowStage_;
