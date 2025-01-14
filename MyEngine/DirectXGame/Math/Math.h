@@ -139,6 +139,27 @@ Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 /// </summary>
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
 
+/// <summary>
+/// worldMatrixからスケールを抽出します
+/// </summary>
+/// <param name="worldMatrix"></param>
+/// <returns></returns>
+Vector3 ExtractScale(const Matrix4x4& worldMatrix);
+
+/// <summary>
+/// ワールドマトリックスから回転を抽出
+/// </summary>
+/// <param name="worldMatrix"></param>
+/// <returns></returns>
+Matrix3x3 ExtractRotationMatrix(const Matrix4x4& worldMatrix);
+
+/// <summary>
+/// オイラー角を抽出
+/// </summary>
+/// <param name="rotationMatrix"></param>
+/// <returns></returns>
+Vector3 ExtractEulerAngles(const Matrix3x3& rotationMatrix);
+
 #pragma endregion
 
 #pragma region Matrix4x4

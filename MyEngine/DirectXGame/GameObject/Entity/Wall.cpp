@@ -111,16 +111,11 @@ void Wall::Update(){
 	}
 
 	//スケールの計算
-	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	if (data_.renderItem->worldTransform_.parent_) {
-		scale = { 
-			std::ceil(data_.renderItem->worldTransform_.data_.scale_.x * data_.renderItem->worldTransform_.parent_->data_.scale_.x),
-			std::ceil(data_.renderItem->worldTransform_.data_.scale_.y * data_.renderItem->worldTransform_.parent_->data_.scale_.y), 
-			std::ceil(data_.renderItem->worldTransform_.data_.scale_.z * data_.renderItem->worldTransform_.parent_->data_.scale_.z) };
-	}
-	else {
-		scale = { std::ceil(data_.renderItem->worldTransform_.data_.scale_.x), std::ceil(data_.renderItem->worldTransform_.data_.scale_.y), std::ceil(data_.renderItem->worldTransform_.data_.scale_.z) };
-	}
+	Vector3 scale = data_.renderItem->worldTransform_.worldData_.scale_;
+	Vector3 uvScale = { 0.0f, 0.0f, 0.0f };
+	uvScale.x = std::ceil(data_.renderItem->worldTransform_.worldData_.scale_.x);
+	uvScale.y = std::ceil(data_.renderItem->worldTransform_.worldData_.scale_.y);
+	uvScale.z = std::ceil(data_.renderItem->worldTransform_.worldData_.scale_.z);
 	//ワールド情報の更新
 	data_.renderItem->worldTransform_.UpdateWorld();
 	//6面の移動
@@ -129,79 +124,45 @@ void Wall::Update(){
 	}
 	//手前の面
 	infos_[0].renderItem->worldTransform_.data_.rotate_.x -= 3.14f / 2.0f;
-	infos_[0].renderItem->worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
-	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.x = scale.x;
-	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.y = scale.y;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[0].renderItem->worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z * data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-		infos_[0].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[0].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-	}
-	else {
-		infos_[0].renderItem->worldTransform_.data_.translate_.z -= data_.renderItem->worldTransform_.data_.scale_.z;
-	}
+	infos_[0].renderItem->worldTransform_.data_.scale_.x = scale.x;
+	infos_[0].renderItem->worldTransform_.data_.scale_.z = scale.y;
+	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
+	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
+	infos_[0].renderItem->worldTransform_.data_.translate_.z -= scale.z;
 	//奥の面
 	infos_[1].renderItem->worldTransform_.data_.rotate_.x += 3.14f / 2.0f;
-	infos_[1].renderItem->worldTransform_.data_.scale_.z = data_.renderItem->worldTransform_.data_.scale_.y;
-	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.x = scale.x;
-	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.y = scale.y;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[1].renderItem->worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z * data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-		infos_[1].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[1].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-	}
-	else {
-		infos_[1].renderItem->worldTransform_.data_.translate_.z += data_.renderItem->worldTransform_.data_.scale_.z;
-	}
+	infos_[1].renderItem->worldTransform_.data_.scale_.x = scale.x;
+	infos_[1].renderItem->worldTransform_.data_.scale_.z = scale.y;
+	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
+	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
+	infos_[1].renderItem->worldTransform_.data_.translate_.z += scale.z;
 	//左の面
 	infos_[2].renderItem->worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
-	infos_[2].renderItem->worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
-	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.x = scale.y;
-	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.y = scale.z;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[2].renderItem->worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x * data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[2].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-		infos_[2].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-	}
-	else {
-		infos_[2].renderItem->worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
-	}
+	infos_[2].renderItem->worldTransform_.data_.scale_.x = scale.y;
+	infos_[2].renderItem->worldTransform_.data_.scale_.z = scale.z;
+	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.y;
+	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[2].renderItem->worldTransform_.data_.translate_.x -= scale.x;
 	//右の面
 	infos_[3].renderItem->worldTransform_.data_.rotate_.z -= 3.14f / 2.0f;
-	infos_[3].renderItem->worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
-	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.x = scale.y;
-	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.y = scale.z;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[3].renderItem->worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x * data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[3].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-		infos_[3].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-	}
-	else {
-		infos_[3].renderItem->worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
-	}
+	infos_[3].renderItem->worldTransform_.data_.scale_.x = scale.y;
+	infos_[3].renderItem->worldTransform_.data_.scale_.z = scale.z;
+	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.y;
+	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[3].renderItem->worldTransform_.data_.translate_.x += scale.x;
 	//下の面
 	infos_[4].renderItem->worldTransform_.data_.rotate_.z += 3.14f;
-	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.x = scale.x;
-	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.y = scale.z;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[4].renderItem->worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y * data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-		infos_[4].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[4].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-	}
-	else {
-		infos_[4].renderItem->worldTransform_.data_.translate_.y -= data_.renderItem->worldTransform_.data_.scale_.y;
-	}
+	infos_[4].renderItem->worldTransform_.data_.scale_.x = scale.x;
+	infos_[4].renderItem->worldTransform_.data_.scale_.z = scale.z;
+	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
+	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[4].renderItem->worldTransform_.data_.translate_.y -= scale.y;
 	//上の面
-	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.x = scale.x;
-	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.y = scale.z;
-	if (data_.renderItem->worldTransform_.parent_) {
-		infos_[5].renderItem->worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y * data_.renderItem->worldTransform_.parent_->data_.scale_.y;
-		infos_[5].renderItem->worldTransform_.data_.scale_.x *= data_.renderItem->worldTransform_.parent_->data_.scale_.x;
-		infos_[5].renderItem->worldTransform_.data_.scale_.z *= data_.renderItem->worldTransform_.parent_->data_.scale_.z;
-	}
-	else {
-		infos_[5].renderItem->worldTransform_.data_.translate_.y += data_.renderItem->worldTransform_.data_.scale_.y;
-	}
+	infos_[5].renderItem->worldTransform_.data_.scale_.x = scale.x;
+	infos_[5].renderItem->worldTransform_.data_.scale_.z = scale.z;
+	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
+	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[5].renderItem->worldTransform_.data_.translate_.y += scale.y;
 }
 
 void Wall::Draw(){

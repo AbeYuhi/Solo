@@ -46,47 +46,13 @@ void Collider::Initialize(MyEngine::WorldTransform* objData, EulerTransformData 
 
 void Collider::Update() {
 	objData_->UpdateWorld();
-	Matrix4x4 objMatrix = MakeAffineMatrix(*objData_->GetPWorldEulerTransformData());
-	Matrix4x4 colliderMatrix = MakeAffineMatrix(colliderData_);
-	Matrix4x4 combinedMatrix = Multiply(colliderMatrix, objMatrix);
-
-	EulerTransformData combinedData = ExtractTransform(combinedMatrix);
-
-	//// 合成された位置
-	//combinedPosition = combinedData.translate_;
-	//// 合成された回転
-	//combinedRotation = combinedData.rotate_;
-	//// 合成されたスケール
-	//combinedScale = combinedData.scale_;
 
 	// 合成された位置
 	combinedPosition = objData_->GetPWorldEulerTransformData()->translate_;
 	// 合成された回転
 	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_;
 	// 合成されたスケール
-	if (objData_->parent_) {
-		std::vector<Vector3> scales;
-		MyEngine::WorldTransform worldTransform;
-		worldTransform = *objData_;
-		while (true) {
-			if (worldTransform.parent_) {
-				Vector3 parentScale;
-				parentScale = worldTransform.parent_->data_.scale_;
-				scales.push_back(parentScale);
-				worldTransform = *worldTransform.parent_;
-			}
-			else {
-				break;
-			}
-		}
-		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
-		for (int i = 0; i < scales.size(); i++) {
-			combinedScale *= scales[i];
-		}
-	}
-	else {
-		combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
-	}
+	combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
 	
 	//形状に合わせた処理
 	std::visit([&](auto& shape) {

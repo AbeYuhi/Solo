@@ -164,6 +164,59 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	}
 }
 
+Vector3 ExtractScale(const Matrix4x4& worldMatrix) {
+	Vector3 scale;
+	scale.x = sqrtf(worldMatrix.m[0][0] * worldMatrix.m[0][0] +
+		worldMatrix.m[1][0] * worldMatrix.m[1][0] +
+		worldMatrix.m[2][0] * worldMatrix.m[2][0]);
+	scale.y = sqrtf(worldMatrix.m[0][1] * worldMatrix.m[0][1] +
+		worldMatrix.m[1][1] * worldMatrix.m[1][1] +
+		worldMatrix.m[2][1] * worldMatrix.m[2][1]);
+	scale.z = sqrtf(worldMatrix.m[0][2] * worldMatrix.m[0][2] +
+		worldMatrix.m[1][2] * worldMatrix.m[1][2] +
+		worldMatrix.m[2][2] * worldMatrix.m[2][2]);
+	return scale;
+}
+
+Matrix3x3 ExtractRotationMatrix(const Matrix4x4& worldMatrix) {
+	Vector3 scale = ExtractScale(worldMatrix);
+
+	Matrix3x3 rotationMatrix;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (i == 0) {
+				rotationMatrix.m[i][j] = worldMatrix.m[i][j] / scale.x;
+			}
+			if (i == 1) {
+				rotationMatrix.m[i][j] = worldMatrix.m[i][j] / scale.y;
+			}
+			if (i == 2) {
+				rotationMatrix.m[i][j] = worldMatrix.m[i][j] / scale.z;
+			}
+		}
+	}
+	return rotationMatrix;
+}
+
+Vector3 ExtractEulerAngles(const Matrix3x3& rotationMatrix) {
+	Vector3 eulerAngles;
+
+	// Y軸の回転を計算
+	eulerAngles.y = asinf(rotationMatrix.m[0][2]);
+
+	// 回転行列の要素に基づいて X, Z 軸の回転を計算
+	if (cosf(eulerAngles.y) > 0.0001f) { // Y軸が90度付近でない場合
+		eulerAngles.x = atan2f(-rotationMatrix.m[1][2], rotationMatrix.m[2][2]);
+		eulerAngles.z = atan2f(-rotationMatrix.m[0][1], rotationMatrix.m[0][0]);
+	}
+	else { // 特殊ケース：Y軸が90度近辺
+		eulerAngles.x = atan2f(rotationMatrix.m[2][1], rotationMatrix.m[1][1]);
+		eulerAngles.z = 0.0f; // 一意に決まらないため任意の値を設定
+	}
+
+	return eulerAngles;
+}
+
 #pragma endregion
 
 #pragma region Matrix4x4
@@ -561,10 +614,10 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
-	Matrix4x4 rotateXYZMatrix = MakeRotateMatrix(rotate);
+	Matrix4x4 rotateXZYMatrix = MakeRotateMatrix(rotate);
 	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
 
-	return Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
+	return Multiply(scaleMatrix, Multiply(rotateXZYMatrix, translateMatrix));
 }
 
 Matrix4x4 MakeAffineMatrix(const EulerTransformData& transformData) {
