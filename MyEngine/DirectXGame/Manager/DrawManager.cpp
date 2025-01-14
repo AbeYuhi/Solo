@@ -116,11 +116,11 @@ void DrawManager::Draw() {
 	for (auto& info : backgroundSprites_) {
 		info->isDraw = false;
 	}
-	//非透明オブジェクトの描画
+	//非透明オブジェクトを初期化
 	for (auto& info : opaqueObjects_) {
 		info->isDraw = false;
 	}
-	//透明オブジェクトを描画
+	//透明オブジェクトを初期化
 	for (auto& info : translucentObjects_) {
 		info->isDraw = false;
 	}
@@ -154,10 +154,33 @@ void DrawManager::ForegroundSpritesDraw() {
 }
 
 void DrawManager::Clear() {
-	opaqueObjects_.clear();
-	translucentObjects_.clear();
-	backgroundSprites_.clear();
-	foregroundSprites_.clear();
+	for (auto it = backgroundSprites_.begin(); it != backgroundSprites_.end();) {
+		SpriteDrawInfo* info = *it;
+		info->isAlive = false;
+		info->isDraw = false;
+		it = backgroundSprites_.erase(it);
+	}
+	//非透明オブジェクト
+	for (auto it = opaqueObjects_.begin(); it != opaqueObjects_.end();) {
+		ModelDrawInfo* info = *it;
+		info->isAlive = false;
+		info->isDraw = false;
+		it = opaqueObjects_.erase(it);
+	}
+	//透明オブジェクト
+	for (auto it = translucentObjects_.begin(); it != translucentObjects_.end();) {
+		ModelDrawInfo* info = *it;
+		info->isAlive = false;
+		info->isDraw = false;
+		it = translucentObjects_.erase(it);
+	}
+	//前衛スプライト
+	for (auto it = foregroundSprites_.begin(); it != foregroundSprites_.end();) {
+		SpriteDrawInfo* info = *it;
+		info->isAlive = false;
+		info->isDraw = false;
+		it = foregroundSprites_.erase(it);
+	}
 }
 
 void DrawManager::PushBackOpaqueObject(ModelDrawInfo* info) {

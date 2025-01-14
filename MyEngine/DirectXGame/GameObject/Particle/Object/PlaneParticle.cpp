@@ -24,7 +24,7 @@ void PlaneParticle::Initialize() {
 	emitter_.frequency = 0.5;
 
 	//ブレンドモード
-	blendMode_ = kBlendModeAdd;
+	materialInfo_.blendMode_ = kBlendModeAdd;
 
 	//力を加えるフィールド(強さ)
 	accelerationField_.accelerationField = { 15.0f, 0.0f, 0.0f };
@@ -47,11 +47,6 @@ void PlaneParticle::Update() {
 	ImGui::Checkbox("isInvisible", &materialInfo_.isInvisible_);
 	ImGui::Checkbox("isInvisibleEmitter", &emitterObjInfo_.materialInfo_.isInvisible_);
 	ImGui::Checkbox("isBillboard", &isBillboard_);
-	int blendMode = blendMode_;
-	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
-	ImGui::Combo("blendMode", &blendMode, modes, IM_ARRAYSIZE(modes));
-	blendMode_ = static_cast<BlendMode>(blendMode);
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
 	ImGui::End();
 #endif //_DEBUG
 
@@ -88,12 +83,7 @@ void PlaneParticle::EmitterDraw() {
 }
 
 void PlaneParticle::Draw() {
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
-
 	particleModel_->Draw(drawInfo_, textureHandle_);
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
 }
 
 ParticleInfo PlaneParticle::MakeNewParticle() {

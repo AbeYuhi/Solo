@@ -2,28 +2,12 @@
 #include <array>
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
+#include "Data/BlendMode.h"
 
 /// <summary>
 /// GraphicsPipelineManager.h
 /// PSOを管理しているマネージャークラス
 /// </summary>
-
-enum BlendMode{
-	//ブレンドなし
-	kBlendModeNone,
-	//通常ブレンド
-	kBlendModeNormal,
-	//加算ブレンド
-	kBlendModeAdd,
-	//減算ブレンド
-	kBlendModeSubtract,
-	//乗算ブレンド
-	kBlendModeMultily,
-	//スクリーンブレンド
-	kBlendModeScreen,
-	//ブレンドモードの数(絶対に使うな)
-	kCountOfBlendMode,
-};
 
 enum PipelineState {
 	//通常用
@@ -74,7 +58,7 @@ namespace MyEngine {
 		/// </summary>
 		/// <param name="shaderPack"></param>
 		/// <returns></returns>
-		inline ID3D12PipelineState* GetPSO(PipelineState shaderPack = kDefault) { return graphicsPipelineState_[shaderPack][blendMode_].Get(); }
+		inline ID3D12PipelineState* GetPSO(BlendMode blendMode, PipelineState shaderPack = kDefault) { return graphicsPipelineState_[shaderPack][blendMode].Get(); }
 		
 		/// <summary>
 		/// ビューポートの取得
@@ -87,17 +71,6 @@ namespace MyEngine {
 		/// </summary>
 		/// <returns></returns>
 		inline D3D12_RECT* GetScissorRect() { return &scissorRect_; }
-
-		/// <summary>
-		/// ブレンドモードのセッター
-		/// </summary>
-		/// <param name="blendMode"></param>
-		inline void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
-		/// <summary>
-		/// ブレンドモードのゲッター
-		/// </summary>
-		/// <returns></returns>
-		inline BlendMode GetBlendMode() { return blendMode_; }
 
 	private:
 		GraphicsPipelineManager() = default;
@@ -123,7 +96,6 @@ namespace MyEngine {
 		ComPtr<ID3D12PipelineState> graphicsPipelineState_[kCountOfPipelineState][BlendMode::kCountOfBlendMode];
 		D3D12_VIEWPORT viewPort_;
 		D3D12_RECT scissorRect_;
-		BlendMode blendMode_;
 	};
 
 }

@@ -61,8 +61,14 @@ namespace MyEngine {
 		};
 
 		//ワールドDataの更新
-		worldData_.scale_ = data_.scale_;
-		worldData_.rotate_ = data_.rotate_;
+		if (parent_) {
+			worldData_.scale_ = data_.scale_ * parent_->worldData_.scale_;
+			worldData_.rotate_ = data_.rotate_ + parent_->worldData_.rotate_;
+		}
+		else {
+			worldData_.scale_ = data_.scale_;
+			worldData_.rotate_ = data_.rotate_;
+		}
 		worldData_.translate_ = worldPos_;
 
 		TransferMatrix();

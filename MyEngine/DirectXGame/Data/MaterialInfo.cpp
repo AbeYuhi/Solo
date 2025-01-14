@@ -14,6 +14,7 @@ namespace MyEngine {
 		material_->Initialize();
 		uvTransform_.Initialize();
 		isInvisible_ = false;
+		blendMode_ = BlendMode::kBlendModeNormal;
 
 		environmentTextureHandle_ = 0;
 
@@ -39,6 +40,7 @@ namespace MyEngine {
 		material_->Initialize();
 		uvTransform_.Initialize();
 		isInvisible_ = false;
+		blendMode_ = BlendMode::kBlendModeAdd;
 
 		UpdateMatrix();
 	}

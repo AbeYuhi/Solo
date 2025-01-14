@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "Material.h"
 #include "MaterialData.h"
+#include "BlendMode.h"
 
 /// <summary>
 /// MaterialInfo.h
@@ -23,6 +24,8 @@ namespace MyEngine {
 		bool isInvisible_;
 		//環境マッピングのテクスチャハンドル
 		uint32_t environmentTextureHandle_;
+		//ブレンドモード
+		BlendMode blendMode_;
 
 		/// <summary>
 		/// 初期化
@@ -55,6 +58,8 @@ namespace MyEngine {
 		ParticleMaterial* material_;
 		//非表示かどうか
 		bool isInvisible_;
+		//ブレンドモード
+		BlendMode blendMode_;
 
 		/// <summary>
 		/// 初期化

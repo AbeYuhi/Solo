@@ -24,10 +24,7 @@ void GlassPieceParticle::Initialize() {
 	emitter_.frequency = 0.5;
 
 	//ブレンドモード
-	blendMode_ = kBlendModeAdd;
-	preBlendMode_ = MyEngine::GraphicsPipelineManager::GetInstance()->GetBlendMode();
-
-	drawInfo_.materialInfo_->material_->color = { 0.5f, 0.5f, 0.5f, 0.5f };
+	drawInfo_.materialInfo_->blendMode_ = BlendMode::kBlendModeAdd;
 
 	isBillboard_ = false;
 }
@@ -66,12 +63,7 @@ void GlassPieceParticle::EmitterDraw() {
 }
 
 void GlassPieceParticle::Draw() {
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
-
 	particleModel_->Draw(drawInfo_, textureHandle_);
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
 }
 
 ParticleInfo GlassPieceParticle::MakeNewParticle() {

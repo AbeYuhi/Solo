@@ -134,9 +134,6 @@ namespace MyEngine {
 		const int kMaxParticleCount_;
 		//現在のパーティクルの粒子数
 		int particleCount_;
-		//ブレンドモード
-		BlendMode blendMode_;
-		BlendMode preBlendMode_;
 		//テクスチャハンドル
 		uint32_t textureHandle_;
 

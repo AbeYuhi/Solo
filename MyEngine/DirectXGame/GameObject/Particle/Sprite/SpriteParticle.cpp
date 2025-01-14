@@ -26,7 +26,7 @@ void SpriteParticle::Initialize() {
 	emitter_.frequency = 0.5;
 
 	//ブレンドモード
-	blendMode_ = kBlendModeAdd;
+	materialInfo_.blendMode_ = kBlendModeAdd;
 }
 
 void SpriteParticle::Update() {
@@ -39,11 +39,6 @@ void SpriteParticle::Update() {
 	ImGui::Checkbox("isPop", &isPopParticle_);
 	ImGui::Checkbox("isInvisible", &materialInfo_.isInvisible_);
 	ImGui::Checkbox("isInvisibleEmitter", &emitterSpriteInfo_.materialInfo_.isInvisible_);
-	int blendMode = blendMode_;
-	const char* modes[] = { "None", "Normal", "Add", "SubTract", "MultiPly", "Screen" };
-	ImGui::Combo("blendMode", &blendMode, modes, IM_ARRAYSIZE(modes));
-	blendMode_ = static_cast<BlendMode>(blendMode);
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
 	ImGui::End();
 #endif // _DEBUG
 
@@ -73,12 +68,7 @@ void SpriteParticle::EmitterDraw() {
 }
 
 void SpriteParticle::Draw() {
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(blendMode_);
-
 	particleSprite_->Draw(drawInfo_, spriteData_);
-
-	MyEngine::GraphicsPipelineManager::GetInstance()->SetBlendMode(preBlendMode_);
 }
 
 ParticleInfo SpriteParticle::MakeNewParticle() {

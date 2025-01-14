@@ -14,12 +14,12 @@ struct ParticleDrawInfo {
 	/// <param name="srvHandle"></param>
 	/// <param name="materialInfo"></param>
 	/// <param name="kMaxParticleCount"></param>
-	void Initialize(const ResourceHandles* srvHandle, const MyEngine::ParticleMaterialInfo* materialInfo, const int* kMaxParticleCount) {
+	void Initialize(const ResourceHandles* srvHandle, MyEngine::ParticleMaterialInfo* materialInfo, const int* kMaxParticleCount) {
 		srvHandle_ = srvHandle;
 		materialInfo_ = materialInfo;
 		kMaxParticleCount_ = kMaxParticleCount;
 	}
 	const ResourceHandles* srvHandle_;
-	const MyEngine::ParticleMaterialInfo* materialInfo_;
+	MyEngine::ParticleMaterialInfo* materialInfo_;
 	const int* kMaxParticleCount_;
 };
