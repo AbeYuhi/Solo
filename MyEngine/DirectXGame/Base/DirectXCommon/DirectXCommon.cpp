@@ -300,7 +300,7 @@ namespace MyEngine {
 			//デバックレイヤーの有効化
 			debugController->EnableDebugLayer();
 			//GPU側でもチェックするように
-			debugController->SetEnableGPUBasedValidation(TRUE);
+			debugController->SetEnableGPUBasedValidation(FALSE);
 		}
 #endif // _DEBUG
 
