@@ -61,7 +61,9 @@ void InGameScene::Initialize() {
 	gameCamera_->transform_ = levelScenes_[0]->GetCameraData().CameraInfo;
 
 	player_.Initialize(&gameCamera_->transform_);
-	for (int i = 0; i < 2; i++) {
+	//プレイヤー情報をクリスタルに渡す
+	const int kStartStageNum = 2;
+	for (int i = 0; i < kStartStageNum; i++) {
 		for (auto& crystal : levelScenes_[i]->GetCrystals()) {
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
@@ -107,7 +109,7 @@ void InGameScene::Initialize() {
 	backGroundInfo_.spriteItem->spriteData_.anchorPoint_ = { 0.0f, 0.0f };
 	backGroundInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
 
-
+	//メンバ変数の初期化
 	startTimer_ = 0.0f;
 	ballShotExplanationTime_ = 9999.9999f;
 	crystalExplanationTime_ = 9999.9999f;
