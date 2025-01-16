@@ -6,8 +6,8 @@
 #include "Mesh.h"
 
 /// <summary>
-/// Resourcehandle.h
-/// GPUとCPUのハンドルを収納する構造体のファイル
+/// RenderItem.h
+/// レンダリングに用いる情報を収納する構造体ファイル
 /// </summary>
 
 namespace MyEngine {
