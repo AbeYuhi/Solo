@@ -734,6 +734,9 @@
     <ClInclude Include="DirectXGame\Data\BlendMode.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\Data\GameScene.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj">

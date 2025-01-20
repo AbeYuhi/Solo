@@ -131,7 +131,7 @@ void Player::Update() {
 		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
 	}
 
-	//bulletNumに応じて玉の出方を変更
+	//現在のコンボ数に応じて出る弾の量を計算
 	int bulletNum = (comboDestroyCount_ / 10) + 1;
 	if (bulletNum < 1) {
 		bulletNum = 1;
