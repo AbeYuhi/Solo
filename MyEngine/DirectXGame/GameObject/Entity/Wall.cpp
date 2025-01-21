@@ -63,13 +63,13 @@ void Wall::Initialize(std::shared_ptr<MyEngine::Model> model,
 	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.x = scale.x;
 	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.y = scale.y;
 	//左の面
-	infos_[2].model = MyEngine::Model::Create("wall", "rightWall.obj");
+	infos_[2].model = MyEngine::Model::Create("wall", "leftWall.obj");
 	infos_[2].renderItem->worldTransform_.data_.translate_.x -= data_.renderItem->worldTransform_.data_.scale_.x;
 	infos_[2].renderItem->worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
 	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.x = scale.y;
 	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.y = scale.z;
 	//右の面
-	infos_[3].model = MyEngine::Model::Create("wall", "leftWall.obj");
+	infos_[3].model = MyEngine::Model::Create("wall", "rightWall.obj");
 	infos_[3].renderItem->worldTransform_.data_.translate_.x += data_.renderItem->worldTransform_.data_.scale_.x;
 	infos_[3].renderItem->worldTransform_.data_.scale_.x = data_.renderItem->worldTransform_.data_.scale_.y;
 	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.x = scale.y;
@@ -122,31 +122,44 @@ void Wall::Update(){
 	//6面の移動
 	for (int i = 0; i < 6; i++) {
 		infos_[i].renderItem->worldTransform_.data_ = *data_.renderItem->worldTransform_.GetPWorldEulerTransformData();
+		infos_[i].renderItem->worldTransform_.data_.translate_ = { 0.0f, 0.0f, 0.0f };
 	}
 	//手前の面
 	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
 	infos_[0].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
 	infos_[0].renderItem->worldTransform_.data_.translate_.z -= scale.z;
+	infos_[0].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[0].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[0].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 	//奥の面
 	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
 	infos_[1].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
 	infos_[1].renderItem->worldTransform_.data_.translate_.z += scale.z;
+	infos_[1].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[1].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[1].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 	//左の面
-	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.y;
-	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.z;
+	infos_[2].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
 	infos_[2].renderItem->worldTransform_.data_.translate_.x -= scale.x;
+	infos_[2].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[2].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[2].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 	//右の面
-	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.y;
-	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
+	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.z;
+	infos_[3].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.y;
 	infos_[3].renderItem->worldTransform_.data_.translate_.x += scale.x;
+	infos_[3].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[3].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[3].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 	//下の面
 	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
 	infos_[4].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
 	infos_[4].renderItem->worldTransform_.data_.translate_.y -= scale.y;
+	infos_[4].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[4].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[4].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 	//上の面
 	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.x = uvScale.x;
 	infos_[5].renderItem->materialInfo_.uvTransform_.scale_.y = uvScale.z;
 	infos_[5].renderItem->worldTransform_.data_.translate_.y += scale.y;
+	infos_[5].renderItem->worldTransform_.data_.translate_ = TransformNormal(infos_[5].renderItem->worldTransform_.data_.translate_, MakeRotateMatrix(data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->rotate_));
+	infos_[5].renderItem->worldTransform_.data_.translate_ += data_.renderItem->worldTransform_.GetPWorldEulerTransformData()->translate_;
 }
 
 void Wall::Draw(){

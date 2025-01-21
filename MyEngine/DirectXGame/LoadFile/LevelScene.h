@@ -67,6 +67,11 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// 削除処理
+	/// </summary>
+	void Finalize();
+
+	/// <summary>
 	/// カメラデータの取得処理
 	/// </summary>
 	/// <returns></returns>

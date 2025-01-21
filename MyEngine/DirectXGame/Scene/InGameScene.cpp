@@ -46,7 +46,8 @@ void InGameScene::Initialize() {
 
 	//ステージのjsonを読み込む
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
-	level0->Initialize("stage0.json");
+	//level0->Initialize("stage0.json");
+	level0->Initialize("debug.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();
@@ -239,6 +240,7 @@ void InGameScene::Update() {
 
 	//ステージの一定量まで進んだら次のステージを読み込むように
 	if (stageSize_ <= gameCamera_->transform_.translate_.z) {
+		levelScenes_[nowStage_]->Finalize();
 		nowStage_++;
 		if (kStageNum_ < nowStage_) {
 			gameClear_ = true;
@@ -350,7 +352,7 @@ void InGameScene::Update() {
 	}
 
 	//ステージの処理
-	for (int index = 0; index < levelScenes_.size(); index++) {
+	for (int index = nowStage_; index < levelScenes_.size(); index++) {
 		levelScenes_[index]->Update();
 	}
 

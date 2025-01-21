@@ -61,6 +61,14 @@ void LevelScene::Draw() {
 	}
 }
 
+void LevelScene::Finalize() {
+
+	for (auto& objData : gameObject_.objDatas_) {
+		objData->collider.isDelete_ = true;
+	}
+	MyEngine::CollisionManager::GetInstance()->SyncColliderList();
+}
+
 void LevelScene::LoadFile(const std::string& fileName) {
 	const std::string fullPath = kDirectoryPath + fileName;
 
