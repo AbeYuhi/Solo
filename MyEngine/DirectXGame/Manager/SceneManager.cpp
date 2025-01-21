@@ -71,7 +71,9 @@ namespace MyEngine {
 		//シーンの描画
 		scene_->Draw();
 
-		sceneChange_->Draw();
+		if (sceneChange_->IsStart()) {
+			sceneChange_->Draw();
+		}
 	}
 
 }

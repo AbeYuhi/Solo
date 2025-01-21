@@ -41,6 +41,7 @@ public:
 	void StartSceneChange();
 
 	inline bool IsChange() const { return isChange_; }
+	inline bool IsStart() const { return isStart_; }
 
 private:
 	SceneChange() = default;
