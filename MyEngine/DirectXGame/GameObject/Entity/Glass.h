@@ -11,6 +11,8 @@
 /// 障害物であるガラスに関するファイル
 /// </summary>
 
+class GlassMove;
+
 class Glass
 {
 public:
@@ -63,28 +65,12 @@ public:
 	/// </summary>
 	void Draw();
 
-private:
+	EulerTransformData* GetModelData() { return &mainInfo_.renderItem->worldTransform_.data_; }
 
-	/// <summary>
-	/// ガラスが動かない時の処理
-	/// </summary>
-	void DontMoveGlass();
-
-	/// <summary>
-	/// ガラスが起き上がるときの処理
-	/// </summary>
-	void MoveGlassUpRight();
-
-	/// <summary>
-	/// ガラスが左右に動く時の処理
-	/// </summary>
-	void MoveGlassAlternateLeftRight();
-
-	/// <summary>
-	/// ガラスが上下に動く時の処理
-	/// </summary>
-	void MoveGlassAlternateUpDown();
-
+	EulerTransformData GetKeepData() const { return keepData_; }
+	Vector3 GetBaseData() const { return base_; }
+	float GetMoveSpeed() const { return moveSpeed_; }
+	Vector3 GetMoveLimit() const { return moveLimit_; }
 
 private:
 
@@ -92,6 +78,7 @@ private:
 	ModelDrawInfo mainInfo_;
 	
 	MoveType type_;
+	std::unique_ptr<GlassMove> moveState_;
 	GroundingInfo groudingInfo_;
 	unsigned int divisionX_;
 	unsigned int divisionY_;
@@ -117,3 +104,54 @@ private:
 	//
 };
 
+class MoveState {
+public:
+	virtual ~MoveState() = default;
+	virtual void Move(Glass* glass) = 0;
+};
+
+class DontMove : public MoveState{
+public:
+	void Move([[maybe_unused]] Glass* glass) override;
+
+private:
+	float time_;
+};
+
+class UpRight : public MoveState {
+public:
+	void Move(Glass* glass) override;
+
+private:
+	float time_;
+};
+
+class AlternateLeftRight : public MoveState {
+public:
+	void Move(Glass* glass) override;
+
+private:
+	float time_;
+	bool isTurnAround_;
+};
+
+class AlternateUpDown : public MoveState {
+public:
+	void Move(Glass* glass) override;
+
+private:
+	float time_;
+	bool isTurnAround_;
+};
+
+class GlassMove {
+public:
+	GlassMove(Glass* glass, Glass::MoveType type);
+	~GlassMove();
+
+	void Move();
+
+private:
+	Glass* glass_;
+	std::unique_ptr<MoveState> state_;
+};

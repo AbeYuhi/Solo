@@ -33,6 +33,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 		type_ = UPRIGHT;
 	}
 
+	moveState_ = std::make_unique<GlassMove>(this, type_);
+
 	mainInfo_.renderItem->materialInfo_.material_->color.w = 0.5f;
 	mainInfo_.renderItem->materialInfo_.material_->color.x = 0.5f;
 	mainInfo_.renderItem->materialInfo_.material_->color.y = 0.5f;
@@ -181,21 +183,7 @@ void Glass::Update() {
 
 	//動くタイプ別の挙動
 	//本体のガラスを動かす処理
-	switch (type_)
-	{
-	case Glass::DONTMOVE:
-		DontMoveGlass();
-		break;
-	case Glass::ALTERNATE_LEFT_RIGHT:
-		MoveGlassAlternateLeftRight();
-		break;
-	case Glass::ALTERNATE_UP_DOWN:
-		MoveGlassAlternateUpDown();
-		break;
-	case Glass::UPRIGHT:
-		MoveGlassUpRight();
-		break;
-	}
+	moveState_->Move();
 
 	//本体のガラスの移動に基づいて細分化されているガラスも同期させる処理
 	for (unsigned int y = 0; y < divisionY_; y++) {
@@ -509,53 +497,81 @@ void Glass::Draw() {
 	}
 }
 
-void Glass::DontMoveGlass() {
-
+void DontMove::Move([[maybe_unused]] Glass* glass) {
+	
 }
-
-void Glass::MoveGlassUpRight() {
-	if (MainCamera::GetInstance()->GetWorldPos().z >= mainInfo_.renderItem->worldTransform_.data_.translate_.z - 50.0f) {
+	
+void UpRight::Move(Glass* glass) {
+	if (MainCamera::GetInstance()->GetWorldPos().z >= glass->GetModelData()->translate_.z - 50.0f) {
 		time_ += 1.0f / 60.0f;
 		if (time_ >= 1.0f) {
 			time_ = 1.0f;
 		}
-		mainInfo_.renderItem->worldTransform_.data_.rotate_.x = (1.0f - time_) * keepData_.rotate_.x + time_ * 0.0f;
+		glass->GetModelData()->rotate_.x = (1.0f - time_) * glass->GetKeepData().rotate_.x + time_ * 0.0f;
 	}
 
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(mainInfo_.renderItem->worldTransform_.data_.rotate_);
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(glass->GetModelData()->rotate_);
 	Vector3 newPos = Transform({ 0.0f, 1.0f, 0.0f }, rotateMatrix);
-	newPos *= mainInfo_.renderItem->worldTransform_.data_.scale_.y;
-	mainInfo_.renderItem->worldTransform_.data_.translate_.x = base_.x + newPos.x;
-	mainInfo_.renderItem->worldTransform_.data_.translate_.y = 1 + newPos.y;
-	mainInfo_.renderItem->worldTransform_.data_.translate_.z = base_.z + newPos.z;
+	newPos *= glass->GetModelData()->scale_.y;
+	glass->GetModelData()->translate_.x = glass->GetBaseData().x + newPos.x;
+	glass->GetModelData()->translate_.y = 1 + newPos.y;
+	glass->GetModelData()->translate_.z = glass->GetBaseData().z + newPos.z;
 }
 
-void Glass::MoveGlassAlternateLeftRight() {
+void AlternateLeftRight::Move(Glass* glass) {
 	if (!isTurnAround_) {
-		mainInfo_.renderItem->worldTransform_.data_.translate_.x += moveSpeed_ * (1.0f / 60.0f);
-		if (mainInfo_.renderItem->worldTransform_.data_.translate_.x >= keepData_.translate_.x + moveLimit_.x) {
+		glass->GetModelData()->translate_.x += glass->GetMoveSpeed() * (1.0f / 60.0f);
+		if (glass->GetModelData()->translate_.x >= glass->GetKeepData().translate_.x + glass->GetMoveLimit().x) {
 			isTurnAround_ = true;
 		}
 	}
 	else {
-		mainInfo_.renderItem->worldTransform_.data_.translate_.x -= moveSpeed_ * (1.0f / 60.0f);
-		if (mainInfo_.renderItem->worldTransform_.data_.translate_.x <= keepData_.translate_.x - moveLimit_.x) {
+		glass->GetModelData()->translate_.x -= glass->GetMoveSpeed() * (1.0f / 60.0f);
+		if (glass->GetModelData()->translate_.x <= glass->GetKeepData().translate_.x - glass->GetMoveLimit().x) {
 			isTurnAround_ = false;
 		}
 	}
 }
 
-void Glass::MoveGlassAlternateUpDown() {
+void AlternateUpDown::Move(Glass* glass) {
 	if (!isTurnAround_) {
-		mainInfo_.renderItem->worldTransform_.data_.translate_.y += moveSpeed_ * (1.0f / 60.0f);
-		if (mainInfo_.renderItem->worldTransform_.data_.translate_.y >= keepData_.translate_.y + moveLimit_.y) {
+		glass->GetModelData()->translate_.y += glass->GetMoveSpeed() * (1.0f / 60.0f);
+		if (glass->GetModelData()->translate_.y >= glass->GetKeepData().translate_.y + glass->GetMoveLimit().y) {
 			isTurnAround_ = true;
 		}
 	}
 	else {
-		mainInfo_.renderItem->worldTransform_.data_.translate_.y -= moveSpeed_ * (1.0f / 60.0f);
-		if (mainInfo_.renderItem->worldTransform_.data_.translate_.y <= keepData_.translate_.y - moveLimit_.y) {
+		glass->GetModelData()->translate_.y -= glass->GetMoveSpeed() * (1.0f / 60.0f);
+		if (glass->GetModelData()->translate_.y <= glass->GetKeepData().translate_.y - glass->GetMoveLimit().y) {
 			isTurnAround_ = false;
 		}
 	}
+}
+
+GlassMove::GlassMove(Glass* glass, Glass::MoveType type) {
+	glass_ = glass;
+	switch (type)
+	{
+	case Glass::DONTMOVE:
+	default:
+		state_ = std::make_unique<DontMove>();
+		break;
+	case Glass::ALTERNATE_LEFT_RIGHT:
+		state_ = std::make_unique<AlternateLeftRight>();
+		break;
+	case Glass::ALTERNATE_UP_DOWN:
+		state_ = std::make_unique<AlternateUpDown>();
+		break;
+	case Glass::UPRIGHT:
+		state_ = std::make_unique<UpRight>();
+		break;
+	}
+}
+
+GlassMove::~GlassMove() {
+	state_.reset();
+}
+
+void GlassMove::Move() {
+	state_->Move(glass_);
 }
