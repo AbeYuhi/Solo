@@ -62,6 +62,9 @@ private:
 
 	SceneChange* sceneChange_;
 
+	//ライト
+	MyEngine::LightObjectManager* lightObj_;
+
 	float time_;
 	std::unique_ptr<LevelScene> levelScene_;
 	std::unique_ptr<LevelScene> levelScene1_;

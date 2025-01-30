@@ -35,6 +35,10 @@ void TitleScene::Initialize() {
 	titleCamera_ = std::make_unique<TitleCamera>();
 	titleCamera_->Initialize();
 
+	//平行光源
+	lightObj_ = MyEngine::LightObjectManager::GetInstance();
+	lightObj_->InitData();
+
 	//スプライトの初期化処理
 	leftMouseClickInfo_.Initialize();
 	leftMouseClickInfo_.spriteItem->spriteData_.textureHandle_ = MyEngine::TextureManager::Load("leftClick.png");
@@ -105,6 +109,8 @@ void TitleScene::Update() {
 	titleCamera_->Update();
 	mainCamera_->Update(titleCamera_->GetWorldTransrom(), titleCamera_->GetWorldMatrix(), titleCamera_->GetProjectionMatrix());
 	spriteCamera_->Update();
+	//ライトの更新
+	lightObj_->Update();
 
 	time_ += 1.0f / 60.0f;
 	if (time_ >= 1.0f) {

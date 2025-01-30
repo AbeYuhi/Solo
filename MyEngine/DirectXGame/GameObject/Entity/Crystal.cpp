@@ -16,6 +16,8 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	info_.renderItem->materialInfo_.material_->color.y = 0.5f;
 	info_.renderItem->materialInfo_.material_->color.z = 0.5f;
 	info_.renderItem->materialInfo_.material_->color.w = 0.5f;
+	info_.renderItem->materialInfo_.material_->enableLightint = 1;
+	info_.renderItem->materialInfo_.material_->isSpecularReflection = true;
 
 	isBreak_ = false;
 }
