@@ -121,4 +121,17 @@ private:
 	static const int kStageNum_ = 2;
 
 	Vector3 playerSpeed_;
+
+	//デルタタイム
+	const float kDeltaTime = 1.0f / 60.0f;
+
+	//クリスタルについての説明
+	const float kCrystalTutorialStartTime = 10.0f;
+
+	//チュートリアルの処理
+	//ボールの発射方法
+	const float kBallShotTutorialStartTime = 4.0f;
+	const float kTutorialEndTime = 2.0f;
+	const float kTutorialDuration = 1.0f;
+	const float kColorFadeStep = 0.05f;
 };

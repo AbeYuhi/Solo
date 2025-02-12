@@ -218,7 +218,7 @@ void InGameScene::Update() {
 	else {	//通常時のカメラ挙動
 		gameOverTimer_ = 0.0f;
 		if (startTimer_ >= 1.0f && startTimer_ <= 4.0f) {
-			cameraEasingTimer_ += 1.0f / 120.0f;
+			cameraEasingTimer_ += kDeltaTime / 2.0f;
 			if (cameraEasingTimer_ > 1.0f) {
 				cameraEasingTimer_ = 1.0f;
 			}
@@ -236,7 +236,7 @@ void InGameScene::Update() {
 	}
 
 	//カメラを移動
-	gameCamera_->transform_.translate_ += cameraSpeed_ * (1.0f / 60.0f);
+	gameCamera_->transform_.translate_ += cameraSpeed_ * kDeltaTime;
 
 	//ステージの一定量まで進んだら次のステージを読み込むように
 	if (stageSize_ <= gameCamera_->transform_.translate_.z) {
@@ -266,11 +266,7 @@ void InGameScene::Update() {
 
 	//チュートリアルの処理
 	//ボールの発射方法
-	const float kBallShotTutorialStartTime = 4.0f;
-	const float kTutorialEndTime = 2.0f;
-	const float kTutorialDuration = 1.0f;
-	const float kColorFadeStep = 0.05f;
-	startTimer_ += 1.0f / 60.0f;
+	startTimer_ += kDeltaTime;
 	if (startTimer_ >= kBallShotTutorialStartTime && startTimer_ <= kBallShotTutorialStartTime + kTutorialDuration) {
 		ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
 		if (ballShotExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
@@ -287,7 +283,6 @@ void InGameScene::Update() {
 	}
 
 	//クリスタルについての説明
-	const float kCrystalTutorialStartTime = 10.0f;
 	if (startTimer_ >= kCrystalTutorialStartTime && startTimer_ <= kCrystalTutorialStartTime + kTutorialDuration) {
 		crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w += kColorFadeStep;
 		if (crystalExplanationInfo_.spriteItem->materialInfo_.material_->color.w > 1.0f) {
