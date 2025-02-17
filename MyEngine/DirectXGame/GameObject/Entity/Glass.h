@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/AudioManager.h"
 #include "Manager/CollisionManager.h"
 #include "Manager/DrawManager.h"
 #include "GameObject/Particle/Object/GlassPieceParticle/GlassPieceParticle.h"
@@ -101,7 +102,8 @@ private:
 	//分割片ガラスのサイズ
 	Vector3 size_;
 
-	//
+	//ガラスのサウンド
+	uint32_t glassSound_;
 };
 
 class MoveState {

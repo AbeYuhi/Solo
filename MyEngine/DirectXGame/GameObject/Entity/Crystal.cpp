@@ -20,6 +20,15 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	info_.renderItem->materialInfo_.material_->isSpecularReflection = true;
 
 	isBreak_ = false;
+
+	//ガラスが割れた時の音
+	int glassSoundNum = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 1);
+	if (glassSoundNum == 0) {
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound01.wav");
+	}
+	if (glassSoundNum == 1) {
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound02.wav");
+	}
 }
 
 void Crystal::Update() {
@@ -30,6 +39,7 @@ void Crystal::Update() {
 		if (collider_->isContact_[BULLET] && !isBreak_) {
 			*numberofSlashAttacks_ += 3;
 			*comboDestroyCount_ += 1;
+			MyEngine::AudioManager::GetInstance()->SoundPlayWave(glassSound_, 0.7f);
 			isBreak_ = true;
 		}
 

@@ -10,6 +10,7 @@ TitleScene::TitleScene() {}
 TitleScene::~TitleScene() {}
 
 void TitleScene::Finalize() {
+	MyEngine::AudioManager::GetInstance()->Finalize();
 	levelScene_.reset();
 	levelScene1_.reset();
 	levelScene2_.reset();
@@ -28,6 +29,8 @@ void TitleScene::Initialize() {
 	collisionManager_ = MyEngine::CollisionManager::GetInstance();
 	collisionManager_->ClearColliders();
 	collisionManager_->Update();
+
+	MyEngine::AudioManager::GetInstance()->Initialize();
 
 	sceneChange_ = SceneChange::GetInstance();
 
@@ -102,6 +105,9 @@ void TitleScene::Initialize() {
 
 	//マウスカーソルの制限解除
 	MyEngine::WinApp::GetInstance()->UnlockCursor();
+
+	//サウンドのロード
+	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("titleMusic.wav");
 }
 
 void TitleScene::Update() {
@@ -115,6 +121,11 @@ void TitleScene::Update() {
 	time_ += 1.0f / 60.0f;
 	if (time_ >= 1.0f) {
 		time_ -= 1.0f;
+	}
+
+	//bgmを流す
+	if (!MyEngine::AudioManager::GetInstance()->IsSoundPlaying(bgmIndex_)) {
+		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 1.0f, true);
 	}
 
 	//一定距離すすんだらカメラを戻す

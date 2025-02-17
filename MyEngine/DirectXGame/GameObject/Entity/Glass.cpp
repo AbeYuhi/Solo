@@ -167,6 +167,15 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			infos_[y].push_back(std::move(item));
 		}
 	}
+
+	//ガラスが割れた時の音
+	int glassSoundNum = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 1);
+	if (glassSoundNum == 0) {
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound01.wav");
+	}
+	if (glassSoundNum == 1) {
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound02.wav");
+	}
 }
 
 void Glass::Update() {
@@ -174,6 +183,7 @@ void Glass::Update() {
 	if (mainColldier_->isContact_[BULLET] && !isBreak) {
 		isBreak = true;
 		mainColldier_->isDelete_ = true;
+		//MyEngine::AudioManager::GetInstance()->SoundPlayWave(glassSound_, 0.7f);
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());

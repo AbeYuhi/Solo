@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/AudioManager.h"
 #include "Manager/CollisionManager.h"
 #include "Manager/DrawManager.h"
 #include "Object/Model.h"
@@ -60,5 +61,7 @@ private:
 	bool isBreak_;
 	int* numberofSlashAttacks_;
 	int* comboDestroyCount_;
+	//ガラスのサウンド
+	uint32_t glassSound_;
 };
 

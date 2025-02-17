@@ -65,6 +65,9 @@ private:
 	//ライト
 	MyEngine::LightObjectManager* lightObj_;
 
+	//ゲームbgm
+	uint32_t bgmIndex_;
+
 	float time_;
 	std::unique_ptr<LevelScene> levelScene_;
 	std::unique_ptr<LevelScene> levelScene1_;

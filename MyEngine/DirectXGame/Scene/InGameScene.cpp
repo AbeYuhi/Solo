@@ -10,7 +10,7 @@ InGameScene::InGameScene() {
 }
 
 InGameScene::~InGameScene() {
-
+	MyEngine::AudioManager::GetInstance()->Finalize();
 }
 
 void InGameScene::Finalize() {}
@@ -29,6 +29,9 @@ void InGameScene::Initialize() {
 	drawManager_ = DrawManager::GetInstance();
 	mainCamera_ = MainCamera::GetInstance();
 	spriteCamera_ = SpriteCamera::GetInstance();
+
+	//オーディオマネージャーの初期化
+	MyEngine::AudioManager::GetInstance()->Initialize();
 
 	//スプライトカメラの初期化
 	spriteCamera_->Initialize();
@@ -129,6 +132,9 @@ void InGameScene::Initialize() {
 
 	//マウスカーソルに制限をつける
 	winApp_->LockCursorToWindow();
+
+	//サウンドのロード
+	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("inGameMusic.wav");
 }
 
 void InGameScene::Update() {
@@ -140,6 +146,11 @@ void InGameScene::Update() {
 	lightObj_->Update();
 	//影の更新
 	shadow_->Update(lightObj_->GetDirectionalLightData(0).direction);
+
+	//bgmを流す
+	if (!MyEngine::AudioManager::GetInstance()->IsSoundPlaying(bgmIndex_)) {
+		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 1.0f, true);
+	}
 
 	//現在の状況に沿ったカメラの挙動の処理
 	if (gameOver_) {	//ゲームオーバー時のカメラ挙動
@@ -240,7 +251,6 @@ void InGameScene::Update() {
 
 	//ステージの一定量まで進んだら次のステージを読み込むように
 	if (stageSize_ <= gameCamera_->transform_.translate_.z) {
-		levelScenes_[nowStage_]->Finalize();
 		nowStage_++;
 		if (kStageNum_ < nowStage_) {
 			gameClear_ = true;

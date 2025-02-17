@@ -134,4 +134,7 @@ private:
 	const float kTutorialEndTime = 2.0f;
 	const float kTutorialDuration = 1.0f;
 	const float kColorFadeStep = 0.05f;
+
+	//ゲームbgm
+	uint32_t bgmIndex_;
 };
