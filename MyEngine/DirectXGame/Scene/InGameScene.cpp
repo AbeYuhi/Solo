@@ -149,7 +149,7 @@ void InGameScene::Update() {
 
 	//bgmを流す
 	if (!MyEngine::AudioManager::GetInstance()->IsSoundPlaying(bgmIndex_)) {
-		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 1.0f, true);
+		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 0.7f, true);
 	}
 
 	//現在の状況に沿ったカメラの挙動の処理

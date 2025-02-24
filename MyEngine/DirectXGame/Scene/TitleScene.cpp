@@ -107,7 +107,7 @@ void TitleScene::Initialize() {
 	MyEngine::WinApp::GetInstance()->UnlockCursor();
 
 	//サウンドのロード
-	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("titleMusic.wav");
+	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("music.wav");
 }
 
 void TitleScene::Update() {
@@ -125,7 +125,7 @@ void TitleScene::Update() {
 
 	//bgmを流す
 	if (!MyEngine::AudioManager::GetInstance()->IsSoundPlaying(bgmIndex_)) {
-		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 1.0f, true);
+		MyEngine::AudioManager::GetInstance()->SoundPlayWave(bgmIndex_, 0.7f, true);
 	}
 
 	//一定距離すすんだらカメラを戻す
