@@ -134,7 +134,7 @@ void InGameScene::Initialize() {
 	winApp_->LockCursorToWindow();
 
 	//サウンドのロード
-	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("inGameMusic.wav");
+	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("music.wav");
 }
 
 void InGameScene::Update() {
