@@ -37,7 +37,7 @@ void Crystal::Update() {
 
 		//弾と衝突したら残弾の追加やコンボを増やす
 		if (collider_->isContact_[BULLET] && !isBreak_) {
-			*numberofSlashAttacks_ += 3;
+			*numberofSlashAttacks_ += kAmmoGain_;
 			*comboDestroyCount_ += 1;
 			MyEngine::AudioManager::GetInstance()->SoundPlayWave(glassSound_, 0.7f);
 			isBreak_ = true;

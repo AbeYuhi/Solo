@@ -63,5 +63,7 @@ private:
 	int* comboDestroyCount_;
 	//ガラスのサウンド
 	uint32_t glassSound_;
+
+	const int kAmmoGain_ = 3;
 };
 

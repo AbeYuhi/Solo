@@ -110,6 +110,87 @@ namespace MyEngine {
 		soundDatas_[index].pSourceVoice->SetVolume(soundVolume);
 	}
 
+	uint32_t AudioManager::SoundLoadMp3(const string& fileName) {
+		textureNum++;
+		uint32_t index = textureNum - 1;
+
+		SoundData soundData;
+		soundDatas_[index] = soundData;
+
+		//文字列変換
+		int wideStrSize = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, NULL, 0);
+		WCHAR* wideStr = new WCHAR[wideStrSize];
+		HRESULT hr = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, wideStr, wideStrSize);
+		assert(SUCCEEDED(hr));
+
+		//ソースリーダーの作成
+		MFCreateSourceReaderFromURL(wideStr, nullptr, &soundDatas_[index].MFSourceReader);
+
+		//メディアタイプ
+		MFCreateMediaType(&soundDatas_[index].mediaType);
+		soundDatas_[index].mediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+		soundDatas_[index].mediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+
+		soundDatas_[index].MFSourceReader->SetCurrentMediaType(DWORD(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, soundDatas_[index].mediaType);
+
+		soundDatas_[index].mediaType->Release();
+		soundDatas_[index].mediaType = nullptr;
+		soundDatas_[index].MFSourceReader->GetCurrentMediaType(DWORD(MF_SOURCE_READER_FIRST_AUDIO_STREAM), &soundDatas_[index].mediaType);
+
+		//mp3の中身解析
+		while (true)
+		{
+			IMFSample* sample = nullptr;
+			DWORD dwStreamFlags = 0;
+
+			hr = soundDatas_[index].MFSourceReader->ReadSample(DWORD(MF_SOURCE_READER_FIRST_AUDIO_STREAM), 0, nullptr, &dwStreamFlags, nullptr, &sample);
+			assert(SUCCEEDED(hr));
+
+			if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+			{
+				break;
+			}
+
+			IMFMediaBuffer* mediaBuff = nullptr;
+			DWORD cbCurrentLength = 0;
+			hr = sample->ConvertToContiguousBuffer(&mediaBuff);
+			assert(SUCCEEDED(hr));
+
+			BYTE* pbuffer = nullptr;
+			hr = mediaBuff->Lock(&pbuffer, nullptr, &cbCurrentLength);
+			assert(SUCCEEDED(hr));
+
+			soundDatas_[index].mediaData.resize(soundDatas_[index].mediaData.size() + cbCurrentLength);
+			memcpy(soundDatas_[index].mediaData.data() + soundDatas_[index].mediaData.size() - cbCurrentLength, pbuffer, cbCurrentLength);
+
+			hr = mediaBuff->Unlock();
+			assert(SUCCEEDED(hr));
+
+			mediaBuff->Release();
+			sample->Release();
+		}
+
+		soundDatas_[index].buf.pAudioData = soundDatas_[index].mediaData.data();
+		soundDatas_[index].buf.AudioBytes = sizeof(BYTE) * static_cast<UINT32>(soundDatas_[index].mediaData.size());
+
+		return index;
+	}
+
+	void AudioManager::AudioPlayMp3(const uint32_t index, const float& Volume, bool isLoop) {
+		WAVEFORMATEX* waveFormat{};
+		MFCreateWaveFormatExFromMFMediaType(soundDatas_[index].mediaType, &waveFormat, nullptr);
+
+		xAudio2_->CreateSourceVoice(&soundDatas_[index].pSourceVoice, waveFormat);
+
+		if (isLoop) {
+			soundDatas_[index].buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+		}
+
+		soundDatas_[index].pSourceVoice->SubmitSourceBuffer(&soundDatas_[index].buf);
+		soundDatas_[index].pSourceVoice->SetVolume(Volume);
+		soundDatas_[index].pSourceVoice->Start();
+	}
+
 	void AudioManager::StopLoopWave(const uint32_t index) {
 		if (soundDatas_[index].pSourceVoice) {
 			soundDatas_[index].pSourceVoice->Stop();

@@ -1,43 +1,59 @@
 #pragma once
 #include "DirectXGame/Base/WinApp/WinApp.h"
 #include "DirectXGame/Base/DirectXCommon/DirectXCommon.h"
-#include <xaudio2.h>
 #include <fstream>
 #include <map>
+#pragma region XAudio
+
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
+#pragma comment(lib, "Mf.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "Mfreadwrite.lib")
+#pragma comment(lib, "mfuuid.lib")
+
+#include <xaudio2.h>
+#pragma comment(lib, "xaudio2.lib")
+
+#pragma endregion
 
 /// <summary>
 /// AudioManager.h
 /// 音を管理しているマネージャークラス
 /// </summary>
 
+struct ChunkHeader {
+	char id[4];
+	int32_t size;
+};
+
+struct RiffHeader {
+	ChunkHeader chunk;
+	char type[4];
+};
+
+struct FormatChunk {
+	ChunkHeader chunk;
+	WAVEFORMATEX fmt;
+};
+
 namespace MyEngine {
 
-	struct ChunkHeader {
-		char id[4];
-		int32_t size;
-	};
-
-	struct RiffHeader {
-		ChunkHeader chunk;
-		char type[4];
-	};
-
-	struct FormatChunk {
-		ChunkHeader chunk;
-		WAVEFORMATEX fmt;
-	};
-
-	struct SoundData {
-		//波形フォーマット
-		WAVEFORMATEX wfex;
-		//バッファの先頭アドレス
-		BYTE* pBuffer;
-		//バッファのサイズ
+	/// <summary>
+	/// 音データ構造体
+	/// </summary>
+	struct SoundData
+	{
+		IXAudio2SourceVoice* pSourceVoice = {};
+		WAVEFORMATEX wfex = {};
+		BYTE* pBuffer = {};
 		unsigned int bufferSize;
-		//再生時のボイス
-		IXAudio2SourceVoice* pSourceVoice;
-		//バッファ
-		XAUDIO2_BUFFER buf;
+		std::vector<BYTE>mediaData;
+		IMFSourceReader* MFSourceReader;
+		IMFMediaType* mediaType;
+		XAUDIO2_BUFFER buf = {};
 	};
 
 	class AudioManager
@@ -76,6 +92,20 @@ namespace MyEngine {
 		void SoundPlayWave(const uint32_t index, const float soundVolume = 1.0f, bool isLoop = false);
 
 		/// <summary>
+		/// mp3の読み込み
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <returns></returns>
+		uint32_t SoundLoadMp3(const string& fileName);
+
+		/// <summary>
+		/// mp3再生
+		/// </summary>
+		/// <param name="FileName"></param>
+		/// <param name="Volume"></param>
+		void AudioPlayMp3(const uint32_t index, const float& Volume = 1.0f, bool isLoop = false);
+
+		/// <summary>
 		/// ループしているサウンドを停止する処理
 		/// </summary>
 		/// <param name="index"></param>
@@ -108,8 +138,12 @@ namespace MyEngine {
 	private: //メンバ関数
 
 	private:
+#pragma region Singleton
 		AudioManager() = default;
 		~AudioManager() = default;
+		AudioManager(const AudioManager&) = delete;
+		const AudioManager& operator=(const AudioManager&) = delete;
+#pragma endregion
 
 		ComPtr<IXAudio2> xAudio2_;
 		IXAudio2MasteringVoice* masterVoice_;
