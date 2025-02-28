@@ -40,6 +40,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	mainInfo_.renderItem->materialInfo_.material_->color.y = 0.5f;
 	mainInfo_.renderItem->materialInfo_.material_->color.z = 0.5f;
 	mainInfo_.renderItem->materialInfo_.material_->enableLightint = 1;
+	mainInfo_.renderItem->materialInfo_.material_->isSpecularReflection = true;
 
 	divisionX_ = info.verticalDivisions;
 	divisionY_ = info.horizontalDivisions;
@@ -113,6 +114,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				item->renderItem->materialInfo_.material_->color.y = 0.5f;
 				item->renderItem->materialInfo_.material_->color.z = 0.5f;
 				item->renderItem->materialInfo_.material_->enableLightint = 1;
+				item->renderItem->materialInfo_.material_->isSpecularReflection = true;
 
 				// 親トランスフォームの設定
 				item->renderItem->worldTransform_.parent_ = &mainInfo_.renderItem->worldTransform_;
@@ -127,6 +129,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 				item->renderItem->materialInfo_.material_->color.y = 0.5f;
 				item->renderItem->materialInfo_.material_->color.z = 0.5f;
 				item->renderItem->materialInfo_.material_->enableLightint = 1;
+				item->renderItem->materialInfo_.material_->isSpecularReflection = true;
 
 				// ローカル位置を計算
 				float localX = -size_.x / 2.0f + (x + 0.5f) * segmentWidth_;
@@ -186,7 +189,6 @@ void Glass::Update() {
 	if (mainColldier_->isContact_[BULLET] && !isBreak) {
 		isBreak = true;
 		mainColldier_->isDelete_ = true;
-		MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
@@ -438,12 +440,13 @@ void Glass::Update() {
 			if (colliders_[y][x].isBreaked) {
 				if (colliders_[y][x].breakTime == 0.0f) {
 					colliders_[y][x].collider->isDelete_ = true;
+					MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
-					colliders_[y][x].emitter.frequency = 0.0f;
+					colliders_[y][x].particle->SetIsPopParticle(true);
 				}
 				else {
-					colliders_[y][x].emitter.frequency = 9999.9999f;
+					colliders_[y][x].particle->SetIsPopParticle(false);
 				}
 				colliders_[y][x].breakTime += 1.0f / 60.0f;
 				colliders_[y][x].velocity.y -= gravity_ * (1.0f / 60.0f);
@@ -451,17 +454,6 @@ void Glass::Update() {
 
 				if (colliders_[y][x].breakTime >= 10.0f) {
 					infos_[y][x]->renderItem->materialInfo_.isInvisible_ = false;
-				}
-			}
-		}
-	}
-
-	//壊れたガラスが壁と当たったら止める処理(仮)
-	for (unsigned int y = 0; y < divisionY_; y++) {
-		for (unsigned int x = 0; x < divisionX_; x++) {
-			if (colliders_[y][x].isBreaked) {
-				if (colliders_[y][x].collider->isContact_[WALL]) {
-					infos_[y][x]->renderItem->worldTransform_.data_.translate_ -= colliders_[y][x].velocity * (1.0f / 60.0f);
 				}
 			}
 		}

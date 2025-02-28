@@ -45,6 +45,12 @@ public:
 	/// <param name="emitter"></param>
 	void SetEmitter(Emitter emitter) { emitter_ = emitter; }
 
+	/// <summary>
+	/// エミッターの取得
+	/// </summary>
+	/// <param name="size"></param>
+	Emitter* GetEmitterPointer() { return &emitter_; }
+
 private: //メンバ関数
 
 	/// <summary>

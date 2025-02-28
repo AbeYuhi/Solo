@@ -5,6 +5,7 @@
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 #include "GameObject/Entity/Player.h"
+#include "GameObject/Particle/Object/GlassPieceParticle/GlassPieceParticle.h"
 
 /// <summary>
 /// Crystal.h
@@ -63,6 +64,9 @@ private:
 	int* comboDestroyCount_;
 	//ガラスのサウンド
 	uint32_t glassSound_;
+
+	//パーティクル
+	std::unique_ptr<GlassPieceParticle> particle_;
 
 	const int kAmmoGain_ = 3;
 };

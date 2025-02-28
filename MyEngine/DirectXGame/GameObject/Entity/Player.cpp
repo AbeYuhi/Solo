@@ -57,6 +57,9 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	collider_.Initialize(&renderItem_.worldTransform_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
+	//コンボ数が一定値に行ったときにならすサウンド
+	comboSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("comboSound.mp3");
+	isComboSoundPlayed = false;
 	isShot_ = false;
 	isBallLost_ = false;
 }
@@ -129,6 +132,17 @@ void Player::Update() {
 	}
 	else {
 		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
+	}
+
+	//コンボが10の倍数の時に音が鳴る
+	int num = (comboDestroyCount_ / 10);
+	int combo = comboDestroyCount_ - (num * 10);
+	if (combo == 8) {
+		isComboSoundPlayed = true;
+	}
+	if (combo == 0 && isComboSoundPlayed) {
+		isComboSoundPlayed = false;
+		MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_);
 	}
 
 	//現在のコンボ数に応じて出る弾の量を計算

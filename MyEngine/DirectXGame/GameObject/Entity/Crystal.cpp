@@ -19,6 +19,10 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	info_.renderItem->materialInfo_.material_->enableLightint = 1;
 	info_.renderItem->materialInfo_.material_->isSpecularReflection = true;
 
+	particle_ = std::make_unique<GlassPieceParticle>(100);
+	particle_->Initialize();
+	particle_->GetEmitterPointer()->transform = info_.renderItem->worldTransform_.worldData_;
+
 	isBreak_ = false;
 
 	//ガラスが割れた時の音
@@ -35,13 +39,19 @@ void Crystal::Update() {
 
 	if (comboDestroyCount_) {
 
+		particle_->SetIsPopParticle(false);
 		//弾と衝突したら残弾の追加やコンボを増やす
 		if (collider_->isContact_[BULLET] && !isBreak_) {
 			*numberofSlashAttacks_ += kAmmoGain_;
 			*comboDestroyCount_ += 1;
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
+			//クリスタルが破壊されたときにパーティクルが発生
+			particle_->SetIsPopParticle(true);
 			isBreak_ = true;
 		}
+
+		//パーティクルの更新
+		particle_->Update();
 
 		//壊されないまま通り過ぎたらコンボが途切れるように
 		if (!isBreak_) {
@@ -63,4 +73,8 @@ void Crystal::Draw() {
 	if (!isBreak_) {
 		DrawManager::GetInstance()->PushBackTranslucentObject(&info_);
 	}
+
+	DrawManager::GetInstance()->PushBackParticle(
+		MyEngine::Particle([particle = particle_.get()]() { particle->Draw(); })
+	);
 }

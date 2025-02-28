@@ -581,7 +581,7 @@ void LevelScene::LevelCreate() {
 				else if (objectData.collider->tag == "CRYSTAL") {
 					Crystal crystal;
 					crystal.Initialize(levelObject->info.model, levelObject->info.renderItem, &levelObject->collider);
-					gameObject_.crystalDatas_.push_back(crystal);
+					gameObject_.crystalDatas_.push_back(std::move(crystal));
 				}
 				else if (objectData.collider->tag == "GLASS") {
 					std::unique_ptr<Glass> glass = std::make_unique<Glass>();

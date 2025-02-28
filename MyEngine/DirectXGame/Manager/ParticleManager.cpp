@@ -36,7 +36,7 @@ namespace MyEngine {
 		//エミッターの初期化
 		emitter_.transform.Initialize();
 		emitter_.count = 1;
-		emitter_.frequency = 0.5f;
+		emitter_.frequency = 0.0f;
 		emitter_.frequencyTime = 0.0f;
 
 		emitterObj_ = WireFrameBox::Create();

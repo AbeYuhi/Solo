@@ -5,6 +5,7 @@
 #include "Manager/PostEffectManager.h"
 #include "Manager/RandomManager.h"
 #include "Manager/DrawManager.h"
+#include "Manager/AudioManager.h"
 #include "PlayerBullet.h"
 
 /// <summary>
@@ -99,6 +100,9 @@ private:
 
 	float doorInvincibilityTime_;
 	float glassInvincibilityTime_;
+
+	uint32_t comboSound_;
+	bool isComboSoundPlayed;
 
 	bool isShot_;
 
