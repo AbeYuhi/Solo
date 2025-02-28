@@ -49,8 +49,7 @@ void InGameScene::Initialize() {
 
 	//ステージのjsonを読み込む
 	std::unique_ptr<LevelScene> level0 = std::make_unique<LevelScene>();
-	//level0->Initialize("stage0.json");
-	level0->Initialize("debug.json");
+	level0->Initialize("stage0.json");
 	stageSize_ = level0->GetCameraData().stageSize.z;
 	levelScenes_.push_back(std::move(level0));
 	std::unique_ptr<LevelScene> level1 = std::make_unique<LevelScene>();

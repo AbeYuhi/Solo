@@ -14,6 +14,10 @@ namespace MyEngine {
 	}
 
 	void AudioManager::Initialize() {
+
+		CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+		MFStartup(MF_VERSION, MFSTARTUP_NOSOCKET);
+
 		HRESULT hr = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 		assert(SUCCEEDED(hr));
 		hr = xAudio2_->CreateMasteringVoice(&masterVoice_);
@@ -117,10 +121,12 @@ namespace MyEngine {
 		SoundData soundData;
 		soundDatas_[index] = soundData;
 
+		string filePath = "Resources/Sounds/" + fileName;
+
 		//文字列変換
-		int wideStrSize = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, NULL, 0);
+		int wideStrSize = MultiByteToWideChar(CP_UTF8, 0, filePath.c_str(), -1, NULL, 0);
 		WCHAR* wideStr = new WCHAR[wideStrSize];
-		HRESULT hr = MultiByteToWideChar(CP_UTF8, 0, fileName.c_str(), -1, wideStr, wideStrSize);
+		HRESULT hr = MultiByteToWideChar(CP_UTF8, 0, filePath.c_str(), -1, wideStr, wideStrSize);
 		assert(SUCCEEDED(hr));
 
 		//ソースリーダーの作成
@@ -176,7 +182,7 @@ namespace MyEngine {
 		return index;
 	}
 
-	void AudioManager::AudioPlayMp3(const uint32_t index, const float& Volume, bool isLoop) {
+	void AudioManager::SoundPlayMp3(const uint32_t index, const float& Volume, bool isLoop) {
 		WAVEFORMATEX* waveFormat{};
 		MFCreateWaveFormatExFromMFMediaType(soundDatas_[index].mediaType, &waveFormat, nullptr);
 

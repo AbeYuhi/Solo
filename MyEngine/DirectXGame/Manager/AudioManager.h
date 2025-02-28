@@ -103,7 +103,7 @@ namespace MyEngine {
 		/// </summary>
 		/// <param name="FileName"></param>
 		/// <param name="Volume"></param>
-		void AudioPlayMp3(const uint32_t index, const float& Volume = 1.0f, bool isLoop = false);
+		void SoundPlayMp3(const uint32_t index, const float& Volume = 1.0f, bool isLoop = false);
 
 		/// <summary>
 		/// ループしているサウンドを停止する処理

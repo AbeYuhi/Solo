@@ -169,12 +169,15 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	}
 
 	//ガラスが割れた時の音
-	int glassSoundNum = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 1);
+	int glassSoundNum = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 2);
 	if (glassSoundNum == 0) {
-		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound01.wav");
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound01.mp3");
 	}
 	if (glassSoundNum == 1) {
-		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("glassSound02.wav");
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound02.mp3");
+	}
+	if (glassSoundNum == 2) {
+		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound03.mp3");
 	}
 }
 
@@ -183,7 +186,7 @@ void Glass::Update() {
 	if (mainColldier_->isContact_[BULLET] && !isBreak) {
 		isBreak = true;
 		mainColldier_->isDelete_ = true;
-		//MyEngine::AudioManager::GetInstance()->SoundPlayWave(glassSound_, 0.7f);
+		MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());
