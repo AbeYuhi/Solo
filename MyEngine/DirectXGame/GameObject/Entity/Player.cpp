@@ -57,22 +57,22 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	collider_.Initialize(&renderItem_.worldTransform_, { .scale_ = {0.1f, 0.1f, 0.1f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, CAMERA, kOBB, true);
 	MyEngine::CollisionManager::GetInstance()->AddCollider(&collider_);
 
-	//コンボ数が一定値に行ったときにならすサウンド
-	comboSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("comboSound.mp3");
-	isComboSoundPlayed = false;
+	//弾の射出処理
+	shotStateManager_ = std::make_unique<ShotStateManager>(this);
+
 	isShot_ = false;
 	isBallLost_ = false;
 }
 
 void Player::Update() {
-	MyEngine::InputManager* input_ = MyEngine::InputManager::GetInstance();
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
 	renderItem_.worldTransform_.data_ = *cameraData_;
 
 	//ドアと衝突したときの無敵時間
 	if (doorInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 
-			numberofSlashAttacks_ -= 10;
+			numberofSlashAttacks_ -= kComboIncreaseStep;
 			comboDestroyCount_ = 0;
 			doorInvincibilityTime_ = 1.25f;
 
@@ -88,7 +88,7 @@ void Player::Update() {
 	//ガラスと衝突したときの無敵時間
 	if (glassInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[GLASS]) {
-			numberofSlashAttacks_ -= 10;
+			numberofSlashAttacks_ -= kComboIncreaseStep;
 			comboDestroyCount_ = 0;
 			glassInvincibilityTime_ = 0.5f;
 
@@ -134,119 +134,17 @@ void Player::Update() {
 		MainCamera::GetInstance()->transform_.rotate_.z = 0.0f;
 	}
 
-	//コンボが10の倍数の時に音が鳴る
-	int num = (comboDestroyCount_ / 10);
-	int combo = comboDestroyCount_ - (num * 10);
-	if (combo == 8) {
-		isComboSoundPlayed = true;
-	}
-	if (combo == 0 && isComboSoundPlayed) {
-		isComboSoundPlayed = false;
-		MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_);
-	}
-
 	//現在のコンボ数に応じて出る弾の量を計算
-	int bulletNum = (comboDestroyCount_ / 10) + 1;
-	if (bulletNum < 1) {
-		bulletNum = 1;
-	}
-	if (bulletNum >= 5) {
-		bulletNum = 5;
-	}
+	int bulletNum = (comboDestroyCount_ / kComboIncreaseStep) + 1;
 	//bulletNumに応じてUIが変わるように
 	bulletNumInfo_.spriteItem->spriteData_.textureHandle_ = bulletNumTextures_[bulletNum - 1];
 	
+	shotStateManager_->IncrementCombo();
 	//弾の発射処理
 	if (isShot_) {
 		if (numberofSlashAttacks_ > 0) {
-			if (input_->IsMouseTrigger(0)) {
-				Vector2 mousePos = input_->GetMousePos();
-
-				for (int index = 0; index < bulletNum; index++) {
-					Vector2 bulletPos = { 0.0f, 0.0f };
-					const int test = 25;
-
-					//コンボ数によって玉の出方を変える処理
-					if (bulletNum == 1) {
-						bulletPos = mousePos;
-					}
-					else if (bulletNum == 2) {
-						if (index == 0) {
-							bulletPos = mousePos;
-							bulletPos.x -= test;
-						}
-						else if (index == 1) {
-							bulletPos = mousePos;
-							bulletPos.x += test;
-						}
-					}
-					else if (bulletNum == 3) {
-						if (index == 0) {
-							bulletPos = mousePos;
-							bulletPos.y -= test;
-						}
-						else if (index == 1) {
-							bulletPos = mousePos;
-							bulletPos.x -= test;
-							bulletPos.y += test;
-						}
-						else if (index == 2) {
-							bulletPos = mousePos;
-							bulletPos.x += test;
-							bulletPos.y += test;
-						}
-					}
-					else if (bulletNum == 4) {
-						if (index == 0) {
-							bulletPos = mousePos;
-							bulletPos.y -= test;
-						}
-						else if (index == 1) {
-							bulletPos = mousePos;
-							bulletPos.y += test;
-						}
-						else if (index == 2) {
-							bulletPos = mousePos;
-							bulletPos.x -= test;
-						}
-						else if (index == 3) {
-							bulletPos = mousePos;
-							bulletPos.x += test;
-						}
-					}
-					else if (bulletNum == 5) {
-
-						if (index == 0) {
-							bulletPos = mousePos;
-						}
-						else if (index == 1) {
-							bulletPos = mousePos;
-							bulletPos.x -= test;
-							bulletPos.y -= test;
-						}
-						else if (index == 2) {
-							bulletPos = mousePos;
-							bulletPos.x -= test;
-							bulletPos.y += test;
-						}
-						else if (index == 3) {
-							bulletPos = mousePos;
-							bulletPos.x += test;
-							bulletPos.y -= test;
-						}
-						else if (index == 4) {
-							bulletPos = mousePos;
-							bulletPos.x += test;
-							bulletPos.y += test;
-						}
-					}
-
-					std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
-					bullet->Initialize(bulletPos);
-					bullets_.push_back(std::move(bullet));
-				}
-
-				numberofSlashAttacks_--;
+			if (input->IsMouseTrigger(0)) {
+				shotStateManager_->Shoot();
 			}
 		}
 	}
@@ -287,6 +185,7 @@ void Player::Update() {
 		// 負の数の場合は正の数に変換
 		number = abs(number);
 		while (number > 0) {
+			//10進数だから10で割る
 			number /= 10;
 			digitCount_++;
 		}
@@ -347,11 +246,216 @@ void Player::Draw() {
 	//コンボ数などの玉の情報の描画
 	DrawManager::GetInstance()->PushBackForegroundSprite(&bulletNumInfo_);
 
-	int num = (comboDestroyCount_ / 10);
-	int combo = comboDestroyCount_ - (num * 10);
-
+	int num = (comboDestroyCount_ / kComboIncreaseStep);
+	int combo = comboDestroyCount_ - (num * kComboIncreaseStep);
 	for (int i = 0; i < combo; i++) {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&bulletComboInfo_[i]);
 	}
 
+}
+
+void Player::Shoot(Vector2 bulletPos) {
+	std::unique_ptr<PlayerBullet> bullet = std::make_unique<PlayerBullet>();
+	bullet->Initialize(bulletPos);
+	bullets_.push_back(std::move(bullet));
+}
+
+void ShotState1::Shoot(Player* player) {
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
+	Vector2 mousePos = input->GetMousePos();
+
+	//コンボ数によって玉の出方を変える
+	Vector2 bulletPos = { 0.0f, 0.0f };
+	bulletPos = mousePos;
+	player->Shoot(bulletPos);
+	int* playerNumberofSlashAttacks = player->GetNumberofSlashAttacks();
+	*playerNumberofSlashAttacks -= 1;
+}
+
+std::unique_ptr<ShotState> ShotState1::NextState() {
+	return std::make_unique<ShotState2>();
+}
+
+ShotStateType ShotState1::stateNo() {
+	return ShotStateType::State1;
+}
+
+void ShotState2::Shoot(Player* player) {
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
+	Vector2 mousePos = input->GetMousePos();
+
+	for (int index = 0; index < 2; index++) {
+		Vector2 bulletPos = { 0.0f, 0.0f };
+		const int ballSpacing = 25;
+		bulletPos = mousePos;
+		//コンボ数によって玉の出方を変える処理
+		if (index == 0) {
+			bulletPos = mousePos;
+			bulletPos.x -= ballSpacing;
+		}
+		else if (index == 1) {
+			bulletPos = mousePos;
+			bulletPos.x += ballSpacing;
+		}
+		player->Shoot(bulletPos);
+	}
+	int* playerNumberofSlashAttacks = player->GetNumberofSlashAttacks();
+	*playerNumberofSlashAttacks -= 1;
+}
+
+std::unique_ptr<ShotState> ShotState2::NextState() {
+	return std::make_unique<ShotState3>();
+}
+
+ShotStateType ShotState2::stateNo() {
+	return ShotStateType::State2;
+}
+
+void ShotState3::Shoot(Player* player) {
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
+	Vector2 mousePos = input->GetMousePos();
+
+	for (int index = 0; index < 3; index++) {
+		Vector2 bulletPos = { 0.0f, 0.0f };
+		const int ballSpacing = 25;
+		bulletPos = mousePos;
+		//コンボ数によって玉の出方を変える処理
+		if (index == 0) {
+			bulletPos = mousePos;
+			bulletPos.y -= ballSpacing;
+		}
+		else if (index == 1) {
+			bulletPos = mousePos;
+			bulletPos.x -= ballSpacing;
+			bulletPos.y += ballSpacing;
+		}
+		else if (index == 2) {
+			bulletPos = mousePos;
+			bulletPos.x += ballSpacing;
+			bulletPos.y += ballSpacing;
+		}
+		player->Shoot(bulletPos);
+	}
+	int* playerNumberofSlashAttacks = player->GetNumberofSlashAttacks();
+	*playerNumberofSlashAttacks -= 1;
+}
+
+std::unique_ptr<ShotState> ShotState3::NextState() {
+	return std::make_unique<ShotState4>();
+}
+
+ShotStateType ShotState3::stateNo() {
+	return ShotStateType::State3;
+}
+
+void ShotState4::Shoot(Player* player) {
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
+	Vector2 mousePos = input->GetMousePos();
+
+	for (int index = 0; index < 4; index++) {
+		Vector2 bulletPos = { 0.0f, 0.0f };
+		const int ballSpacing = 25;
+		bulletPos = mousePos;
+		//コンボ数によって玉の出方を変える処理
+		if (index == 0) {
+			bulletPos = mousePos;
+			bulletPos.y -= ballSpacing;
+		}
+		else if (index == 1) {
+			bulletPos = mousePos;
+			bulletPos.y += ballSpacing;
+		}
+		else if (index == 2) {
+			bulletPos = mousePos;
+			bulletPos.x -= ballSpacing;
+		}
+		else if (index == 3) {
+			bulletPos = mousePos;
+			bulletPos.x += ballSpacing;
+		}
+		player->Shoot(bulletPos);
+	}
+	int* playerNumberofSlashAttacks = player->GetNumberofSlashAttacks();
+	*playerNumberofSlashAttacks -= 1;
+}
+
+std::unique_ptr<ShotState> ShotState4::NextState() {
+	return std::make_unique<ShotState5>();
+}
+
+ShotStateType ShotState4::stateNo() {
+	return ShotStateType::State4;
+}
+
+void ShotState5::Shoot(Player* player) {
+	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
+	Vector2 mousePos = input->GetMousePos();
+
+	for (int index = 0; index < 1; index++) {
+		Vector2 bulletPos = { 0.0f, 0.0f };
+		const int ballSpacing = 25;
+		bulletPos = mousePos;
+		//コンボ数によって玉の出方を変える処理
+		if (index == 0) {
+			bulletPos = mousePos;
+		}
+		else if (index == 1) {
+			bulletPos = mousePos;
+			bulletPos.x -= ballSpacing;
+			bulletPos.y -= ballSpacing;
+		}
+		else if (index == 2) {
+			bulletPos = mousePos;
+			bulletPos.x -= ballSpacing;
+			bulletPos.y += ballSpacing;
+		}
+		else if (index == 3) {
+			bulletPos = mousePos;
+			bulletPos.x += ballSpacing;
+			bulletPos.y -= ballSpacing;
+		}
+		else if (index == 4) {
+			bulletPos = mousePos;
+			bulletPos.x += ballSpacing;
+			bulletPos.y += ballSpacing;
+		}
+		player->Shoot(bulletPos);
+	}
+	int* playerNumberofSlashAttacks = player->GetNumberofSlashAttacks();
+	*playerNumberofSlashAttacks -= 1;
+}
+
+std::unique_ptr<ShotState> ShotState5::NextState() {
+	return std::make_unique<ShotState5>();
+}
+
+ShotStateType ShotState5::stateNo() {
+	return ShotStateType::State5;
+}
+
+ShotStateManager::ShotStateManager(Player* player){
+	player_ = player;
+	currentState_ = std::make_unique<ShotState1>();
+	comboSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("comboSound.mp3");
+}
+
+void ShotStateManager::IncrementCombo() {
+	int* comboCount = player_->GetComboDestroyCount();
+	if (*comboCount == 0) {
+		if (currentState_->stateNo() != ShotStateType::State1) {
+			currentState_ = std::make_unique<ShotState1>();
+		}
+	}
+	else if (*comboCount % player_->kComboIncreaseStep == 0) {  // 10コンボごとに状態遷移
+		std::unique_ptr<ShotState> newState = currentState_->NextState();
+		//コンボ上限(5が上限)に達してたら抜ける
+		if (newState->stateNo() != currentState_->stateNo()) {
+			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_);
+			currentState_ = std::move(newState);
+		}
+	}
+}
+
+void ShotStateManager::Shoot() {
+	currentState_->Shoot(player_);
 }

@@ -13,6 +13,8 @@
 /// プレイヤーに関する処理をしているファイル
 /// </summary>
 
+class ShotStateManager;
+
 class Player
 {
 public:
@@ -32,6 +34,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 弾を発射する処理
+	/// </summary>
+	/// <param name="bulletPos">弾を発射する座標</param>
+	void Shoot(Vector2 bulletPos);
 
 	/// <summary>
 	/// カメラデータをセット
@@ -101,12 +109,88 @@ private:
 	float doorInvincibilityTime_;
 	float glassInvincibilityTime_;
 
-	uint32_t comboSound_;
-	bool isComboSoundPlayed;
+	//球の射出処理
+	std::unique_ptr<ShotStateManager> shotStateManager_;
 
 	bool isShot_;
 
 	bool isHitEffect_;
 	float time_;
+public:
+	//コンボがいくつで上昇するのかの指標
+	const int kComboIncreaseStep = 10;
 };
 
+enum class ShotStateType {
+	State1,
+	State2,
+	State3,
+	State4,
+	State5
+};
+
+class ShotState {
+public:
+	virtual ~ShotState() = default;
+	virtual void Shoot(Player* player) = 0;
+	virtual std::unique_ptr<ShotState> NextState() = 0;
+	virtual ShotStateType stateNo() = 0;
+};
+
+class ShotState1 : public ShotState {
+public:
+	void Shoot(Player* player) override;
+	std::unique_ptr<ShotState> NextState() override;
+	ShotStateType stateNo() override;
+};
+
+class ShotState2 : public ShotState {
+public:
+	void Shoot(Player* player) override;
+	std::unique_ptr<ShotState> NextState() override;
+	ShotStateType stateNo() override;
+};
+
+class ShotState3 : public ShotState {
+public:
+	void Shoot(Player* player) override;
+	std::unique_ptr<ShotState> NextState() override;
+	ShotStateType stateNo() override;
+};
+
+class ShotState4 : public ShotState {
+public:
+	void Shoot(Player* player) override;
+	std::unique_ptr<ShotState> NextState() override;
+	ShotStateType stateNo() override;
+};
+
+class ShotState5 : public ShotState {
+public:
+	void Shoot(Player* player) override;
+	std::unique_ptr<ShotState> NextState() override;
+	ShotStateType stateNo() override;
+};
+
+class ShotStateManager {
+public:
+	ShotStateManager(Player* player);
+
+	~ShotStateManager() = default;
+
+	/// <summary>
+	/// コンボが上昇したときにプレイヤーの
+	/// </summary>
+	void IncrementCombo();
+
+	/// <summary>
+	/// 弾の射出のための処理
+	/// </summary>
+	/// <param name="player"></param>
+	void Shoot();
+
+private:
+	Player* player_;
+	std::unique_ptr<ShotState> currentState_;
+	uint32_t comboSound_;
+};
