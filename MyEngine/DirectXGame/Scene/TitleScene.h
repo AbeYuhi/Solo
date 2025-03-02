@@ -67,6 +67,7 @@ private:
 
 	//ゲームbgm
 	uint32_t bgmIndex_;
+	const float kBGMVolume_ = 0.7f;
 
 	float time_;
 	std::unique_ptr<LevelScene> levelScene_;

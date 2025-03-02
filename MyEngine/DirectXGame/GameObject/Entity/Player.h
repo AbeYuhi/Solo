@@ -113,9 +113,12 @@ private:
 	std::unique_ptr<ShotStateManager> shotStateManager_;
 
 	bool isShot_;
-
 	bool isHitEffect_;
 	float time_;
+
+	uint32_t missSound_;
+	const float kMissSoundVolume_ = 1.0f;
+
 public:
 	//コンボがいくつで上昇するのかの指標
 	const int kComboIncreaseStep = 10;
@@ -193,5 +196,8 @@ private:
 	Player* player_;
 	std::unique_ptr<ShotState> currentState_;
 	uint32_t comboSound_;
+	const float kComboSoundVolume_ = 0.8f;
+	uint32_t shotSound_;
+	const float kShotSoundVolume_ = 0.7f;
 	int lastProcessedCombo_;
 };

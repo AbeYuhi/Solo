@@ -44,7 +44,7 @@ void Crystal::Update() {
 		if (collider_->isContact_[BULLET] && !isBreak_) {
 			*numberofSlashAttacks_ += kAmmoGain_;
 			*comboDestroyCount_ += 1;
-			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
+			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, kGlassSoundVolume_);
 			//クリスタルが破壊されたときにパーティクルが発生
 			particle_->GetEmitterPointer()->transform = info_.renderItem->worldTransform_.worldData_;
 			particle_->SetIsPopParticle(true);

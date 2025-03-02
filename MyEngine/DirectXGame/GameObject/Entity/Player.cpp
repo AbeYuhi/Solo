@@ -60,6 +60,8 @@ void Player::Initialize(EulerTransformData* cameraData) {
 	//弾の射出処理
 	shotStateManager_ = std::make_unique<ShotStateManager>(this);
 
+	missSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("missSound.mp3");
+
 	isShot_ = false;
 	isBallLost_ = false;
 }
@@ -71,7 +73,8 @@ void Player::Update() {
 	//ドアと衝突したときの無敵時間
 	if (doorInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
-
+			//失敗したときに音を鳴らす
+			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(missSound_, kMissSoundVolume_);
 			numberofSlashAttacks_ -= kComboIncreaseStep;
 			comboDestroyCount_ = 0;
 			doorInvincibilityTime_ = 1.25f;
@@ -88,6 +91,8 @@ void Player::Update() {
 	//ガラスと衝突したときの無敵時間
 	if (glassInvincibilityTime_ <= 0.0f) {
 		if (collider_.isContact_[GLASS]) {
+			//失敗したときに音を鳴らす
+			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(missSound_, kMissSoundVolume_);
 			numberofSlashAttacks_ -= kComboIncreaseStep;
 			comboDestroyCount_ = 0;
 			glassInvincibilityTime_ = 0.5f;
@@ -437,6 +442,7 @@ ShotStateManager::ShotStateManager(Player* player){
 	player_ = player;
 	currentState_ = std::make_unique<ShotState1>();
 	comboSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("comboSound.mp3");
+	shotSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("shotSound.mp3");
 	lastProcessedCombo_ = -1; // 最後に処理したコンボ数を記録
 }
 
@@ -452,7 +458,7 @@ void ShotStateManager::IncrementCombo() {
 		std::unique_ptr<ShotState> newState = currentState_->NextState();
 
 		if (newState->stateNo() != currentState_->stateNo()) {
-			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_);
+			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_, kComboSoundVolume_);
 			currentState_.reset();
 			currentState_ = std::move(newState);
 			lastProcessedCombo_ = *comboCount; // 処理済みのコンボ数を更新
@@ -461,5 +467,6 @@ void ShotStateManager::IncrementCombo() {
 }
 
 void ShotStateManager::Shoot() {
+	MyEngine::AudioManager::GetInstance()->SoundPlayMp3(shotSound_, kShotSoundVolume_);
 	currentState_->Shoot(player_);
 }

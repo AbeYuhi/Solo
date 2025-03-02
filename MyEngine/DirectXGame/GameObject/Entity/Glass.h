@@ -103,6 +103,8 @@ private:
 
 	//ガラスのサウンド
 	uint32_t glassSound_;
+	const float kGlassSoundVolume_ = 0.7f;
+
 };
 
 class MoveState {

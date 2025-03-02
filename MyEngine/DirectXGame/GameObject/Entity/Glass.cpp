@@ -436,7 +436,7 @@ void Glass::Update() {
 			if (colliders_[y][x].isBreaked) {
 				if (colliders_[y][x].breakTime == 0.0f) {
 					colliders_[y][x].collider->isDelete_ = true;
-					MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
+					MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, kGlassSoundVolume_);
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
 					colliders_[y][x].particle->SetIsPopParticle(true);
