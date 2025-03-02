@@ -34,6 +34,9 @@ void Door::Initialize(std::shared_ptr<MyEngine::Model> model,
 	buttonHintRight_.renderItem->worldTransform_.data_.rotate_.z += 3.14f / 2.0f;
 	buttonHintRight_.textureIndex = MyEngine::TextureManager::Load("buttonHint.png");
 
+	//ボタンが押された時のサウンド
+	buttonSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("buttonSound.mp3");
+
 	isButtonHintReturn_ = false;
 	buttonHintTimer_ = 0.0f;
 }
@@ -52,6 +55,9 @@ void Door::Update() {
 	//実際に開く処理
 	if (isOpen_) {
 		if (moveTime_ <= 1.0f) {
+			if (moveTime_ == 0.0f) {
+				MyEngine::AudioManager::GetInstance()->SoundPlayMp3(buttonSound_, 0.7f);
+			}
 			moveTime_ += 1.0f / 60.0f;
 			leftDoorInfo_.renderItem->worldTransform_.data_.translate_.x -= 3.0f / 60.0f;
 			rightDoorInfo_.renderItem->worldTransform_.data_.translate_.x += 3.0f / 60.0f;

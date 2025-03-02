@@ -20,8 +20,8 @@ void GlassPieceParticle::Initialize() {
 	//エミッター情報
 	emitter_.transform.scale_ = { 2, 2, 2 };
 	emitter_.transform.translate_ = { 0, 0, 0 };
-	emitter_.count = 3;
-	emitter_.frequency = 0.5;
+	emitter_.count = 20;
+	emitter_.frequency = 0.0;
 
 	//ブレンドモード
 	drawInfo_.materialInfo_->blendMode_ = BlendMode::kBlendModeAdd;

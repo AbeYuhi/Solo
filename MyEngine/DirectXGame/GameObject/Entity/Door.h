@@ -1,6 +1,7 @@
 #pragma once
 #include "Manager/CollisionManager.h"
 #include "Manager/DrawManager.h"
+#include "Manager/AudioManager.h"
 #include "Object/Model.h"
 #include "Data/RenderItem.h"
 
@@ -100,4 +101,6 @@ private:
 
 	int* numberofSlashAttacks_;
 	int* comboDestroyCount_;
+
+	uint32_t buttonSound_;
 };

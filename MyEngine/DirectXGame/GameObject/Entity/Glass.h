@@ -33,7 +33,6 @@ public:
 	struct GlassPiece {
 		std::unique_ptr<Collider> collider;
 		std::unique_ptr<GlassPieceParticle> particle;
-		Emitter emitter;
 		bool isBreaked;
 		bool isConnected;
 		float breakTime;

@@ -157,9 +157,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			GlassPiece colliderItem;
 			colliderItem.particle = std::make_unique<GlassPieceParticle>(100);
 			colliderItem.particle->Initialize();
-			colliderItem.emitter.transform.Initialize();
-			colliderItem.emitter.transform.rotate_ = item->renderItem->worldTransform_.data_.rotate_;
-			colliderItem.emitter.transform.scale_ = item->renderItem->worldTransform_.data_.scale_;
+			colliderItem.particle->GetEmitterPointer()->transform = item->renderItem->worldTransform_.worldData_;
+			colliderItem.particle->SetIsPopParticle(false);
 			colliderItem.isConnected = false;
 			colliderItem.isBreaked = false;
 			colliderItem.breakTime = 0.0f;
@@ -246,10 +245,7 @@ void Glass::Update() {
 				}
 
 				//パーティクル
-				colliders_[y][x].emitter.count = 20;
-				colliders_[y][x].emitter.frequency = 9999.0f;
-				colliders_[y][x].emitter.frequencyTime = 0.0f;
-				colliders_[y][x].emitter.transform.translate_ = infos_[y][x]->renderItem->worldTransform_.GetWorldPos();
+				colliders_[y][x].particle->GetEmitterPointer()->transform.translate_ = infos_[y][x]->renderItem->worldTransform_.GetWorldPos();
 			}
 		}
 	}
@@ -473,7 +469,6 @@ void Glass::Update() {
 	//ガラスが割れるパーティクルの更新
 	for (unsigned int y = 0; y < divisionY_; y++) {
 		for (unsigned int x = 0; x < divisionX_; x++) {
-			colliders_[y][x].particle->SetEmitter(colliders_[y][x].emitter);
 			colliders_[y][x].particle->Update();
 		}
 	}

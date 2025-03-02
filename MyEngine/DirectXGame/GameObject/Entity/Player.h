@@ -193,4 +193,5 @@ private:
 	Player* player_;
 	std::unique_ptr<ShotState> currentState_;
 	uint32_t comboSound_;
+	int lastProcessedCombo_;
 };

@@ -391,7 +391,7 @@ void ShotState5::Shoot(Player* player) {
 	MyEngine::InputManager* input = MyEngine::InputManager::GetInstance();
 	Vector2 mousePos = input->GetMousePos();
 
-	for (int index = 0; index < 1; index++) {
+	for (int index = 0; index < 5; index++) {
 		Vector2 bulletPos = { 0.0f, 0.0f };
 		const int ballSpacing = 25;
 		bulletPos = mousePos;
@@ -437,6 +437,7 @@ ShotStateManager::ShotStateManager(Player* player){
 	player_ = player;
 	currentState_ = std::make_unique<ShotState1>();
 	comboSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("comboSound.mp3");
+	lastProcessedCombo_ = -1; // 最後に処理したコンボ数を記録
 }
 
 void ShotStateManager::IncrementCombo() {
@@ -446,12 +447,15 @@ void ShotStateManager::IncrementCombo() {
 			currentState_ = std::make_unique<ShotState1>();
 		}
 	}
-	else if (*comboCount % player_->kComboIncreaseStep == 0) {  // 10コンボごとに状態遷移
+	else if (*comboCount % player_->kComboIncreaseStep == 0 && *comboCount != lastProcessedCombo_) {
+		//10コンボごとに状態遷移、かつ前回処理したコンボ数と異なる場合のみ処理
 		std::unique_ptr<ShotState> newState = currentState_->NextState();
-		//コンボ上限(5が上限)に達してたら抜ける
+
 		if (newState->stateNo() != currentState_->stateNo()) {
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(comboSound_);
+			currentState_.reset();
 			currentState_ = std::move(newState);
+			lastProcessedCombo_ = *comboCount; // 処理済みのコンボ数を更新
 		}
 	}
 }

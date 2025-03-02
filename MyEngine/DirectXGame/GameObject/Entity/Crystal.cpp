@@ -46,6 +46,7 @@ void Crystal::Update() {
 			*comboDestroyCount_ += 1;
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, 0.7f);
 			//クリスタルが破壊されたときにパーティクルが発生
+			particle_->GetEmitterPointer()->transform = info_.renderItem->worldTransform_.worldData_;
 			particle_->SetIsPopParticle(true);
 			isBreak_ = true;
 		}
