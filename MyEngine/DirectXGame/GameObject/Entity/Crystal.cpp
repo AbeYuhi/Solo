@@ -9,6 +9,7 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	std::shared_ptr<MyEngine::RenderItem> renderItem,
 	Collider* collider) {
 
+	//クリスタルの初期化
 	info_.Initialize(model, renderItem);
 	collider_ = collider;
 
@@ -24,6 +25,13 @@ void Crystal::Initialize(std::shared_ptr<MyEngine::Model> model,
 	particle_->GetEmitterPointer()->transform = info_.renderItem->worldTransform_.worldData_;
 
 	isBreak_ = false;
+
+	//板ポリの初期化
+	planeInfo_.Initialize(MyEngine::Model::Create("plane", "plane.obj"));
+	planeInfo_.renderItem->worldTransform_.data_.scale_ /= 2.0f;
+	planeInfo_.renderItem->worldTransform_.data_.rotate_.y += M_PI;
+	planeInfo_.renderItem->materialInfo_.isInvisible_ = true;
+	planeInfo_.textureIndex = MyEngine::TextureManager::Load("crystalBreak3Shots.png");
 
 	//ガラスが割れた時の音
 	int glassSoundNum = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0, 1);
@@ -42,6 +50,8 @@ void Crystal::Update() {
 		particle_->SetIsPopParticle(false);
 		//弾と衝突したら残弾の追加やコンボを増やす
 		if (collider_->isContact_[BULLET] && !isBreak_) {
+			//板ポリの位置をクリスタルに合わせる
+			planeInfo_.renderItem->worldTransform_.data_.translate_ = info_.renderItem->worldTransform_.worldData_.translate_;
 			*numberofSlashAttacks_ += kAmmoGain_;
 			*comboDestroyCount_ += 1;
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, kGlassSoundVolume_);
@@ -66,15 +76,26 @@ void Crystal::Update() {
 	//壊れたらコライダーマネージャーから削除するように
 	if (isBreak_) {
 		collider_->isDelete_ = true;
+		planeInfo_.renderItem->worldTransform_.data_.translate_.y += 1.0f / 60.0f;
+		planeInfo_.renderItem->materialInfo_.isInvisible_ = false;
+		planeInfo_.renderItem->materialInfo_.material_->color.w -= 1.0f / 60.0f;
+		if (planeInfo_.renderItem->materialInfo_.material_->color.w <= 0.0f) {
+			planeInfo_.renderItem->materialInfo_.material_->color.w = 0.0f;
+		}
 	}
 
 }
 
 void Crystal::Draw() {
 	if (!isBreak_) {
-		DrawManager::GetInstance()->PushBackTranslucentObject(&info_);
+		//クリスタル
+		DrawManager::GetInstance()->PushBackTranslucentObject(&info_);	
 	}
 
+	//クリスタルが破壊された時に出す板ポリ
+	DrawManager::GetInstance()->PushBackTranslucentObject(&planeInfo_);
+
+	//パーティクル
 	DrawManager::GetInstance()->PushBackParticle(
 		MyEngine::Particle([particle = particle_.get()]() { particle->Draw(); })
 	);

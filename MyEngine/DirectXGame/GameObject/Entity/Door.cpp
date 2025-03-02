@@ -89,7 +89,7 @@ void Door::Draw() {
 	DrawManager::GetInstance()->PushBackOpaqueObject(&rightDoorInfo_);
 
 	//ヒントの表示
-	if (buttonInfo_.renderItem->worldTransform_.data_.translate_.z - MainCamera::GetInstance()->GetWorldPos().z <= 100.0f) {
+	if (!isOpen_) {
 		DrawManager::GetInstance()->PushBackOpaqueObject(&buttonHintLeft_);
 		DrawManager::GetInstance()->PushBackOpaqueObject(&buttonHintRight_);
 	}

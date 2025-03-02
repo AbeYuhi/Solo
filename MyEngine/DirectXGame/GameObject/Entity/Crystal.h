@@ -69,6 +69,9 @@ private:
 	//パーティクル
 	std::unique_ptr<GlassPieceParticle> particle_;
 
+	//クリスタルを破壊したときにでる板ポリ
+	ModelDrawInfo planeInfo_;
+
 	const int kAmmoGain_ = 3;
 };
 
