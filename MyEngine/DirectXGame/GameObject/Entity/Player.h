@@ -138,6 +138,9 @@ public:
 	virtual void Shoot(Player* player) = 0;
 	virtual std::unique_ptr<ShotState> NextState() = 0;
 	virtual ShotStateType stateNo() = 0;
+
+protected:
+	const int kBallSpacing = 30;
 };
 
 class ShotState1 : public ShotState {

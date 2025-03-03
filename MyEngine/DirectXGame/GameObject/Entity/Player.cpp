@@ -291,16 +291,15 @@ void ShotState2::Shoot(Player* player) {
 
 	for (int index = 0; index < 2; index++) {
 		Vector2 bulletPos = { 0.0f, 0.0f };
-		const int ballSpacing = 25;
 		bulletPos = mousePos;
 		//コンボ数によって玉の出方を変える処理
 		if (index == 0) {
 			bulletPos = mousePos;
-			bulletPos.x -= ballSpacing;
+			bulletPos.x -= kBallSpacing;
 		}
 		else if (index == 1) {
 			bulletPos = mousePos;
-			bulletPos.x += ballSpacing;
+			bulletPos.x += kBallSpacing;
 		}
 		player->Shoot(bulletPos);
 	}
@@ -322,22 +321,21 @@ void ShotState3::Shoot(Player* player) {
 
 	for (int index = 0; index < 3; index++) {
 		Vector2 bulletPos = { 0.0f, 0.0f };
-		const int ballSpacing = 25;
 		bulletPos = mousePos;
 		//コンボ数によって玉の出方を変える処理
 		if (index == 0) {
 			bulletPos = mousePos;
-			bulletPos.y -= ballSpacing;
+			bulletPos.y -= kBallSpacing;
 		}
 		else if (index == 1) {
 			bulletPos = mousePos;
-			bulletPos.x -= ballSpacing;
-			bulletPos.y += ballSpacing;
+			bulletPos.x -= kBallSpacing;
+			bulletPos.y += kBallSpacing;
 		}
 		else if (index == 2) {
 			bulletPos = mousePos;
-			bulletPos.x += ballSpacing;
-			bulletPos.y += ballSpacing;
+			bulletPos.x += kBallSpacing;
+			bulletPos.y += kBallSpacing;
 		}
 		player->Shoot(bulletPos);
 	}
@@ -359,24 +357,23 @@ void ShotState4::Shoot(Player* player) {
 
 	for (int index = 0; index < 4; index++) {
 		Vector2 bulletPos = { 0.0f, 0.0f };
-		const int ballSpacing = 25;
 		bulletPos = mousePos;
 		//コンボ数によって玉の出方を変える処理
 		if (index == 0) {
 			bulletPos = mousePos;
-			bulletPos.y -= ballSpacing;
+			bulletPos.y -= kBallSpacing;
 		}
 		else if (index == 1) {
 			bulletPos = mousePos;
-			bulletPos.y += ballSpacing;
+			bulletPos.y += kBallSpacing;
 		}
 		else if (index == 2) {
 			bulletPos = mousePos;
-			bulletPos.x -= ballSpacing;
+			bulletPos.x -= kBallSpacing;
 		}
 		else if (index == 3) {
 			bulletPos = mousePos;
-			bulletPos.x += ballSpacing;
+			bulletPos.x += kBallSpacing;
 		}
 		player->Shoot(bulletPos);
 	}
@@ -398,7 +395,6 @@ void ShotState5::Shoot(Player* player) {
 
 	for (int index = 0; index < 5; index++) {
 		Vector2 bulletPos = { 0.0f, 0.0f };
-		const int ballSpacing = 25;
 		bulletPos = mousePos;
 		//コンボ数によって玉の出方を変える処理
 		if (index == 0) {
@@ -406,23 +402,23 @@ void ShotState5::Shoot(Player* player) {
 		}
 		else if (index == 1) {
 			bulletPos = mousePos;
-			bulletPos.x -= ballSpacing;
-			bulletPos.y -= ballSpacing;
+			bulletPos.x -= kBallSpacing;
+			bulletPos.y -= kBallSpacing;
 		}
 		else if (index == 2) {
 			bulletPos = mousePos;
-			bulletPos.x -= ballSpacing;
-			bulletPos.y += ballSpacing;
+			bulletPos.x -= kBallSpacing;
+			bulletPos.y += kBallSpacing;
 		}
 		else if (index == 3) {
 			bulletPos = mousePos;
-			bulletPos.x += ballSpacing;
-			bulletPos.y -= ballSpacing;
+			bulletPos.x += kBallSpacing;
+			bulletPos.y -= kBallSpacing;
 		}
 		else if (index == 4) {
 			bulletPos = mousePos;
-			bulletPos.x += ballSpacing;
-			bulletPos.y += ballSpacing;
+			bulletPos.x += kBallSpacing;
+			bulletPos.y += kBallSpacing;
 		}
 		player->Shoot(bulletPos);
 	}
