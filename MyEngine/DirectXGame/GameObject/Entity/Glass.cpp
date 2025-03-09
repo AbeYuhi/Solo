@@ -181,6 +181,10 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	if (glassSoundNum == 2) {
 		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound03.mp3");
 	}
+
+	//ボロノイズマネージャー
+	voronoiSiteManager_ = std::make_unique<VoronoiSiteManager>(&mainInfo_.renderItem->worldTransform_.worldData_.translate_, &size_.x, &size_.y);
+
 }
 
 void Glass::Update() {
@@ -188,6 +192,7 @@ void Glass::Update() {
 	if (mainColldier_->isContact_[BULLET] && !isBreak) {
 		isBreak = true;
 		mainColldier_->isDelete_ = true;
+
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				MyEngine::CollisionManager::GetInstance()->AddCollider(colliders_[y][x].collider.get());

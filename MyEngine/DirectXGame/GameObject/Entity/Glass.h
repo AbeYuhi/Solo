@@ -13,6 +13,7 @@
 /// </summary>
 
 class GlassMove;
+class VoronoiSiteManager;
 
 class Glass
 {
@@ -105,6 +106,47 @@ private:
 	uint32_t glassSound_;
 	const float kGlassSoundVolume_ = 0.7f;
 
+	//ボロノイズの生成
+	std::unique_ptr<VoronoiSiteManager> voronoiSiteManager_;
+};
+
+class VoronoiSiteManager {
+public:
+	VoronoiSiteManager(Vector3* glassCenterPos,	float* glassWidth, float* glassHeight) : glassCenterPos_(glassCenterPos), glassWidth_(glassWidth), glassHeight_(glassHeight), numNewSites_(15){}
+	~VoronoiSiteManager() = default;
+
+	// 衝突地点を基準に新しいサイトを追加
+	void addSites(Vector3 collisionPoint) {
+		for (int i = 0; i < numNewSites_; ++i) {
+			// 0.3m（玉のサイズ）より少し大きめの範囲でサイトを生成
+			float minRadius = 0.3f; // 最小半径（玉より少し大きい）
+			float r = minRadius + (kMaxRadius - minRadius) * sqrt(MyEngine::RandomManager::GetInstance()->GetRandomNumber(0.0f, 1.0f));
+			float theta = MyEngine::RandomManager::GetInstance()->GetRandomNumber(0.0f, 1.0f) * 2.0f * M_PI; // 水平方向の角度
+			float phi = acos(1.0f - 2.0f * MyEngine::RandomManager::GetInstance()->GetRandomNumber(0.0f, 1.0f)); // 垂直方向の角度
+
+			// 球面座標を直交座標(x, y, z)に変換
+			float x = collisionPoint.x + r * sin(phi) * cos(theta);
+			float y = collisionPoint.y + r * sin(phi) * sin(theta);
+			float z = collisionPoint.z;
+
+			// ガラスの範囲内に収まるように制限
+			if (x < glassCenterPos_->x - *glassWidth_ / 2 || x > glassCenterPos_->x + *glassWidth_ / 2 ||
+				y < glassCenterPos_->y - *glassHeight_ / 2 || y > glassCenterPos_->y + *glassHeight_ / 2) {
+				continue; // 範囲外のサイトは追加しない
+			}
+
+			// 生成したサイトをリストに追加
+			sites_.push_back({ x, y, z });
+		}
+	}
+
+private:
+	std::vector<Vector3> sites_; // 現在のサイト（ボロノイ分割用の点）
+	const float kMaxRadius = 0.4f; // サイトが生成される最大半径
+	Vector3* glassCenterPos_;
+	float* glassWidth_;
+	float* glassHeight_;
+	int numNewSites_;
 };
 
 class MoveState {
