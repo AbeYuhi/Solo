@@ -148,6 +148,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shader\ComputeShader">
+      <UniqueIdentifier>{0e39d9eb-7fd7-4fae-9b7c-bd3f089c9e15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -391,6 +394,9 @@
       <Filter>ソース ファイル\GameObject\Entity</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Manager\DrawManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Manager\ComputePipelineManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -737,6 +743,9 @@
     <ClInclude Include="DirectXGame\Data\GameScene.h">
       <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\Manager\ComputePipelineManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj">
@@ -829,6 +838,9 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffect\Fog.PS.hlsl">
       <Filter>Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\DelaunayDiagram.CS.hlsl">
+      <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

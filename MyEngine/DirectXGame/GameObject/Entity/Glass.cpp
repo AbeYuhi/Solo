@@ -164,6 +164,8 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			colliderItem.breakTime = 0.0f;
 			colliderItem.collider = std::make_unique<Collider>();
 			colliderItem.collider->Initialize(&item->renderItem->worldTransform_, { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
+			//ボロノイ図
+			colliderItem.voronoiSiteManager = std::make_unique<VoronoiSiteManager>(&item->renderItem->worldTransform_.worldData_.translate_, &item->renderItem->worldTransform_.worldData_.scale_);
 
 			colliders_[y].push_back(std::move(colliderItem));
 			infos_[y].push_back(std::move(item));
@@ -181,9 +183,6 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	if (glassSoundNum == 2) {
 		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound03.mp3");
 	}
-
-	//ボロノイズマネージャー
-	voronoiSiteManager_ = std::make_unique<VoronoiSiteManager>(&mainInfo_.renderItem->worldTransform_.worldData_.translate_, &size_.x, &size_.y);
 
 }
 
@@ -444,7 +443,10 @@ void Glass::Update() {
 					MyEngine::AudioManager::GetInstance()->SoundPlayMp3(glassSound_, kGlassSoundVolume_);
 					colliders_[y][x].velocity = (colliders_[y][x].collider->normal_ * 3.0f) * -1.0f;
 					colliders_[y][x].velocity.z *= 1.5f;
+					//パーティクルの発生
 					colliders_[y][x].particle->SetIsPopParticle(true);
+					//ボロノイ図におけるサイトの発生
+					colliders_[y][x].voronoiSiteManager->AddSites();
 				}
 				else {
 					colliders_[y][x].particle->SetIsPopParticle(false);
@@ -486,6 +488,7 @@ void Glass::Draw() {
 				if (!colliders_[y][x].isBreaked) {
 					DrawManager::GetInstance()->PushBackTranslucentObject(infos_[y][x].get());
 				}
+				colliders_[y][x].voronoiSiteManager->SitesDraw();
 			}
 		}
 	}
@@ -499,6 +502,35 @@ void Glass::Draw() {
 				MyEngine::Particle([particle = colliders_[y][x].particle.get()]() { particle->Draw(); })
 			);
 		}
+	}
+}
+
+VoronoiSiteManager::VoronoiSiteManager(Vector3* glassCenterPos, Vector3* glassSize) : glassCenterPos_(glassCenterPos), glassSize_(glassSize) {
+	model_ = MyEngine::Model::Create("sphere.obj");
+}
+
+void VoronoiSiteManager::AddSites() {
+	for (int i = 0; i < numNewSites_; ++i) {
+		// 球面座標を直交座標(x, y, z)に変換
+		Vector3 sitePos;
+		sitePos.x = glassCenterPos_->x + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->x, glassSize_->x);
+		sitePos.y = glassCenterPos_->y + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->y, glassSize_->y);
+		sitePos.z = glassCenterPos_->z + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->z, glassSize_->z);
+
+		std::unique_ptr<ModelDrawInfo> site = std::make_unique<ModelDrawInfo>();
+		site->Initialize(model_);
+		site->renderItem->worldTransform_.data_.translate_ = sitePos;
+		site->renderItem->worldTransform_.data_.scale_ *= 0.05f;
+		site->renderItem->materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
+
+		// 生成したサイトをリストに追加
+		sites_.push_back(std::move(site));
+	}
+}
+
+void VoronoiSiteManager::SitesDraw() {
+	for (auto& site : sites_) {
+		DrawManager::GetInstance()->PushBackOpaqueObject(site.get());
 	}
 }
 

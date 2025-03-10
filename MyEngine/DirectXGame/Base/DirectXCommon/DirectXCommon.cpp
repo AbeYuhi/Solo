@@ -1,6 +1,7 @@
 #include "DirectXCommon.h"
 #include "Manager/SrvManager.h"
 #include "Manager/GraphicsPipelineManager.h"
+#include "Manager/ComputePipelineManager.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
