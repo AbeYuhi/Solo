@@ -1,5 +1,9 @@
 #pragma once
 #include <array>
+#include <d3d12.h>
+#include <wrl.h>
+#include <cassert>
+#include <iostream>
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Data/BlendMode.h"
@@ -10,10 +14,10 @@
 /// </summary>
 
 enum ComputePipelineState {
-	//通常用
+	//ドロネー図作成
 	kDelaunayDiagram,
 	//パイプラインステートの数
-	kCountOfPipelineState
+	kCountOfComputePipelineState
 };
 
 namespace MyEngine {
@@ -41,14 +45,14 @@ namespace MyEngine {
 		/// </summary>
 		/// <param name="shaderPack"></param>
 		/// <returns></returns>
-		inline ID3D12RootSignature* GetRootSignature(ComputePipelineState shaderPack = kDefault) { return rootSignature_[shaderPack].Get(); }
+		inline ID3D12RootSignature* GetRootSignature(ComputePipelineState shaderPack) { return rootSignature_[shaderPack].Get(); }
 
 		/// <summary>
 		/// PSOの取得
 		/// </summary>
 		/// <param name="shaderPack"></param>
 		/// <returns></returns>
-		inline ID3D12PipelineState* GetPSO(ComputePipelineState shaderPack = kDefault) { return computePipelineState_[shaderPack].Get(); }
+		inline ID3D12PipelineState* GetPSO(ComputePipelineState shaderPack) { return computePipelineState_[shaderPack].Get(); }
 
 		/// <summary>
 		/// ビューポートの取得
@@ -82,10 +86,8 @@ namespace MyEngine {
 		void CreatePSO();
 
 	private: //メンバ変数
-		ComPtr<ID3D12RootSignature> rootSignature_[kCountOfPipelineState];
-		ComPtr<ID3D12PipelineState> computePipelineState_[kCountOfPipelineState];
-		D3D12_VIEWPORT viewPort_;
-		D3D12_RECT scissorRect_;
+		ComPtr<ID3D12RootSignature> rootSignature_[kCountOfComputePipelineState];
+		ComPtr<ID3D12PipelineState> computePipelineState_[kCountOfComputePipelineState];
 	};
 
 }

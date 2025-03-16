@@ -111,6 +111,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXGame\Manager\ComputeManager.cpp" />
     <ClCompile Include="DirectXGame\Manager\ComputePipelineManager.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Entity\Crystal.cpp" />
     <ClCompile Include="DirectXGame\Data\AnimationData.cpp" />
@@ -195,6 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="DirectXGame\GameObject\Entity\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXGame\Manager\ComputeManager.h" />
     <ClInclude Include="DirectXGame\Manager\ComputePipelineManager.h" />
     <ClInclude Include="DirectXGame\Data\BlendMode.h" />
     <ClInclude Include="DirectXGame\Data\GameScene.h" />
@@ -351,7 +353,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\DelaunayDiagram.CS.hlsl">
+    <FxCompile Include="Resources\Shaders\VoronoiDiagram.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>

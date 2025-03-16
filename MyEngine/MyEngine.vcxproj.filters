@@ -399,6 +399,9 @@
     <ClCompile Include="DirectXGame\Manager\ComputePipelineManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\Manager\ComputeManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -746,6 +749,9 @@
     <ClInclude Include="DirectXGame\Manager\ComputePipelineManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXGame\Manager\ComputeManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="External\imgui\imgui.vcxproj">
@@ -839,7 +845,7 @@
     <FxCompile Include="Resources\Shaders\PostEffect\Fog.PS.hlsl">
       <Filter>Shader\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\DelaunayDiagram.CS.hlsl">
+    <FxCompile Include="Resources\Shaders\VoronoiDiagram.CS.hlsl">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
