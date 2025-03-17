@@ -402,6 +402,9 @@
     <ClCompile Include="DirectXGame\Manager\ComputeManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\GameObject\Particle\Object\Glass\GlassParticle.cpp">
+      <Filter>ソース ファイル\GameObject\Particle\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Math\Math.h">
@@ -751,6 +754,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Manager\ComputeManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\GameObject\Particle\Object\Glass\GlassParticle.h">
+      <Filter>ヘッダー ファイル\GameObject\Particle\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
