@@ -35,8 +35,9 @@ void Base3DCamera::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	Vector2 windowSize = MyEngine::WinApp::GetInstance()->GetWindowSize();
 	worldMatrix_ = MakeAffineMatrix(transform_.scale_, transform_.rotate_, transform_.translate_);
 	viewMatrix_ = Inverse(worldMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, (float)MyEngine::WinApp::kWindowWidth / (float)MyEngine::WinApp::kWindowHeight, nearClip_, farClip_);
+	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, windowSize.x / windowSize.y, nearClip_, farClip_);
 	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
 }

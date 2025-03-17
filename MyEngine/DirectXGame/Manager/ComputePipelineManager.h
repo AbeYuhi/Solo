@@ -54,18 +54,6 @@ namespace MyEngine {
 		/// <returns></returns>
 		inline ID3D12PipelineState* GetPSO(ComputePipelineState shaderPack) { return computePipelineState_[shaderPack].Get(); }
 
-		/// <summary>
-		/// ビューポートの取得
-		/// </summary>
-		/// <returns></returns>
-		inline D3D12_VIEWPORT* GetViewPort() { return &viewPort_; }
-
-		/// <summary>
-		/// シサーレクトの取得
-		/// </summary>
-		/// <returns></returns>
-		inline D3D12_RECT* GetScissorRect() { return &scissorRect_; }
-
 	private:
 		ComputePipelineManager() = default;
 		~ComputePipelineManager() = default;

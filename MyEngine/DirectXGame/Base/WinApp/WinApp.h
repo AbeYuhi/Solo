@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
+#include "Math/Vector2.h"
 
 /// <summary>
 /// WinApp.h
@@ -62,6 +63,19 @@ namespace MyEngine {
 
 		// カーソルの制限を解除
 		void UnlockCursor();
+
+		/// <summary>
+		/// ウィンドウサイズの取得
+		/// </summary>
+		/// <param name="hwnd"></param>
+		/// <returns></returns>
+		Vector2 GetWindowSize() {
+			RECT rect;
+			GetClientRect(hwnd_, &rect);
+			float width = (float)rect.right - (float)rect.left;
+			float height = (float)rect.bottom - (float)rect.top;
+			return { width, height };
+		}
 
 		/// <summary>
 		/// HWNDのゲッター

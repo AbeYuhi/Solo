@@ -22,7 +22,8 @@ void PlayerBullet::Initialize(Vector2 mousePos) {
 
 	//発射位置の計算
 	info_.renderItem->worldTransform_.data_.translate_ = MainCamera::GetInstance()->GetWorldPos();
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, MyEngine::WinApp::kWindowWidth, MyEngine::WinApp::kWindowHeight, 0, 1);
+	Vector2 windowSize = MyEngine::WinApp::GetInstance()->GetWindowSize();
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(0, 0, windowSize.x, windowSize.y, 0, 1);
 	Matrix4x4 matVPV = MainCamera::GetInstance()->GetViewProjectionMatrix() * viewportMatrix;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
