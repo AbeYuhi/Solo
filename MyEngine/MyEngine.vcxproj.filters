@@ -851,7 +851,7 @@
     <FxCompile Include="Resources\Shaders\PostEffect\Fog.PS.hlsl">
       <Filter>Shader\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\VoronoiDiagram.CS.hlsl">
+    <FxCompile Include="Resources\Shaders\DelaunayDiagram.CS.hlsl">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
