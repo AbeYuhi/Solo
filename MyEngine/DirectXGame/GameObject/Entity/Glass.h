@@ -14,6 +14,7 @@
 
 class GlassMove;
 class VoronoiSiteManager;
+class GlassParticle;
 
 class Glass
 {
@@ -36,6 +37,8 @@ public:
 		std::unique_ptr<GlassPieceParticle> particle;
 		//ボロノイズの生成
 		std::unique_ptr<VoronoiSiteManager> voronoiSiteManager;
+		//ガラス片を生成させるクラス
+		std::unique_ptr<GlassParticle> glassParticle;
 		bool isBreaked;
 		bool isConnected;
 		float breakTime;
@@ -127,13 +130,14 @@ public:
 	/// サイトの位置を取得するゲッター
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<std::unique_ptr<ModelDrawInfo>>& GetSites() const {
+	const std::vector<Vector3>& GetSites() const {
 		return sites_;
 	}
 
 private:
 	std::shared_ptr<MyEngine::Model> model_;
-	std::vector<std::unique_ptr<ModelDrawInfo>> sites_; // 現在のサイト（ボロノイ分割用の点）
+	std::vector<Vector3> sites_; // 現在のサイト（ボロノイ分割用の点）
+	std::vector<std::unique_ptr<ModelDrawInfo>> siteDatas_; // サイトの位置を知るためのテスト的なデータ
 	Vector3* glassCenterPos_;
 	Vector3* glassSize_;
 	const int numNewSites_ = 7;

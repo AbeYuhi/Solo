@@ -1,4 +1,5 @@
 #include "Glass.h"
+#include "GameObject/Particle/Object/Glass/GlassParticle.h"
 
 /// <summary>
 /// Glass.cpp
@@ -166,7 +167,9 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			colliderItem.collider->Initialize(&item->renderItem->worldTransform_, { .scale_ = {2.0f, 2.0f, 2.0f}, .rotate_ = {0.0f, 0.0f, 0.0f}, .translate_ = {0.0f, 0.0f, 0.0f} }, GLASS, kOBB, true);
 			//ボロノイ図
 			colliderItem.voronoiSiteManager = std::make_unique<VoronoiSiteManager>(&item->renderItem->worldTransform_.worldData_.translate_, &item->renderItem->worldTransform_.worldData_.scale_);
-
+			//ガラス片
+			colliderItem.glassParticle = std::make_unique<GlassParticle>();
+			colliderItem.glassParticle->Initialize();
 			colliders_[y].push_back(std::move(colliderItem));
 			infos_[y].push_back(std::move(item));
 		}
@@ -447,6 +450,7 @@ void Glass::Update() {
 					colliders_[y][x].particle->SetIsPopParticle(true);
 					//ボロノイ図におけるサイトの発生
 					colliders_[y][x].voronoiSiteManager->AddSites();
+					colliders_[y][x].glassParticle->CreateDelaunayDiagram(colliders_[y][x].voronoiSiteManager->GetSites());
 				}
 				else {
 					colliders_[y][x].particle->SetIsPopParticle(false);
@@ -515,7 +519,7 @@ void VoronoiSiteManager::AddSites() {
 		Vector3 sitePos;
 		sitePos.x = glassCenterPos_->x + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->x, glassSize_->x);
 		sitePos.y = glassCenterPos_->y + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->y, glassSize_->y);
-		sitePos.z = glassCenterPos_->z + MyEngine::RandomManager::GetInstance()->GetRandomNumber(-glassSize_->z, glassSize_->z);
+		sitePos.z = glassCenterPos_->z;
 
 		std::unique_ptr<ModelDrawInfo> site = std::make_unique<ModelDrawInfo>();
 		site->Initialize(model_);
@@ -524,12 +528,13 @@ void VoronoiSiteManager::AddSites() {
 		site->renderItem->materialInfo_.material_->color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 		// 生成したサイトをリストに追加
-		sites_.push_back(std::move(site));
+		sites_.push_back(std::move(sitePos));
+		siteDatas_.push_back(std::move(site));
 	}
 }
 
 void VoronoiSiteManager::SitesDraw() {
-	for (auto& site : sites_) {
+	for (auto& site : siteDatas_) {
 		DrawManager::GetInstance()->PushBackOpaqueObject(site.get());
 	}
 }
