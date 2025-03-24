@@ -51,7 +51,7 @@ namespace MyEngine {
 											tmpContactPoint = collider0->contactPoint_;
 											collider0->normal_ = CalculateNormal(shape0, shape1);
 											//接触点の計算
-											if (Length(GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1) - collider0->combinedPosition) <= Length(tmpContactPoint - collider0->combinedPosition)) {
+											if (Length(GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1) - collider0->combinedData_.translate_) <= Length(tmpContactPoint - collider0->combinedData_.translate_)) {
 												collider0->contactPoint_ = GetClosestPointOnOBB(shape0, *collider0->velocity_, shape1);
 											}
 											else {
@@ -78,9 +78,9 @@ namespace MyEngine {
 		for (auto& collider : colliders_) {
 
 			if (collider->isDrawCollider_) {
-				collider->renderItem_.worldTransform_.data_.translate_ = collider->combinedPosition;
-				collider->renderItem_.worldTransform_.data_.rotate_ = collider->combinedRotation;
-				collider->renderItem_.worldTransform_.data_.scale_ = collider->combinedScale;
+				collider->renderItem_.worldTransform_.data_.translate_ = combinedData_.translate_;
+				collider->renderItem_.worldTransform_.data_.rotate_ = combinedData_.rotate_;
+				collider->renderItem_.worldTransform_.data_.scale_ = collider->combinedData_.scale_;
 				if (collider->type_ == kSPHERE) {
 					wireFrameSphere_->Draw(collider->renderItem_);
 				}
