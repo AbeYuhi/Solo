@@ -48,27 +48,27 @@ void Collider::Update() {
 	objData_->UpdateWorld();
 
 	// 合成された位置
-	combinedPosition = objData_->GetPWorldEulerTransformData()->translate_ + colliderData_.translate_;
+	combinedData_.translate_ = objData_->GetPWorldEulerTransformData()->translate_ + colliderData_.translate_;
 	// 合成された回転
-	combinedRotation = objData_->GetPWorldEulerTransformData()->rotate_ + colliderData_.rotate_;
+	combinedData_.rotate_ = objData_->GetPWorldEulerTransformData()->rotate_ + colliderData_.rotate_;
 	// 合成されたスケール
-	combinedScale = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
+	combinedData_.scale_ = objData_->GetPWorldEulerTransformData()->scale_ * colliderData_.scale_;
 	
 	//形状に合わせた処理
 	std::visit([&](auto& shape) {
 		using T = std::decay_t<decltype(shape)>;
 		if constexpr (std::is_same_v<T, AABB>) {
-			shape.min.x = combinedPosition.x - (combinedScale.x / 2.0f);
-			shape.min.y = combinedPosition.y - (combinedScale.y / 2.0f);
-			shape.min.z = combinedPosition.z - (combinedScale.z / 2.0f);
-			shape.max.x = combinedPosition.x + (combinedScale.x / 2.0f);
-			shape.max.y = combinedPosition.y + (combinedScale.y / 2.0f);
-			shape.max.z = combinedPosition.z + (combinedScale.z / 2.0f);
+			shape.min.x =combinedData_.translate_.x - (combinedData_.scale_.x / 2.0f);
+			shape.min.y =combinedData_.translate_.y - (combinedData_.scale_.y / 2.0f);
+			shape.min.z =combinedData_.translate_.z - (combinedData_.scale_.z / 2.0f);
+			shape.max.x =combinedData_.translate_.x + (combinedData_.scale_.x / 2.0f);
+			shape.max.y =combinedData_.translate_.y + (combinedData_.scale_.y / 2.0f);
+			shape.max.z =combinedData_.translate_.z + (combinedData_.scale_.z / 2.0f);
 			ControlMinMax(shape);
 		}
 		else if constexpr (std::is_same_v<T, OBB>) {
-			shape.center = combinedPosition;
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(combinedRotation);
+			shape.center = combinedData_.translate_;
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(combinedData_.rotate_);
 			shape.orientations[0].x = rotateMatrix.m[0][0];
 			shape.orientations[0].y = rotateMatrix.m[0][1];
 			shape.orientations[0].z = rotateMatrix.m[0][2];
@@ -80,11 +80,11 @@ void Collider::Update() {
 			shape.orientations[2].x = rotateMatrix.m[2][0];
 			shape.orientations[2].y = rotateMatrix.m[2][1];
 			shape.orientations[2].z = rotateMatrix.m[2][2];
-			shape.size = combinedScale;
+			shape.size = combinedData_.scale_;
 		}
 		else if constexpr (std::is_same_v<T, Sphere>) {
-			shape.center = combinedPosition;
-			shape.radius = combinedScale.x / 2.0f;
+			shape.center = combinedData_.translate_;
+			shape.radius = combinedData_.scale_.x / 2.0f;
 		}
 	}, colliderShape_);
 }

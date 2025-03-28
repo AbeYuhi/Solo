@@ -169,7 +169,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 			colliderItem.voronoiSiteManager = std::make_unique<VoronoiSiteManager>(&item->renderItem->worldTransform_.worldData_.translate_, &item->renderItem->worldTransform_.worldData_.scale_);
 			//ガラス片
 			colliderItem.glassParticle = std::make_unique<GlassParticle>();
-			colliderItem.glassParticle->Initialize();
+			colliderItem.glassParticle->Initialize(&item->renderItem->worldTransform_.worldData_);
 			colliders_[y].push_back(std::move(colliderItem));
 			infos_[y].push_back(std::move(item));
 		}

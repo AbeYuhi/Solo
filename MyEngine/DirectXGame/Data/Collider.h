@@ -48,12 +48,8 @@ struct Collider {
 	ColliderType type_;
 	std::variant<AABB, OBB, Sphere> colliderShape_;
 
-	//合成された位置
-	Vector3 combinedPosition;
-	// 合成された回転
-	Vector3 combinedRotation;
-	// 合成された大きさ
-	Vector3 combinedScale;
+	//合成された情報
+	EulerTransformData combinedData_;
 
 #ifdef _DEBUG
 	MyEngine::RenderItem renderItem_;
