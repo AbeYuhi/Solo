@@ -38,11 +38,15 @@ public:
 
 	void CreateDelaunayDiagram(const std::vector<Vector3>& points);
 
+	void GenerateVoronoiDiagram(const std::vector<Triangle>& triangles);
+
 private:
 
 	bool InCircumcircle(const Vector2& p, const Triangle& t);
 
 	void AddBoundaryEdges(const Triangle& triangle, std::vector<Segment>& polygon);
+
+	Vector2 ComputeCircumcenter(const Triangle& t);
 
 private:
 	EulerTransformData* glassPieceData_;

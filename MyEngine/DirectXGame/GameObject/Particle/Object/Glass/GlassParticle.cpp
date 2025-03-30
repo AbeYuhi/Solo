@@ -86,3 +86,60 @@ void GlassParticle::AddBoundaryEdges(const Triangle& triangle, std::vector<Segme
         }
     }
 }
+
+Vector2 GlassParticle::ComputeCircumcenter(const Triangle& t) {
+    double ax = t.a.x, ay = t.a.y;
+    double bx = t.b.x, by = t.b.y;
+    double cx = t.c.x, cy = t.c.y;
+
+    double d = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
+    double ux = ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) +
+        (cx * cx + cy * cy) * (ay - by)) /
+        d;
+    double uy = ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) +
+        (cx * cx + cy * cy) * (bx - ax)) /
+        d;
+
+    return Vector2(ux, uy);
+}
+
+void GlassParticle::GenerateVoronoiDiagram(const std::vector<Triangle>& triangles) {
+    std::map<Edge, std::vector<Vector2>> voronoiEdges;
+
+    // 各三角形の外接円の中心を計算
+    std::vector<Vector2> circumcenters;
+    for (const auto& triangle : triangles) {
+        circumcenters.push_back(ComputeCircumcenter(triangle));
+    }
+
+    // 各三角形のペア間で共有エッジを確認し、ボロノイの境界を構築
+    for (size_t i = 0; i < triangles.size(); ++i) {
+        for (size_t j = i + 1; j < triangles.size(); ++j) {
+            // 共有する頂点を確認
+            int sharedVertices = 0;
+            Vector2 shared[2];
+
+            if (triangles[i].a.x == triangles[j].a.x && triangles[i].a.y == triangles[j].a.y)
+                shared[sharedVertices++] = triangles[i].a;
+            if (triangles[i].b.x == triangles[j].b.x && triangles[i].b.y == triangles[j].b.y)
+                shared[sharedVertices++] = triangles[i].b;
+            if (triangles[i].c.x == triangles[j].c.x && triangles[i].c.y == triangles[j].c.y)
+                shared[sharedVertices++] = triangles[i].c;
+
+            // 2つの頂点を共有している場合、それは共有エッジ
+            if (sharedVertices == 2) {
+                Edge edge(shared[0], shared[1]);
+                voronoiEdges[edge].push_back(circumcenters[i]);
+                voronoiEdges[edge].push_back(circumcenters[j]);
+            }
+        }
+    }
+
+    // ボロノイセルの辺を出力（または描画）
+    for (const auto& [edge, centers] : voronoiEdges) {
+        if (centers.size() == 2) { // 隣接する外接円の中心を結ぶ
+            std::cout << "Voronoi Edge: (" << centers[0].x << ", " << centers[0].y << ") - ("
+                << centers[1].x << ", " << centers[1].y << ")\n";
+        }
+    }
+}

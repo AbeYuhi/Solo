@@ -61,7 +61,7 @@ void PlayerBullet::Update() {
 
 	if (collider_.isContact_[WALL] || collider_.isContact_[BUTTON] || collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 		collider_.reflection_ = CalculateReflection(*collider_.velocity_, collider_.normal_);
-		collider_.objData_->data_.translate_ = collider_.contactPoint_ + (collider_.normal_ * (collider_.combinedScale / 2.0f));
+		collider_.objData_->data_.translate_ = collider_.contactPoint_ + (collider_.normal_ * (collider_.combinedData_.scale_ / 2.0f));
 		velocity_ = collider_.reflection_;
 
 		// 法線ベクトル（衝突面の法線）
