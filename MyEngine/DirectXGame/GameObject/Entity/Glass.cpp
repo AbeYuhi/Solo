@@ -450,7 +450,7 @@ void Glass::Update() {
 					colliders_[y][x].particle->SetIsPopParticle(true);
 					//ボロノイ図におけるサイトの発生
 					colliders_[y][x].voronoiSiteManager->AddSites();
-					colliders_[y][x].glassParticle->CreateDelaunayDiagram(colliders_[y][x].voronoiSiteManager->GetSites());
+					colliders_[y][x].glassParticle->Create(colliders_[y][x].voronoiSiteManager->GetSites());
 				}
 				else {
 					colliders_[y][x].particle->SetIsPopParticle(false);
@@ -493,6 +493,7 @@ void Glass::Draw() {
 					DrawManager::GetInstance()->PushBackTranslucentObject(infos_[y][x].get());
 				}
 				colliders_[y][x].voronoiSiteManager->SitesDraw();
+				colliders_[y][x].glassParticle->Draw();
 			}
 		}
 	}

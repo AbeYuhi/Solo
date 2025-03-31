@@ -54,9 +54,6 @@ namespace MyEngine {
 		if (renderItem_.materialInfo_.isInvisible_) {
 			return;
 		}
-#ifdef NDEBUG
-		return;
-#endif // NDEBUG
 
 		//線の始点終点の設定
 		vertexData_[0].position.x = posA.x;
@@ -65,7 +62,6 @@ namespace MyEngine {
 		vertexData_[1].position.x = posB.x;
 		vertexData_[1].position.y = posB.y;
 		vertexData_[1].position.z = posB.z;
-
 
 		//ViewPortの設定
 		dxCommon->GetCommandList()->RSSetViewports(1, psoManager->GetViewPort());
