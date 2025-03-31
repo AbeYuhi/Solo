@@ -78,8 +78,8 @@ namespace MyEngine {
 		for (auto& collider : colliders_) {
 
 			if (collider->isDrawCollider_) {
-				collider->renderItem_.worldTransform_.data_.translate_ = combinedData_.translate_;
-				collider->renderItem_.worldTransform_.data_.rotate_ = combinedData_.rotate_;
+				collider->renderItem_.worldTransform_.data_.translate_ = collider->combinedData_.translate_;
+				collider->renderItem_.worldTransform_.data_.rotate_ = collider->combinedData_.rotate_;
 				collider->renderItem_.worldTransform_.data_.scale_ = collider->combinedData_.scale_;
 				if (collider->type_ == kSPHERE) {
 					wireFrameSphere_->Draw(collider->renderItem_);
