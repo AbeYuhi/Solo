@@ -3,13 +3,14 @@
 
 void GlassParticle::Initialize(EulerTransformData* glassPieceData) {
     glassPieceData_ = glassPieceData;
-    for (int i = 0; i < 1; i++) {
-        lines_[i] = MyEngine::LineObj::Create();
-        lines_[i]->Initialize();
-    }
 }
 
 void GlassParticle::Create(const std::vector<Vector3>& points) {
+    for (int i = 0; i < 20; i++) {
+        lines_[i] = MyEngine::LineObj::Create();
+        lines_[i]->Initialize();
+    }
+
     CreateDelaunayDiagram(points);
     CreateVoronoiDiagram();
 }
