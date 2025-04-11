@@ -1,9 +1,13 @@
 #pragma once
+#include <cmath>
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/AABB.h"
 #include "Math/Math.h"
 #include "Object/Line.h"
+
+// 浮動小数点数の比較を行うためのイプシロン値
+const float EPSILON = 1e-5f;
 
 struct Triangle {
 	Vector3 a, b, c;
@@ -29,23 +33,39 @@ struct Triangle {
 	}
 };
 
+// Edgeクラスにoperator==を実装
 struct Edge {
-    Vector3 start, end;
-    Edge(Vector3 s, Vector3 e) : start(s), end(e) {}
+	Vector3 start;
+	Vector3 end;
 
-    bool operator<(const Edge& other) const {
-        // ソートのための比較演算子（順序を考慮してエッジを一意に識別）
-        if (start.x != other.start.x) return start.x < other.start.x;
-        if (start.y != other.start.y) return start.y < other.start.y;
-        if (end.x != other.end.x) return end.x < other.end.x;
-        return end.y < other.end.y;
-    }
+	// コンストラクタ
+	Edge() : start(), end() {}
+	Edge(const Vector3& s, const Vector3& e) : start(s), end(e) {}
 
 	bool operator==(const Edge& other) const {
-		return (start.x == other.start.x && start.y == other.start.y &&
-			end.x == other.end.x && end.y == other.end.y) ||
-			(start.x == other.end.x && start.y == other.end.y &&
-				end.x == other.start.x && end.y == other.start.y);
+		// 始点と終点が一致、または終点と始点が一致する場合に等しいと判定
+		return (start.x == other.start.x && start.y == other.start.y && start.z == other.start.z &&
+			end.x == other.end.x && end.y == other.end.y && end.z == other.end.z) ||
+			(start.x == other.end.x && start.y == other.end.y && start.z == other.end.z &&
+				end.x == other.start.x && end.y == other.start.y && end.z == other.start.z);
+	}
+
+	// < 演算子のオーバーロード
+	bool operator<(const Edge& other) const {
+		// 辞書式順序で比較 (start -> end)
+		if (start.x < other.start.x) return true;
+		if (start.x > other.start.x) return false;
+		if (start.y < other.start.y) return true;
+		if (start.y > other.start.y) return false;
+		if (start.z < other.start.z) return true;
+		if (start.z > other.start.z) return false;
+
+		if (end.x < other.end.x) return true;
+		if (end.x > other.end.x) return false;
+		if (end.y < other.end.y) return true;
+		if (end.y > other.end.y) return false;
+		if (end.z < other.end.z) return true;
+		return false;
 	}
 };
 
@@ -74,6 +94,8 @@ private:
 	void AddBoundaryEdges(const Triangle& triangle, std::vector<Edge>& polygon);
 
 	Vector3 ComputeCircumcenter(const Triangle& t);
+
+	bool FloatEquals(float a, float b);
 
 private:
 	EulerTransformData* glassPieceData_;

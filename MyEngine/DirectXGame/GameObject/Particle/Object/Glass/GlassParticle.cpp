@@ -6,10 +6,10 @@ void GlassParticle::Initialize(EulerTransformData* glassPieceData) {
 }
 
 void GlassParticle::Create(const std::vector<Vector3>& points) {
-    for (int i = 0; i < 20; i++) {
-        lines_[i] = MyEngine::LineObj::Create();
-        lines_[i]->Initialize();
-    }
+    //for (int i = 0; i < 20; i++) {
+    //    lines_[i] = MyEngine::LineObj::Create();
+    //    lines_[i]->Initialize();
+    //}
 
     CreateDelaunayDiagram(points);
     CreateVoronoiDiagram();
@@ -115,8 +115,11 @@ Vector3 GlassParticle::ComputeCircumcenter(const Triangle& t) {
     return Vector3(ux, uy, uz);
 }
 
-void GlassParticle::CreateVoronoiDiagram() {
+bool GlassParticle::FloatEquals(float a, float b) {
+    return std::abs(a - b) < EPSILON;
+}
 
+void GlassParticle::CreateVoronoiDiagram() {
     // 各三角形の外接円の中心を計算
     std::vector<Vector3> circumcenters;
     for (const auto& triangle : triangles_) {
@@ -130,18 +133,19 @@ void GlassParticle::CreateVoronoiDiagram() {
             int sharedVertices = 0;
             Vector3 shared[2];
 
-            if (triangles_[i].a.x == triangles_[j].a.x && triangles_[i].a.y == triangles_[j].a.y) {
-                if (sharedVertices < 2) { // 安全チェック
+            // 浮動小数点数比較を修正
+            if (FloatEquals(triangles_[i].a.x, triangles_[j].a.x) && FloatEquals(triangles_[i].a.y, triangles_[j].a.y) && FloatEquals(triangles_[i].a.z, triangles_[j].a.z)) {
+                if (sharedVertices < 2) {
                     shared[sharedVertices++] = triangles_[i].a;
                 }
             }
-            if (triangles_[i].b.x == triangles_[j].b.x && triangles_[i].b.y == triangles_[j].b.y) {
-                if (sharedVertices < 2) { // 安全チェック
+            if (FloatEquals(triangles_[i].b.x, triangles_[j].b.x) && FloatEquals(triangles_[i].b.y, triangles_[j].b.y) && FloatEquals(triangles_[i].b.z, triangles_[j].b.z)) {
+                if (sharedVertices < 2) {
                     shared[sharedVertices++] = triangles_[i].b;
                 }
             }
-            if (triangles_[i].c.x == triangles_[j].c.x && triangles_[i].c.y == triangles_[j].c.y) {
-                if (sharedVertices < 2) { // 安全チェック
+            if (FloatEquals(triangles_[i].c.x, triangles_[j].c.x) && FloatEquals(triangles_[i].c.y, triangles_[j].c.y) && FloatEquals(triangles_[i].c.z, triangles_[j].c.z)) {
+                if (sharedVertices < 2) {
                     shared[sharedVertices++] = triangles_[i].c;
                 }
             }
@@ -158,11 +162,11 @@ void GlassParticle::CreateVoronoiDiagram() {
 
 void GlassParticle::Draw() {
     // ボロノイセルの辺を出力（または描画）
-    int i = 0;
+    int lineIndex = 0;
     for (const auto& [edge, centers] : voronoiEdges_) {
-        if (centers.size() == 2) { // 隣接する外接円の中心を結ぶ
-            lines_[i]->Draw(centers[0], centers[1]);
-            i++;
+        if (centers.size() == 2 && lineIndex < 20) { // 線の数が2であり、かつlines_の範囲内であるかを確認
+            lines_[lineIndex]->Draw(centers[0], centers[1]);
+            lineIndex++;
         }
     }
 }

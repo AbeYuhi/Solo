@@ -8,8 +8,7 @@
 void PlayerBullet::Initialize(Vector2 mousePos) {
 	input_ = MyEngine::InputManager::GetInstance();
 
-	//uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("skybox.dds");
-	uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("rostock_laage_airport_4k.dds");
+	uint32_t environmentTextureHandle = MyEngine::TextureManager::Load("skybox.dds");
 
 	info_.Initialize(MyEngine::Model::Create("sphere", "sphere.obj"));
 	info_.renderItem->worldTransform_.data_.scale_ *= 0.3f;
@@ -112,11 +111,6 @@ void PlayerBullet::Update() {
 		velocity_.x *= friction * (1.0f / 60.0f);
 		velocity_.z *= friction * (1.0f / 60.0f);
 		velocity_.y = 0.0f;
-
-		if (std::abs(velocity_.x) < 0.01f && std::abs(velocity_.z) < 0.01f) {
-			velocity_.x = 0.0f;
-			velocity_.z = 0.0f;
-		}
 	}
 
 	// 位置の更新
