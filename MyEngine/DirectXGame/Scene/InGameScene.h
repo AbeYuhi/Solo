@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <future>
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Manager/ImGuiManager.h"
@@ -61,6 +62,11 @@ public:
 	void Finalize() override;
 
 private:
+
+	// ステージ読み込み処理を非同期化
+	void LoadNextStageAsync();
+
+private:
 	//基本機能
 	MyEngine::WinApp* winApp_;
 	MyEngine::DirectXCommon* directXCommon_;
@@ -81,9 +87,11 @@ private:
 	int blendMode_;
 
 	vector<std::unique_ptr<LevelScene>> levelScenes_;
+	std::mutex levelScenesMutex_;
 	float stageSize_;
 	unsigned int nowStage_;
 	float time_;
+	bool isLoad_;
 
 	Player player_;
 
