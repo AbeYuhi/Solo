@@ -136,6 +136,8 @@ void InGameScene::Initialize() {
 	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("music.wav");
 
 	isLoad_ = false;
+
+	isInitialized_ = false;
 }
 
 void InGameScene::Update() {
@@ -261,8 +263,13 @@ void InGameScene::Update() {
 			cameraSpeed_.z = levelScenes_[nowStage_]->GetCameraData().cameraSpeed;
 			if (kStageNum_ != nowStage_) {
 				// 非同期タスクを開始
-				std::async(std::launch::async, LoadNextStageAsync, this);
+				auto future = std::async(std::launch::async, &InGameScene::LoadNextStageAsync, this);
 			}
+			if (isInitialized_.load()) {
+				// フラグをリセット
+				isInitialized_.store(false);
+			}
+
 		}
 	}
 
@@ -448,17 +455,22 @@ void InGameScene::Draw() {
 void InGameScene::LoadNextStageAsync() {
 	std::string nextStageName = "stage" + std::to_string(nowStage_ + 1) + ".json";
 
-	std::unique_ptr<LevelScene> level = std::make_unique<LevelScene>();
-	level->Initialize(nextStageName, stageSize_);
+	// 非同期タスクを開始
+	std::thread([this, nextStageName]() {
+		auto level = std::make_unique<LevelScene>();
 
-	// クリスタルデータの設定
-	for (auto& crystal : level->GetCrystals()) {
-		crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
-		crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
-	}
+		// 重い処理を実行
+		level->Initialize(nextStageName, stageSize_);
 
-	// 新しいステージをpush_backする
-	// 追加処理はスレッド安全に
-	std::lock_guard<std::mutex> lock(levelScenesMutex_);
-	levelScenes_.push_back(std::move(level));
+		// 処理完了後にフラグを更新
+		for (auto& crystal : level->GetCrystals()) {
+			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
+			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+		}
+
+		std::lock_guard<std::mutex> lock(levelScenesMutex_);
+		levelScenes_.push_back(std::move(level));
+
+		isInitialized_.store(true);  // 完了フラグを設定
+		}).detach();
 }

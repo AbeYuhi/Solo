@@ -146,4 +146,7 @@ private:
 	//ゲームbgm
 	uint32_t bgmIndex_;
 	const float kBGMVolume_ = 0.7f;
+
+	//ステージ読み込み
+	std::atomic<bool> isInitialized_;
 };
