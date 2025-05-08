@@ -83,6 +83,12 @@ public:
 	/// <param name="isShot"></param>
 	inline void SetIsShot(bool isShot) { isShot_ = isShot; }
 
+	/// <summary>
+	/// スコアを加算する関数
+	/// </summary>
+	/// <param name="score"></param>
+	inline void AddScore(int score) { score_ += score; }
+
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	int numberofSlashAttacks_;
@@ -118,6 +124,8 @@ private:
 
 	uint32_t missSound_;
 	const float kMissSoundVolume_ = 1.0f;
+
+	int score_;
 
 public:
 	//コンボがいくつで上昇するのかの指標
@@ -203,4 +211,5 @@ private:
 	uint32_t shotSound_;
 	const float kShotSoundVolume_ = 0.7f;
 	int lastProcessedCombo_;
+
 };

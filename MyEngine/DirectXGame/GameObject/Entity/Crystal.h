@@ -73,5 +73,8 @@ private:
 	ModelDrawInfo planeInfo_;
 
 	const int kAmmoGain_ = 3;
+
+	//スコア : 100
+	const int kScore = 100;
 };
 

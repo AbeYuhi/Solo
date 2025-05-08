@@ -59,6 +59,8 @@ void Crystal::Update() {
 			particle_->GetEmitterPointer()->transform = info_.renderItem->worldTransform_.worldData_;
 			particle_->SetIsPopParticle(true);
 			isBreak_ = true;
+			//スコアを加算
+			player_->AddScore(kScore);
 		}
 
 		//パーティクルの更新

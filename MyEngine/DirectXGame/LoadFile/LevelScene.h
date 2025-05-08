@@ -83,6 +83,19 @@ public:
 	/// <returns></returns>
 	inline std::vector<Crystal>& GetCrystals() { return gameObject_.crystalDatas_; }
 
+	/// <summary>
+	/// Glassオブジェクトへの参照を返す
+	/// </summary>
+	/// <returns>Glassの参照のベクター</returns>
+	inline std::vector<Glass*> GetGlasses() const {
+		std::vector<Glass*> result;
+		result.reserve(gameObject_.glassDatas_.size());
+		for (const auto& uptr : gameObject_.glassDatas_) {
+			result.push_back(uptr.get());
+		}
+		return result;
+	}
+
 private: //メンバ関数
 
 	/// <summary>

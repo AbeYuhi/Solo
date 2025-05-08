@@ -64,6 +64,8 @@ void Player::Initialize(EulerTransformData* cameraData) {
 
 	isShot_ = false;
 	isBallLost_ = false;
+
+	score_ = 0;
 }
 
 void Player::Update() {
