@@ -67,8 +67,13 @@ void InGameScene::Initialize() {
 	const int kStartStageNum = 2;
 	for (int i = 0; i < kStartStageNum; i++) {
 		for (auto& crystal : levelScenes_[i]->GetCrystals()) {
+			crystal.SetPlayer(&player_);
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+		}
+
+		for (auto& glass : levelScenes_[i]->GetGlasses()) {
+			glass->SetPlayer(&player_);
 		}
 	}
 
@@ -464,8 +469,13 @@ void InGameScene::LoadNextStageAsync() {
 
 		// 処理完了後にフラグを更新
 		for (auto& crystal : level->GetCrystals()) {
+			crystal.SetPlayer(&player_);
 			crystal.SetComboDestroyCount(player_.GetComboDestroyCount());
 			crystal.SetNumberofSlashAttacks(player_.GetNumberofSlashAttacks());
+		}
+
+		for (auto& glass : level->GetGlasses()) {
+			glass->SetPlayer(&player_);
 		}
 
 		std::lock_guard<std::mutex> lock(levelScenesMutex_);

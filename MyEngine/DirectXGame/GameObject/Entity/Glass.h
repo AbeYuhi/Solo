@@ -43,6 +43,8 @@ public:
 		bool isConnected;
 		float breakTime;
 		Vector3 velocity;
+		//スコア
+		static const int kScore = 100;
 	};
 
 public:
@@ -78,11 +80,17 @@ public:
 	float GetMoveSpeed() const { return moveSpeed_; }
 	Vector3 GetMoveLimit() const { return moveLimit_; }
 
+	/// <summary>
+	/// プレイヤーをポインタでセット
+	/// </summary>
+	/// <param name="player"></param>
+	inline void SetPlayer(Player* player) { player_ = player; }
+
 private:
 
 	Collider* mainColldier_;
 	ModelDrawInfo mainInfo_;
-	
+	Player* player_;
 	MoveType type_;
 	std::unique_ptr<GlassMove> moveState_;
 	GroundingInfo groudingInfo_;
