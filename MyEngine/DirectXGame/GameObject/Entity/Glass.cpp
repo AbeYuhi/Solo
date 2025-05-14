@@ -1,5 +1,6 @@
 #include "Glass.h"
 #include "GameObject/Particle/Object/Glass/GlassParticle.h"
+#include "GameObject/Entity/Player.h"
 
 /// <summary>
 /// Glass.cpp
@@ -263,6 +264,7 @@ void Glass::Update() {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				if (colliders_[y][x].collider->isContact_[BULLET]) {
 					colliders_[y][x].isBreaked = true;
+					player_->AddScore(colliders_[y][x].kScore);
 				}
 				colliders_[y][x].isConnected = false;
 			}
@@ -430,6 +432,7 @@ void Glass::Update() {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				if (!colliders_[y][x].isConnected) {
+					player_->AddScore(colliders_[y][x].kScore);
 					colliders_[y][x].isBreaked = true;
 				}
 			}

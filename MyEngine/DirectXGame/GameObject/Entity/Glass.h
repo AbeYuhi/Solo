@@ -15,6 +15,7 @@
 class GlassMove;
 class VoronoiSiteManager;
 class GlassParticle;
+class Player;
 
 class Glass
 {
