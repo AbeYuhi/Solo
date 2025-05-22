@@ -188,6 +188,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 		glassSound_ = MyEngine::AudioManager::GetInstance()->SoundLoadMp3("glassSound03.mp3");
 	}
 
+	isAllBreaked_ = false;
 }
 
 void Glass::Update() {
@@ -264,7 +265,7 @@ void Glass::Update() {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				if (colliders_[y][x].collider->isContact_[BULLET]) {
 					colliders_[y][x].isBreaked = true;
-					player_->AddScore(colliders_[y][x].kScore);
+					player_->AddScore(kPieceScore);
 				}
 				colliders_[y][x].isConnected = false;
 			}
@@ -432,10 +433,25 @@ void Glass::Update() {
 		for (unsigned int y = 0; y < divisionY_; y++) {
 			for (unsigned int x = 0; x < divisionX_; x++) {
 				if (!colliders_[y][x].isConnected) {
-					player_->AddScore(colliders_[y][x].kScore);
+					player_->AddScore(kPieceScore);
 					colliders_[y][x].isBreaked = true;
 				}
 			}
+		}
+	}
+
+	if (!isAllBreaked_) {
+		bool breakCheck = true;
+		for (unsigned int y = 0; y < divisionY_; y++) {
+			for (unsigned int x = 0; x < divisionX_; x++) {
+				if (!colliders_[y][x].isBreaked) {
+					breakCheck = false;
+				}
+			}
+		}
+		if (breakCheck) {
+			isAllBreaked_ = true;
+			player_->AddScore(kAllBreakScore);
 		}
 	}
 

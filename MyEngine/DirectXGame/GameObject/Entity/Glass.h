@@ -44,8 +44,6 @@ public:
 		bool isConnected;
 		float breakTime;
 		Vector3 velocity;
-		//スコア
-		static const int kScore = 100;
 	};
 
 public:
@@ -119,6 +117,11 @@ private:
 	//ガラスのサウンド
 	uint32_t glassSound_;
 	const float kGlassSoundVolume_ = 0.7f;
+
+	//スコア
+	static const int kPieceScore = 10;
+	static const int kAllBreakScore = 500;
+	bool isAllBreaked_;
 
 };
 
