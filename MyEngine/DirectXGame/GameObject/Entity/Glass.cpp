@@ -511,8 +511,6 @@ void Glass::Draw() {
 				if (!colliders_[y][x].isBreaked) {
 					DrawManager::GetInstance()->PushBackTranslucentObject(infos_[y][x].get());
 				}
-				//colliders_[y][x].voronoiSiteManager->SitesDraw();
-				//colliders_[y][x].glassParticle->Draw();
 			}
 		}
 	}

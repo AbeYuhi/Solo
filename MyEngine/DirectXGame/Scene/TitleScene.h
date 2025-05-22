@@ -82,4 +82,6 @@ private:
 	bool isScoreImageScale_;
 
 	bool isGameClear_;
+
+	int resultScore_;
 };

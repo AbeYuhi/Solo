@@ -86,12 +86,14 @@ void TitleScene::Initialize() {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
+		resultScore_ = sceneChange_->GetScore();
 		scoreInfo_.spriteItem->spriteData_.textureHandle_ = scoreTexture_;
 	}
 	else if (preSceneNo_ == GAMECLEAR) {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
+		resultScore_ = sceneChange_->GetScore();
 		scoreInfo_.spriteItem->spriteData_.textureHandle_ = clearTexture_;
 	}
 	else {

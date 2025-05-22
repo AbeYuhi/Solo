@@ -89,6 +89,10 @@ public:
 	/// <param name="score"></param>
 	inline void AddScore(int score) { score_ += score; }
 
+	inline int GetScore() const {
+		return score_;
+	}
+
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	int numberofSlashAttacks_;

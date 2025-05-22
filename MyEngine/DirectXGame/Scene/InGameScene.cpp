@@ -192,6 +192,7 @@ void InGameScene::Update() {
 			postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.0001f;
 			if (postEffectManager_->GetRadialBlurInfo()->blurWidth >= 0.015f) {
 				sceneNo_ = TITLE;
+				SceneChange::GetInstance()->SetScore(player_.GetScore());
 				SceneChange::GetInstance()->StartSceneChange();
 			}
 		}
@@ -231,6 +232,7 @@ void InGameScene::Update() {
 		if (postEffectManager_->GetRadialBlurInfo()->blurWidth >= 0.05f) {
 			preSceneNo_ = GAMECLEAR;
 			sceneNo_ = TITLE;
+			SceneChange::GetInstance()->SetScore(player_.GetScore());
 			SceneChange::GetInstance()->StartSceneChange();
 		}
 	}

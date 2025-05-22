@@ -43,6 +43,9 @@ public:
 	inline bool IsChange() const { return isChange_; }
 	inline bool IsStart() const { return isStart_; }
 
+	inline void SetScore(int score) { gameScore_ = score; }
+	inline int GetScore() const { return gameScore_; }
+
 private:
 	SceneChange() = default;
 	~SceneChange() = default;
@@ -53,6 +56,7 @@ private:
 	bool isStart_;
 	bool isReverse_;
 	bool isChange_;
+	int gameScore_;
 	float time_;
 };
 
