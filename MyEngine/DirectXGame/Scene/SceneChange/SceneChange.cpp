@@ -22,6 +22,8 @@ void SceneChange::Inialize(){
 	whiteTextureInfo_.spriteItem->materialInfo_.blendMode_ = BlendMode::kBlendModeNormal;
 
 	isStart_ = false;
+
+	gameScore_ = 0;
 }
 
 void SceneChange::Update(){

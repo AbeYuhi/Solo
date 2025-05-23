@@ -134,6 +134,7 @@ private:
 public:
 	//コンボがいくつで上昇するのかの指標
 	const int kComboIncreaseStep = 10;
+	const int kBallLossPerHit = 10;
 };
 
 enum class ShotStateType {

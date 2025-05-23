@@ -58,7 +58,6 @@ private:
 	SpriteDrawInfo scoreInfo_;
 
 	uint32_t scoreTexture_;
-	uint32_t clearTexture_;
 
 	SceneChange* sceneChange_;
 
@@ -84,4 +83,9 @@ private:
 	bool isGameClear_;
 
 	int resultScore_;
+
+	//スコア
+	uint32_t numberSpriteTextures_[10];
+	SpriteDrawInfo scoreInfos_[5];
+	int digitCount_;
 };

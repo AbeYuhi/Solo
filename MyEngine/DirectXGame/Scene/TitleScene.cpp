@@ -71,7 +71,6 @@ void TitleScene::Initialize() {
 	scoreInfo_.spriteItem->materialInfo_.material_->color.w = 1.0f;
 
 	scoreTexture_ = MyEngine::TextureManager::Load("score.png");
-	clearTexture_ = MyEngine::TextureManager::Load("gameClear.png");
 
 	//ステージの読み込み
 	levelScene_ = std::make_unique<LevelScene>();
@@ -81,25 +80,22 @@ void TitleScene::Initialize() {
 	levelScene1_->Initialize("title.json", 300);
 	levelScene2_->Initialize("title.json", 600);
 	titleCamera_->SetWorldTransrom(levelScene_->GetCameraData().CameraInfo);
-
-	if (preSceneNo_ == INGAME) {
+	//テスト
+	preSceneNo_ = GAMECLEAR;
+	if (preSceneNo_ == INGAME || preSceneNo_ == GAMECLEAR) {
 		isPreviousSceneInGame_ = true;
 		isResult_ = true;
 		isScoreImageScale_ = true;
 		resultScore_ = sceneChange_->GetScore();
 		scoreInfo_.spriteItem->spriteData_.textureHandle_ = scoreTexture_;
 	}
-	else if (preSceneNo_ == GAMECLEAR) {
-		isPreviousSceneInGame_ = true;
-		isResult_ = true;
-		isScoreImageScale_ = true;
-		resultScore_ = sceneChange_->GetScore();
-		scoreInfo_.spriteItem->spriteData_.textureHandle_ = clearTexture_;
-	}
 	else {
 		isPreviousSceneInGame_ = false;
 		isResult_ = false;
 	}
+
+	//照すt
+	resultScore_ = 15;
 
 	time_ = 0.0f;
 	change_ = false;
@@ -110,6 +106,100 @@ void TitleScene::Initialize() {
 
 	//サウンドのロード
 	bgmIndex_ = MyEngine::AudioManager::GetInstance()->SoundLoadWave("music.wav");
+
+	//スコアテクスチャのロード
+	numberSpriteTextures_[0] = MyEngine::TextureManager::Load("numberTexture/0.png");
+	numberSpriteTextures_[1] = MyEngine::TextureManager::Load("numberTexture/1.png");
+	numberSpriteTextures_[2] = MyEngine::TextureManager::Load("numberTexture/2.png");
+	numberSpriteTextures_[3] = MyEngine::TextureManager::Load("numberTexture/3.png");
+	numberSpriteTextures_[4] = MyEngine::TextureManager::Load("numberTexture/4.png");
+	numberSpriteTextures_[5] = MyEngine::TextureManager::Load("numberTexture/5.png");
+	numberSpriteTextures_[6] = MyEngine::TextureManager::Load("numberTexture/6.png");
+	numberSpriteTextures_[7] = MyEngine::TextureManager::Load("numberTexture/7.png");
+	numberSpriteTextures_[8] = MyEngine::TextureManager::Load("numberTexture/8.png");
+	numberSpriteTextures_[9] = MyEngine::TextureManager::Load("numberTexture/9.png");
+
+	for (int i = 0; i < 5; i++) {
+		scoreInfos_[i].Initialize();
+	}
+
+	//桁数の計算
+	digitCount_ = 0;
+	int number = resultScore_;
+	if (number == 0) {
+		digitCount_ = 1;
+	}
+	else {
+		// 負の数の場合は正の数に変換
+		number = abs(number);
+		while (number > 0) {
+			//10進数だから10で割る
+			number /= 10;
+			digitCount_++;
+		}
+	}
+
+	//桁数に応じた処理
+	if (digitCount_ == 1) {
+		scoreInfos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 0)];
+		//玉の桁数により表示位置の変更
+		scoreInfos_[0].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[0].spriteItem->spriteData_.size_ = {240, 400};
+	}
+	else if (digitCount_ == 2) {
+		scoreInfos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 1)];
+		scoreInfos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 0)];
+		//玉の桁数により表示位置の変更
+		scoreInfos_[1].spriteItem->worldTransform_.data_.translate_ = { 520, 360, 0 };
+		scoreInfos_[0].spriteItem->worldTransform_.data_.translate_ = { 760, 360, 0 };
+		scoreInfos_[1].spriteItem->spriteData_.size_ = { 240, 400 };
+		scoreInfos_[0].spriteItem->spriteData_.size_ = { 240, 400 };
+	}
+	else if (digitCount_ == 3) {
+		scoreInfos_[2].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 2)];
+		scoreInfos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 1)];
+		scoreInfos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 0)];
+		//玉の桁数により表示位置の変更
+		scoreInfos_[2].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[1].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[0].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[2].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[1].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[0].spriteItem->spriteData_.size_ = {240, 400};
+	}
+	else if (digitCount_ == 4) {
+		scoreInfos_[3].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 3)];
+		scoreInfos_[2].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 2)];
+		scoreInfos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 1)];
+		scoreInfos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 0)];
+		//玉の桁数により表示位置の変更
+		scoreInfos_[3].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[2].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[1].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[0].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[3].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[2].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[1].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[0].spriteItem->spriteData_.size_ = {240, 400};
+	}
+	else if (digitCount_ == 5) {
+		scoreInfos_[4].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 4)];
+		scoreInfos_[3].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 3)];
+		scoreInfos_[2].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 2)];
+		scoreInfos_[1].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 1)];
+		scoreInfos_[0].spriteItem->spriteData_.textureHandle_ = numberSpriteTextures_[getDigits(resultScore_, 0)];
+		//玉の桁数により表示位置の変更
+		scoreInfos_[4].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[3].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[2].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[1].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[0].spriteItem->worldTransform_.data_.translate_ = { 640, 360, 0 };
+		scoreInfos_[4].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[3].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[2].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[1].spriteItem->spriteData_.size_ = {240, 400};
+		scoreInfos_[0].spriteItem->spriteData_.size_ = {240, 400};
+	}
 }
 
 void TitleScene::Update() {
@@ -212,6 +302,34 @@ void TitleScene::Draw() {
 	
 	if (scoreInfo_.spriteItem->worldTransform_.data_.scale_.x > 0) {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfo_);
+
+		//残り玉数の描画
+		if (digitCount_ == 1) {
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[0]);
+		}
+		else if (digitCount_ == 2) {
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[1]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[0]);
+		}														
+		else if (digitCount_ == 3) {							
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[2]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[1]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[0]);
+		}
+		else if (digitCount_ == 4) {
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[3]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[2]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[1]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[0]);
+		}
+		else if (digitCount_ == 5) {
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[4]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[3]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[2]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[1]);
+			DrawManager::GetInstance()->PushBackForegroundSprite(&scoreInfos_[0]);
+		}
+
 	}
 	else {
 		DrawManager::GetInstance()->PushBackForegroundSprite(&titleNameInfo_);

@@ -77,10 +77,12 @@ void Player::Update() {
 		if (collider_.isContact_[LDOOR] || collider_.isContact_[RDOOR]) {
 			//失敗したときに音を鳴らす
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(missSound_, kMissSoundVolume_);
-			numberofSlashAttacks_ -= kComboIncreaseStep;
+			numberofSlashAttacks_ -= kBallLossPerHit;
+			if (numberofSlashAttacks_ < 0) {
+				numberofSlashAttacks_ = 0;
+			}
 			comboDestroyCount_ = 0;
 			doorInvincibilityTime_ = 1.25f;
-
 			isHitEffect_ = true;
 			isBallLost_ = true;
 			time_ = 0.0f;
@@ -95,10 +97,12 @@ void Player::Update() {
 		if (collider_.isContact_[GLASS]) {
 			//失敗したときに音を鳴らす
 			MyEngine::AudioManager::GetInstance()->SoundPlayMp3(missSound_, kMissSoundVolume_);
-			numberofSlashAttacks_ -= kComboIncreaseStep;
+			numberofSlashAttacks_ -= kBallLossPerHit;
+			if (numberofSlashAttacks_ < 0) {
+				numberofSlashAttacks_ = 0;
+			}
 			comboDestroyCount_ = 0;
 			glassInvincibilityTime_ = 0.5f;
-
 			isHitEffect_ = true;
 			isBallLost_ = true;
 			time_ = 0.0f;
