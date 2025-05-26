@@ -175,7 +175,6 @@ void Player::Update() {
 	//ゲームオーバーの処理
 	if (numberofSlashAttacks_ <= 0) {
 		gameOverTime_ += 1.0f / 60.0f;
-		const float kGameOverTimeLimit = 0.5f;
 		if (gameOverTime_ >= kGameOverTimeLimit) {
 			isGameOver_ = true;
 		}

@@ -128,6 +128,7 @@ private:
 
 	uint32_t missSound_;
 	const float kMissSoundVolume_ = 1.0f;
+	const float kGameOverTimeLimit = 2.0f;
 
 	int score_;
 

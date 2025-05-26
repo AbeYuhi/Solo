@@ -230,7 +230,6 @@ void InGameScene::Update() {
 		postEffectManager_->SetPostEffect(kRadialBlur);
 		postEffectManager_->GetRadialBlurInfo()->blurWidth += 0.0005f;
 		if (postEffectManager_->GetRadialBlurInfo()->blurWidth >= 0.05f) {
-			preSceneNo_ = GAMECLEAR;
 			sceneNo_ = TITLE;
 			SceneChange::GetInstance()->SetScore(player_.GetScore());
 			SceneChange::GetInstance()->StartSceneChange();

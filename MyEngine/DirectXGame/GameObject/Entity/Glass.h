@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <queue>
 #include "Manager/AudioManager.h"
 #include "Manager/CollisionManager.h"
 #include "Manager/DrawManager.h"
@@ -29,7 +31,7 @@ public:
 	struct GroundingInfo {
 		bool up;
 		bool down;
-		bool rigft;
+		bool right;
 		bool left;
 	};
 
@@ -71,6 +73,8 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	void ProcessGlassBreak();
 
 	EulerTransformData* GetModelData() { return &mainInfo_.renderItem->worldTransform_.data_; }
 
@@ -119,8 +123,8 @@ private:
 	const float kGlassSoundVolume_ = 0.7f;
 
 	//スコア
-	static const int kPieceScore = 10;
-	static const int kAllBreakScore = 500;
+	static const int kPieceScore = 5;
+	static const int kAllBreakScore = 250;
 	bool isAllBreaked_;
 
 };

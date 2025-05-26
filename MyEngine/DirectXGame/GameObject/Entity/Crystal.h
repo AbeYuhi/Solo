@@ -74,7 +74,7 @@ private:
 
 	const int kAmmoGain_ = 3;
 
-	//スコア : 100
-	const int kScore = 100;
+	//スコア : 50
+	const int kScore = 50;
 };
 

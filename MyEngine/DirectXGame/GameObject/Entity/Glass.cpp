@@ -21,7 +21,7 @@ void Glass::Initialize(std::shared_ptr<MyEngine::Model> model,
 	groudingInfo_.up = info.groundingInfosUp;
 	groudingInfo_.down = info.groundingInfosDown;
 	groudingInfo_.left = info.groundingInfosLeft;
-	groudingInfo_.rigft = info.groundingInfosRight;
+	groudingInfo_.right = info.groundingInfosRight;
 	if (info.moveType == "DONTMOVE") {
 		type_ = DONTMOVE;
 	}
@@ -261,183 +261,7 @@ void Glass::Update() {
 
 	//本体のガラスが割れたときに接地面とくっついていないガラスを破壊する処理
 	if (isBreak) {
-		for (unsigned int y = 0; y < divisionY_; y++) {
-			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (colliders_[y][x].collider->isContact_[BULLET]) {
-					colliders_[y][x].isBreaked = true;
-					player_->AddScore(kPieceScore);
-				}
-				colliders_[y][x].isConnected = false;
-			}
-		}
-
-		if (groudingInfo_.up) {
-			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (!colliders_[divisionY_ - 1][x].isBreaked) {
-					colliders_[divisionY_ - 1][x].isConnected = true;
-				}
-			}
-		}
-		if (groudingInfo_.down) {
-			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (!colliders_[0][x].isBreaked) {
-					colliders_[0][x].isConnected = true;
-				}
-			}
-		}
-		if (groudingInfo_.left) {
-			for (unsigned int y = 0; y < divisionY_; y++) {
-				if (!colliders_[y][0].isBreaked) {
-					colliders_[y][0].isConnected = true;
-				}
-			}
-		}
-		if (groudingInfo_.rigft) {
-			for (unsigned int y = 0; y < divisionY_; y++) {
-				if (!colliders_[y][divisionX_ - 1].isBreaked) {
-					colliders_[y][divisionX_ - 1].isConnected = true;
-				}
-			}
-		}
-
-		//接触面とくっついていないガラスピースを検出し壊す処理
-		bool isChange = false;
-		while (true) {
-			isChange = false;
-			for (unsigned int y = 0; y < divisionY_; y++) {
-				for (unsigned int x = 0; x < divisionX_; x++) {
-					if (!colliders_[y][x].isBreaked && colliders_[y][x].isConnected) {
-						
-						if (y == 0 && x == 0) {	//左下の場合
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (y == 0 && x == divisionX_ - 1) {	//右下の場合
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (y == divisionY_ - 1 && x == 0) {	//左上の場合
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (y == divisionY_ - 1 && x == divisionX_ - 1) {	//右上の場合
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (y == 0) {	//下のラインの場合
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (y == divisionY_ - 1) {	//上のラインの場合
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (x == 0) {	//左のラインの場合
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else if (x == divisionX_ - 1) {	//右のラインの場合
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-						}
-						else {	//それ以外
-							if (!colliders_[y - 1][x].isBreaked && !colliders_[y - 1][x].isConnected) {
-								colliders_[y - 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y + 1][x].isBreaked && !colliders_[y + 1][x].isConnected) {
-								colliders_[y + 1][x].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x - 1].isBreaked && !colliders_[y][x - 1].isConnected) {
-								colliders_[y][x - 1].isConnected = true;
-								isChange = true;
-							}
-							if (!colliders_[y][x + 1].isBreaked && !colliders_[y][x + 1].isConnected) {
-								colliders_[y][x + 1].isConnected = true;
-								isChange = true;
-							}
-						}
-					}
-				}
-			}
-
-			if (!isChange) {
-				break;
-			}
-		}
-		for (unsigned int y = 0; y < divisionY_; y++) {
-			for (unsigned int x = 0; x < divisionX_; x++) {
-				if (!colliders_[y][x].isConnected) {
-					player_->AddScore(kPieceScore);
-					colliders_[y][x].isBreaked = true;
-				}
-			}
-		}
+		ProcessGlassBreak();
 	}
 
 	if (!isAllBreaked_) {
@@ -523,6 +347,86 @@ void Glass::Draw() {
 			DrawManager::GetInstance()->PushBackParticle(
 				MyEngine::Particle([particle = colliders_[y][x].particle.get()]() { particle->Draw(); })
 			);
+		}
+	}
+}
+
+// (isBreakの外側で) isBreakがtrueの場合にこの関数を呼び出す
+void Glass::ProcessGlassBreak() {
+	// --- 1. 初期破壊と状態リセット ---
+	// 全てのピースをスキャンして、弾が当たったものを破壊する
+	// 同時に、この後の接続判定のために全ピースの接続状態をリセットする
+	for (unsigned int y = 0; y < divisionY_; ++y) {
+		for (unsigned int x = 0; x < divisionX_; ++x) {
+			auto& piece = colliders_[y][x];
+			if (piece.collider->isContact_[BULLET] && !piece.isBreaked) {
+				piece.isBreaked = true;
+				player_->AddScore(kPieceScore);
+			}
+			piece.isConnected = false;
+		}
+	}
+
+	// --- 2. 接続判定（幅優先探索を使用） ---
+	// 処理すべきピースの座標を保持するキュー
+	std::queue<std::pair<unsigned int, unsigned int>> processQueue;
+
+	// まず、接地している辺（アンカー）をキューの初期値として追加する
+	auto addAnchor = [&](unsigned int y, unsigned int x) {
+		if (!colliders_[y][x].isBreaked && !colliders_[y][x].isConnected) {
+			colliders_[y][x].isConnected = true;
+			processQueue.push({ y, x });
+		}
+		};
+
+	if (groudingInfo_.up) {
+		for (unsigned int x = 0; x < divisionX_; ++x) addAnchor(divisionY_ - 1, x);
+	}
+	if (groudingInfo_.down) {
+		for (unsigned int x = 0; x < divisionX_; ++x) addAnchor(0, x);
+	}
+	if (groudingInfo_.left) {
+		for (unsigned int y = 0; y < divisionY_; ++y) addAnchor(y, 0);
+	}
+	if (groudingInfo_.right) {
+		for (unsigned int y = 0; y < divisionY_; ++y) addAnchor(y, divisionX_ - 1);
+	}
+
+	// 上下左右の4方向を定義
+	const int dy[] = { 1, -1, 0, 0 };
+	const int dx[] = { 0, 0, 1, -1 };
+
+	// キューが空になるまで、接続しているピースから隣へ伝播させる
+	while (!processQueue.empty()) {
+		auto currentPos = processQueue.front();
+		processQueue.pop();
+
+		// 4方向の隣接ピースをチェック
+		for (int i = 0; i < 4; ++i) {
+			unsigned int ny = currentPos.first + dy[i];
+			unsigned int nx = currentPos.second + dx[i];
+
+			// グリッドの範囲内かチェック
+			if (ny < divisionY_ && nx < divisionX_) {
+				auto& neighbor = colliders_[ny][nx];
+				// 壊れておらず、まだ未接続なら接続済みにし、キューに追加
+				if (!neighbor.isBreaked && !neighbor.isConnected) {
+					neighbor.isConnected = true;
+					processQueue.push({ ny, nx });
+				}
+			}
+		}
+	}
+
+	// --- 3. 孤立したピースを破壊 ---
+	// 最終的にどこにも接続されなかったピースを破壊する
+	for (unsigned int y = 0; y < divisionY_; ++y) {
+		for (unsigned int x = 0; x < divisionX_; ++x) {
+			auto& piece = colliders_[y][x];
+			if (!piece.isConnected && !piece.isBreaked) {
+				piece.isBreaked = true;
+				player_->AddScore(kPieceScore);
+			}
 		}
 	}
 }

@@ -86,6 +86,6 @@ private:
 
 	//スコア
 	uint32_t numberSpriteTextures_[10];
-	SpriteDrawInfo scoreInfos_[5];
+	SpriteDrawInfo scoreInfos_[7];
 	int digitCount_;
 };
